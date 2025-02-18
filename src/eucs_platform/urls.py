@@ -48,6 +48,7 @@ admin.site.site_header = "EU-Citizen.Science Administration"
 
 
 urlpatterns = [
+    path("mypage/", views.mypage, name="mypage"),
     path("curated/", views.curated, name="curated"),
     path("home_autocomplete/", views.home_autocomplete, name="home_autocomplete"),
     path("", include(profiles.urls)),

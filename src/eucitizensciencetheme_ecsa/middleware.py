@@ -18,7 +18,7 @@ class TopBarMiddleware:
             response.context_data['topbar_items'] = TopBar.objects.all()
             response.context_data['platform_name'] = Main.objects.first().platform_name
         return response
-    
+
 class FooterMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -26,7 +26,7 @@ class FooterMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         return response
-    
+
     def process_template_response(self, request, response):
         # do this only if the response is a TemplateResponse
         if isinstance(response, TemplateResponse):
@@ -37,7 +37,7 @@ class ThemeSelectionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         print("here")
-    
+
     def __call__(self, request):
         response = self.get_response(request)
         return response

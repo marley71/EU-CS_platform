@@ -65,6 +65,20 @@ def home_autocomplete(request):
     else:
         return HttpResponse("No cookies")
 
+def mypage(request):
+    groups = ResourceGroup.objects.get_queryset().order_by('id')
+    resourcesgrouped = ResourcesGrouped.objects.get_queryset().order_by('group')
+
+    filters = {
+        'keywords': '',
+    }
+
+    return TemplateResponse(request, 'mypage.html', {
+        'groups': groups,
+        'resourcesgrouped': resourcesgrouped,
+        'filters': filters,
+        'isSearchPage': False})
+    #return HttpResponse("mypage")
 
 def getTopicsResponded(request):
     response = {}
