@@ -198,7 +198,7 @@ MIDDLEWARE = [
     'machina.apps.forum_permission.middleware.ForumPermissionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     # TopBar
-    
+
 ]
 
 ROOT_URLCONF = "eucs_platform.urls"
@@ -340,13 +340,15 @@ SUMMERNOTE_CONFIG = {
     # 'disable_attachment': True,
 }
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = env("HOST_EMAIL")
-# EMAIL_HOST_USER = env("FROM_EMAIL")
-# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-# EMAIL_PORT = '587'
-# EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env("HOST_EMAIL")
+EMAIL_HOST_USER = env("FROM_EMAIL")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+#EMAIL_PORT = '587'
+EMAIL_PORT = env('EMAIL_PORT')
+#EMAIL_USE_TLS = True
+
+#EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
 EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
 EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")

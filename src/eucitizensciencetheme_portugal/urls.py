@@ -13,7 +13,7 @@ urlpatterns = [
     path("ecs_project/", views.ecs_project_ambassadors, name="ecs_project_ambassadors"),
     path("ecs_project/ambassadors", views.ecs_project_ambassadors, name="ecs_project_ambassadors"),
     path("ecs_project/codesign", views.ecs_project_codesign, name="ecs_project_codesign"),
-    path("faq/", views.faq, name="faq"),   
+    path("faq/", views.faq, name="faq"),
     path("final_event/", views.final_event, name="final_event"),
     path("final_launch/", views.final_launch, name="final_launch"),
     path('get_projects/', views.get_projects, name='get_projects'),
@@ -28,7 +28,7 @@ urlpatterns = [
     path("subscribe/", views.subscribe, name="subscribe"),
     path("terms/", views.terms, name="terms"),
     path("translations/", views.translations, name="translations"),
-    
+    path("map/", views.projects_map, name="map"),
 
 
 ]

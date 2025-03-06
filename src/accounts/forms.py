@@ -88,6 +88,14 @@ class SignupForm(authtoolsforms.UserCreationForm):
         label=_("Make profile visible to others"),
     )
 
+    profileType = forms.CharField(
+        required=False,
+        initial='',
+        label=_("profile type"),
+        widget=forms.TextInput(attrs={"placeholder": _("Insert profile type")})
+    )
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -113,7 +121,10 @@ class SignupForm(authtoolsforms.UserCreationForm):
             HTML('<div class="m-4"></div>'),
             Field("password2", placeholder=_("Re-enter Password")),
             HTML('<div class="m-4"></div>'),
+            Field("profileType"),
+            HTML('<div class="m-4"></div>'),
             Field("profileVisible"),
+            HTML('<div class="m-4"></div>'),
             HTML('<div class="m-4"></div>'),
             Field("captcha"),
             StrictButton(_("Sign up"), css_class="btn btn-secondary mt-5", type="Submit"),

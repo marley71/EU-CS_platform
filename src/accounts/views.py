@@ -85,9 +85,10 @@ class SignUpView(
         profile.orcid = orcid
         profile.surname = surname
         profile.profileVisible = profile_visible
+        profile.profileType = form.cleaned_data.get('profileType')
         profile.save()
-        
-        mail_subject = 'Activate your account.' 
+
+        mail_subject = 'Activate your account.'
         message = render_to_string('emails/acc_active_email.html', {
             'user': user,
             'domain': settings.HOST,
@@ -136,15 +137,15 @@ class PasswordResetDoneView(authviews.PasswordResetDoneView):
     template_name = "accounts/password-reset-done.html"
 
 class PasswordResetConfirmView(authviews.PasswordResetConfirmView):
-    form_class = forms.SetPasswordForm  
-    template_name = "accounts/password-reset-confirm.html"  
-    success_url = reverse_lazy("accounts:login")  
+    form_class = forms.SetPasswordForm
+    template_name = "accounts/password-reset-confirm.html"
+    success_url = reverse_lazy("accounts:login")
 
 # TODO: Implement this view
 #class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):
 #    form_class = forms.SetPasswordForm
 #    template_name = "accounts/password-reset-confirm.html"
-    
+
 
 
 def delete_user(request):
