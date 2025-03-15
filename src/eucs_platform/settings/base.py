@@ -210,8 +210,8 @@ DATABASES = {
         'NAME': env("DATABASE_NAME", default="eucs_platform"),
         'USER': env("DATABASE_USER", default="eucs_platform"),
         'PASSWORD': env("DATABASE_PASSWORD", default="eucs_platform"),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': env("DATABASE_HOST", default="localhost"),
+        'PORT': env("DATABASE_PORT", default="5432"),
     }
 }
 
