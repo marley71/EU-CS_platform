@@ -1,6 +1,10 @@
 import csv
 from django.core.management.base import BaseCommand
 from projects.models import Project,Status
+from organisations.models import Organisation
+
+from organisations.models import OrganisationType
+
 
 class Command(BaseCommand):
     help = 'Seed the database with initial data'
@@ -16,13 +20,19 @@ class Command(BaseCommand):
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
                 status = self.getStatus(row['status'])
+                organisation = self.getOrganisations(row)
                 self.stdout.write(row['name'])
-                Project.objects.create(
+                project = Project.objects.create(
                     name=row['name'],
+                    description=row['description'],
+                    description_it=row['description'],
+                    aim=row['aim'],
                     url=row['url'],
                     status_id=status.id,
                     creator_id=1, # id superadmin
+                    #organisation=organisation
                 )
+                project.organisation.add(organisation)
 #                 MyModel.objects.create(
 #                     name=row['name'],
 #                     description=row['description']
@@ -38,3 +48,20 @@ class Command(BaseCommand):
                 status_it=code,
             )
         return status
+
+    def getOrganisations(self,data):
+        org = Organisation.objects.filter(name=data['organisation']).first()
+        if org == None:
+
+            orgType = OrganisationType.objects.filter(type='default').first()
+            if orgType == None:
+                orgType = OrganisationType.objects.create(
+                    type='default',
+                    type_it='default',
+                )
+            org = Organisation.objects.create(
+                name=data['organisation'],
+                creator_id=1,
+                orgType=orgType,
+            )
+        return org
