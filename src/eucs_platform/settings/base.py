@@ -16,9 +16,20 @@ from django.contrib import messages
 # Use 12factor inspired environment variables or from a file
 import environ
 
+env = environ.Env()
+
+# Create a local.env file in the settings directory
+# But ideally this env file should be outside the git repo
+env_file = Path(__file__).resolve().parent / "local.env"
+if env_file.exists():
+    environ.Env.read_env(str(env_file))
+
+
+
 # Build paths inside the project like this: BASE_DIR / "directory"
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-STATIC_ROOT = "/home/ubuntu/eu-citizen.science_07_08/static"
+STATIC_ROOT = str(env("STATIC_ROOT")) # "/home/ubuntu/eu-citizen.science_07_08/static"
+#STATIC_ROOT =  "/home/ubuntu/eu-citizen.science_07_08/static"
 THEMEDIRSTATIC = str(BASE_DIR / "eucitizensciencetheme" / "static")
 STATICFILES_DIRS = [str(BASE_DIR / "static"), MACHINA_MAIN_STATIC_DIR, THEMEDIRSTATIC]
 
@@ -93,13 +104,7 @@ TEMPLATES = [
     }
 ]
 
-env = environ.Env()
 
-# Create a local.env file in the settings directory
-# But ideally this env file should be outside the git repo
-env_file = Path(__file__).resolve().parent / "local.env"
-if env_file.exists():
-    environ.Env.read_env(str(env_file))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -114,6 +119,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    "net7",
     "modeltranslation",
     "eucitizensciencetheme",
     "django.contrib.auth",
