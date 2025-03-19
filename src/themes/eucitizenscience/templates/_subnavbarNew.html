@@ -46,6 +46,7 @@
                                 <i class="fas fa-list-ul"></i> {% trans "Projects" %} {% if filters.keywords != "" %} ({{projectsCounter}}) {% endif %}
                             </a>
                         </li>
+                    <!--
                         <li class="nav-item subnavbar-item">
                             <a class="nav-link ps-4  {% active_link 'resources' %}"
                             href="{% url 'resources' %}{% if request.GET.keywords %}?keywords={{request.GET.keywords}}{%endif%}">
@@ -58,18 +59,21 @@
                                 <i class="fas fa-chalkboard-user"></i> {% trans "Trainings" %} {% if filters.keywords != "" %} ({{trainingResourcesCounter}}) {% endif %}
                             </a>
                         </li>
+                        -->
                         <li class="nav-item subnavbar-item">
                             <a class="nav-link ps-4  {% active_link 'organisations' %}"
                             href="{% url 'organisations'%}{% if request.GET.keywords %}?keywords={{request.GET.keywords}}{%endif%}">
                                 <i class="fas fa-building"></i> {% trans "Organisations" %} {% if filters.keywords != "" %} ({{organisationsCounter}}) {% endif %}
                             </a>
                         </li>
+                    <!--
                         <li class="nav-item subnavbar-item">
                             <a class="nav-link ps-4  {% active_link 'platforms' %}"
                             href="{% url 'platforms'%}{% if request.GET.keywords %}?keywords={{request.GET.keywords}}{%endif%}">
                                 <i class="fas fa-globe-europe"></i> {% trans "Platforms" %} {% if filters.keywords != "" %} ({{platformsCounter}}) {% endif %}
                             </a>
                         </li>
+                        -->
                         <li class="nav-item subnavbar-item">
                             <a class="nav-link ps-4  {% active_link 'profiles:users' %}"
                             href="/users/{% if request.GET.keywords %}?keywords={{request.GET.keywords}}{%endif%}">

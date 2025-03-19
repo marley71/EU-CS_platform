@@ -1,5 +1,6 @@
 import csv
-from django.core.management.base import BaseCommand
+import os
+from django.core.management.base import BaseCommand,CommandError
 from projects.models import Project,Status
 from organisations.models import Organisation
 
@@ -12,13 +13,24 @@ class Command(BaseCommand):
         parser.add_argument('csv_file', type=str, help='Path to the CSV file projects')
 
     def handle(self, *args, **kwargs):
+        if len(kwargs) == 0:
+            raise CommandError(f"Il file csv non passato.")
+
         csv_file = kwargs['csv_file']
+
+        if not os.path.isfile(csv_file):
+            raise CommandError(f"Il file {csv_file} non esiste.")
 
         self.stdout.write(f'Seeding database with data from {csv_file}')
 
         with open(csv_file, mode='r') as file:
             csv_reader = csv.DictReader(file)
-            for row in csv_reader:
+            rows = list(csv_reader)
+
+            if not rows:
+                raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
+
+            for row in rows:
                 status = self.getStatus(row['status'])
                 organisation = self.getOrganisations(row)
                 self.stdout.write(row['name'])
@@ -27,6 +39,7 @@ class Command(BaseCommand):
                     description=row['description'],
                     description_it=row['description'],
                     aim=row['aim'],
+                    aim_it=row['aim'],
                     url=row['url'],
                     status_id=status.id,
                     creator_id=1, # id superadmin

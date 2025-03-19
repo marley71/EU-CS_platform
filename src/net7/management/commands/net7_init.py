@@ -4,7 +4,7 @@ from eucitizensciencetheme.models import Main
 from django.db import connection
 
 class Command(BaseCommand):
-    help = 'Descrizione del comando personalizzato'
+    help = 'Inizializzazione progetto'
 
     def handle(self, *args, **options):
         # Chiama il comando migrate
@@ -25,10 +25,6 @@ class Command(BaseCommand):
         # Puoi chiamare altri comandi se necessario
         #self.stdout.write("Eseguo il comando collectstatic...")
         #call_command('collectstatic', verbosity=1, interactive=False)
-
-        self.stdout.write("Eseguo il comando populate projects...")
-        call_command('populate_projects', verbosity=1, interactive=False)
-
         self.stdout.write("Comandi eseguiti con successo!")
 
     def drop_tables(self):
