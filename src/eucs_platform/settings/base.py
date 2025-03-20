@@ -36,7 +36,8 @@ STATICFILES_DIRS = [str(BASE_DIR / "static"), MACHINA_MAIN_STATIC_DIR, THEMEDIRS
 # settings.py
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATIC_VERSION = '1.5'
-THEME = 'eucitizenscience'
+#THEME = 'eucitizenscience'
+THEME = 'italia'
 #THEME = 'portugal'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
