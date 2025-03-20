@@ -1,18 +1,38 @@
 {% load static %}
 {% load i18n %}
-<div id="what-is-cs" class="min-vh-100 bg-secondary d-flex align-items-center position-relative" style="overflow: hidden;">
-        <h2 class="title-position-end text-dark text-montserrat fw-bold">What is<br>citizen<br>science?</h2>
-        
-        <div class="container-fluid">
-            <div class="row container-fluid mb-3">
-                <div class="col-lg-6 col-md-6 col-sm-12 d-flex flex-column justify-content-between">
-                        <img class="img-fluid mt-auto" src="{% static 'img/image_what_is_cs.png'%}" alt="Citizen Science">
+
+<section class="bg-plum-200">
+
+
+    <div class="container m-auto border">
+
+        <div class="d-flex gap-5 align-items-center justify-content-center w-75 m-auto">
+            <img class="img-fluid mt-auto" src="{% static 'img/home-what-is-cs.png' %}" alt="Citizen Science">
+            <div class="d-flex flex-column gap-3">
+                <div class="h3">
+                    Che cos'è la Citizen Science?
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 d-flex flex-column p-5 bg-white rounded">
-                    <p class="p-3 text-justify text-09">{% trans "Citizen science is any activity that involves the public in scientific research and thus has the potential to bring together science, policy makers, and society as a whole in an impactful way. Through citizen science, all people can participate in many stages of the scientific process, from the design of the research question, to data collection and volunteer mapping, data interpretation and analysis, and to publication and dissemination of results. Citizen science is also an approach of scientific work that may be used as a part of a broader scientific activity." %} <br></p>
-                    <p class="p-3 text-09">{% trans "Learn more about it with the <a href='/resource/88' class='text-color-primary'>ECSA 10 Principles of Citizen Science</a> and the <a href='/resource/87' class='text-color-primary'>ECSA Characteristics of Citizen Science!</a>" %}</p>
+
+                <div>
+                    <p>
+                        La citizen science, o scienza partecipativa, è il coinvolgimento attivo
+                        dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici.
+                        Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé
+                        la complessità di entrambe, acquisendo forme anche molto diverse.
+                        Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari
+                        e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza
+                        basata su evidenze scientifiche”.
+                    </p>
+                </div>
+
+                <div class="d-flex justify-content-start gap-3">
+                    <a class="btn btn-outline-secondary">Scopri di più</a>
+                    <a class="btn btn-primary">Registrati ora</a>
                 </div>
             </div>
         </div>
+
     </div>
+</section>
+
 </div>

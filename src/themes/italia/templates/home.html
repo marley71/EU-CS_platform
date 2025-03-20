@@ -16,7 +16,7 @@
     <div class="col-2"></div>
 </div>
 
-    {% include '_content_section.html' %}
+{#    {% include '_content_section.html' %}#}
 
 {% endblock splash %}
 
@@ -47,12 +47,14 @@
 {% if resources %}
     {% include '_latest_resources.html' %}
 {% endif %}
-{% if trainings %}
-    {% include '_latest_training_resources.html' %}
-{% endif %}
+{#{% if trainings %}#}
+{#    {% include '_latest_training_resources.html' %}#}
+{#{% endif %}#}
 {% if events %}
     {% include '_upcoming_events.html' %}
 {% endif %}
+
+
 
 {% include '_what_is_citizen_science.html' %}
 
