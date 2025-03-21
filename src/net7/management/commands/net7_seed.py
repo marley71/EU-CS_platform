@@ -3,31 +3,20 @@ from django.core.management import call_command
 from eucitizensciencetheme.models import TopBar
 from django.db import connection
 
+
 class Command(BaseCommand):
     help = 'Seed dati principali'
 
     def handle(self, *args, **options):
-        # Chiama il comando migrate
-        #self.stdout.write("Drop tutte le tabelle...")
-        #self.drop_tables()
 
-        # self.stdout.write("Eseguo il comando migrate...")
-        # call_command('migrate')
-        #
-        # #creo la platform iniziale
-        # self.stdout.write("Inserimento piattaforma")
-        # self.createPlatform()
-        #
-        # # creo la platform iniziale
-        # self.stdout.write("Creazione superuser")
-        # call_command('createsuperuser')
+        self.stdout.write("Eseguo il comando populate projects...")
+        call_command('net7_seed_projects',verbosity=1, interactive=False)
 
-        # Puoi chiamare altri comandi se necessario
-        #self.stdout.write("Eseguo il comando collectstatic...")
-        #call_command('collectstatic', verbosity=1, interactive=False)
+        self.stdout.write("Eseguo il comando populate event...")
+        call_command('net7_seed_events',verbosity=1, interactive=False)
 
-        #self.stdout.write("Eseguo il comando populate projects...")
-        #call_command('populate_projects','../resources/Progetti\ di\ CS.csv', verbosity=1, interactive=False)
+        self.stdout.write("Eseguo il comando populate blog...")
+        call_command('net7_seed_blog', verbosity=1, interactive=False)
 
         self.stdout.write("Creo menu tab...")
         self.creaMenuTab()
