@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from eucitizensciencetheme.models import Main
 from django.db import connection
+from projects.models import HelpText
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
@@ -14,17 +15,31 @@ class Command(BaseCommand):
         self.stdout.write("Eseguo il comando migrate...")
         call_command('migrate')
 
-        #creo la platform iniziale
-        self.stdout.write("Inserimento piattaforma")
-        self.createPlatform()
-
         # creo la platform iniziale
         self.stdout.write("Creazione superuser")
         call_command('createsuperuser')
 
+        # creo la platform iniziale
+        self.stdout.write("Inserimento piattaforma")
+        self.createPlatform()
+
+        self.stdout.write("Inserimento dati iniziali di sistema")
+        self.createSystemData()
+
         # Puoi chiamare altri comandi se necessario
         #self.stdout.write("Eseguo il comando collectstatic...")
         #call_command('collectstatic', verbosity=1, interactive=False)
+        call_command('loaddata','./organisations/fixtures/organisation_types.json')
+        call_command('loaddata', './projects/fixtures/participationtasks.json')
+        call_command('loaddata', './projects/fixtures/status.json')
+        call_command('loaddata', './projects/fixtures/topics.json')
+        call_command('loaddata', './projects/fixtures/difficultylevel.json')
+        call_command('loaddata', './projects/fixtures/hastag.json')
+        call_command('loaddata', './projects/fixtures/geographicextend.json')
+        call_command('loaddata', './resources/fixtures/audiences.json')
+        call_command('loaddata', './resources/fixtures/themes.json')
+        call_command('loaddata', './resources/fixtures/categories.json')
+
         self.stdout.write("Comandi eseguiti con successo!")
 
     def drop_tables(self):
@@ -45,4 +60,59 @@ class Command(BaseCommand):
             id=1,
             platform_name="ubuntu",
             platform_description="ubuntu",
+        )
+
+    def createSystemData(self):
+        HelpText.objects.create(
+            id=1,
+            title="nuovo progetto",
+            title_it="nuovo progetto",
+            paragraph="nuovo progetto",
+            paragraph_it="nuovo progetto",
+            slug="new-project",
+        )
+
+        HelpText.objects.create(
+            id=2,
+            title="nuovo risorsa training",
+            title_it="nuovo risorsa training",
+            paragraph="nuovo risorsa training",
+            paragraph_it="nuovo risorsa training",
+            slug="new-training-resource",
+        )
+
+        HelpText.objects.create(
+            id=3,
+            title="nuovo risorsa",
+            title_it="nuovo risorsa",
+            paragraph="nuovo risorsa",
+            paragraph_it="nuovo risorsa",
+            slug="new-resource",
+        )
+
+        HelpText.objects.create(
+            id=4,
+            title="nuova organisation",
+            title_it="nuova organisation",
+            paragraph="nuova organisation",
+            paragraph_it="nuova organisation",
+            slug="new-organisation",
+        )
+
+        HelpText.objects.create(
+            id=5,
+            title="nuovo evento",
+            title_it="nuovo evento",
+            paragraph="nuovo evento",
+            paragraph_it="nuovo evento",
+            slug="new-event",
+        )
+
+        HelpText.objects.create(
+            id=6,
+            title="nuova piattaforma",
+            title_it="nuova piattaforma",
+            paragraph="nuova piattaforma",
+            paragraph_it="nuova piattaforma",
+            slug="new-platform",
         )
