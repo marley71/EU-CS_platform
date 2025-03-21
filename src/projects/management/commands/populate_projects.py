@@ -42,6 +42,7 @@ class Command(BaseCommand):
                     aim_it=row['aim'],
                     url=row['url'],
                     status_id=status.id,
+                    approved=True,
                     creator_id=1, # id superadmin
                     #organisation=organisation
                 )
