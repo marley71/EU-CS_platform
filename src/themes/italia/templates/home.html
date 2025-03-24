@@ -3,25 +3,78 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% block head %}
-{{block.super }}
-<meta name="Description" content="Citizen Science in Europe, projects, resources, events">
+    {{ block.super }}
+    <meta name="Description" content="Citizen Science in Europe, projects, resources, events">
 {% endblock %}
+
+
 {% block splash %}
+    <section class="bg-plum-800">
 
-<div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-        {% include "_subnavbarNew.html" %}
-    </div>
-    <div class="col-2"></div>
-</div>
 
-{#    {% include '_content_section.html' %}#}
+        <div class="container m-auto">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="pe-5 me-5">
+
+                    <div class="h1  mb-4">
+                        La piattaforma italiana dei progetti di Citizen Science
+                    </div>
+                    <p>
+                        Ut molestias dolores est nihil illum ad sunt voluptas. Vel dolores soluta et incidunt rerum aut
+                        aliquam tempora aut vero optio aut internos tenetur aut beatae optio et quia sapiente.
+                    </p>
+                </div>
+                <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-plum-800" style="margin-top: -70px;">
+
+
+        <div class="container"
+             style="background-image: url('{% static 'img/hero-home-bottom.png' %}');
+                     background-repeat: no-repeat;
+                     background-position: bottom left;
+                     "
+
+        >
+                <div class="row pb-5">
+                    <div class="col-10 offset-1 mb-5">
+                        <div class="card rounded-4 mb-1">
+                            <div class="card-body text-center">
+
+                                <div class="h3">
+                                    Esplora la piattaforma
+                                </div>
+                                {% include "_subnavbarNew.html" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+        </div>
+    </section>
+
+
+
+
+    {#    {% include '_content_section.html' %}#}
 
 {% endblock splash %}
 
 {% block list_of_items %}
-<!--
+
+    <section class="bg-white rounded-top-5 pt-5" style="margin-top: -30px;">
+
+        <div class="container d-flex align-items-center pb-5">
+            <div class="h2">
+                Cosa puoi trovare qui
+            </div>
+            <div class="card"></div>
+        </div>
+
+    <!--
     {% for section in sections %}
     <div class="container-fluid">
         <div class="container">
@@ -41,76 +94,74 @@
     </div>
     {% endfor %}
 -->
-{% if projects %}
-    {% include '_latest_projects.html' %}
-{% endif %}
-{% if resources %}
-    {% include '_latest_resources.html' %}
-{% endif %}
-{#{% if trainings %}#}
-{#    {% include '_latest_training_resources.html' %}#}
-{#{% endif %}#}
-{% if events %}
-    {% include '_upcoming_events.html' %}
-{% endif %}
+    {% if projects %}
+        {% include '_latest_projects.html' %}
+    {% endif %}
+    {% if resources %}
+        {% include '_latest_resources.html' %}
+    {% endif %}
+    {#{% if trainings %}#}
+    {#    {% include '_latest_training_resources.html' %}#}
+    {#{% endif %}#}
+    {% if events %}
+        {% include '_upcoming_events.html' %}
+    {% endif %}
 
 
 
-{% include '_what_is_citizen_science.html' %}
+    {% include '_what_is_citizen_science.html' %}
 
-<button id="floatingButton" class="btn bg-dark text-white fixed-bottom mb-5 mx-auto" style="width: auto; max-width: 200px;">
-    Show map <i class="fas fa-map"></i>
-</button>
+    </section>
 
 {% endblock list_of_items %}
 
 
 
 {% block scripts %}
-<script src="{% static 'site/js/bootstrap-autocomplete.js'%}"></script>
+    <script src="{% static 'site/js/bootstrap-autocomplete.js' %}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.basicAutoComplete').autoComplete(
-            { minLength: 3 }
+                {minLength: 3}
             );
             $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
                 $('#finder').submit();
                 $('#searchTop').submit();
             });
-    });
+        });
 
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sectionsToShowButton = [
-            '#_content_section',
-            '#latest-projects',
-            '#latest-resources',
-            '#_latest-training-resources'
-        ];
-        const floatingButton = document.getElementById('floatingButton');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sectionsToShowButton = [
+                '#_content_section',
+                '#latest-projects',
+                '#latest-resources',
+                '#_latest-training-resources'
+            ];
+            const floatingButton = document.getElementById('floatingButton');
 
-        function checkVisibility() {
-            let shouldShowButton = sectionsToShowButton.some(sectionId => {
-                const section = document.querySelector(sectionId);
-                if (section) {
-                    const rect = section.getBoundingClientRect();
-                    console.log(`Checking ${sectionId}: rect.top=${rect.top}, rect.bottom=${rect.bottom}, window.innerHeight=${window.innerHeight}`);
-                    return rect.top < window.innerHeight && rect.bottom > 0;
-                }
-                return false;
+            function checkVisibility() {
+                let shouldShowButton = sectionsToShowButton.some(sectionId => {
+                    const section = document.querySelector(sectionId);
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        console.log(`Checking ${sectionId}: rect.top=${rect.top}, rect.bottom=${rect.bottom}, window.innerHeight=${window.innerHeight}`);
+                        return rect.top < window.innerHeight && rect.bottom > 0;
+                    }
+                    return false;
+                });
+                console.log('Should show button:', shouldShowButton);
+                floatingButton.style.display = shouldShowButton ? 'block' : 'none';
+            }
+
+            window.addEventListener('scroll', checkVisibility);
+            checkVisibility();
+
+            floatingButton.addEventListener('click', function () {
+                window.location.href = "{% url 'map' %}";
             });
-            console.log('Should show button:', shouldShowButton);
-            floatingButton.style.display = shouldShowButton ? 'block' : 'none';
-        }
-
-        window.addEventListener('scroll', checkVisibility);
-        checkVisibility();
-
-        floatingButton.addEventListener('click', function() {
-            window.location.href = "{% url 'map' %}";
         });
-    });
     </script>
 {% endblock scripts %}
