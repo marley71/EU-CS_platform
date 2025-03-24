@@ -26,6 +26,9 @@ class Command(BaseCommand):
         self.stdout.write("Inserimento dati iniziali di sistema")
         self.createSystemData()
 
+        self.stdout.write("Creazione tab menu")
+        self.creaMenuTab()
+
         # Puoi chiamare altri comandi se necessario
         #self.stdout.write("Eseguo il comando collectstatic...")
         #call_command('collectstatic', verbosity=1, interactive=False)
@@ -115,4 +118,37 @@ class Command(BaseCommand):
             paragraph="nuova piattaforma",
             paragraph_it="nuova piattaforma",
             slug="new-platform",
+        )
+
+    def creaMenuTab(self):
+        self.stdout.write("Creazione menu principali...")
+        TopBar.objects.create(
+            name='cerca',
+            slug = '/projects',
+            name_it='Cerca',
+            position = 1
+        )
+        TopBar.objects.create(
+            name='blog',
+            slug='/blog',
+            name_it='Blog',
+            position=2
+        )
+        TopBar.objects.create(
+            name='eventi',
+            slug='/events',
+            name_it='Eventi',
+            position=3
+        )
+        TopBar.objects.create(
+            name='map',
+            slug='/map',
+            name_it='Map',
+            position=4
+        )
+        TopBar.objects.create(
+            name='about',
+            slug='/about',
+            name_it='About',
+            position=5
         )

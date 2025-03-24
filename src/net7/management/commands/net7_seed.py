@@ -23,35 +23,3 @@ class Command(BaseCommand):
 
         self.stdout.write("Comandi eseguiti con successo!")
 
-    def creaMenuTab(self):
-        self.stdout.write("Creazione menu principali...")
-        TopBar.objects.create(
-            name='cerca',
-            slug = '/projects',
-            name_it='Cerca',
-            position = 1
-        )
-        TopBar.objects.create(
-            name='blog',
-            slug='/blog',
-            name_it='Blog',
-            position=2
-        )
-        TopBar.objects.create(
-            name='eventi',
-            slug='/events',
-            name_it='Eventi',
-            position=3
-        )
-        TopBar.objects.create(
-            name='map',
-            slug='/map',
-            name_it='Map',
-            position=4
-        )
-        TopBar.objects.create(
-            name='about',
-            slug='/about',
-            name_it='About',
-            position=5
-        )
