@@ -10,16 +10,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         self.stdout.write("Eseguo il comando populate projects...")
-        call_command('net7_seed_projects',verbosity=1, interactive=False)
+        call_command('net7_seed_projects')
 
         self.stdout.write("Eseguo il comando populate event...")
-        call_command('net7_seed_events',verbosity=1, interactive=False)
+        call_command('net7_seed_events')
 
         self.stdout.write("Eseguo il comando populate blog...")
-        call_command('net7_seed_blog', verbosity=1, interactive=False)
-
-        self.stdout.write("Creo menu tab...")
-        self.creaMenuTab()
+        call_command('net7_seed_blog')
 
         self.stdout.write("Comandi eseguiti con successo!")
 
