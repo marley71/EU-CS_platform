@@ -1,0 +1,23 @@
+{% load static %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+
+<div class="card rounded-4 px-4 d-flex flex-column gap-4" style="background-image: url('{% static bgimage %}')">
+    <div class="mt-5 h3 text-white">{{ cardTitle|default:"Progetti" }}</div>
+    <p class="text-white">{{ cardDescription|default:"Et quos voluptatum id ipsam ipsa est quas quidem et aliquam accusamus id quia tempore ut earum vitae qui ipsam suscipit." }}</p>
+    <div>
+        {%  if cardActionLink %}
+        <a style="color:#D2DFA7;" href="{{ cardActionLink }}">{{ cardActionLinkText|default:"Vai" }}</a>
+        {%  endif %}
+    </div>
+</div>

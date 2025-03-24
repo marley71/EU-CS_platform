@@ -67,11 +67,20 @@
 
     <section class="bg-white rounded-top-5 pt-5" style="margin-top: -30px;">
 
-        <div class="container d-flex align-items-center pb-5">
+        <div class="container d-flex align-items-center pb-5 gap-3">
+
             <div class="h2">
                 Cosa puoi trovare qui
             </div>
-            <div class="card"></div>
+            <div class="w-25">
+                {% include 'includes/card_info.html' with cardActionLink="/projects" cardActionLinkText="Carca progetti" cardTitle="Progetti" bgimage="img/cards/bg_card_progetti.png" %}
+            </div>
+            <div class="w-25">
+                {% include 'includes/card_info.html' with cardTitle="Organizzazioni" bgimage="img/cards/bg_card_organizzazioni.png" %}
+            </div>
+            <div class="w-25">
+                {% include 'includes/card_info.html' with cardTitle="Utenti" bgimage="img/cards/bg_card_utenti.png" %}
+            </div>
         </div>
 
     <!--
