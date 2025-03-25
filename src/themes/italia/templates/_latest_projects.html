@@ -1,18 +1,24 @@
 {% load i18n %}
+{% load static %}
+{% load reviews %}
+{% load thumbnail %}
+{% load project_tags %}
+
 <div id="latest-projects" class="container-fluid mt-3">
     <div class="container">
+        <div class="h2 text-left">Gli ultimi progetti</div>
         <div class="row">
-            <div class="col-12 d-flex align-items-center mb-3">
-                <div class="circle-icon me-2 mb-3">
-                    <div class="inner-circle"></div>
+            {% for project in projects %}
+            {#            {% include "_projects_cards.html" %}#}
+                        <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                            {% include "includes/card_main.html" %}
+                        </div>
+            {% endfor %}
+            {% if 'projects' in request.get_full_path %}
+                <div class="col-lg-12">
+                    {% include "paginator.html" %}
                 </div>
-                <h2 class="h-100 text-center text-dark">{% trans "Latest projects" %}</h2>
-            </div>
-        </div>
-        <div class="row ps-3 pe-3">
-                    {% include "_projects_cards.html" %}
-        </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </div>

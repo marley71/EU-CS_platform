@@ -1,0 +1,33 @@
+{% load static %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+
+<div class="card rounded-4 px-0 py-0 w-100">
+    <div class="row">
+        <div class="col-md-5 col-4">
+            <img src="{% static bgimage|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">
+        </div>
+        <div class="col-md-7 col-8">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ cardTitle|default:'Citizen Science italia' }}
+                </h5>
+                {%  if cardSubtitle %}
+                <h6 class="card-subtitle">
+                    {{ cardSubtitle|default:'' }}
+                </h6>
+                {%  endif %}
+            </div>
+        </div>
+    </div>
+</div>
