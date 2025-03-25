@@ -7,18 +7,59 @@
     <style>
         html, body {
             height: 100%;
-            margin-top: -46px;
+            /*margin-top: -46px;*/
             padding: 0;
             
         }
     
         #map {
-            position: absolute;
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            margin-top: 146px;
+            /*height: 100%;*/
+            height: 70vh;
+            /*margin-top: 146px;*/
+
+        }
+        .marker-cluster-small {
+            background-color: rgba(82, 13, 194, 0.50);
+        }
+        .marker-cluster-small div {
+            background-color: rgba(82, 13, 194, 0.50);
+        }
+        .marker-cluster-medium {
+            background-color: rgba(82, 13, 194, 0.50);
+        }
+        .marker-cluster-medium div {
+            background-color: rgba(82, 13, 194, 0.50);
+        }
+
+        .marker-cluster-large {
+            background-color: rgba(82, 13, 194, 0.50);
+        }
+        .marker-organization-cluster-large div {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+
+        .marker-organization-cluster-small {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+        .marker-organization-cluster-small div {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+        .marker-organization-cluster-medium {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+        .marker-organization-cluster-medium div {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+
+        .marker-organization-cluster-large {
+            background-color: rgba(255, 205, 57, 0.50);
+        }
+        .marker-organization-cluster-large div {
+            background-color: rgba(255, 205, 57, 0.50);
         }
     </style>
     </head>
@@ -37,7 +78,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            var map = L.map('map', {center: [40, -7], zoom: 6});
+            var map = L.map('map', {center: [49, 13], zoom: 6,tiles='Stamen Terrain'});
             L.tileLayer('https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g', {
                 tileSize: 512,
                 zoomOffset: -1,
@@ -50,7 +91,7 @@
             var projectIcon = L.divIcon({
                 className: 'individual-icon',
                 /* binoculars icon in red */
-                html: '<h5><i class="fas fa-neuter"></i></h5>', 
+                html: '<h5><i class="bi bi-bank2"></i><span>P</span></h5>',
                 iconSize: [30, 30],
                 iconAnchor: [15, 15]
             });
@@ -58,7 +99,7 @@
             var organisationIcon = L.divIcon({
                 className: 'individual-icon',
                 /* binoculars icon in red */
-                html: '<h5><i class="fas fa-regular fa-building"></i></h5>',
+                html: '<h5><i class="bi bi-clipboard2-data-fill"></i>O</h5>',
                 iconSize: [30, 30],
                 iconAnchor: [15, 15]
             });
@@ -67,9 +108,41 @@
             var projects = L.markerClusterGroup({
                 spiderfyOnMaxZoom: true,
                 showCoverageOnHover: false,
-                zoomToBoundsOnClick: true
+                zoomToBoundsOnClick: true,
+                iconCreateFunction: function(cluster) {
+                    var childCount = cluster.getChildCount();
+                     var c = ' marker-cluster-';
+                     if (childCount < 10) {
+                       c += 'small';
+                     }
+                     else if (childCount < 100) {
+                       c += 'medium';
+                     }
+                     else {
+                       c += 'large';
+                     }
+
+                    return L.divIcon({ className: "marker-cluster "+c});
+                }
             });
-            var organisations = L.markerClusterGroup();
+            var organisations = L.markerClusterGroup({
+                /*
+                iconCreateFunction: function(cluster) {
+                    var childCount = cluster.getChildCount();
+                     var c = ' marker-organization-cluster-';
+                     if (childCount < 10) {
+                       c += 'small';
+                     }
+                     else if (childCount < 100) {
+                       c += 'medium';
+                     }
+                     else {
+                       c += 'large';
+                     }
+
+                    return L.divIcon({ className: "marker-cluster "+c});
+                }*/
+            });
      
 
             // Perform AJAX request to get the 
@@ -78,7 +151,7 @@
             xhr1.onreadystatechange = function () {
                 if (xhr1.readyState === 4 && xhr1.status === 200) {
                     var markersData = JSON.parse(xhr1.responseText).markers;
-
+                    console.debug('markers',markersData);
                     // Create markers on the map based on the data received
                     for (var i = 0; i < markersData.length; i++) {
                         var marker = L.marker([markersData[i].latitude, markersData[i].longitude], { 
@@ -127,10 +200,10 @@
             projects.addTo(map);
             organisations.addTo(map);
             var baseLayers = {
-                "<i class='fas fa-neuter'></i> Project": projects,
-                "<i class='fas fa-regular fa-building'></i> Organisation": organisations,
+                "<i class='bi bi-bank2'></i> Project": projects,
+                "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
             };
-            L.control.layers(null, baseLayers, { collapsed: false }).addTo(map);
+            L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
 
         });
     </script>
