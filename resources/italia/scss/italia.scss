@@ -175,7 +175,17 @@ $body-color: $gray-900;
   background-color: $plum-200;
 }
 
+.bg-plum-100 {
+  background-color: $plum-100;
+}
+
 .bg-plum-800 {
   background-color: $plum-800;
   color: $olive-green-100;
+}
+
+.badge-card-main {
+  color: $plum-900;
+  background-color: $olive-green-200;
+  border-color: $olive-green-300;
 }

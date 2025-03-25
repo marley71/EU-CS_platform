@@ -11858,9 +11858,19 @@ textarea.form-control-lg {
   background-color: #EDEDF8;
 }
 
+.bg-plum-100 {
+  background-color: #F7F7FD;
+}
+
 .bg-plum-800 {
   background-color: #33336A;
   color: #F0F6E0;
+}
+
+.badge-card-main {
+  color: #13133F;
+  background-color: #D2DFA7;
+  border-color: #BCD07B;
 }
 
 /*# sourceMappingURL=italia.css.map */
