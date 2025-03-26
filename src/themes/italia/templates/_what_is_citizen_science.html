@@ -4,7 +4,7 @@
 <section class="bg-plum-200">
 
 
-    <div class="container m-auto border">
+    <div class="container m-auto">
 
         <div class="d-flex gap-5 align-items-center justify-content-center w-75 m-auto">
             <img class="img-fluid mt-auto" src="{% static 'img/home-what-is-cs.png' %}" alt="Citizen Science">
@@ -27,7 +27,9 @@
 
                 <div class="d-flex justify-content-start gap-3">
                     <a class="btn btn-outline-secondary">Scopri di più</a>
+                    {% if not user.is_authenticated %}
                     <a class="btn btn-primary">Registrati ora</a>
+                    {%  endif %}
                 </div>
             </div>
         </div>
