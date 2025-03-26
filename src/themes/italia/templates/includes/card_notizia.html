@@ -1,0 +1,34 @@
+{% load static %}
+{% load thumbnail %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+
+<div class="card rounded-4" style="width: 18rem;">
+    <div style="height:173px;" class="text-center">
+
+        {% with 'img/'|add:notizia.image|default:'img/default_blog.png' as image %}
+            <img src="{% static image %}" class="img-fluid" style="max-height:173px;" alt="...">
+        {% endwith %}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title mb-1">{{ notizia.title }}</h5>
+        <p class="card-text mb-3">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+        <div>
+            {{ notizia.author.name }}
+        </div>
+        <div>
+            {{ notizia.created_on | date:"d/m/Y" }}
+        </div>
+    </div>
+</div>
