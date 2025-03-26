@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from eucitizensciencetheme.models import Main, TopBar
 from django.db import connection
-from projects.models import HelpText
+from projects.models import HelpText,ProjectCountry
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
@@ -42,6 +42,9 @@ class Command(BaseCommand):
         call_command('loaddata', './resources/fixtures/audiences.json')
         call_command('loaddata', './resources/fixtures/themes.json')
         call_command('loaddata', './resources/fixtures/categories.json')
+
+        self.createCountries()
+        self.createKeywords()
 
         self.stdout.write("Comandi eseguiti con successo!")
 
@@ -151,4 +154,17 @@ class Command(BaseCommand):
             slug='/about',
             name_it='About',
             position=5
+        )
+
+    def createCountries(self):
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Italy',  # row['Common'],
+            longitude=42.638426,
+            latitude=12.674724,
+        )
+
+    def createKeywords(self):
+        Keyword.objects.create(
+            keyword='Importazione',
         )
