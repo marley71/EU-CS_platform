@@ -18,6 +18,9 @@ class Status(models.Model):
 
     def __str__(self):
         return f'{self.status}'
+
+    def humanized(self):
+        return self.status.replace(' ', '-')
     
 class ProjectCountry(models.Model):
     country = CountryField()

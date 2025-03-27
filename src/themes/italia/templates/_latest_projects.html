@@ -12,7 +12,7 @@
 
                 {#            {% include "_projects_cards.html" %}#}
                 <div class="col-12 col-md-6 d-flex align-items-center mb-3">
-                    {% include "includes/card_main.html" with cardSubtitle=project.mainOrganisation.name|default:"Nessuna organizzazione"  cardTitle=project.name image=project.image1 tags=project.display_items more=project.more_count flags=project.projectCountry.all %}
+                    {% include "includes/card_main.html" with cardSubtitle=project.mainOrganisation.name|default:"Nessuna organizzazione"  cardTitle=project.name image=project.image1 tags=project.display_items more=project.more_count flags=project.projectCountry.all status=project.status %}
                 </div>
             {% endfor %}
 {#            {% if 'projects' in request.get_full_path %}#}

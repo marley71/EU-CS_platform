@@ -195,3 +195,34 @@ $body-color: $gray-900;
   background-color: $plum-300;
   border-color: $plum-400;
 }
+
+.badge-status-completato {
+  color: $white;
+  background-color: $green-700;
+  border-color: $green-800;
+}
+.badge-status-attivo {
+  color: $green-700;
+  background-color: $white;
+  border-color: $green-800;
+}
+.badge-status-periodicamente-attivo {
+  color: $blue-700;
+  background-color: $white;
+  border-color: $blue-800;
+}
+.badge-status-non-ancora-iniziato {
+  color: $gray-700;
+  background-color: $white;
+  border-color: $gray-800;
+}
+.badge-status-abbandonato {
+  color: $white;
+  background-color: $gray-700;
+  border-color: $gray-800;
+}
+.badge-status-in-attesa {
+  color: $orange-700;
+  background-color: $white;
+  border-color: $orange-800;
+}
