@@ -1,0 +1,46 @@
+{% load static %}
+{% load thumbnail %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+
+<div class="card rounded-4 px-0 py-0 w-100">
+    <div class="row">
+        <div class="col-3">
+            {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
+            <img src="{% thumbnail project.image1|default:'void_600.png' 153x102 upscale crop %}"
+                 class="img-fluid rounded-start-4" alt="{{ cardTitle|default:'Citizen Science italia' }}">
+        </div>
+        <div class="col-9">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title">
+                    {{ cardTitle|default:'Citizen Science italia' }}
+                </h5>
+
+                {% if tipologia %}
+                    <div class="d-flex gap-1 justify-content-start align-items-center mt-2">
+                        <span class="badge rounded-pill badge-card-secondary ">{{ tipologia|capfirst }}</span>
+                    </div>
+                {% endif %}
+
+                {% if flags and flags.count > 0 %}
+                    <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                        <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                        </svg>
+                        <span class="">{{ flags|join:", " }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

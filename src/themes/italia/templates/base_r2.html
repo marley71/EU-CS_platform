@@ -26,12 +26,12 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-{#        <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>#}
-{#        <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400..800&display=swap" rel="stylesheet">#}
-{#        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"#}
-{#              rel="stylesheet">#}
+        {#        <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>#}
+        {#        <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400..800&display=swap" rel="stylesheet">#}
+        {#        <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"#}
+        {#              rel="stylesheet">#}
         <!-- Font awesome free -->
-{#        <link href="{% static 'bootstrap-icons.svg' %}" rel="stylesheet" type="text/css">#}
+        {#        <link href="{% static 'bootstrap-icons.svg' %}" rel="stylesheet" type="text/css">#}
         <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
@@ -81,7 +81,7 @@
                     {% endcomment %}
 
             <!-- Navigation Menu Items -->
-            <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0 list-unstyled">
                 {% for item in topbar_items %}
                     {% if not item.parent %}
                         <li class="nav-item me-3 {% if item.is_parent %}dropdown{% endif %}">
@@ -105,6 +105,7 @@
 
 
 
+
             {% if not user.is_authenticated %}
                 <a class="btn btn-outline-secondary me-2"
                    href="{% url 'accounts:login' %}">{% trans "Login" %}</a>
@@ -113,31 +114,39 @@
                    href="{% url 'accounts:signup' %}">{% trans "Signup" %}</a>
             {% else %}
 
-                <li class="nav-item dropdown me-2">
-                    <a class="nav-link dropdown-toggle" id="dropdownRegistered" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-user-edit"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownRegistered">
-                        <li><a class="dropdown-item" href="{% url 'profiles:show_self' %}">
-                            {% trans "My personal area" %}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'profiles:submissions' %}">
-                            {% trans "My submissions" %}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'profiles:bookmarks' %}">
-                            {% trans "My bookmarks" %}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'profiles:privacyCenter' %}">
-                            {% trans "My privacy center" %}</a></li>
-                        {% if user.is_staff %}
-                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
-                        {% endif %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">{% trans "Logout" %}</a>
-                        </li>
-                    </ul>
+                <ul class="list-unstyled mb-0">
+                    <li class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle" id="dropdownRegistered" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false" href="#">
+                            <svg class="bi" width="32" height="32" fill="currentColor">
+                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#person-circle"/>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownRegistered">
+                            <li><a class="dropdown-item" href="{% url 'profiles:show_self' %}">
+                                {% trans "My personal area" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profiles:submissions' %}">
+                                {% trans "My submissions" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profiles:bookmarks' %}">
+                                {% trans "My bookmarks" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profiles:privacyCenter' %}">
+                                {% trans "My privacy center" %}</a></li>
+                            {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">{% trans "Logout" %}</a>
+                            </li>
+                        </ul>
 
-                </li>
+                    </li>
                 </ul>
-                <button data-bs-toggle="modal" data-bs-target="#modalsubmit" class="btn btn-outline-success me-2"
+                <button data-bs-toggle="modal" data-bs-target="#modalsubmit"
+                        class="btn btn-primary ms-3 ps-1 "
                         type="submit">
-                    <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{% trans "New submission" %}
+                    &nbsp;&nbsp;<svg class="bi" width="20" height="20" fill="currentColor">
+                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#send"/>
+                            </svg>
+                            &nbsp;{% trans "New submission" %}
                 </button>
 
             {% endif %}

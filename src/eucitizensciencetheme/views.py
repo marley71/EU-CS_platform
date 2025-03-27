@@ -9,6 +9,7 @@ from django.db.models import Q
 
 from projects.models import Project, Likes, Follows
 from resources.models import Resource
+from blog.models import Post
 from organisations.models import Organisation
 from platforms.models import Platform
 from profiles.models import Profile
@@ -164,6 +165,15 @@ def home(request):
     page = request.GET.get('page')
     events = paginatorEvents.get_page(page)
 
+    # Posts
+    posts = Post.objects.all().order_by('-created_on')
+    posts = posts.filter(status=1)
+    postsCounter = len(posts)
+    paginatorposts = Paginator(posts, 4)
+    page = request.GET.get('page')
+    posts = paginatorposts.get_page(page)
+
+
     # Users
     usersCounter = Profile.objects.filter(user__is_active=True).count()
 
@@ -182,6 +192,8 @@ def home(request):
         'projectsCounter': projectsCounter,
         'resources': resources,
         'resourcesCounter': resourcesCounter,
+        'posts': posts,
+        'postsCounter': postsCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisations': organisations,
         'organisationsCounter': organisationsCounter,

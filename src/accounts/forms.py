@@ -28,15 +28,16 @@ class LoginForm(AuthenticationForm):
         self.fields["password"].label = ""
 
         self.helper.layout = Layout(
-            Field("username", label="", placeholder=_("Enter Email"), autofocus=""),
-            HTML('<div class="m-4"></div>'),
-            Field("password", placeholder=_("Enter Password")),
+            HTML('<label class="mt-2 mb-2">'+_("Enter Email")+'</label>'),
+            Field("username", label=_("Enter Email"), autofocus=""),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Password")+'</label>'),
+            Field("password"),
             HTML(
-                '<div class="mt-3 mb-4">Forgot Password? <a href="{}" class="pt-1 mb-5">Remember me</a></div>'.format(
+                '<div class="mt-3 mb-4">Hai dimenticato la tua password? <a href="{}" class="pt-1 mb-5">Clicca qui per reimpostarla.</a></div>'.format(
                     reverse("accounts:password-reset")
                 )
             ),
-            StrictButton(_("Log in"), css_class="btn btn-secondary", type="Submit")
+            StrictButton(_("Log in"), css_class="w-100 btn btn-primary", type="Submit")
 
         )
 
@@ -85,7 +86,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
     profileVisible = forms.BooleanField(
         required=False,
         initial=False,
-        label=_("Make profile visible to others"),
+        label=_("Rendi visibile il tuo profilo agli altri"),
     )
 
     profileType = forms.CharField(
@@ -111,23 +112,23 @@ class SignupForm(authtoolsforms.UserCreationForm):
         self.fields["captcha"] = ReCaptchaField()
         self.fields["captcha"].label = ""
         self.helper.layout = Layout(
-            Field("email", placeholder=_("Enter Email"), autofocus=""),
-            HTML('<div class="m-4"></div>'),
-            Field("name", placeholder=_("Enter Name (max 20 characters)"),),
-            HTML('<div class="m-4"></div>'),
-            Field("surname", placeholder=_("Enter Surname (max 20 characters)"),),
-            HTML('<div class="m-4"></div>'),
-            Field("password1", placeholder=_("Enter Password")),
-            HTML('<div class="m-4"></div>'),
-            Field("password2", placeholder=_("Re-enter Password")),
-            HTML('<div class="m-4"></div>'),
-            Field("profileType"),
-            HTML('<div class="m-4"></div>'),
+            HTML('<label class="mt-2 mb-2">'+_("Enter Email")+'</label>'),
+            Field("email", autofocus=""),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Name (max 20 characters)")+'</label>'),
+            Field("name"),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Surname (max 20 characters)")+'</label>'),
+            Field("surname"),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Password")+'</label>'),
+            Field("password1"),
+            HTML('<label class="mt-4 mb-2">'+_("Re-enter Password")+'</label>'),
+            Field("password2"),
+            HTML('<div class="mt-2"></div>'),
+#             Field("profileType"),
             Field("profileVisible"),
-            HTML('<div class="m-4"></div>'),
-            HTML('<div class="m-4"></div>'),
+            HTML('<div class="m-1">&nbsp</div>'),
             Field("captcha"),
-            StrictButton(_("Sign up"), css_class="btn btn-secondary mt-5", type="Submit"),
+            HTML('<div class="m-1">&nbsp</div>'),
+            StrictButton(_("Registrati"), css_class="w-100 btn btn-primary mb-3", type="Submit")
         )
 
     def clean_name(self):
