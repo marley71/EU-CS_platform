@@ -97,8 +97,8 @@ class Command(BaseCommand):
 
     def setImage(self,project):
         numero_casuale = random.randint(1, 10)
-        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/p' + str(numero_casuale) +'.png'
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/p' + str(numero_casuale) + '.png'
         self.stdout.write('base path ' + image_path )
         # Associa il file immagine al modello
         with open(image_path, 'rb') as image_file:
-            project.image1.save(str(project.id) + str(numero_casuale)'.png', File(image_file), save=True)
+            project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
