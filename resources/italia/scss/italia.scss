@@ -187,42 +187,42 @@ $body-color: $gray-900;
 .badge-card-main {
   color: $plum-900;
   background-color: $olive-green-200;
-  border-color: $olive-green-300;
+  border: 1px solid $olive-green-300;
 }
 
 .badge-card-secondary {
   color: $plum-900;
   background-color: $plum-300;
-  border-color: $plum-400;
+  border: 1px solid $plum-400;
 }
 
 .badge-status-completato {
   color: $white;
   background-color: $green-700;
-  border-color: $green-800;
+  border: 1px solid $green-800;
 }
 .badge-status-attivo {
   color: $green-700;
   background-color: $white;
-  border-color: $green-800;
+  border: 1px solid $green-800;
 }
 .badge-status-periodicamente-attivo {
   color: $blue-700;
   background-color: $white;
-  border-color: $blue-800;
+  border: 1px solid $blue-800;
 }
 .badge-status-non-ancora-iniziato {
   color: $gray-700;
   background-color: $white;
-  border-color: $gray-800;
+  border: 1px solid $gray-800;
 }
 .badge-status-abbandonato {
   color: $white;
   background-color: $gray-700;
-  border-color: $gray-800;
+  border: 1px solid $gray-800;
 }
 .badge-status-in-attesa {
   color: $orange-700;
   background-color: $white;
-  border-color: $orange-800;
+  border: 1px solid $orange-800;
 }
