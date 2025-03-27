@@ -6,7 +6,7 @@ from projects.models import Project,Status,ProjectCountry,Keyword
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
-
+from django.core.files import File
 
 
 class Command(BaseCommand):
@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 )
                 project.organisation.add(organisation)
                 project.keywords.add(keyword)
+                self.setImage(project)
 #                 MyModel.objects.create(
 #                     name=row['name'],
 #                     description=row['description']
@@ -93,3 +94,11 @@ class Command(BaseCommand):
         latitudine = random.uniform(36.6, 47.1)
         longitudine = random.uniform(6.6, 18.5)
         return latitudine, longitudine
+
+    def setImage(self,project):
+        numero_casuale = random.randint(1, 10)
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/p' + str(numero_casuale) +'.png'
+        self.stdout.write('base path ' + image_path )
+        # Associa il file immagine al modello
+        with open(image_path, 'rb') as image_file:
+            project.image1.save(str(project.id) + str(numero_casuale)'.png', File(image_file), save=True)

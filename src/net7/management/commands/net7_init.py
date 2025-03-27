@@ -2,15 +2,15 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from eucitizensciencetheme.models import Main, TopBar
 from django.db import connection
-from projects.models import HelpText,ProjectCountry
+from projects.models import HelpText,ProjectCountry,Keyword
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
 
     def handle(self, *args, **options):
         # Chiama il comando migrate
-        #self.stdout.write("Drop tutte le tabelle...")
-        #self.drop_tables()
+        self.stdout.write("Drop tutte le tabelle...")
+        self.drop_tables()
 
         self.stdout.write("Eseguo il comando migrate...")
         call_command('migrate')
@@ -55,7 +55,11 @@ class Command(BaseCommand):
                     r RECORD;
                 BEGIN
                     FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = current_schema()) LOOP
-                        EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+                        IF r.tablename != 'spatial_ref_sys' THEN
+                            EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+                        ELSE
+                            RAISE NOTICE 'nome è ''spatial_ref_sys'', non eseguo la query';
+                        END IF;
                     END LOOP;
                 END $$;
             """)
