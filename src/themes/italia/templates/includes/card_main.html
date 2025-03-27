@@ -33,7 +33,7 @@
                 </h5>
                 {% if cardSubtitle %}
                     <h6 class="card-subtitle">
-                        {{ cardSubtitle|default:'' }}
+                        {{ cardSubtitle| safe | truncatechars:75 }}
                     </h6>
                 {% endif %}
 
