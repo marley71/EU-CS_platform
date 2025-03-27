@@ -11870,49 +11870,49 @@ textarea.form-control-lg {
 .badge-card-main {
   color: #13133F;
   background-color: #D2DFA7;
-  border-color: #BCD07B;
+  border-color: 1px solid #BCD07B;
 }
 
 .badge-card-secondary {
   color: #13133F;
   background-color: #DDDDF2;
-  border-color: #BABAE9;
+  border: 1px solid #BABAE9;
 }
 
 .badge-status-completato {
   color: #fff;
   background-color: rgb(15, 81, 50.4);
-  border-color: rgb(10, 54, 33.6);
+  border: 1px solid rgb(10, 54, 33.6);
 }
 
 .badge-status-attivo {
   color: rgb(15, 81, 50.4);
   background-color: #fff;
-  border-color: rgb(10, 54, 33.6);
+  border: 1px solid rgb(10, 54, 33.6);
 }
 
 .badge-status-periodicamente-attivo {
   color: rgb(7.8, 66, 151.8);
   background-color: #fff;
-  border-color: rgb(5.2, 44, 101.2);
+  border: 1px solid rgb(5.2, 44, 101.2);
 }
 
 .badge-status-non-ancora-iniziato {
   color: #495057;
   background-color: #fff;
-  border-color: #343a40;
+  border: 1px solid #343a40;
 }
 
 .badge-status-abbandonato {
   color: #fff;
   background-color: #495057;
-  border-color: #343a40;
+  border: 1px solid #343a40;
 }
 
 .badge-status-in-attesa {
   color: rgb(151.8, 75.6, 12);
   background-color: #fff;
-  border-color: rgb(101.2, 50.4, 8);
+  border: 1px solid rgb(101.2, 50.4, 8);
 }
 
 /*# sourceMappingURL=italia.css.map */
