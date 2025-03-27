@@ -8,6 +8,7 @@ from organisations.models import OrganisationType
 from django.conf import settings
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.core.files import File
 
 class Command(BaseCommand):
     help = 'Seed projects'
@@ -92,4 +93,4 @@ class Command(BaseCommand):
         self.stdout.write('base path ' + image_path )
         # Associa il file immagine al modello
         with open(image_path, 'rb') as image_file:
-            post.image.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
+            post.image.save(str(post.id) + str(numero_casuale) + '.png', File(image_file), save=True)

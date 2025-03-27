@@ -16,9 +16,7 @@
 <div class="card rounded-4" style="width: 18rem;">
     <div style="height:173px;" class="text-center">
 
-        {% with 'img/'|add:notizia.image|default:'img/default_blog.png' as image %}
-            <img src="{% static image %}" class="img-fluid" style="max-height:173px;" alt="...">
-        {% endwith %}
+            <img src="{{ notizia.imagePath }}" class="img-fluid" style="max-height:173px;" alt="...">
     </div>
     <div class="card-body">
         <h5 class="card-title mb-1">{{ notizia.title }}</h5>
