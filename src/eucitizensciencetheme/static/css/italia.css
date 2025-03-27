@@ -11870,7 +11870,7 @@ textarea.form-control-lg {
 .badge-card-main {
   color: #13133F;
   background-color: #D2DFA7;
-  border: 1px solid #BCD07B;
+  border-color: 1px solid #BCD07B;
 }
 
 .badge-card-secondary {
