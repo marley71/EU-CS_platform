@@ -7,7 +7,7 @@ from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
-
+from django.db.models import Q
 
 class Command(BaseCommand):
     help = 'Seed projects'
@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 )
                 project.organisation.add(organisation)
                 project.keywords.add(keyword)
+                self.setKeywords(project)
                 self.setImage(project)
 #                 MyModel.objects.create(
 #                     name=row['name'],
@@ -102,3 +103,12 @@ class Command(BaseCommand):
         # Associa il file immagine al modello
         with open(image_path, 'rb') as image_file:
             project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
+
+    def setKeywords(self,project):
+        descriptions = list(Keyword.objects.exclude(
+            Q(keyword="Importazione") ).values_list('keyword',flat=True))
+        for i in range(1, 5):
+            random_description = random.choice(descriptions)  # Prendi un elemento casuale
+            descriptions.remove(random_description)  # Rimuovilo dalla lista
+            keyword = Keyword.objects.filter(keyword=random_description).first()
+            project.keywords.add(keyword)

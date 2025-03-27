@@ -6,7 +6,7 @@ from blog.models import Post
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 class Command(BaseCommand):
@@ -40,7 +40,7 @@ class Command(BaseCommand):
 
 
 
-                event = Post.objects.create(
+                post = Post.objects.create(
                     title=row['title'],
                     slug=row['slug'],
                     content=row['content'],
@@ -50,6 +50,7 @@ class Command(BaseCommand):
                     #organisation=organisation
 
                 )
+                self.setImage(post)
                 #event.organisations.add(organisation)
 #                 MyModel.objects.create(
 #                     name=row['name'],
@@ -84,3 +85,11 @@ class Command(BaseCommand):
         #         orgType=orgType,
         #     )
         # return org
+
+    def setImage(self,post):
+        numero_casuale = random.randint(1, 6)
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/e' + str(numero_casuale) + '.png'
+        self.stdout.write('base path ' + image_path )
+        # Associa il file immagine al modello
+        with open(image_path, 'rb') as image_file:
+            post.image.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)

@@ -8,6 +8,10 @@ class Command(BaseCommand):
     help = 'Inizializzazione progetto'
 
     def handle(self, *args, **options):
+
+
+
+
         # Chiama il comando migrate
         self.stdout.write("Drop tutte le tabelle...")
         self.drop_tables()
@@ -171,4 +175,36 @@ class Command(BaseCommand):
     def createKeywords(self):
         Keyword.objects.create(
             keyword='Importazione',
+        )
+
+        Keyword.objects.create(
+            keyword='Biodiversità',
+        )
+
+        Keyword.objects.create(
+            keyword='Genetica',
+        )
+
+        Keyword.objects.create(
+            keyword='Agrobiodiversità',
+        )
+
+        Keyword.objects.create(
+            keyword='Turismo',
+        )
+
+        Keyword.objects.create(
+            keyword='Flora',
+        )
+
+        Keyword.objects.create(
+            keyword='Fauna',
+        )
+
+        Keyword.objects.create(
+            keyword='Ambiente',
+        )
+
+        Keyword.objects.create(
+            keyword='Vino',
         )

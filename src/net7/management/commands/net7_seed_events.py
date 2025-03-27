@@ -6,7 +6,7 @@ from events.models import Event
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 class Command(BaseCommand):
@@ -33,13 +33,33 @@ class Command(BaseCommand):
                 #status = self.getStatus(row['status'])
                 organisation = self.getOrganisations(row)
                 self.stdout.write(row['title'])
+
+                # Data di partenza (oggi)
+                data_inizio = datetime.now()
+
+                # Genera un numero casuale di giorni da 1 a 30
+                giorni_random = random.randint(1, 30)
+
+                # Calcola la nuova data nel futuro
+                data_futuro_start = data_inizio + timedelta(days=giorni_random)
+
+
                 # Converti la stringa in un oggetto datetime
                 date_object = datetime.strptime(row['start_date'], "%Y-%m-%d %H:%M:%S")
                 # Assicurati che l'oggetto datetime sia consapevole del fuso orario
-                start_date = timezone.make_aware(date_object)
+                start_date = timezone.make_aware(data_futuro_start)
 
-                date_object = datetime.strptime(row['end_date'], "%Y-%m-%d %H:%M:%S")
-                end_date = timezone.make_aware(date_object)
+                # Genera un numero casuale di giorni da 1 a 30
+                giorni_random = random.randint(31, 60)
+
+                data_futuro_end = data_inizio + timedelta(days=giorni_random)
+
+                #date_object = datetime.strptime(row['end_date'], "%Y-%m-%d %H:%M:%S")
+                end_date = timezone.make_aware(data_futuro_end)
+
+
+
+
 
                 event = Event.objects.create(
                     title=row['title'],
