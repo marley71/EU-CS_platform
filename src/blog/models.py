@@ -41,3 +41,9 @@ class Post(models.Model):
                     self.created_on.strftime('%m'),
                     self.created_on.strftime('%d'),
                     self.slug])
+
+    def imagePath(self):
+        if (self.image):
+            return '/media/' + str(self.image)
+
+        return '/media/default_blog.png'
