@@ -220,7 +220,7 @@ def userSearch(request):
     users = applyFilters(request, users)
     filters = setFilters(request, filters)
     users = users.distinct()
-
+    homeSearchCategories = request.GET.get('homeSearchCategories')
     # Ordering
     if request.GET.get('orderby'):
         if(request.GET.get('orderby') == 'name'):
@@ -280,6 +280,7 @@ def userSearch(request):
         'organisations': organisationsWithContent,
         'countriesWithContent': countriesWithContent,
         'filters': filters,
+        'homeSearchCategories': homeSearchCategories,
         'show_search_bar': False
     }
     return TemplateResponse(request, template_name, context)

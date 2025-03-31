@@ -11,15 +11,26 @@
                 {#                        action="/training_resources"#}
                 {#                    {% elif 'resources' in request.get_full_path %}#}
                 {#                        action="/resources"#}
-                {% if 'organisations' in request.get_full_path %}
+{#                {% if 'organisations' in request.get_full_path %}#}
+{#              action="/organisations"#}
+                    {#                    {% elif 'platforms' in request.get_full_path %}#}
+                    {#                        action= "/platforms"#}
+{#                {% elif 'users' in request.get_full_path %}#}
+{#              action="/users"#}
+{#                {% else %}#}
+{#              action="/projects"#}
+{#                {% endif %}#}
+         {% if 'organizzazioni' == homeSearchCategories %}
               action="/organisations"
                     {#                    {% elif 'platforms' in request.get_full_path %}#}
                     {#                        action= "/platforms"#}
-                {% elif 'users' in request.get_full_path %}
+                {% elif 'utenti' == homeSearchCategories %}
               action="/users"
                 {% else %}
               action="/projects"
-                {% endif %}>
+                {% endif %}
+
+        >
             <div class="d-flex align-items-center mt-3 gap-2">
 
                 <div class="input-group">
@@ -30,7 +41,7 @@
                            value="{{ filters.keywords }}"
                            class="basicAutoComplete form-control rounded-3"
                            placeholder="Inserisci una parola chiave"
-                           data-url="/home_autocomplete/"
+                           data-url="/home_autocomplete/?category={{ homeSearchCategories }}"
                     >
                 </div>
                 <div>
@@ -48,18 +59,18 @@
                     Cerca in:
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchProgettiId"
-                           value="progetti">
+                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchProgettiId" onchange="changeCategory()"
+                           value="progetti" {% if not homeSearchCategories or homeSearchCategories == 'progetti' %}checked{%  endif %}>
                     <label class="form-check-label" for="searchProgettiId">Progetti</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchOrganizzazioniId"
-                           value="organizzazioni">
+                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchOrganizzazioniId" onchange="changeCategory()"
+                           value="organizzazioni" {% if homeSearchCategories == 'organizzazioni' %}checked{%  endif %}>
                     <label class="form-check-label" for="searchOrganizzazioniId">Organizzazioni</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchUtentiId"
-                           value="utenti">
+                    <input class="form-check-input" type="radio" name="homeSearchCategories" id="searchUtentiId" onchange="changeCategory()"
+                           value="utenti" {% if homeSearchCategories == 'utenti' %}checked{%  endif %}>
                     <label class="form-check-label" for="searchUtentiId">Utenti</label>
                 </div>
             </div>
@@ -67,3 +78,18 @@
     </div>
 
 </div>
+<script>
+    function changeCategory() {
+        let cat = $('input[type="radio"][name="homeSearchCategories"]:checked').val();
+        let formAction = '/projects';
+        if (cat == 'organizzazioni') {
+            formAction = '/organisations'
+        } else if (cat == 'utenti') {
+            formAction = '/users'
+        }
+        console.debug('ok',cat,formAction);
+        $('#searchTop').attr('action',formAction);
+        $('#keywords').data('url','/home_autocomplete/?category=' + cat)
+
+    }
+</script>

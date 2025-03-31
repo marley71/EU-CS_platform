@@ -180,6 +180,10 @@ def organisations(request):
     countriesWithContent = Organisation.objects.all().values_list('country', flat=True).distinct()
     orgTypes = OrganisationType.objects.all()
     totalCount = len(organisations)
+
+    homeSearchCategories = request.GET.get('homeSearchCategories')
+    #return HttpResponse(homeSearchCategories)
+
     filters = {'keywords': '', 'orgTypes': '', 'country': '', 'orderby': ''}
     """
     if request.GET.get('keywords'):
@@ -260,6 +264,7 @@ def organisations(request):
         'countriesWithContent': countriesWithContent,
         'orgTypes': orgTypes,
         'isSearchPage': True,
+        'homeSearchCategories': homeSearchCategories,
         'show_search_bar': False})
 
 

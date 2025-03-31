@@ -248,8 +248,8 @@ def projects(request):
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
     totalProjects = len(projects.filter(approved=True))
-    
 
+    homeSearchCategories = request.GET.get('homeSearchCategories')
     countriesWithContent1 = projects.values_list(
         'mainOrganisation__country', flat=True).distinct()
     countriesWithContent2 = projects.values_list(
@@ -374,6 +374,7 @@ def projects(request):
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
         'isSearchPage': True,
+        'homeSearchCategories' : homeSearchCategories,
         'show_search_bar': False})
 
 @login_required
