@@ -2,55 +2,58 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from eucitizensciencetheme.models import Main, TopBar
 from django.db import connection
-from projects.models import HelpText,ProjectCountry,Keyword
+from projects.models import HelpText,ProjectCountry,Keyword, Topic, HasTag
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
 
     def handle(self, *args, **options):
+        confirmation = input("Sei sicuro di voler procedere? Tutti i dati presenti nel database andranno persi (y/n): [N] ").lower()
 
+        if confirmation == 'y':
+            # Chiama il comando migrate
+            self.stdout.write("Drop tutte le tabelle...")
+            self.drop_tables()
 
+            self.stdout.write("Eseguo il comando migrate...")
+            call_command('migrate')
 
+            # creo la platform iniziale
+            self.stdout.write("Creazione superuser")
+            call_command('createsuperuser')
 
-        # Chiama il comando migrate
-        self.stdout.write("Drop tutte le tabelle...")
-        self.drop_tables()
+            # creo la platform iniziale
+            self.stdout.write("Inserimento piattaforma")
+            self.createPlatform()
 
-        self.stdout.write("Eseguo il comando migrate...")
-        call_command('migrate')
+            self.stdout.write("Inserimento dati iniziali di sistema")
+            self.createSystemData()
 
-        # creo la platform iniziale
-        self.stdout.write("Creazione superuser")
-        call_command('createsuperuser')
+            self.stdout.write("Creazione tab menu")
+            self.creaMenuTab()
 
-        # creo la platform iniziale
-        self.stdout.write("Inserimento piattaforma")
-        self.createPlatform()
+            # Puoi chiamare altri comandi se necessario
+            #self.stdout.write("Eseguo il comando collectstatic...")
+            #call_command('collectstatic', verbosity=1, interactive=False)
+            call_command('loaddata','./organisations/fixtures/organisation_types.json')
+            call_command('loaddata', './projects/fixtures/participationtasks.json')
+            call_command('loaddata', './projects/fixtures/status.json')
+            call_command('loaddata', './projects/fixtures/topics.json')
+            call_command('loaddata', './projects/fixtures/difficultylevel.json')
+            call_command('loaddata', './projects/fixtures/hastag.json')
+            call_command('loaddata', './projects/fixtures/geographicextend.json')
+            call_command('loaddata', './resources/fixtures/audiences.json')
+            call_command('loaddata', './resources/fixtures/themes.json')
+            call_command('loaddata', './resources/fixtures/categories.json')
 
-        self.stdout.write("Inserimento dati iniziali di sistema")
-        self.createSystemData()
+            self.createCountries()
+            self.createKeywords()
+            self.createTopics()
+            self.createHasTags()
 
-        self.stdout.write("Creazione tab menu")
-        self.creaMenuTab()
-
-        # Puoi chiamare altri comandi se necessario
-        #self.stdout.write("Eseguo il comando collectstatic...")
-        #call_command('collectstatic', verbosity=1, interactive=False)
-        call_command('loaddata','./organisations/fixtures/organisation_types.json')
-        call_command('loaddata', './projects/fixtures/participationtasks.json')
-        call_command('loaddata', './projects/fixtures/status.json')
-        call_command('loaddata', './projects/fixtures/topics.json')
-        call_command('loaddata', './projects/fixtures/difficultylevel.json')
-        call_command('loaddata', './projects/fixtures/hastag.json')
-        call_command('loaddata', './projects/fixtures/geographicextend.json')
-        call_command('loaddata', './resources/fixtures/audiences.json')
-        call_command('loaddata', './resources/fixtures/themes.json')
-        call_command('loaddata', './resources/fixtures/categories.json')
-
-        self.createCountries()
-        self.createKeywords()
-
-        self.stdout.write("Comandi eseguiti con successo!")
+            self.stdout.write("Comandi eseguiti con successo!")
+        else:
+            self.stdout.write("Operazione annullata")
 
     def drop_tables(self):
         with connection.cursor() as cursor:
@@ -207,4 +210,56 @@ class Command(BaseCommand):
 
         Keyword.objects.create(
             keyword='Vino',
+        )
+
+    def createTopics(self):
+        Topic.objects.create(
+            topic='Animali'
+        )
+        Topic.objects.create(
+            topic='Biodiversità'
+        )
+        Topic.objects.create(
+            topic='Biogeografia'
+        )
+        Topic.objects.create(
+            topic='Ecologia & ambiente'
+        )
+        Topic.objects.create(
+            topic='Cultura indigena'
+        )
+        Topic.objects.create(
+            topic='Monitoraggio'
+        )
+        Topic.objects.create(
+            topic='Gestione di risorse naturali'
+        )
+        Topic.objects.create(
+            topic='Monitoraggio specie'
+        )
+        Topic.objects.create(
+            topic='Natura'
+        )
+
+    def createHasTags(self):
+        HasTag.objects.create(
+            hasTag='Apprendimento'
+        )
+        HasTag.objects.create(
+            hasTag='Osservazione'
+        )
+        HasTag.objects.create(
+            hasTag='Identificazione'
+        )
+        HasTag.objects.create(
+            hasTag='Inserimento dati'
+        )
+        HasTag.objects.create(
+            hasTag='Geolocalizazione'
+        )
+        HasTag.objects.create(
+            hasTag='Classificazione'
+        )
+        HasTag.objects.create(
+            hasTag='Etichettatura'
         )

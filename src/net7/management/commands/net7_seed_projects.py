@@ -2,12 +2,14 @@ import csv
 import os
 import random
 from django.core.management.base import BaseCommand,CommandError
-from projects.models import Project,Status,ProjectCountry,Keyword
+from projects.models import Project,Status,ProjectCountry,Keyword,Topic,HasTag
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
 from django.db.models import Q
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 class Command(BaseCommand):
     help = 'Seed projects'
@@ -29,12 +31,16 @@ class Command(BaseCommand):
             if not rows:
                 raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
 
+            start_period = "2020-01-01 00:00:00"
+            end_period = "2025-07-31 23:59:59"
+
             for row in rows:
                 status = self.getStatus(row['status'])
                 organisation = self.getOrganisations(row)
                 country = ProjectCountry.objects.filter(country='IT').first()
                 keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['name'])
+                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
                 project = Project.objects.create(
                     name=row['name'],
                     description=row['description'],
@@ -47,6 +53,8 @@ class Command(BaseCommand):
                     creator_id=1, # id superadmin
                     mainOrganisation=organisation,
                     country=country.country,
+                    start_date=timezone.make_aware(start_date),
+                    end_date=timezone.make_aware(end_date),
                     #keyword=keyword.keyword,
                     #organisation=organisation
                 )
@@ -112,3 +120,44 @@ class Command(BaseCommand):
             descriptions.remove(random_description)  # Rimuovilo dalla lista
             keyword = Keyword.objects.filter(keyword=random_description).first()
             project.keywords.add(keyword)
+
+        topics = list(Topic.objects.all().values_list('topic', flat=True))
+        for i in range(1, 4):
+            random_description = random.choice(topics)  # Prendi un elemento casuale
+            topics.remove(random_description)  # Rimuovilo dalla lista
+            topic = Topic.objects.filter(topic=random_description).first()
+            project.topic.add(topic)
+
+        hastags = list(HasTag.objects.all().values_list('hasTag', flat=True))
+        for i in range(1, 4):
+            random_description = random.choice(hastags)  # Prendi un elemento casuale
+            hastags.remove(random_description)  # Rimuovilo dalla lista
+            hastag = HasTag.objects.filter(hasTag=random_description).first()
+            project.hasTag.add(hastag)
+
+    def generate_start_end_dates(self,startDate, endDate):
+        # Converti le date in oggetti datetime
+        start_date = datetime.strptime(startDate, "%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(endDate, "%Y-%m-%d %H:%M:%S")
+
+        # Calcola la differenza tra le due date
+        delta = end_date - start_date
+
+        # Genera un numero casuale di giorni per start_date
+        random_start_days = random.randint(0, delta.days)
+
+        # Crea start_date
+        generated_start_date = start_date + timedelta(days=random_start_days)
+
+        # Calcola il numero di giorni rimanenti per end_date
+        remaining_days = delta.days - random_start_days
+
+        # Genera un numero casuale di giorni per end_date, garantendo che sia dopo start_date
+        if remaining_days > 0:
+            random_end_days = random.randint(1, remaining_days)
+            generated_end_date = generated_start_date + timedelta(days=random_end_days)
+        else:
+            # Se non ci sono giorni rimanenti, end_date deve essere uguale a start_date, ma spostata in avanti (1 giorno)
+            generated_end_date = generated_start_date + timedelta(days=1)
+
+        return generated_start_date, generated_end_date

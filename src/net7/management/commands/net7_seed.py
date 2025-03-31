@@ -8,6 +8,8 @@ class Command(BaseCommand):
     help = 'Seed dati principali'
 
     def handle(self, *args, **options):
+        self.stdout.write("Eseguo il comando create users ...")
+        call_command('net7_seed_users')
 
         self.stdout.write("Eseguo il comando populate projects...")
         call_command('net7_seed_projects')
