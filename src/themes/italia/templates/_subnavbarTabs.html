@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load active_link_tags %}
+{% load static %}
+
+<div class="row">
+    <div class="col-12">
+        <nav class="navbar navbar-light pb-0 pl-0 border-top-0 border-end-0 border-start-0 boder-0 mb-3 subnavbar">
+            <ul class="nav nav-tabs w-100 d-flex justify-content-center">
+                <li class="nav-item text-start subnavbar-item">
+                    <a class="nav-link ps-4  {% active_link 'projects' %}"
+                       href="
+                               {% url 'projects' %}{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
+                        <svg class="bi mb-1" width="18" height="18" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
+                        </svg>
+                         {% trans "Projects" %} {% if filters.keywords != "" %} ({{ projectsCounter }}) {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item subnavbar-item">
+                    <a class="nav-link ps-4  {% active_link 'organisations' %}"
+                       href="
+                               {% url 'organisations' %}{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
+                        <svg class="bi mb-1" width="18" height="18" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#buildings"/>
+                        </svg>
+                        {% trans "Organisations" %} {% if filters.keywords != "" %} ({{ organisationsCounter }}) {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item subnavbar-item">
+                    <a class="nav-link ps-4  {% active_link 'profiles:users' %}"
+                       href="/users/{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
+                        <svg class="bi mb-1" width="18" height="18" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#people"/>
+                        </svg>
+                         {% trans "Users" %} {% if filters.keywords != "" %} ({{ usersCounter }}) {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
