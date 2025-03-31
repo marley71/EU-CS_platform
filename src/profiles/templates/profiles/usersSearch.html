@@ -16,9 +16,11 @@
                 {% if users %}
                 <div class="row">
                     {% for member in users %}
-                    
-                        {% include "profiles/_user_card.html" %}
-                    
+
+                        <a href="/users/{{ member.slug }}">
+                            {% include "includes/card_utente.html" with member=member %}
+                        </a>
+
                     {% endfor %}
                 </div>
                 {% endif %}
