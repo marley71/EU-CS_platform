@@ -2,181 +2,178 @@
 {% load static %}
 {% load countries %}
 {% get_countries as countries %}
-<div class="accordion acordion-flush mb-3 mt-2" id="accordion-filters">
-    <div class="">
-        <div class="accordion-header" id="flush-headingOne">
-            <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
-<div class="row">
+
+
+<div>
     <form class="form-inline float-lg-right" id="searchProjects" action="{% url 'projects' %}">
-        <input type="hidden" name="keywords" value="{{filters.keywords}}" />
-        <div class="col-12">
-            <div class="input-group input-group-sm">
-                <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
-                <select id="orderby" name="orderby" class="custom-select status-select form-control">
-                    <option value="" {% if filters.orderby == "" %} selected {% endif %}>
-                        {% trans "Most Recent Updated" %}
-                    </option>
-                    <option value="totalAccesses" {% if filters.orderby == "totalAccesses" %} selected {% endif %}>
-                        {% trans "Total Accesses" %}
-                    </option>
-                    <option value="totalLikes" {% if filters.orderby == "totalLikes" %} selected {% endif %}>
-                        {% trans "Total Likes" %}
-                    </option>
-                    <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
-                        {% trans "A-Z" %}
-                    </option>
-                    <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>
-                        {% trans "Most Recent Created" %}
-                    </option>
-                    <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>
-                        {% trans "Featured" %}
-                    </option>
-                </select>
-                <div class="input-group-text"><i class="fas fa-filter"></i></div>
-                <select id="country" name="country" class="custom-select status-select form-control">
-                    <option value="">{% trans "Country" %}
-                    <option>
-                        {% for country in countries %}{% for cwc in countriesWithContent %}{% if country.code == cwc %}
-                    <option {% if country.code == filters.country %} selected {% endif %} value="{{ country.code }}"> {{ country.name }}</option>
-                    {% endif %}{% endfor %}{% endfor %}
-                </select>
+        <input type="hidden" name="keywords" value="{{ filters.keywords }}"/>
+        <div class="row">
 
-                <select id="status" name="status" class="custom-select status-select form-control">
-                    <option value="">{% trans "Status" %}
-                    <option>
-                        {% for s in status %}
-                    <option {% if s.status == filters.status %} selected {% endif %} value="{{s.status}}">
-                        {{s.status|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <select id="hasTag" name="hasTag" class="custom-select status-select form-control">
-                    <option value="">{% trans "Tag" %}
-                    <option>
-                        {% for h in hasTag %}
-                    <option {% if h.hasTag == filters.hasTag %} selected {% endif %} value="{{h.hasTag}}">
-                        {{h.hasTag|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
-
-                <select id="difficultyLevel" name="difficultyLevel" class="custom-select status-select form-control">
-                    <option value="">{% trans "Difficulty Level" %}
-                    <option>
-                        {% for d in difficultyLevel %}
-                    <option {% if d.difficultyLevel == filters.difficultyLevel %} selected {% endif %}
-                        value="{{d.difficultyLevel}}">
-                        {{d.difficultyLevel|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
-
-                <select id="topic" name="topic" class="custom-select status-select form-control">
+                <label for="topic">Argomento scientifico</label>
+                <select id="topic" name="topic" class="custom-select status-select form-select">
                     <option value="">{% trans "Topic" %}</option>
                     {% for topic in topics %}
-                    <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{topic}}">
-                        {{topic|capfirst}}
-                    </option>
+                        <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{ topic }}">
+                            {{ topic|capfirst }}
+                        </option>
                     {% endfor %}
                 </select>
 
+            </div>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="country">Regione</label>
+
+
+                <select id="country" name="country" class="custom-select status-select form-select">
+                    <option value="">{% trans "Seleziona" %}
+                    <option>
+                        {% for country in countries %}{% for cwc in countriesWithContent %}
+                            {% if country.code == cwc %}
+                                <option {% if country.code == filters.country %} selected {% endif %}
+                                                                                 value="{{ country.code }}"> {{ country.name }}</option>
+                            {% endif %}{% endfor %}{% endfor %}
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="participationTask">Attività di partecipazione</label>
                 <select id="participationTask" name="participationTask"
-                    class="custom-select status-select form-control">
+                        class="form-select">
                     <option value="">{% trans "Participation Task" %}</option>
                     {% for p in participationTask %}
-                    <option {% if p.participationTask == filters.participationTask %} selected {% endif %} value="{{p}}">
-                        {{p|capfirst}}
-                    </option>
+                        <option {% if p.participationTask == filters.participationTask %} selected {% endif %}
+                                                                                          value="{{ p }}">
+                            {{ p|capfirst }}
+                        </option>
                     {% endfor %}
                 </select>
 
-                {% if user.is_staff %}
-                <select id="approved" name="approved" class="custom-select status-select form-control">
-                    <option value="approved" {% if filters.approved == "approved" %} selected {% endif %}>
-                        {% trans "Approved" %}
-                    </option>
-                    <option value="notApproved" {% if filters.approved == "notApproved" %} selected {% endif %}>
-                        {% trans "Not Approved" %}</option>
-                    <option value="notYetModerated" {% if filters.approved == "notYetModerated" %} selected {% endif %}>
-                        {% trans "Not yet moderated" %}</option>
-                </select>
-                {% endif %}
             </div>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="status">Stato progetto</label>
+                <select id="status" name="status" class="form-select">
+                    <option value="">{% trans "Seleziona" %}
+                    <option>
+                        {% for s in status %}
+                            <option {% if s.status == filters.status %} selected {% endif %} value="{{ s.status }}">
+                                {{ s.status|capfirst }}
+                            </option>
+                        {% endfor %}
+                </select>
+            </div>
+
+            {#            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">#}
+            {##}
+            {#                <label for="status">Status</label>#}
+            {#                <select id="hasTag" name="hasTag" class="custom-select status-select form-control">#}
+            {#                    <option value="">{% trans "Tag" %}#}
+            {#                    <option>#}
+            {#                        {% for h in hasTag %}#}
+            {#                            <option {% if h.hasTag == filters.hasTag %} selected {% endif %} value="{{ h.hasTag }}">#}
+            {#                                {{ h.hasTag|capfirst }}#}
+            {#                            </option>#}
+            {#                        {% endfor %}#}
+            {#                </select>#}
+            {##}
+            {#            </div>#}
+
+
         </div>
         <div class="row">
             <div class="col-12 mt-2">
                 {% if filters.keywords %}
-                <a class="badge rounded-pill bg-my-darkGreen search-filter" id="pill-keywords" style="cursor: pointer">
-                    <i class="fas fa-times"></i> {{filters.keywords}}
-                </a>
+                    <a class="badge badge-card-main search-filter" id="pill-keywords"
+                       style="cursor: pointer">
+                        <i class="fas fa-times"></i> {{ filters.keywords }}
+                    </a>
                 {% endif %}
                 {% if filters.country %}
-                <a class="badge rounded-pill bg-dark" id="pill-country" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Country:" %} {{filters.country}}
-                </a>
+                    <a class="badge badge-card-main" id="pill-country" style="cursor: pointer">
+                        <i class="fas fa-times"></i>
+                        {% trans "Country:" %} {{ filters.country }}
+                    </a>
                 {% endif %}
                 {% if filters.status %}
-                <a class="badge rounded-pill bg-dark" id="pill-status" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Status:" %} {{filters.status}}
-                </a>
+                    <a class="badge badge-card-main" id="pill-status" style="cursor: pointer">
+                        <i class="fas fa-times"></i>
+                        {% trans "Status:" %} {{ filters.status }}
+                    </a>
                 {% endif %}
                 {% if filters.hasTag %}
-                <a class="badge rounded-pill bg-my-lightBlue" id="pill-hasTag" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Hastag:" %} {{filters.hasTag}}
-                </a>
-                {% endif %}
-                {% if filters.difficultyLevel %}
-                <a class="badge rounded-pill bg-my-lightGreen" id="pill-difficultyLevel" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Difficulty level:" %} {{filters.difficultyLevel}}
-                </a>
+                    <a class="badge badge-card-main" id="pill-hasTag" style="cursor: pointer">
+                        <i class="fas fa-times"></i>
+                        {% trans "Hastag:" %} {{ filters.hasTag }}
+                    </a>
                 {% endif %}
                 {% if filters.topic %}
-                <a class="badge rounded-pill bg-my-darkBlue" id="pill-topic" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Topic:" %} {{filters.topic}}
-                </a>
+                    <a class="badge badge-card-main" id="pill-topic" style="cursor: pointer">
+                        <i class="fas fa-times"></i>
+                        {% trans "Topic:" %} {{ filters.topic }}
+                    </a>
                 {% endif %}
                 {% if filters.participationTask %}
-                <a class="badge rounded-pill bg-my-lightGreen pointer" id="pill-participationTask" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Participation task:" %} {{filters.participationTask}}
-                </a>
+                    <a class="badge badge-card-main pointer" id="pill-participationTask"
+                       style="cursor: pointer">
+                        <i class="fas fa-times"></i>
+                        {% trans "Participation task:" %} {{ filters.participationTask }}
+                    </a>
                 {% endif %}
                 <!-- TODO: improve next condition -->
                 {% if request.get_full_path != "/projects" %}
                     {% if filters.keywords != "" %}
-                    <a class="badge rounded-pill bg-danger text-decoration-none" href="/projects">
-                        <i class="fas fa-times"></i> {% trans "Clear search and filters" %}
-                    </a>
+                        <a class="badge rounded-pill bg-danger text-decoration-none" href="/projects">
+                            <i class="fas fa-times"></i> {% trans "Clear search and filters" %}
+                        </a>
                     {% endif %}
                 {% endif %}
                 {% if filters.keywords != "" %}
-                <div class="small mt-3">
-                    <span class"subnavbarCounter-text">
+                    <div class="small mt-3">
+                        <span class"subnavbarCounter-text">
                         {{ counter }}
                         {% if counter != 1 %}
-                        {% trans "projects found for " %} "{{filters.keywords}}" of {{totalProjects}}
+                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}
                         {% else %}
-                        {% trans "project found for " %} "{{filters.keywords}}" of {{totalProjects}}
+                            {% trans "project found for " %} "{{ filters.keywords }}" of {{ totalProjects }}
                         {% endif %}
-                    </span>
-                </div>
+                        </span>
+                    </div>
                 {% endif %}
             </div>
         </div>
+        <div>
+            <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i
+                    class="fas fa-sort-amount-down"></i></div>
+            <select id="orderby" name="orderby" class="custom-select status-select form-control">
+                <option value="" {% if filters.orderby == "" %} selected {% endif %}>
+                    {% trans "Most Recent Updated" %}
+                </option>
+                <option value="totalAccesses" {% if filters.orderby == "totalAccesses" %} selected {% endif %}>
+                    {% trans "Total Accesses" %}
+                </option>
+                <option value="totalLikes" {% if filters.orderby == "totalLikes" %} selected {% endif %}>
+                    {% trans "Total Likes" %}
+                </option>
+                <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
+                    {% trans "A-Z" %}
+                </option>
+                <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>
+                    {% trans "Most Recent Created" %}
+                </option>
+                <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>
+                    {% trans "Featured" %}
+                </option>
+            </select>
+
+        </div>
     </form>
 </div>
-</div>
-</div>
-</div>
 <script>
-  
+
 
 </script>
