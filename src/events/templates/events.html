@@ -9,26 +9,28 @@
 {% block list_of_items %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
-<!-- Search form -->
- <div class="container">
-	 <div class="row">
-    <div class="col-12 mt-4">
-       <!-- <form method="GET" action="" style="margin-bottom: 32px; display: flex; justify-content: center; padding-top: 20px; width: 100%;">
-            <input id="q" type="text" class="form-border-Blue" name="q" placeholder="Search..." value="{{ filters.q }}" style="flex-grow: 1; margin-right: 24px;">
-            <input type="submit" value="Search" class="btn btn-my-outline-darkGreen" style="padding-left: 40px; padding-right: 40px;">
-        </form>-->
-        {% include "_finder_events.html" %}
-    </div>
-	 </div>
-</div> 
-<!-- End of search form -->
+{#<!-- Search form -->#}
+{# <div class="container">#}
+{#	 <div class="row">#}
+{#    <div class="col-12 mt-4">#}
+{#       <!-- <form method="GET" action="" style="margin-bottom: 32px; display: flex; justify-content: center; padding-top: 20px; width: 100%;">#}
+{#            <input id="q" type="text" class="form-border-Blue" name="q" placeholder="Search..." value="{{ filters.q }}" style="flex-grow: 1; margin-right: 24px;">#}
+{#            <input type="submit" value="Search" class="btn btn-my-outline-darkGreen" style="padding-left: 40px; padding-right: 40px;">#}
+{#        </form>-->#}
+{#        {% include "_finder_events.html" %}#}
+{#    </div>#}
+{#	 </div>#}
+{#</div> #}
+{#<!-- End of search form -->#}
 
 <div class="container">
     {% if ongoingEvents %}
     <h1>{% trans "On going <strong>events</strong>" %}{% if q %} ({{ num_ongoingEvents }}){% endif %}</h1>
     <div class="row">
             {% for event in ongoingEvents %}
-            {% include "_events_card.html" %}
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                {% include "includes/card_evento.html" with event=event %}
+            </div>
             {% endfor %}
     </div>
     {% endif %}
@@ -38,7 +40,9 @@
     <h1>{% trans "Upcoming <span class='lightBlue-color'>events</span>" %}{% if q %} ({{ num_upcomingEvents }}){% endif %}</h1>
     <div class="row">
             {% for event in events %}
-            {% include "_events_card.html" %}
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                {% include "includes/card_evento.html" with event=event %}
+            </div>
             {% endfor %}
     </div>
     {% endif %}
@@ -47,7 +51,9 @@
     <h1 class="mt-5">{% trans "Past <span class='lightBlue-color'>events</span>" %}{% if q %} ({{ num_pastEvents }}){% endif %}</h1>
     <div class="row">
             {% for event in pastEvents %}
-            {% include "_events_card.html" %}
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                {% include "includes/card_evento.html" with event=event %}
+            </div>
             {% endfor %}
     </div>
 
