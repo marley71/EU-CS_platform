@@ -11915,4 +11915,12 @@ textarea.form-control-lg {
   border: 1px solid rgb(101.2, 50.4, 8);
 }
 
+.badge-tag {
+  color: #fff;
+  background-color: #33336A;
+  border: 1px solid #13133F;
+  padding: 2px;
+  border-radius: 1px;
+}
+
 /*# sourceMappingURL=italia.css.map */
