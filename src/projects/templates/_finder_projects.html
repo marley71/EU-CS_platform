@@ -12,7 +12,10 @@
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
                 <label for="topic">Argomento scientifico</label>
-                <select id="topic" name="topic" class="custom-select status-select form-select">
+
+                <select
+                        class="custom-select status-select form-select form-multi-select" id="topic" multiple data-coreui-search="global">
+                        name="topic" >
                     <option value="">{% trans "Topic" %}</option>
                     {% for topic in topics %}
                         <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{ topic }}">
