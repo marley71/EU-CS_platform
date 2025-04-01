@@ -40,5 +40,12 @@
             "status_code": "abandoned",
             "status": "Abandoned"
         }
+    },
+    {
+        "model": "projects.status",
+        "fields": {
+            "status_code": "published",
+            "status": "Published"
+        }
     }
 ]

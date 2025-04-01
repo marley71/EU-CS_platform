@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'Progetti_di_CS.csv')
+        csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
@@ -35,33 +35,35 @@ class Command(BaseCommand):
             end_period = "2025-07-31 23:59:59"
 
             for row in rows:
-                status = self.getStatus(row['status'])
+                status = self.getStatus(row['Stato di attività'])
                 organisation = self.getOrganisations(row)
-                country = ProjectCountry.objects.filter(country='IT').first()
-                keyword = Keyword.objects.filter(keyword='Importazione').first()
-                self.stdout.write(row['name'])
+                country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                #keyword = Keyword.objects.filter(keyword='Importazione').first()
+                self.stdout.write(row['Nome del progetto'])
                 start_date, end_date = self.generate_start_end_dates(start_period, end_period)
                 project = Project.objects.create(
-                    name=row['name'],
-                    description=row['description'],
-                    description_it=row['description'],
-                    aim=row['aim'],
-                    aim_it=row['aim'],
-                    url=row['url'],
+                    name=row['Nome del progetto'],
+                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    aim=row['Scopo principale del progetto'],
+                    aim_it=row['Scopo principale del progetto'],
+                    url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
                     creator_id=1, # id superadmin
                     mainOrganisation=organisation,
-                    country=country.country,
+                    #country=country.country,
                     start_date=timezone.make_aware(start_date),
                     end_date=timezone.make_aware(end_date),
+                    dateUpdated=timezone.make_aware(end_date),
                     #keyword=keyword.keyword,
                     #organisation=organisation
                 )
+                project.projectCountry.add(country)
                 project.organisation.add(organisation)
-                project.keywords.add(keyword)
-                self.setKeywords(project)
-                self.setImage(project)
+                #project.keywords.add(keyword)
+                self.setKeywords(project,row)
+                self.setImage(project,row)
 #                 MyModel.objects.create(
 #                     name=row['name'],
 #                     description=row['description']
@@ -78,8 +80,8 @@ class Command(BaseCommand):
             )
         return status
 
-    def getOrganisations(self,data):
-        org = Organisation.objects.filter(name=data['organisation']).first()
+    def getOrganisations(self,row):
+        org = Organisation.objects.filter(name=row['Principale organizzazione promotrice']).first()
         if org == None:
 
             orgType = OrganisationType.objects.filter(type='default').first()
@@ -90,7 +92,7 @@ class Command(BaseCommand):
                 )
             latitudine, longitudine = self.genera_coordinate_italia()
             org = Organisation.objects.create(
-                name=data['organisation'],
+                name=row['Principale organizzazione promotrice'],
                 creator_id=1,
                 orgType=orgType,
                 latitude=latitudine,
@@ -104,36 +106,48 @@ class Command(BaseCommand):
         longitudine = random.uniform(6.6, 18.5)
         return latitudine, longitudine
 
-    def setImage(self,project):
-        numero_casuale = random.randint(1, 10)
-        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/p' + str(numero_casuale) + '.png'
-        self.stdout.write('base path ' + image_path )
+    def setImage(self,project,row):
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/Immagini_progetti/' + row['immagine']
+        self.stdout.write('base path ' + image_path)
         # Associa il file immagine al modello
         with open(image_path, 'rb') as image_file:
-            project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
+            project.image1.save(row['immagine'], File(image_file), save=True)
 
-    def setKeywords(self,project):
-        descriptions = list(Keyword.objects.exclude(
-            Q(keyword="Importazione") ).values_list('keyword',flat=True))
-        for i in range(1, 5):
-            random_description = random.choice(descriptions)  # Prendi un elemento casuale
-            descriptions.remove(random_description)  # Rimuovilo dalla lista
-            keyword = Keyword.objects.filter(keyword=random_description).first()
-            project.keywords.add(keyword)
+        # numero_casuale = random.randint(1, 10)
+        # image_path = str(settings.BASE_DIR) + '/../resources/demo/images/p' + str(numero_casuale) + '.png'
+        # self.stdout.write('base path ' + image_path )
+        # # Associa il file immagine al modello
+        # with open(image_path, 'rb') as image_file:
+        #     project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
 
-        topics = list(Topic.objects.all().values_list('topic', flat=True))
-        for i in range(1, 4):
-            random_description = random.choice(topics)  # Prendi un elemento casuale
-            topics.remove(random_description)  # Rimuovilo dalla lista
-            topic = Topic.objects.filter(topic=random_description).first()
-            project.topic.add(topic)
+    def setKeywords(self,project,row):
+        keywords = str(row['TAGs/Keywords'])
+        for keyword in keywords.split(','):
+            kModel = Keyword.objects.get_or_create(keyword=keyword.strip())
+            self.stdout.write(kModel[0].keyword)
+            project.keywords.add(kModel[0])
 
-        hastags = list(HasTag.objects.all().values_list('hasTag', flat=True))
-        for i in range(1, 4):
-            random_description = random.choice(hastags)  # Prendi un elemento casuale
-            hastags.remove(random_description)  # Rimuovilo dalla lista
-            hastag = HasTag.objects.filter(hasTag=random_description).first()
-            project.hasTag.add(hastag)
+        # descriptions = list(Keyword.objects.exclude(
+        #     Q(keyword="Importazione") ).values_list('keyword',flat=True))
+        # for i in range(1, 5):
+        #     random_description = random.choice(descriptions)  # Prendi un elemento casuale
+        #     descriptions.remove(random_description)  # Rimuovilo dalla lista
+        #     keyword = Keyword.objects.filter(keyword=random_description).first()
+        #     project.keywords.add(keyword)
+        #
+        # topics = list(Topic.objects.all().values_list('topic', flat=True))
+        # for i in range(1, 4):
+        #     random_description = random.choice(topics)  # Prendi un elemento casuale
+        #     topics.remove(random_description)  # Rimuovilo dalla lista
+        #     topic = Topic.objects.filter(topic=random_description).first()
+        #     project.topic.add(topic)
+        #
+        # hastags = list(HasTag.objects.all().values_list('hasTag', flat=True))
+        # for i in range(1, 4):
+        #     random_description = random.choice(hastags)  # Prendi un elemento casuale
+        #     hastags.remove(random_description)  # Rimuovilo dalla lista
+        #     hastag = HasTag.objects.filter(hasTag=random_description).first()
+        #     project.hasTag.add(hastag)
 
     def generate_start_end_dates(self,startDate, endDate):
         # Converti le date in oggetti datetime

@@ -11,7 +11,7 @@ class Command(BaseCommand):
         confirmation = input("Sei sicuro di voler procedere? Tutti i dati presenti nel database andranno persi (y/n): [N] ").lower()
 
         if confirmation == 'y':
-            # Chiama il comando migrate
+            #Chiama il comando migrate
             self.stdout.write("Drop tutte le tabelle...")
             self.drop_tables()
 
@@ -47,9 +47,10 @@ class Command(BaseCommand):
             call_command('loaddata', './resources/fixtures/categories.json')
 
             self.createCountries()
-            self.createKeywords()
-            self.createTopics()
-            self.createHasTags()
+
+            #self.createKeywords()
+            #self.createTopics()
+            #self.createHasTags()
 
             self.stdout.write("Comandi eseguiti con successo!")
         else:
@@ -168,12 +169,140 @@ class Command(BaseCommand):
         )
 
     def createCountries(self):
+        # ProjectCountry.objects.create(
+        #     country='IT',
+        #     country_name='Italy',  # row['Common'],
+        #     latitude=42.638426,
+        #     longitude=12.674724,
+        # )
+
+        pc = ProjectCountry.objects.create(
+            country='IT',
+            country_name='Abruzzo',  # row['Common'],
+            latitude=42.219,
+            longitude=13.2357,
+        )
+        # pc.country_name = 'Abruzzo'
+        # pc.save()
         ProjectCountry.objects.create(
             country='IT',
-            country_name='Italy',  # row['Common'],
-            longitude=42.638426,
-            latitude=12.674724,
+            country_name='Basilicata',  # row['Common'],
+            latitude=40.3820,
+            longitude=15.4812,
         )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Calabria',  # row['Common'],
+            latitude=38.5422,
+            longitude=16.3535,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Campania',  # row['Common'],
+            latitude=40.5114,
+            longitude=14.152,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Emilia Romagna',  # row['Common'],
+            latitude=44.2944,
+            longitude=11.2048,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Friuli Venezia Giulia',  # row['Common'],
+            latitude=45.3858,
+            longitude=13.4620,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Lazio',  # row['Common'],
+            latitude=41.5427,
+            longitude=12.2924,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Liguria',  # row['Common'],
+            latitude=44.2417,
+            longitude=8.568,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Lombardia',  # row['Common'],
+            latitude=45.2757,
+            longitude=9.1124,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Marche',  # row['Common'],
+            latitude=43.3715,
+            longitude=13.3051,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Molise',  # row['Common'],
+            latitude=41.3336,
+            longitude=14.3937,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Piemonte',  # row['Common'],
+            latitude=45.358,
+            longitude=7.4056,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Puglia',  # row['Common'],
+            latitude=41.745,
+            longitude=16.5211,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Sardegna',  # row['Common'],
+            latitude=39.137,
+            longitude=9.74,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Sicilia',  # row['Common'],
+            latitude=38.70,
+            longitude=13.2143,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Toscana',  # row['Common'],
+            latitude=43.4628,
+            longitude=11.1529,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Trentino Alto Adige',  # row['Common'],
+            latitude=46.47,
+            longitude=11.722,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Umbria',  # row['Common'],
+            latitude=43.649,
+            longitude=12.2323,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Valle d\'Aosta',  # row['Common'],
+            latitude=45.4418,
+            longitude=7.1914,
+        )
+        ProjectCountry.objects.create(
+            country='IT',
+            country_name='Veneto',  # row['Common'],
+            latitude=45.2617,
+            longitude=12.1939,
+        )
+
+
+
+
+
 
     def createKeywords(self):
         Keyword.objects.create(

@@ -196,6 +196,14 @@
                         // Add the marker to the feature group
                         marker.addTo(projects);
                     }
+                    /*
+                    var zonesData = JSON.parse(xhr1.responseText).zones;
+                    console.debug('zones',zonesData)
+                    L.geoJSON(zonesData, {
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup(feature.properties.name);
+                        }
+                    }).addTo(map);*/
                 }
             };
 

@@ -3,6 +3,7 @@ import os
 import random
 from django.core.management.base import BaseCommand,CommandError
 from blog.models import Post
+from projects.models import Status
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
@@ -16,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'blog-posts.csv')
+        csv_file = os.path.join(basedir, 'resources', 'blog-posts - blog-posts.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
@@ -31,7 +32,7 @@ class Command(BaseCommand):
                 raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
 
             for row in rows:
-                #status = self.getStatus(row['status'])
+                status = self.getStatus(row['status'])
                 organisation = self.getOrganisations(row)
                 self.stdout.write(row['title'])
                 # Converti la stringa in un oggetto datetime
@@ -40,18 +41,17 @@ class Command(BaseCommand):
                 created_on = timezone.make_aware(date_object)
 
 
-
                 post = Post.objects.create(
                     title=row['title'],
                     slug=row['slug'],
                     content=row['content'],
                     created_on=created_on,
-                    status=1,
+                    status=status.id,
                     author_id=1, # id superadmin
                     #organisation=organisation
 
                 )
-                self.setImage(post)
+                self.setImage(post,row)
                 #event.organisations.add(organisation)
 #                 MyModel.objects.create(
 #                     name=row['name'],
@@ -61,11 +61,12 @@ class Command(BaseCommand):
         self.stdout.write('Database seeded successfully!')
 
     def getStatus(self,code):
-        status = Status.objects.filter(status=code).first()
+        status = Status.objects.filter(status_code=code).first()
         if status == None:
             status = Status.objects.create(
-                status=code,
-                status_it=code,
+                status_code=code,
+                status=code.capitalize(),
+                status_it=code.capitalize(),
             )
         return status
 
@@ -87,10 +88,16 @@ class Command(BaseCommand):
         #     )
         # return org
 
-    def setImage(self,post):
-        numero_casuale = random.randint(1, 6)
-        image_path = str(settings.BASE_DIR) + '/../resources/demo/images/e' + str(numero_casuale) + '.png'
-        self.stdout.write('base path ' + image_path )
+    def setImage(self,post,row):
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/Immagini_blog/' + row['immagine']
+        self.stdout.write('base path ' + image_path)
         # Associa il file immagine al modello
         with open(image_path, 'rb') as image_file:
-            post.image.save(str(post.id) + str(numero_casuale) + '.png', File(image_file), save=True)
+            post.image.save(row['immagine'], File(image_file), save=True)
+
+        # numero_casuale = random.randint(1, 6)
+        # image_path = str(settings.BASE_DIR) + '/../resources/demo/images/e' + str(numero_casuale) + '.png'
+        # self.stdout.write('base path ' + image_path )
+        # # Associa il file immagine al modello
+        # with open(image_path, 'rb') as image_file:
+        #     post.image.save(str(post.id) + str(numero_casuale) + '.png', File(image_file), save=True)

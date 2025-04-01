@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Seed users'
 
     def handle(self, *args, **kwargs):
-        for i in range(1, 4):
+        for i in range(1, 10):
             user = self.createUser(i)
             self.updateProfile(user.id)
 

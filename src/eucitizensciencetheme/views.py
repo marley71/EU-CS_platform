@@ -15,6 +15,7 @@ from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event
 from django.shortcuts import get_object_or_404
+from django.core.serializers import serialize
 
 # Create your views here, in alphabetical order
 
@@ -56,6 +57,7 @@ def get_projects(request):
     projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
 
     markers = []
+    zones = [];
     for project in projects:
         # Check if the project has projectCountry related
         if project.projectCountry.exists():
@@ -79,8 +81,8 @@ def get_projects(request):
             }
             markers.append(marker)
         # Not add marker if there is no projectCountry and mainOrganisation
-
-    return JsonResponse({'markers': markers})
+    #zones.append(serialize('geojson', projects))
+    return JsonResponse({'markers': markers, 'zones': zones})
 
 def get_organisations(request):
     # Filter approved projects with non-null mainOrganisation

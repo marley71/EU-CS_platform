@@ -29,7 +29,7 @@ class ProjectCountry(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.country_name = self.country.name  # Almacena el nombre del país antes de guardar
+        #self.country_name = self.country.name  # Almacena el nombre del país antes de guardar
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'events-fake.csv')
+        csv_file = os.path.join(basedir, 'resources', 'events - events.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
