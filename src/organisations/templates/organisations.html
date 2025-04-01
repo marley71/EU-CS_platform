@@ -5,20 +5,48 @@
 {% block title %}{{ block.super }} :: Organisations{% endblock %}
 
 {% block list_of_items %}
-<div class="container">
-    <div clas="row">
-	    <div class="col-12 mt-4">
-        {% include "_subnavbarNew.html" %}
-        {% include "_subnavbarTabs.html" %}
-        {% include "_finder_organisation.html" %}
-	    </div>
-    </div>
-	<div class="row">
-    {% if organisations %}
-        {% include "_organisations_cards.html" %}
-    {% endif %}
-	</div>
-</div>
+
+    <section class="bg-plum-100">
+
+        <div class="container pt-5">
+            <div clas="row">
+                <div class="col-12 mt-4 pb-3">
+                    <h1 class="h1 text-center">Cerca nella piattaforma</h1>
+                </div>
+
+                {% include "_subnavbarNew.html" %}
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-plum-100 border-bottom pt-3">
+        <div class="container">
+
+            {% include "_subnavbarTabs.html" %}
+        </div>
+    </section>
+    <section>
+
+        <div class="container">
+
+            {% include "_finder_organisation.html" %}
+            <div class="row mt-5">
+                {% for organisation in organisations %}
+
+                    {#            {% include "_projects_cards.html" %}#}
+                    <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                        <div class="flex-fill">
+                            <a href="/organisation/{{ organisation.id }}">
+                                {% include "includes/card_main_org.html" with organisation=organisation %}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {#        {% include "_projects_cards.html" %}#}
+            </div>
+        </div>
+    </section>
+
 {% endblock list_of_items %}
 
 {% block scripts %}

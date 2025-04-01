@@ -2,181 +2,212 @@
 {% load static %}
 {% load countries %}
 {% get_countries as countries %}
-<div class="accordion acordion-flush mb-3 mt-2" id="accordion-filters">
-    <div class="">
-        <div class="accordion-header" id="flush-headingOne">
-            <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
-<div class="row">
+
+
+<div>
     <form class="form-inline float-lg-right" id="searchProjects" action="{% url 'projects' %}">
-        <input type="hidden" name="keywords" value="{{filters.keywords}}" />
-        <div class="col-12">
-            <div class="input-group input-group-sm">
-                <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
-                <select id="orderby" name="orderby" class="custom-select status-select form-control">
-                    <option value="" {% if filters.orderby == "" %} selected {% endif %}>
-                        {% trans "Most Recent Updated" %}
-                    </option>
-                    <option value="totalAccesses" {% if filters.orderby == "totalAccesses" %} selected {% endif %}>
-                        {% trans "Total Accesses" %}
-                    </option>
-                    <option value="totalLikes" {% if filters.orderby == "totalLikes" %} selected {% endif %}>
-                        {% trans "Total Likes" %}
-                    </option>
-                    <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
-                        {% trans "A-Z" %}
-                    </option>
-                    <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>
-                        {% trans "Most Recent Created" %}
-                    </option>
-                    <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>
-                        {% trans "Featured" %}
-                    </option>
-                </select>
-                <div class="input-group-text"><i class="fas fa-filter"></i></div>
-                <select id="country" name="country" class="custom-select status-select form-control">
-                    <option value="">{% trans "Country" %}
-                    <option>
-                        {% for country in countries %}{% for cwc in countriesWithContent %}{% if country.code == cwc %}
-                    <option {% if country.code == filters.country %} selected {% endif %} value="{{ country.code }}"> {{ country.name }}</option>
-                    {% endif %}{% endfor %}{% endfor %}
-                </select>
+        <input type="hidden" name="keywords" value="{{ filters.keywords }}"/>
+        <div class="row mt-5">
 
-                <select id="status" name="status" class="custom-select status-select form-control">
-                    <option value="">{% trans "Status" %}
-                    <option>
-                        {% for s in status %}
-                    <option {% if s.status == filters.status %} selected {% endif %} value="{{s.status}}">
-                        {{s.status|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <select id="hasTag" name="hasTag" class="custom-select status-select form-control">
-                    <option value="">{% trans "Tag" %}
-                    <option>
-                        {% for h in hasTag %}
-                    <option {% if h.hasTag == filters.hasTag %} selected {% endif %} value="{{h.hasTag}}">
-                        {{h.hasTag|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
+                <label for="topic">Argomento scientifico</label>
 
-                <select id="difficultyLevel" name="difficultyLevel" class="custom-select status-select form-control">
-                    <option value="">{% trans "Difficulty Level" %}
-                    <option>
-                        {% for d in difficultyLevel %}
-                    <option {% if d.difficultyLevel == filters.difficultyLevel %} selected {% endif %}
-                        value="{{d.difficultyLevel}}">
-                        {{d.difficultyLevel|capfirst}}
-                    </option>
-                    {% endfor %}
-                </select>
-
-                <select id="topic" name="topic" class="custom-select status-select form-control">
+                <select class="custom-select form-select" id="topic" name="topic">
                     <option value="">{% trans "Topic" %}</option>
                     {% for topic in topics %}
-                    <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{topic}}">
-                        {{topic|capfirst}}
-                    </option>
+                        <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{ topic }}">
+                            {{ topic|capfirst }}
+                        </option>
                     {% endfor %}
                 </select>
 
+            </div>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="country">Regione</label>
+
+
+                <select id="country" name="country" class="custom-select form-select">
+                    <option value="">{% trans "Seleziona" %}
+                    <option>
+                        {% for country in countries %}{% for cwc in countriesWithContent %}
+                            {% if country.code == cwc %}
+                                <option {% if country.code == filters.country %} selected {% endif %}
+                                                                                 value="{{ country.code }}"> {{ country.name }}</option>
+                            {% endif %}{% endfor %}{% endfor %}
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="participationTask">Attività di partecipazione</label>
                 <select id="participationTask" name="participationTask"
-                    class="custom-select status-select form-control">
+                        class="custom-select form-select">
                     <option value="">{% trans "Participation Task" %}</option>
                     {% for p in participationTask %}
-                    <option {% if p.participationTask == filters.participationTask %} selected {% endif %} value="{{p}}">
-                        {{p|capfirst}}
-                    </option>
+                        <option {% if p.participationTask == filters.participationTask %} selected {% endif %}
+                                                                                          value="{{ p }}">
+                            {{ p|capfirst }}
+                        </option>
                     {% endfor %}
                 </select>
 
-                {% if user.is_staff %}
-                <select id="approved" name="approved" class="custom-select status-select form-control">
-                    <option value="approved" {% if filters.approved == "approved" %} selected {% endif %}>
-                        {% trans "Approved" %}
-                    </option>
-                    <option value="notApproved" {% if filters.approved == "notApproved" %} selected {% endif %}>
-                        {% trans "Not Approved" %}</option>
-                    <option value="notYetModerated" {% if filters.approved == "notYetModerated" %} selected {% endif %}>
-                        {% trans "Not yet moderated" %}</option>
-                </select>
-                {% endif %}
             </div>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="status">Stato progetto</label>
+                <select id="status" name="status" class="custom-select form-select">
+                    <option value="">{% trans "Seleziona" %}
+                    <option>
+                        {% for s in status %}
+                            <option {% if s.status == filters.status %} selected {% endif %} value="{{ s.status }}">
+                                {{ s.status|capfirst }}
+                            </option>
+                        {% endfor %}
+                </select>
+            </div>
+
+            {#            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">#}
+            {##}
+            {#                <label for="status">Status</label>#}
+            {#                <select id="hasTag" name="hasTag" class="custom-select status-select form-control">#}
+            {#                    <option value="">{% trans "Tag" %}#}
+            {#                    <option>#}
+            {#                        {% for h in hasTag %}#}
+            {#                            <option {% if h.hasTag == filters.hasTag %} selected {% endif %} value="{{ h.hasTag }}">#}
+            {#                                {{ h.hasTag|capfirst }}#}
+            {#                            </option>#}
+            {#                        {% endfor %}#}
+            {#                </select>#}
+            {##}
+            {#            </div>#}
+
+
         </div>
         <div class="row">
-            <div class="col-12 mt-2">
+            <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
+                {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                    <span>Filtri attivi: </span>
+                {% endif %}
                 {% if filters.keywords %}
-                <a class="badge rounded-pill bg-my-darkGreen search-filter" id="pill-keywords" style="cursor: pointer">
-                    <i class="fas fa-times"></i> {{filters.keywords}}
-                </a>
+                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
                 {% endif %}
                 {% if filters.country %}
-                <a class="badge rounded-pill bg-dark" id="pill-country" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Country:" %} {{filters.country}}
-                </a>
+                    {% include 'includes/tag.html' with text='Regione: '|add:filters.country hasClose=True %}
                 {% endif %}
                 {% if filters.status %}
-                <a class="badge rounded-pill bg-dark" id="pill-status" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Status:" %} {{filters.status}}
-                </a>
+                    {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=True %}
                 {% endif %}
-                {% if filters.hasTag %}
-                <a class="badge rounded-pill bg-my-lightBlue" id="pill-hasTag" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Hastag:" %} {{filters.hasTag}}
-                </a>
-                {% endif %}
-                {% if filters.difficultyLevel %}
-                <a class="badge rounded-pill bg-my-lightGreen" id="pill-difficultyLevel" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Difficulty level:" %} {{filters.difficultyLevel}}
-                </a>
-                {% endif %}
+                {#                {% if filters.hasTag %}#}
+                {#                    <a class="badge badge-card-secondary" id="pill-hasTag" style="cursor: pointer">#}
+                {#                        <i class="fas fa-times"></i>#}
+                {#                        {% trans "Hastag:" %} {{ filters.hasTag }}#}
+                {#                    </a>#}
+                {#                {% endif %}#}
                 {% if filters.topic %}
-                <a class="badge rounded-pill bg-my-darkBlue" id="pill-topic" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Topic:" %} {{filters.topic}}
-                </a>
+                    {% include 'includes/tag.html' with text='Argomento scientifico: '|add:filters.topic hasClose=True %}
                 {% endif %}
                 {% if filters.participationTask %}
-                <a class="badge rounded-pill bg-my-lightGreen pointer" id="pill-participationTask" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Participation task:" %} {{filters.participationTask}}
-                </a>
+                    {% include 'includes/tag.html' with text='Attività di partecipazione: '|add:filters.participationTask hasClose=True %}
                 {% endif %}
                 <!-- TODO: improve next condition -->
-                {% if request.get_full_path != "/projects" %}
-                    {% if filters.keywords != "" %}
-                    <a class="badge rounded-pill bg-danger text-decoration-none" href="/projects">
-                        <i class="fas fa-times"></i> {% trans "Clear search and filters" %}
-                    </a>
-                    {% endif %}
-                {% endif %}
-                {% if filters.keywords != "" %}
-                <div class="small mt-3">
-                    <span class"subnavbarCounter-text">
-                        {{ counter }}
-                        {% if counter != 1 %}
-                        {% trans "projects found for " %} "{{filters.keywords}}" of {{totalProjects}}
-                        {% else %}
-                        {% trans "project found for " %} "{{filters.keywords}}" of {{totalProjects}}
-                        {% endif %}
-                    </span>
-                </div>
-                {% endif %}
+                {#                {% if request.get_full_path != "/projects" %}#}
+                {#                    {% if filters.keywords != "" %}#}
+
+                {#                    {% endif %}#}
+                {#                {% endif %}#}
+
             </div>
+            <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-2">
+                {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                    <div>
+
+                        <a class="text-red-700 text-sm" href="/projects">
+                            Cancella tutti i filtri
+                        </a>
+                    </div>
+                    <div class="text-card-border">
+                        |
+                    </div>
+                {% endif %}
+                <div>
+                    <button class="text-sm p-0 " style="background-color:transparent;border: none;" type="submit">
+                        Applica i filtri
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class=" mt-4 pt-4 border-top d-flex justify-content-between align-items-center">
+            <div>
+                <div class="small">
+                    <span class"subnavbarCounter-text">
+                    {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                        <strong>{{ counter }}</strong> progetti selezionati su <strong>{{ totalProjects }}</strong>
+                        totali
+                    {% else %}
+                        <strong>{{ totalProjects }}</strong> progetti
+                    {% endif %}
+                    {#                        {% if counter != 1 %}#}
+                    {#                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% else %}#}
+                    {#                            {% trans "project found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% endif %}#}
+                    </strong>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-2">
+
+                <div>Ordina per:</div>
+                <div>
+
+                    <select id="orderby" name="orderby" class="custom-select status-select form-select">
+                        <option value="" {% if filters.orderby == "" %} selected {% endif %}>
+                            {% trans "Most Recent Updated" %}
+                        </option>
+                        {#                    <option value="totalAccesses" {% if filters.orderby == "totalAccesses" %} selected {% endif %}>#}
+                        {#                        {% trans "Total Accesses" %}#}
+                        {#                    </option>#}
+                        {#                    <option value="totalLikes" {% if filters.orderby == "totalLikes" %} selected {% endif %}>#}
+                        {#                        {% trans "Total Likes" %}#}
+                        {#                    </option>#}
+                        <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
+                            {% trans "A-Z" %}
+                        </option>
+                        {#                    <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>#}
+                        {#                        {% trans "Most Recent Created" %}#}
+                        {#                    </option>#}
+                        {#                    <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>#}
+                        {#                        {% trans "Featured" %}#}
+                        {#                    </option>#}
+                    </select>
+                </div>
+            </div>
+
         </div>
     </form>
 </div>
+{% if counter <= 0 or totalProjects <= 0 %}
+<div class="row">
+
+    <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">
+        <div class="d-flex justify-content-center">
+
+            <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+        </div>
+        <div class="d-flex justify-content-center">
+
+            <p class="text-center">
+                Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
+                contenuti.
+            </p>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+{%  endif %}
 <script>
-  
+
 
 </script>

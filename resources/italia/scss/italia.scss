@@ -171,6 +171,18 @@ $body-color: $gray-900;
   color: $olive-green-200;
 }
 
+.text-card-border {
+  color: var(--bs-border-color-translucent);
+}
+
+.text-red-700 {
+  color: $red-700;
+}
+
+.text-plum-800 {
+  color: $plum-800;
+}
+
 .bg-plum-200 {
   background-color: $plum-200;
 }
@@ -225,4 +237,22 @@ $body-color: $gray-900;
   color: $orange-700;
   background-color: $white;
   border: 1px solid $orange-800;
+}
+
+.badge-tag {
+  color: $white;
+  background-color: $plum-800;
+  border: 1px solid $plum-900;
+  padding: 1px 8px 1px 8px;
+  border-radius: $border-radius-sm;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+a.nav-tab-search {
+  color: $plum-800 !important;
+}
+
+a.nav-tab-search.active {
+  font-weight: 700 !important;
 }

@@ -3,104 +3,162 @@
 {% load l10n %}
 {% load countries %}
 {% get_countries as countries %}
-<div class="accordion acordion-flush mb-3" id="accordion-filters">
-    <div class="">
-        <div class="accordion-header" id="flush-headingOne">
-            <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
-
-<div class="row">
+<div>
     <form class="form-inline float-lg-right" id="searchUsers" action="{% url 'profiles:users' %}">
-        <input type="hidden" name="keywords" value="{{filters.keywords}}">
-        <div class="row">
-            <div class="col-12">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
-                    <select id="orderby" name="orderby" class="custom-select form-control">
-                        <option value="" {% if filters.orderby == "" %} selected {% endif %}>{% trans "Most Recent Login" %}</option>
-                        <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>{% trans "A-Z" %}</option>
-                    </select>
-                    <div class="input-group-text"><i class="fas fa-filter"></i></div>
-    
-                    <select id="country" name="country" class="custom-select form-control">
-                        <option value="">{% trans "Country" %}<option>
-                        {% for country in countries %}
-                        {% for cwc in countriesWithContent %}
-                        {% if country.code == cwc %}
-                        <option {% if country.code ==  filters.country %} selected {% endif %} value="{{ country.code }}">
-                        {{ country.name }}
-                        </option>
-                        {% endif %}
-                        {% endfor %}
-                        {% endfor %}
-                    </select>
-                    <select id="interestAreas" name="interestAreas" class="custom-select form-control">
-                        <option value="">{% trans "Interest Area" %}<option>
-                            {% for t in interestAreas %}
-                                <option {% if t ==  filters.interestAreas %} selected {% endif %} value="{{t}}">
-                                {{t|capfirst}}
-                                 </option>
-                            {% endfor %}
-                    </select>
-                    <select id="organisation" name="organisation" class="custom-select form-control">
-                        <option value="">{% trans "Organisation" %}<option>
-                        {% for organisation in organisations %}
-                        <option {% if organisation.name ==  filters.organisation %} selected {% endif %} value="{{organisation.name}}">
-                        {{organisation.name|capfirst}}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
+        <input type="hidden" name="keywords" value="{{ filters.keywords }}">
+
+        <div class="row mt-5">
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="country">Regione</label>
+
+
+                <select id="country" name="country" class="custom-select form-select">
+                    <option value="">{% trans "Seleziona" %}
+                    <option>
+                        {% for country in countries %}{% for cwc in countriesWithContent %}
+                            {% if country.code == cwc %}
+                                <option {% if country.code == filters.country %} selected {% endif %}
+                                                                                 value="{{ country.code }}"> {{ country.name }}</option>
+                            {% endif %}{% endfor %}{% endfor %}
+                </select>
+
             </div>
-            <div class="col-12 mb-4 mt-2">
+
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="interestAreas">Aree di interesse</label>
+
+
+                <select id="interestAreas" name="interestAreas" class="custom-select form-select">
+                    <option value="">
+                    {% trans "Interest Area" %}
+                    <option>
+                        {% for t in interestAreas %}
+                            <option {% if t ==  filters.interestAreas %} selected {% endif %} value="{{ t }}">
+                                {{ t|capfirst }}
+                            </option>
+                        {% endfor %}
+                </select>
+
+
+            </div>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="organisation">Organizzazione</label>
+
+
+                <select id="organisation" name="organisation" class="custom-select form-control">
+                    <option value="">
+                    {% trans "Organisation" %}
+                    <option>
+                        {% for organisation in organisations %}
+                            <option {% if organisation.name ==  filters.organisation %} selected {% endif %}
+                                                                                        value="{{ organisation.name }}">
+                                {{ organisation.name|capfirst }}
+                            </option>
+                        {% endfor %}
+                </select>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
+                {% if filters.keywords or filters.country or filters.interestAreas or filters.organisation %}
+                    <span>Filtri attivi: </span>
+                {% endif %}
                 {% if filters.keywords %}
-                <a class="badge rounded-pill bg-my-darkGreen search-filter" id="pill-keywords">
-                    <i class="fas fa-times"></i> {{filters.keywords}}
-                </a>
+                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
                 {% endif %}
                 {% if filters.country %}
-                <a href="#" class="badge rounded-pill bg-dark" id="pill-country">
-                    <i class="fas fa-times"></i>
-                    {% for country in countries %}
-                    {% if country.code == filters.country %}
-                    {% trans "Country:" %} {{country.name}}
-                    {% endif %}
-                    {% endfor %}
-                </a>
+                    {% include 'includes/tag.html' with text='Regione: '|add:filters.country hasClose=True %}
                 {% endif %}
                 {% if filters.interestAreas %}
-                <a href="#" class="badge rounded-pill bg-my-darkBlue" id="pill-interestAreas">
-                    <i class="fas fa-times"></i>
-                    {% trans "Interest Area:" %} {{filters.interestAreas}}
-                </a>
+                    {% include 'includes/tag.html' with text='Tipo: '|add:filters.interestAreas hasClose=True %}
                 {% endif %}
                 {% if filters.organisation %}
-                <a class="badge rounded-pill bg-my-lightGreen pointer" id="pill-organisation" style="cursor: pointer">
-                    <i class="fas fa-times"></i>
-                    {% trans "Participation task:" %} {{filters.organisation}}
-                </a>
+                    {% include 'includes/tag.html' with text='Tipo: '|add:filters.organisation hasClose=True %}
                 {% endif %}
-                {% if request.get_full_path != "/users/" %}
-                <a class="badge rounded-pill bg-danger text-decoration-none" href="/users">
-                    <i class="fas fa-times"></i> {% trans "Clear current search" %}</a>
-                {% endif %}
-                {% if filters.keywords != "" %}
-                <div class="small mt-3">
-                    <span class"subnavbarCounter-text">
-                        {{ counter }}
-                        {% if counter != 1 %}
-                        {% trans "users found for " %} "{{ filters.keywords }}" of {{ totalCount }}
-                        {% else %}
-                        {% trans "users found for " %} "{{ filters.keywords }}" of {{ totalCount }}
-                        {% endif %}
-                    </span>
-                </div>
-                {% endif %}
-               
+
             </div>
+            <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-2">
+                {% if filters.keywords or filters.country or filters.interestAreas or filters.organisation %}
+                    <div>
+
+                        <a class="text-red-700 text-sm" href="/projects">
+                            Cancella tutti i filtri
+                        </a>
+                    </div>
+                    <div class="text-card-border">
+                        |
+                    </div>
+                {% endif %}
+                <div>
+                    <button class="text-sm p-0 " style="background-color:transparent;border: none;" type="submit">
+                        Applica i filtri
+                    </button>
+                </div>
+            </div>
+
         </div>
+        <div class=" mt-4 pt-4 border-top d-flex justify-content-between align-items-center">
+            <div>
+                <div class="small">
+                    <span class"subnavbarCounter-text">
+                    {% if filters.keywords or filters.country or filters.interestAreas or filters.organisation %}
+                        <strong>{{ counter }}</strong> utenti selezionati su <strong>{{ totalCount }}</strong>
+                        totali
+                    {% else %}
+                        <strong>{{ totalCount }}</strong> utenti
+                    {% endif %}
+                    {#                        {% if counter != 1 %}#}
+                    {#                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% else %}#}
+                    {#                            {% trans "project found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% endif %}#}
+                    </strong>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-2">
+
+                <div>Ordina per:</div>
+                <div>
+
+                    <select id="orderby" name="orderby" class="custom-select status-select form-select">
+                        <option value="" {% if filters.orderby == "" %} selected {% endif %}>
+                            {% trans "Most Recent Updated" %}
+                        </option>
+                        <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
+                            {% trans "A-Z" %}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
     </form>
 </div>
-</div>
+{% if counter <= 0 or totalCount <= 0 %}
+    <div class="row">
+
+        <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">
+            <div class="d-flex justify-content-center">
+
+                <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+            </div>
+            <div class="d-flex justify-content-center">
+
+                <p class="text-center">
+                    Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
+                    contenuti.
+                </p>
+            </div>
+        </div>
     </div>
+{% endif %}
+<script>
+
+
+</script>
+
