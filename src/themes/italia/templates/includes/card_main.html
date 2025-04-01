@@ -29,20 +29,20 @@
         <div class="col-md-7 col-8">
             <div class="card-body">
                 <h5 class="card-title">
-                    {{ cardTitle|default:'Citizen Science italia' }}
+                    {{ cardTitle|safe|truncatechars:32 | default:'Citizen Science italia' }}
                 </h5>
                 {% if cardSubtitle %}
                     <h6 class="card-subtitle">
-                        {{ cardSubtitle| safe | truncatechars:75 }}
+                        {{ cardSubtitle| safe | truncatechars:38 }}
                     </h6>
                 {% endif %}
 
-                <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-3">
                     {% for item in tags %}
                         <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
                     {% endfor %}
-                    {% if more and more > 0 %}
-                        <span class="badge rounded-pill badge-card-main ">+{{ more }}</span>
+                    {% if more > 3 %}
+                        <span class="badge rounded-pill badge-card-main ">+{{ more|add:"-3"}}</span>
                     {% endif %}
                 </div>
 

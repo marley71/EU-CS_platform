@@ -144,7 +144,7 @@
             <div>
                 <div class="small">
                     <span class"subnavbarCounter-text">
-                    {% if filters.keywords != "" or filters.country != "" %}
+                    {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
                         <strong>{{ counter }}</strong> progetti selezionati su <strong>{{ totalProjects }}</strong>
                         totali
                     {% else %}
