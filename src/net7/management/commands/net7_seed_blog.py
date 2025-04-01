@@ -46,7 +46,7 @@ class Command(BaseCommand):
                     slug=row['slug'],
                     content=row['content'],
                     created_on=created_on,
-                    status=status.id,
+                    status=1, #status.id,
                     author_id=1, # id superadmin
                     #organisation=organisation
 
