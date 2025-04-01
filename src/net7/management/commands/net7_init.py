@@ -163,7 +163,7 @@ class Command(BaseCommand):
         )
         TopBar.objects.create(
             name='about',
-            slug='/about',
+            slug='/p/about',
             name_it='About',
             position=5
         )

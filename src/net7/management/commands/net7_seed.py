@@ -20,5 +20,8 @@ class Command(BaseCommand):
         self.stdout.write("Eseguo il comando populate blog...")
         call_command('net7_seed_blog')
 
+        self.stdout.write("Eseguo il comando populate pages...")
+        call_command('net7_seed_pages')
+
         self.stdout.write("Comandi eseguiti con successo!")
 
