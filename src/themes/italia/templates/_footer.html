@@ -86,15 +86,13 @@
 
             <div class="col col-3 d-flex flex-column justify-content-start">
                 <ul class="list-unstyled">
-                    {% for item in topbar_items %}
-                        {% if not item.parent and not item.is_parent %}
-                            <li class="mb-2">
-                                <a class=""
-                                   href="{{ item.slug }}">
-                                    {{ item.name }}
-                                </a>
-                            </li>
-                        {% endif %}
+                    {% for item in footerPages %}
+                        <li class="mb-2">
+                            <a class=""
+                               href="/p/{{ item.slug }}">
+                                {{ item.name }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>

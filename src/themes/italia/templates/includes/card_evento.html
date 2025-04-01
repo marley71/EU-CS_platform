@@ -26,23 +26,76 @@
             </div>
         {% endif %}
     </div>
-    <div class="card-body d-flex flex-column gap-1">
-        <h3>{{ event.title }}</h3>
-        <p>
-            {{ event.description | safe | truncatewords:100 }}
-        </p>
+    <div class="card-body d-flex flex-column justify-content-between">
+        <div class="d-flex flex-column gap-1">
 
-        {% if event.mainOrganisation %}
-            <div class="badge rounded-pill badge-card-main">
-                {{ event.mainOrganisation }}
+            <h3>{{ event.title }}</h3>
+            <p>
+                {{ event.description | safe | truncatechars:150 }}
+                {% if event.description|length > 150 %}
+                    &nbsp; <a href="#" class="" data-bs-toggle="modal" data-bs-target="#evento-{{ event.id }}">
+                    Continua a leggere
+                </a>
+                {% endif %}
+            </p>
+
+            <!-- Button trigger modal -->
+
+
+            {% if event.description|length > 150 %}
+                <!-- Modal -->
+                <div class="modal modal-lg fade" id="evento-{{ event.id }}" tabindex="-1"
+                     aria-labelledby="#evento-{{ event.id }}-label"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="evento-{{ event.id }}-label">
+                                    {{ event.title }}
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {{ event.description | safe }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Chiudi
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    <a href="{{ event.url }}">
+
+                                        Vai alla pagina dell'evento
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                                        </svg>
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if event.mainOrganisation %}
+                <div class="badge rounded-pill badge-card-main">
+                    {{ event.mainOrganisation }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex flex-column">
+
+            <div class="text-end">
+                <a class="btn btn-outline-secondary" href="{% if 'http' not in event.url %}//{% endif %}{{ event.url }}"
+                   target="_blank">
+                    Vai alla pagina dell'evento
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                    </svg>
+                </a>
+
             </div>
-        {% endif %}
-        <div class="text-end">
-            <a class="btn btn-outline-secondary" href="{% if 'http' not in event.url %}//{% endif %}{{ event.url }}"
-               target="_blank">
-                Vai alla pagina dell'evento
-            </a>
-
         </div>
     </div>
 </div>

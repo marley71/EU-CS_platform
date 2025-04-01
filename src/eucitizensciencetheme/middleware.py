@@ -1,5 +1,6 @@
 from .models import Footer, Main, TopBar
 from django.template.response import TemplateResponse
+from pages.models import Pages
 import logging
 
 logger = logging.getLogger(__name__)
@@ -31,6 +32,8 @@ class FooterMiddleware:
         # do this only if the response is a TemplateResponse
         if isinstance(response, TemplateResponse):
             response.context_data['footer'] = Footer.objects.first()
+            response.context_data['footerPages'] = Pages.objects.filter(id__in=(1,2,3,4,5)).order_by("id")
+
         return response
 
 class ThemeSelectionMiddleware:
