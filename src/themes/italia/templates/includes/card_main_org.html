@@ -12,39 +12,36 @@
 {#</div>#}
 {#</div>#}
 
-
 <div class="card rounded-4 px-0 py-0 w-100">
     <div class="row">
-        <div class="col-3 p-0">
+        <div class="col-md-5 col-4 position-relative">
             {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
-            <img src="{% thumbnail image|default:'cards/card-main-placeholder.png' 105x107 upscale crop %}"
-                 class="img-fluid rounded-start-4" style="height: 113px;"
-                 alt="{{ cardTitle|default:'Citizen Science italia' }}">
-        </div>
-        <div class="col-9 p-0">
-            <div class="card-body d-flex flex-column justify-content-between h-100">
-                <div class="flex-fill">
+            <img src="{% thumbnail organisation.logo|default:'cards/card-main-placeholder.png' 250x250 upscale crop %}"
+                 class="img-fluid rounded-start-4" alt="{{ cardTitle|default:'Citizen Science italia' }}">
 
-                    <h5 class="card-title">
-                        {{ cardTitle|safe|truncatechars:23|default:'Citizen Science italia' }}
-                    </h5>
-                </div>
+        </div>
+        <div class="col-md-7 col-8">
+            <div class="card-body h-100 d-flex flex-column justify-content-between">
 
                 <div>
 
+                    <h5 class="card-title">
+                        {{ organisation.name|safe|truncatechars:32 | default:'Citizen Science italia' }}
+                    </h5>
+                </div>
 
-                    {% if tipologia %}
-                        <div class="d-flex gap-1 justify-content-start align-items-center mt-2">
-                            <span class="badge rounded-pill badge-card-secondary ">{{ tipologia|capfirst }}</span>
-                        </div>
-                    {% endif %}
+                <div class="d-flex flex-column gap-3">
 
-                    {% if flags and flags.count > 0 %}
+                    <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-3">
+                        <span class="badge rounded-pill badge-card-secondary ">{{ organisation.orgType|default:"Default"|capfirst }}</span>
+                    </div>
+
+                    {% if organisation.country %}
                         <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
                             <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                             </svg>
-                            <span class="">{{ flags|join:", " }}</span>
+                            <span class="">{{ organisation.country.name }}</span>
                         </div>
                     {% endif %}
                 </div>

@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-5 col-4 position-relative">
             {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
-            <img src="{% thumbnail project.image1|default:'void_600.png' 612x408 upscale crop %}"
+            <img src="{% thumbnail project.image1|default:'cards/card-main-placeholder.png' 250x250 upscale crop %}"
                  class="img-fluid rounded-start-4" alt="{{ cardTitle|default:'Citizen Science italia' }}">
 
             {% if status %}
@@ -29,15 +29,15 @@
         <div class="col-md-7 col-8">
             <div class="card-body">
                 <h5 class="card-title">
-                    {{ cardTitle|safe|truncatechars:32 | default:'Citizen Science italia' }}
+                    {{ cardTitle|safe|truncatechars:60 | default:'Citizen Science italia' }}
                 </h5>
                 {% if cardSubtitle %}
-                    <h6 class="card-subtitle">
-                        {{ cardSubtitle| safe | truncatechars:38 }}
+                    <h6 class="card-subtitle mt-2">
+                        {{ cardSubtitle| safe | truncatechars:75 }}
                     </h6>
                 {% endif %}
 
-                <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-3">
+                <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
                     {% for item in tags %}
                         <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
                     {% endfor %}
