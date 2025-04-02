@@ -61,6 +61,7 @@ src/eucs_platform/settings/development.py
 
 #media
 src/media/*
+!src/media/cards
 
 #Profile picutes
 src/media/profile_pics/*
