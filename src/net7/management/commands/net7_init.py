@@ -146,7 +146,7 @@ class Command(BaseCommand):
         TopBar.objects.create(
             name='blog',
             slug='/blog',
-            name_it='Blog',
+            name_it='Notizie',
             position=2
         )
         TopBar.objects.create(

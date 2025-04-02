@@ -26,7 +26,8 @@ from django_countries import countries
 from itertools import chain
 from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
-    FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText
+    FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry
 from organisations.models import Organisation
 import copy
 import csv
@@ -256,6 +257,9 @@ def projects(request):
         'organisation__country', flat=True).distinct()
     countriesWithContent3 = projects.values_list(
         'country', flat=True).distinct()
+    regioni = projects.values_list(
+        'projectCountry__country_name', flat=True).distinct()
+
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -375,6 +379,7 @@ def projects(request):
         'usersCounter': usersCounter,
         'isSearchPage': True,
         'homeSearchCategories' : homeSearchCategories,
+        'regioni' : regioni,
         'show_search_bar': False})
 
 @login_required
@@ -700,6 +705,8 @@ def applyFilters(request, projects):
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
             
         if request.GET.get('topic'):
+            topic = Topic.objects.filter(topic=request.GET['topic']).first()
+            #projects = projects.filter(topic=topic)
             projects = projects.filter(topic__topic=request.GET['topic'])
 
         if request.GET.get('status'):
@@ -718,6 +725,11 @@ def applyFilters(request, projects):
         if request.GET.get('participationTask'):
             projects = projects.filter(
                 participationTask__participationTask=request.GET['participationTask'])
+
+        if request.GET.get('regione'):
+            #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
+            #projects = projects.filter(projectCountry=projectCountry)
+            projects = projects.filter(projectCountry__country_name=request.GET.get('regione'))
 
         if request.GET.get('country'):
             projects = projects.filter(
@@ -750,9 +762,10 @@ def applyFilters(request, projects):
             user_registered = True
         else:
             user_registered = False
-        print(user_registered)
+        #print(user_registered)
         if (request.GET.get('topic')):
-            topic = Topic.objects.get(topic=request.GET.get('topic'))
+            #topic = Topic.objects.get(topic=request.GET.get('topic'))
+            topic = Topic.objects.filter(topic=request.GET.get('topic')).first()
         country = request.GET.get('country')
         if search or topic or country:
             if search:
@@ -792,6 +805,8 @@ def setFilters(request, filters):
         filters['orderby'] = request.GET['orderby']
     if request.GET.get('country'):
         filters['country'] = request.GET['country']
+    if request.GET.get('regione'):
+        filters['regione'] = request.GET['regione']
     return filters
 
 
