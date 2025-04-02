@@ -81,7 +81,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
         required=True,
         max_length=20,
         label=_(""),
-        widget=forms.TextInput(attrs={"placeholder": _("Enter Surname")})
+        widget=forms.TextInput(attrs={})
     )
     profileVisible = forms.BooleanField(
         required=False,
@@ -105,7 +105,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
         self.fields["name"].label = ""
         self.fields["name"].widget.attrs.update({
             "maxlength": "20",  # Limit name to 20 characters
-            "placeholder": _("Enter Name (max 20 characters)"),
+#             "placeholder": _("Enter Name (max 20 characters)"),
         })
         self.fields["password1"].label = ""
         self.fields["password2"].label = ""

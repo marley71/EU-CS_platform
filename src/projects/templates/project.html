@@ -63,9 +63,8 @@
         <div class="container mt-5">
             {% if project.image1 %}
                 <div class="row">
-                    <div class="col-12 rounded-4 text-center border">
-                        <img src="/media/{{ project.image1 | safe }}"
-                             class="img-fluid" style="max-height:440px;"/>
+                    <div class="col-12 rounded-4 text-center border"
+                         style="height:440px; background-image: url('/media/{{ project.image1 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     </div>
                 </div>
             {% endif %}
