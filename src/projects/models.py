@@ -33,7 +33,8 @@ class ProjectCountry(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.country.name
+        return self.country_name
+        #return self.country.name
 
 class Topic(models.Model):
     topic = models.TextField()
@@ -161,6 +162,9 @@ class Project(models.Model):
     projectlocality = models.CharField(max_length=300, null=True, blank=True)
     projectGeographicLocation = models.MultiPolygonField(blank=True, null=True)
     projectCountry = models.ManyToManyField(ProjectCountry, blank=True, related_name="projects")
+
+    #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
+
     # Legacy
     country = CountryField(null=True, blank=True)
 

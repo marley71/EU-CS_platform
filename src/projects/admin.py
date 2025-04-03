@@ -13,7 +13,10 @@ class DifficultyLevelAdmin(TabbedTranslationAdmin):
 
 class ProjectFormA(forms.ModelForm):
     topic = forms.ModelMultipleChoiceField(queryset=Topic.objects.all(), widget=Select2MultipleWidget, required=False)
-
+    # projectCountry = forms.ModelChoiceField(
+    #     queryset=ProjectCountry.objects.all(),
+    #     widget=forms.Select,
+    # )
     class Meta:
         model = Project
         exclude = ('origin',)

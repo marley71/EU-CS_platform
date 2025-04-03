@@ -17,6 +17,13 @@ from events.models import Event
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
 
+from rest_framework import serializers
+
+class ProgettoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ['id', 'name', 'projectGeographicLocation']
+
 # Create your views here, in alphabetical order
 
 def about(request):
@@ -57,7 +64,7 @@ def get_projects(request):
     projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
 
     markers = []
-    zones = [];
+    #zones = [];
     for project in projects:
         # Check if the project has projectCountry related
         if project.projectCountry.exists():
@@ -82,6 +89,9 @@ def get_projects(request):
             markers.append(marker)
         # Not add marker if there is no projectCountry and mainOrganisation
     #zones.append(serialize('geojson', projects))
+    progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
+    zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
+
     return JsonResponse({'markers': markers, 'zones': zones})
 
 def get_organisations(request):

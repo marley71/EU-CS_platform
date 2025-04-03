@@ -62,12 +62,36 @@
         .marker-organization-cluster-large div {
             background-color: rgba(255, 205, 57, 0.50);
         }
+
+        .custom-layer-control {
+            background: white;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            border-radius: 5px;
+            position: absolute;
+            top: 40%;
+            left: 10px;
+            z-index: 1000;
+        }
+        .layer-option {
+            margin: 5px;
+        }
     </style>
     </head>
     <body>
         
         <div id="map"></div>
-        
+        <div class="custom-layer-control">
+            <h4>Seleziona cosa vuoi vedere</h4>
+            <div class="layer-option">
+                <input type="checkbox" name="layer" id="project" checked value="projects">
+                <label for="project">Progetti</label>
+            </div>
+            <div class="layer-option">
+                <input type="checkbox" name="layer" id="organisations" checked value="organisations">
+                <label for="organisations">Organizzazioni</label>
+            </div>
+        </div>
     
     
     
@@ -196,14 +220,19 @@
                         // Add the marker to the feature group
                         marker.addTo(projects);
                     }
-                    /*
+
                     var zonesData = JSON.parse(xhr1.responseText).zones;
                     console.debug('zones',zonesData)
-                    L.geoJSON(zonesData, {
-                        onEachFeature: function (feature, layer) {
-                            layer.bindPopup(feature.properties.name);
-                        }
-                    }).addTo(map);*/
+                    zonesData.forEach(progetto => {
+                        L.geoJSON(JSON.parse(progetto.location), {
+                            onEachFeature: function (feature, layer) {
+                                layer.bindPopup(progetto.nome);
+                            }
+                        }).addTo(map);
+                    })
+
+
+
                 }
             };
 
@@ -236,12 +265,35 @@
      
             projects.addTo(map);
             organisations.addTo(map);
+            var layers = {
+                projects : projects,
+                organisations : organisations
+            }
+            /*
             var baseLayers = {
                 "<i class='bi bi-bank2'></i> Project": projects,
                 "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
             };
             L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
-
+             */
+            document.querySelectorAll('input[name="layer"]').forEach(function(input) {
+                input.addEventListener('change', function() {
+                    console.debug(this.value,this.checked);
+                    if (this.checked) {
+                        map.addLayer(layers[this.value])
+                    } else {
+                        map.removeLayer(layers[this.value]);
+                    }
+                    /*
+                    if (this.id === 'osm') {
+                        map.removeLayer(satelliteLayer);
+                        map.addLayer(osmLayer);
+                    } else if (this.id === 'satellite') {
+                        map.removeLayer(osmLayer);
+                        map.addLayer(satelliteLayer);
+                    }*/
+                });
+            });
         });
     </script>
 </body>

@@ -19,10 +19,15 @@ geolocator = Nominatim(user_agent="eu-citizen-science-platform")
 
 
 class ProjectGeographicLocationForm(forms.Form):
-
     projectGeographicLocation = forms.MultiPolygonField(
         required=False,
-        widget=forms.OSMWidget(attrs={}),
+        widget=forms.OSMWidget(attrs={
+            'map_width': '800px',
+            'map_height': '400px',
+            'default_lat': 41.8719,  # Latitudine dell'Italia
+            'default_lon': 12.5674,  # Longitudine dell'Italia
+            'default_zoom': 5,  # Zoom specifico
+        }),
         label=(' '))
 
 
@@ -178,7 +183,13 @@ class ProjectForm(forms.Form):
 
     projectGeographicLocation = forms.MultiPolygonField(
         required=False,
-        widget=forms.OSMWidget(attrs={}),
+        widget=forms.OSMWidget(attrs={
+            'map_width': '800px',
+            'map_height': '400px',
+            'default_lat': 41.8719,  # Latitudine dell'Italia
+            'default_lon': 12.5674,  # Longitudine dell'Italia
+            'default_zoom': 5,  # Zoom specifico
+        }),
         label=_("Project geographic location"))
 
     projectCountry = forms.ModelMultipleChoiceField(
