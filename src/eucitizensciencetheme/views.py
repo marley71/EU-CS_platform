@@ -67,16 +67,25 @@ def get_projects(request):
     #zones = [];
     for project in projects:
         # Check if the project has projectCountry related
-        if project.projectCountry.exists():
-            for country in project.projectCountry.all():
-                marker = {
-                    'latitude': country.latitude,
-                    'longitude': country.longitude,
-                    'name': project.name,
-                    'project_url': f'/project/{project.id}',
-                    'project_id': project.id
-                }
-                markers.append(marker)
+        # if project.projectCountry.exists():
+        #     for country in project.projectCountry.all():
+        #         marker = {
+        #             'latitude': country.latitude,
+        #             'longitude': country.longitude,
+        #             'name': project.name,
+        #             'project_url': f'/project/{project.id}',
+        #             'project_id': project.id
+        #         }
+        #         markers.append(marker)
+        if project.localita_id:
+            marker = {
+                'latitude': project.localita.latitude,
+                'longitude': project.localita.longitude,
+                'name': project.name,
+                'project_url': f'/project/{project.id}',
+                'project_id': project.id
+            }
+            markers.append(marker)
         elif project.mainOrganisation:
             # Use mainOrganisation if there's no projectCountry
             marker = {
@@ -87,11 +96,10 @@ def get_projects(request):
                 'project_id': project.id
             }
             markers.append(marker)
-        # Not add marker if there is no projectCountry and mainOrganisation
-    #zones.append(serialize('geojson', projects))
-    progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
-    zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
 
+    #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
+    #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
+    zones = []
     return JsonResponse({'markers': markers, 'zones': zones})
 
 def get_organisations(request):

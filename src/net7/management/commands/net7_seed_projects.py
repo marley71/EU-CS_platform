@@ -2,7 +2,7 @@ import csv
 import os
 import random
 from django.core.management.base import BaseCommand,CommandError
-from projects.models import Project,Status,ProjectCountry,Keyword,Topic,HasTag
+from projects.models import Project,Status,Keyword,Topic,HasTag,Localita
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
@@ -10,6 +10,7 @@ from django.core.files import File
 from django.db.models import Q
 from datetime import datetime, timedelta
 from django.utils import timezone
+
 
 class Command(BaseCommand):
     help = 'Seed projects'
@@ -37,7 +38,8 @@ class Command(BaseCommand):
             for row in rows:
                 status = self.getStatus(row['Stato di attività'])
                 organisation = self.getOrganisations(row)
-                country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                #country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                localita = Localita.objects.filter(name=row['Regione']).first()
                 #keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['Nome del progetto'])
                 start_date, end_date = self.generate_start_end_dates(start_period, end_period)
@@ -56,10 +58,11 @@ class Command(BaseCommand):
                     start_date=timezone.make_aware(start_date),
                     end_date=timezone.make_aware(end_date),
                     dateUpdated=timezone.make_aware(end_date),
+                    localita_id=localita.id,
                     #keyword=keyword.keyword,
                     #organisation=organisation
                 )
-                project.projectCountry.add(country)
+                #project.projectCountry.add(country)
                 project.organisation.add(organisation)
                 #project.keywords.add(keyword)
                 self.setKeywords(project,row)

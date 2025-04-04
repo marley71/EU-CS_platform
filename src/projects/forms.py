@@ -7,7 +7,7 @@ from django_summernote.widgets import SummernoteWidget
 from django.utils.translation import ugettext_lazy as _
 from geopy.geocoders import Nominatim, options
 from geopy.exc import GeocoderServiceError
-from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry
+from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry, Localita
 from .models import ParticipationTask, GeographicExtend, HasTag, DifficultyLevel, TranslatedProject
 from organisations.models import Organisation
 from django.utils import timezone
@@ -111,6 +111,12 @@ class ProjectForm(forms.Form):
         label=_("Activity status"),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         help_text=_('Please, select the status of your project.'))
+
+    localita = forms.ModelChoiceField(
+        queryset=Localita.objects.all(),
+        label=_("Località"),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please, select località of your project.'))
 
     keywords = forms.ModelMultipleChoiceField(
         queryset=Keyword.objects.all(),

@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from eucitizensciencetheme.models import Main, TopBar
 from django.db import connection
-from projects.models import HelpText,ProjectCountry,Keyword, Topic, HasTag
+from projects.models import HelpText,Localita,Keyword, Topic, HasTag
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
@@ -169,132 +169,103 @@ class Command(BaseCommand):
         )
 
     def createCountries(self):
-        # ProjectCountry.objects.create(
-        #     country='IT',
-        #     country_name='Italy',  # row['Common'],
-        #     latitude=42.638426,
-        #     longitude=12.674724,
-        # )
-
-        pc = ProjectCountry.objects.create(
-            country='IT',
-            country_name='Abruzzo',  # row['Common'],
+        Localita.objects.create(
+            name='Abruzzo',  # row['Common'],
             latitude=42.219,
             longitude=13.2357,
         )
-        # pc.country_name = 'Abruzzo'
-        # pc.save()
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Basilicata',  # row['Common'],
+        Localita.objects.create(
+            name='Basilicata',  # row['Common'],
             latitude=40.3820,
             longitude=15.4812,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Calabria',  # row['Common'],
+        Localita.objects.create(
+            name='Calabria',  # row['Common'],
             latitude=38.5422,
             longitude=16.3535,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Campania',  # row['Common'],
+        Localita.objects.create(
+            name='Campania',  # row['Common'],
             latitude=40.5114,
             longitude=14.152,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Emilia Romagna',  # row['Common'],
+        Localita.objects.create(
+            name='Emilia Romagna',  # row['Common'],
             latitude=44.2944,
             longitude=11.2048,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Friuli Venezia Giulia',  # row['Common'],
+        Localita.objects.create(
+            name='Friuli Venezia Giulia',  # row['Common'],
             latitude=45.3858,
             longitude=13.4620,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Lazio',  # row['Common'],
+        Localita.objects.create(
+            name='Lazio',  # row['Common'],
             latitude=41.5427,
             longitude=12.2924,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Liguria',  # row['Common'],
+        Localita.objects.create(
+            name='Liguria',  # row['Common'],
             latitude=44.2417,
             longitude=8.568,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Lombardia',  # row['Common'],
+        Localita.objects.create(
+            name='Lombardia',  # row['Common'],
             latitude=45.2757,
             longitude=9.1124,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Marche',  # row['Common'],
+        Localita.objects.create(
+            name='Marche',  # row['Common'],
             latitude=43.3715,
             longitude=13.3051,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Molise',  # row['Common'],
+        Localita.objects.create(
+            name='Molise',  # row['Common'],
             latitude=41.3336,
             longitude=14.3937,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Piemonte',  # row['Common'],
+        Localita.objects.create(
+            name='Piemonte',  # row['Common'],
             latitude=45.358,
             longitude=7.4056,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Puglia',  # row['Common'],
+        Localita.objects.create(
+            name='Puglia',  # row['Common'],
             latitude=41.745,
             longitude=16.5211,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Sardegna',  # row['Common'],
+        Localita.objects.create(
+            name='Sardegna',  # row['Common'],
             latitude=39.137,
             longitude=9.74,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Sicilia',  # row['Common'],
+        Localita.objects.create(
+            name='Sicilia',  # row['Common'],
             latitude=38.70,
             longitude=13.2143,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Toscana',  # row['Common'],
+        Localita.objects.create(
+            name='Toscana',  # row['Common'],
             latitude=43.4628,
             longitude=11.1529,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Trentino Alto Adige',  # row['Common'],
+        Localita.objects.create(
+            name='Trentino Alto Adige',  # row['Common'],
             latitude=46.47,
             longitude=11.722,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Umbria',  # row['Common'],
+        Localita.objects.create(
+            name='Umbria',  # row['Common'],
             latitude=43.649,
             longitude=12.2323,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Valle d\'Aosta',  # row['Common'],
+        Localita.objects.create(
+            name='Valle d\'Aosta',  # row['Common'],
             latitude=45.4418,
             longitude=7.1914,
         )
-        ProjectCountry.objects.create(
-            country='IT',
-            country_name='Veneto',  # row['Common'],
+        Localita.objects.create(
+            name='Veneto',  # row['Common'],
             latitude=45.2617,
             longitude=12.1939,
         )
