@@ -27,7 +27,7 @@ from itertools import chain
 from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
     FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
-    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, Localita
 from organisations.models import Organisation
 import copy
 import csv
@@ -257,8 +257,12 @@ def projects(request):
         'organisation__country', flat=True).distinct()
     countriesWithContent3 = projects.values_list(
         'country', flat=True).distinct()
-    regioni = projects.values_list(
-        'projectCountry__country_name', flat=True).distinct()
+    # regioni = projects.values_list(
+    #     'projectCountry__country_name', flat=True).distinct()
+
+    localitaids = projects.values_list(
+        'localita_id', flat=True).distinct()
+    localita = Localita.objects.filter(id__in=localitaids)
 
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
@@ -379,7 +383,7 @@ def projects(request):
         'usersCounter': usersCounter,
         'isSearchPage': True,
         'homeSearchCategories' : homeSearchCategories,
-        'regioni' : regioni,
+        'localita' : localita,
         'show_search_bar': False})
 
 @login_required
@@ -726,10 +730,10 @@ def applyFilters(request, projects):
             projects = projects.filter(
                 participationTask__participationTask=request.GET['participationTask'])
 
-        if request.GET.get('regione'):
+        if request.GET.get('localita_id'):
             #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
             #projects = projects.filter(projectCountry=projectCountry)
-            projects = projects.filter(projectCountry__country_name=request.GET.get('regione'))
+            projects = projects.filter(localita_id=request.GET.get('localita_id'))
 
         if request.GET.get('country'):
             projects = projects.filter(
@@ -805,8 +809,10 @@ def setFilters(request, filters):
         filters['orderby'] = request.GET['orderby']
     if request.GET.get('country'):
         filters['country'] = request.GET['country']
-    if request.GET.get('regione'):
-        filters['regione'] = request.GET['regione']
+    # if request.GET.get('regione'):
+    #     filters['regione'] = request.GET['regione']
+    if request.GET.get('localita_id'):
+        filters['localita_id'] = str(request.GET['localita_id'])
     return filters
 
 

@@ -178,14 +178,14 @@ class ProjectForm(forms.Form):
         required=False,
         label=_("Geographic extend"))
 
-    projectlocality = forms.CharField(
-        max_length=300,
-        widget=forms.TextInput(),
-        required=False,
-        label=_("Project locality"),
-        help_text=_('Please describe the locality of the project, in terms of where the main participant '
-                    'activities take place. E.g. in your backyard, parks in London, rivers in Europe, '
-                    'online globally, etc.'))
+    # projectlocality = forms.CharField(
+    #     max_length=300,
+    #     widget=forms.TextInput(),
+    #     required=False,
+    #     label=_("Project locality"),
+    #     help_text=_('Please describe the locality of the project, in terms of where the main participant '
+    #                 'activities take place. E.g. in your backyard, parks in London, rivers in Europe, '
+    #                 'online globally, etc.'))
 
     projectGeographicLocation = forms.MultiPolygonField(
         required=False,
@@ -198,12 +198,12 @@ class ProjectForm(forms.Form):
         }),
         label=_("Project geographic location"))
 
-    projectCountry = forms.ModelMultipleChoiceField(
-        queryset=ProjectCountry.objects.all(),
-        widget=Select2MultipleWidget(),
-        label=_("Countries involved"),
-        required=False,
-        help_text=_('Select all countries where the project is active.'))
+    # projectCountry = forms.ModelMultipleChoiceField(
+    #     queryset=ProjectCountry.objects.all(),
+    #     widget=Select2MultipleWidget(),
+    #     label=_("Countries involved"),
+    #     required=False,
+    #     help_text=_('Select all countries where the project is active.'))
 
     # Contact and hosts details
     contact_person = forms.CharField(

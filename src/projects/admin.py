@@ -32,7 +32,7 @@ class ParticipationTaskAdmin(TabbedTranslationAdmin):
 class ProjectAdmin(TabbedTranslationAdmin):
     list_filter = ('creator', 'status', )
     form = ProjectFormA
-
+    exclude = ('projectCountry', 'projectlocality', 'projectGeographicLocation' )
     formfield_overrides = {
         models.TextField: {'widget': CKEditor5Widget(config_name='extends')}
     }

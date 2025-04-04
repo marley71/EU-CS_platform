@@ -8,22 +8,22 @@
         <input type="hidden" name="keywords" value="{{ filters.keywords }}">
 
         <div class="row mt-5">
-            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
-
-                <label for="country">Regione</label>
-
-
-                <select id="country" name="country" class="custom-select form-select">
-                    <option value="">{% trans "Seleziona" %}
-                    <option>
-                        {% for country in countries %}{% for cwc in countriesWithContent %}
-                            {% if country.code == cwc %}
-                                <option {% if country.code == filters.country %} selected {% endif %}
-                                                                                 value="{{ country.code }}"> {{ country.name }}</option>
-                            {% endif %}{% endfor %}{% endfor %}
-                </select>
-
-            </div>
+{#            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">#}
+{##}
+{#                <label for="country">Regione</label>#}
+{##}
+{##}
+{#                <select id="country" name="country" class="custom-select form-select">#}
+{#                    <option value="">{% trans "Seleziona" %}#}
+{#                    <option>#}
+{#                        {% for country in countries %}{% for cwc in countriesWithContent %}#}
+{#                            {% if country.code == cwc %}#}
+{#                                <option {% if country.code == filters.country %} selected {% endif %}#}
+{#                                                                                 value="{{ country.code }}"> {{ country.name }}</option>#}
+{#                            {% endif %}{% endfor %}{% endfor %}#}
+{#                </select>#}
+{##}
+{#            </div>#}
 
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 

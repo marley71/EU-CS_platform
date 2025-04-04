@@ -25,14 +25,23 @@
             </div>
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="country">Regione</label>
-                <select id="regione" name="regione" class="custom-select form-select">
-                    <option value="">{% trans "Seleziona" %}
-                    {% for regione in regioni %}
-                                <option {% if regione == filters.regione %} selected {% endif %}
-                                                                                 value="{{ regione }}"> {{ regione }}</option>
+                <label for="country">Località</label>
+{#                <select id="regione" name="regione" class="custom-select form-select">#}
+{#                    <option value="">{% trans "Seleziona" %}#}
+{#                    {% for regione in regioni %}#}
+{#                                <option {% if regione == filters.regione %} selected {% endif %}#}
+{#                                                                                 value="{{ regione }}"> {{ regione }}</option>#}
+{#                    {% endfor %}#}
+{#                </select>#}
+                <select id="localita" name="localita_id" class="custom-select form-select">
+                    <option value="">{% trans "Seleziona" %} {{ filters.localita_id }} </option>
+                    {% for loc in localita %}
+                                <option {% if loc.id|cut:" " == filters.localita_id|cut:" " %} selected {% endif %}
+                                                                                 value="{{ loc.id }}">{{ loc.name }}</option>
                     {% endfor %}
                 </select>
+
+
 
 {#                <select id="country" name="country" class="custom-select form-select">#}
 {#                    <option value="">{% trans "Seleziona" %}#}
@@ -129,7 +138,7 @@
 
             </div>
             <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-2">
-                {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
                     <div>
 
                         <a class="text-red-700 text-sm" href="/projects">
