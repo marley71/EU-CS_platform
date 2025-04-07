@@ -13,15 +13,21 @@
 {#</div>#}
 
 
-<div class="card rounded-4 px-0 py-0 w-100" style="height:350px;">
+<div class="card shadow rounded-4 px-0 py-0 w-100" style="height:350px;">
     <div class="card-header d-flex justify-content-between align-content-center rounded-top-4"
          style="background-color: #F7F7FF;"
     >
         <div>
+            <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar-event-fill"/>
+            </svg>
             {{ event.start_date | date:"d/m/Y" }}
         </div>
         {% if event.place %}
             <div class="">
+                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pin-map-fill"/>
+                </svg>
                 {{ event.place }}<br>
             </div>
         {% endif %}
@@ -29,10 +35,10 @@
     <div class="card-body d-flex flex-column justify-content-between">
         <div class="d-flex flex-column gap-1">
 
-            <h3>{{ event.title }}</h3>
+            <h3>{{ event.title  | safe | truncatechars:45 }}</h3>
             <p>
-                {{ event.description | safe | truncatechars:150 }}
-                {% if event.description|length > 150 %}
+                {{ event.description | safe | truncatechars:100 }}
+                {% if event.description|length > 100 %}
                     &nbsp; <a href="#" class="" data-bs-toggle="modal" data-bs-target="#evento-{{ event.id }}">
                     Continua a leggere
                 </a>

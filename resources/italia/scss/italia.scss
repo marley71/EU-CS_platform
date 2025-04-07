@@ -272,3 +272,45 @@ a.nav-tab-search.active {
 .navbar-nav li .nav-link:hover {
   font-weight: 700 !important;
 }
+
+footer a:hover {
+  text-decoration: underline !important;
+}
+
+.btn-link {
+  --#{$prefix}btn-font-weight: #{$font-weight-normal};
+  --#{$prefix}btn-color: #{$olive-green-800};
+  --#{$prefix}btn-bg: transparent;
+  --#{$prefix}btn-border-color: transparent;
+  --#{$prefix}btn-hover-color: #{$white};
+  --#{$prefix}btn-bg-hover-color: #{$plum-900};
+  --#{$prefix}btn-hover-border-color: transparent;
+  --#{$prefix}btn-active-color: #{$btn-link-hover-color};
+  --#{$prefix}btn-active-border-color: transparent;
+  --#{$prefix}btn-disabled-color: #{$btn-link-disabled-color};
+  --#{$prefix}btn-disabled-border-color: transparent;
+  --#{$prefix}btn-box-shadow: 0 0 0 #000; // Can't use `none` as keyword negates all values when used with multiple shadows
+  --#{$prefix}btn-focus-shadow-rgb: #{$btn-link-focus-shadow-rgb};
+
+  text-decoration: $link-decoration;
+  @if $enable-gradients {
+    background-image: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: $link-hover-decoration;
+  }
+
+  &:focus-visible {
+    color: var(--#{$prefix}btn-color);
+  }
+
+  &:hover {
+    color: var(--#{$prefix}btn-hover-color);
+    background-color: var(--#{$prefix}btn-bg-hover-color);
+    border: 1px solid var(--#{$prefix}btn-hover-border-color);
+  }
+
+  // No need for an active state here
+}

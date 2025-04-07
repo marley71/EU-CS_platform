@@ -9,7 +9,7 @@
         {% for event in events %}
 
             {#            {% include "_projects_cards.html" %}#}
-            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-4">
                 {% include "includes/card_evento.html" with event=event %}
             </div>
         {% endfor %}
@@ -20,7 +20,7 @@
         {#            {% endif %}#}
     </div>
     <div class="text-end">
-        <a href="/events">
+        <a href="/events" class="btn btn-link">
             Scopri tutti gli eventi
             <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-right"/>
