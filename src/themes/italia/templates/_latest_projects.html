@@ -11,7 +11,7 @@
             {% for project in projects %}
 
                 {#            {% include "_projects_cards.html" %}#}
-                <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                <div class="col-12 col-md-6 d-flex align-items-center mb-4">
                     <a href="/project/{{ project.id }}">
                         {% include "includes/card_main.html" with cardSubtitle=project.mainOrganisation.name|default:"Nessuna organizzazione"  cardTitle=project.name image=project.image1 tags=project.display_items more=project.more_count flags=project.projectCountry.all status=project.status %}
                     </a>

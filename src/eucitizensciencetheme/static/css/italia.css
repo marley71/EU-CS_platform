@@ -12743,4 +12743,8 @@ a.nav-tab-search.active {
   font-weight: 700 !important;
 }
 
+footer a:hover {
+  text-decoration: underline !important;
+}
+
 /*# sourceMappingURL=italia.css.map */
