@@ -17,61 +17,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
-
-        if not os.path.isfile(csv_file):
-            raise CommandError(f"Il file {csv_file} non esiste.")
-
-        self.stdout.write(f'Seeding database with data from {csv_file}')
-
-        with open(csv_file, mode='r') as file:
-            csv_reader = csv.DictReader(file)
-            rows = list(csv_reader)
-
-            if not rows:
-                raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
-
-            start_period = "2020-01-01 00:00:00"
-            end_period = "2025-07-31 23:59:59"
-
-            for row in rows:
-                status = self.getStatus(row['Stato di attività'])
-                organisation = self.getOrganisations(row)
-                #country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
-                localita = Localita.objects.filter(name=row['Regione']).first()
-                #keyword = Keyword.objects.filter(keyword='Importazione').first()
-                self.stdout.write(row['Nome del progetto'])
-                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
-                project = Project.objects.create(
-                    name=row['Nome del progetto'],
-                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    aim=row['Scopo principale del progetto'],
-                    aim_it=row['Scopo principale del progetto'],
-                    url=row['Sito web di riferimento'],
-                    status_id=status.id,
-                    approved=True,
-                    creator_id=1, # id superadmin
-                    mainOrganisation=organisation,
-                    #country=country.country,
-                    start_date=timezone.make_aware(start_date),
-                    end_date=timezone.make_aware(end_date),
-                    dateUpdated=timezone.make_aware(end_date),
-                    localita_id=localita.id,
-                    #keyword=keyword.keyword,
-                    #organisation=organisation
-                )
-                #project.projectCountry.add(country)
-                project.organisation.add(organisation)
-                #project.keywords.add(keyword)
-                self.setKeywords(project,row)
-                self.setImage(project,row)
-#                 MyModel.objects.create(
-#                     name=row['name'],
-#                     description=row['description']
-#                 )
-
+        #self.normalProjects()
+        self.weeklyProjects()
         self.stdout.write('Database seeded successfully!')
 
     def getStatus(self,code):
@@ -124,6 +71,8 @@ class Command(BaseCommand):
         #     project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
 
     def setKeywords(self,project,row):
+        if not row['TAGs/Keywords']:
+            return
         keywords = str(row['TAGs/Keywords'])
         for keyword in keywords.split(','):
             kModel = Keyword.objects.get_or_create(keyword=keyword.strip())
@@ -178,3 +127,122 @@ class Command(BaseCommand):
             generated_end_date = generated_start_date + timedelta(days=1)
 
         return generated_start_date, generated_end_date
+
+    def normalProjects(self):
+        basedir = os.path.dirname(settings.BASE_DIR)
+        csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
+
+        if not os.path.isfile(csv_file):
+            raise CommandError(f"Il file {csv_file} non esiste.")
+
+        self.stdout.write(f'Seeding database with data from {csv_file}')
+
+        with open(csv_file, mode='r') as file:
+            csv_reader = csv.DictReader(file)
+            rows = list(csv_reader)
+
+            if not rows:
+                raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
+
+            start_period = "2020-01-01 00:00:00"
+            end_period = "2025-07-31 23:59:59"
+
+            for row in rows:
+                status = self.getStatus(row['Stato di attività'])
+                organisation = self.getOrganisations(row)
+                # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                localita = Localita.objects.filter(name=row['Regione']).first()
+                # keyword = Keyword.objects.filter(keyword='Importazione').first()
+                self.stdout.write(row['Nome del progetto'])
+                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+                project = Project.objects.create(
+                    name=row['Nome del progetto'],
+                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    aim=row['Scopo principale del progetto'],
+                    aim_it=row['Scopo principale del progetto'],
+                    url=row['Sito web di riferimento'],
+                    status_id=status.id,
+                    approved=True,
+                    creator_id=1,  # id superadmin
+                    mainOrganisation=organisation,
+                    # country=country.country,
+                    start_date=timezone.make_aware(start_date),
+                    end_date=timezone.make_aware(end_date),
+                    dateUpdated=timezone.make_aware(end_date),
+                    localita_id=localita.id,
+                    # keyword=keyword.keyword,
+                    # organisation=organisation
+                )
+                # project.projectCountry.add(country)
+                project.organisation.add(organisation)
+                # project.keywords.add(keyword)
+                self.setKeywords(project, row)
+                self.setImage(project, row)
+
+    #                 MyModel.objects.create(
+    #                     name=row['name'],
+    #                     description=row['description']
+    #                 )
+
+    def weeklyProjects(self):
+        basedir = os.path.dirname(settings.BASE_DIR)
+        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week.csv')
+
+        if not os.path.isfile(csv_file):
+            raise CommandError(f"Il file {csv_file} non esiste.")
+
+        self.stdout.write(f'Seeding database with data from {csv_file}')
+
+        with open(csv_file, mode='r') as file:
+            csv_reader = csv.DictReader(file)
+            rows = list(csv_reader)
+
+            if not rows:
+                raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
+
+            start_period = "2020-01-01 00:00:00"
+            end_period = "2025-07-31 23:59:59"
+
+            for row in rows:
+                status = self.getStatus(row['Stato di attività'])
+                organisation = self.getOrganisations(row)
+                # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                localita = Localita.objects.filter(name=row['Regione']).first()
+                # keyword = Keyword.objects.filter(keyword='Importazione').first()
+                self.stdout.write(row['Nome del progetto'])
+                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+                start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
+                end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
+
+                project = Project.objects.create(
+                    name=row['Nome del progetto'],
+                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    aim=row['Scopo principale del progetto'],
+                    aim_it=row['Scopo principale del progetto'],
+                    url=row['Sito web di riferimento'],
+                    status_id=status.id,
+                    approved=True,
+                    creator_id=1,  # id superadmin
+                    mainOrganisation=organisation,
+                    # country=country.country,
+                    start_date=timezone.make_aware(start_date),
+                    end_date=timezone.make_aware(end_date),
+                    dateUpdated=timezone.make_aware(end_date),
+                    localita_id=localita.id,
+                    author=row['Contatti'],
+                    author_email=row['email'],
+                    # keyword=keyword.keyword,
+                    # organisation=organisation
+                )
+                # project.projectCountry.add(country)
+                project.organisation.add(organisation)
+                # project.keywords.add(keyword)
+                row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
+                self.setKeywords(project, row)
+                self.setImage(project, row)
+    #                 MyModel.objects.create(
+    #                     name=row['name'],
+    #                     description=row['description']
+    #                 )
