@@ -43,7 +43,7 @@ $plum-700: #4B4B97;
 $plum-800: $plum !default;
 $plum-900: #13133F;
 
-$primary: $olive-green;
+$primary: $olive-green-400;
 $secondary: $plum;
 
 $link-color: $olive-green-800;
@@ -55,10 +55,22 @@ $navbar-light-color: $olive-green-800;
 //$navbar-light-active-color: #880000;
 //$navbar-light-hover-color: #fdbbbb;
 
+$spacer: 1rem !default;
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 2,
+  6: $spacer * 3,
+  7: $spacer * 4,
+) !default;
 
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/variables-dark";
+
 
 $colors: (
         "blue": $blue,
@@ -254,5 +266,9 @@ a.nav-tab-search {
 }
 
 a.nav-tab-search.active {
+  font-weight: 700 !important;
+}
+
+.navbar-nav li .nav-link:hover {
   font-weight: 700 !important;
 }

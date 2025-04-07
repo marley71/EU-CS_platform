@@ -158,7 +158,7 @@ class Command(BaseCommand):
         TopBar.objects.create(
             name='map',
             slug='/map',
-            name_it='Map',
+            name_it='Mappa',
             position=4
         )
         TopBar.objects.create(
