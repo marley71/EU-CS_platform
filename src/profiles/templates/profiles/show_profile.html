@@ -1,5 +1,6 @@
 {% extends "./base_template_profiles.html" %}
 {% load i18n %}
+{% load static %}
 {% block profile_right %}
 
     <div class="row">
@@ -26,24 +27,46 @@
     <div class="row bg-white border border-top-0 py-5 px-4 mb-5">
 
 
-        {% if show_user.profile.bio %}
             <h3 class="col-12 p-0">
                 Biografia e background disciplinare
             </h3>
+        {% if show_user.profile.bio %}
             {{ show_user.profile.bio | safe }}
+        {%  else %}
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-content-center mt-5 gap-3">
+                    <div class="d-flex justify-content-start align-items-center gap-2">
+
+                        <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+
+                        <div>
+                            L'utente non ha ancora inserito la sua biografia e il suo background disciplinare.
+                        </div>
+                    </div>
+                </div>
         {% endif %}
 
-        {% if show_user.profile.interestAreas.all %}
             <h4 class="col-12 p-0 mt-4">{% trans "Interest and expertise areas" %}</h4>
+        {% if show_user.profile.interestAreas.count > 0 %}
             <div class="col-12 p-0 d-flex flex-wrap gap-2 justify-content-start align-items-center mt-2">
                 {% for area in show_user.profile.interestAreas.all %}
                     <span class="badge rounded-pill badge-card-main ">{{ area|capfirst }}</span>
                 {% endfor %}
             </div>
+        {%  else %}
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-content-center mt-5 gap-3">
+                    <div class="d-flex justify-content-start align-items-center gap-2">
+
+                        <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+
+                        <div>
+                            L'utente non ha ancora inserito le sue aree di interesse.
+                        </div>
+                    </div>
+                </div>
         {% endif %}
 
-        {% if show_user.profile.organisation.all %}
             <h4 class="col-12 p-0 mt-4">{% trans "Organisations" %}</h4>
+        {% if show_user.profile.organisation.count > 0 %}
             <div class="col-12 row mt-2">
                 {% for organisation in show_user.profile.organisation.all %}
                     <div class="col-6 mb-3">
@@ -51,6 +74,18 @@
                     </div>
                 {% endfor %}
             </div>
+                    {%  else %}
+                <div class="col-12 p-0 d-flex flex-column justify-content-start align-content-center mt-5 gap-3">
+                    <div class="d-flex justify-content-start align-items-center gap-2">
+
+                        <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+
+                        <div>
+                            L'utente non ha ancora inserito le sue organizzazioni.
+                        </div>
+                    </div>
+                </div>
+
         {% endif %}
 
     </div>
