@@ -16,18 +16,19 @@
 <div class="card rounded-4 w-100 shadow" style="height:115px;">
     <div class="row">
         <div class="col-3 p-0">
-                            <div class="rounded-start-4 w-100"
-                     style="height:113px; background-image: url('/media/{{ image|default:'cards/card_organisations_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+            <div class="rounded-start-4 w-100"
+                 style="height:113px; background-image: url('/media/{{ image|default:'cards/card_organisations_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
-                </div>
+            </div>
 
         </div>
         <div class="col-9 p-0">
-            <div class="card-body w-100 d-flex flex-column justify-content-between h-100">
+            <div class="card-body m-0 mx-1 w-100 d-flex flex-column justify-content-between h-100">
+
                 <div class="flex-fill">
 
                     <h5 class="card-title">
-                        {{ cardTitle|safe|truncatechars:47|default:'Citizen Science italia' }}
+                        {{ cardTitle|safe|truncatechars:37|default:'Citizen Science italia' }}
                     </h5>
                 </div>
 
@@ -35,17 +36,17 @@
 
 
                     {% if tipologia %}
-                        <div class="d-flex gap-1 justify-content-start align-items-center mt-2">
+                        <div class="d-flex gap-1 justify-content-start align-items-center">
                             <span class="badge rounded-pill badge-card-secondary ">{{ tipologia|capfirst }}</span>
                         </div>
                     {% endif %}
 
-                    {% if flags and flags.count > 0 %}
-                        <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                    {% if flags %}
+                        <div class="d-flex gap-1 justify-content-start align-items-center">
                             <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                             </svg>
-                            <span class="">{{ flags|join:", " }}</span>
+                            <span class="">{{ flags }}</span>
                         </div>
                     {% endif %}
                 </div>
