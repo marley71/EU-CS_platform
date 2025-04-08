@@ -12,50 +12,52 @@
 {#</div>#}
 {#</div>#}
 
-{% with status.split|join:"-" as statusH %}
-<div class="card rounded-4 px-0 py-0 w-100 shadow">
-    <div class="row">
-        <div class="col-md-5 col-4 position-relative">
-            {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
-            <img src="{% thumbnail project.image1|default:'cards/card-main-placeholder.png' 250x250 upscale crop %}"
-                 class="img-fluid rounded-start-4" alt="{{ cardTitle|default:'Citizen Science italia' }}">
+{% with project.status.split|join:"-" as statusH %}
+    <div class="card rounded-4 px-0 py-0 w-100 shadow" style="height:250px;">
+        <a href="/project/{{ project.id }}" class="card-main">
+            <div class="row">
+                <div class="col-md-5 col-4">
+                    {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
 
-            {% if status %}
-                <div class="" style="position: absolute; top: 16px; left: 28px;">
-                    <span class="badge rounded-pill badge-status-{{ status.humanized }} ">{{ status|capfirst }}</span>
-                </div>
-            {% endif %}
-        </div>
-        <div class="col-md-7 col-8">
-            <div class="card-body">
-                <h5 class="card-title">
-                    {{ cardTitle|safe|truncatechars:60 | default:'Citizen Science italia' }}
-                </h5>
-                {% if cardSubtitle %}
-                    <h6 class="card-subtitle mt-2">
-                        {{ cardSubtitle| safe | truncatechars:75 }}
-                    </h6>
-                {% endif %}
+                    <div class="rounded-start-4"
+                         style="height:248px; background-image: url('/media/{{ project.image1 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
-                <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
-                    {% for item in tags %}
-                        <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
-                    {% endfor %}
-                    {% if more > 3 %}
-                        <span class="badge rounded-pill badge-card-main ">+{{ more|add:"-3"}}</span>
-                    {% endif %}
-                </div>
-
-                {% if flags and flags.count > 0 %}
-                    <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
-                        <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
-                        </svg>
-                        <span class="">{{ flags|join:", " }}</span>
+                        {% if project.status %}
+                            <div class="" style="position: absolute; top: 16px; left: 28px;">
+                                <span class="badge rounded-pill badge-status-{{ project.status.humanized }} ">{{ project.status|capfirst }}</span>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
+                </div>
+                <div class="col-md-7 col-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ project.name|safe|truncatechars:60 | default:'Citizen Science italia' }}
+                        </h5>
+                        <h6 class="card-subtitle mt-2">
+                            {{ project.mainOrganisation.name|default:"Nessuna organizzazione" | truncatechars:75 }}
+                        </h6>
+
+                        <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
+                            {% for item in project.display_items %}
+                                <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
+                            {% endfor %}
+                            {% if project.more_count > 3 %}
+                                <span class="badge rounded-pill badge-card-main ">+{{ project.more_count|add:"-3" }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if project.projectCountry.all and project.projectCountry.all.count > 0 %}
+                            <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                                </svg>
+                                <span class="">{{ project.projectCountry.all|join:", " }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
-</div>
 {% endwith %}
