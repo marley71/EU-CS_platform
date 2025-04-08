@@ -30,31 +30,37 @@
                     </div>
                 </div>
                 <div class="col-md-7 col-8">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            {{ project.name|safe|truncatechars:60 | default:'Citizen Science italia' }}
-                        </h5>
-                        <h6 class="card-subtitle mt-2">
-                            {{ project.mainOrganisation.name|default:"Nessuna organizzazione" | truncatechars:75 }}
-                        </h6>
+                    <div class="card-body d-flex flex-column justify-content-between h-100">
+                        <div class="flex-fill">
 
-                        <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
-                            {% for item in project.display_items %}
-                                <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
-                            {% endfor %}
-                            {% if project.more_count > 3 %}
-                                <span class="badge rounded-pill badge-card-main ">+{{ project.more_count|add:"-3" }}</span>
-                            {% endif %}
+                            <h5 class="card-title">
+                                {{ project.name|safe|truncatechars:60 | default:'Citizen Science italia' }}
+                            </h5>
+                            <h6 class="card-subtitle mt-2">
+                                {{ project.mainOrganisation.name|default:"Nessuna organizzazione" | truncatechars:75 }}
+                            </h6>
+
+                            <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
+                                {% for item in project.display_items %}
+                                    <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
+                                {% endfor %}
+                                {% if project.more_count > 3 %}
+                                    <span class="badge rounded-pill badge-card-main ">+{{ project.more_count|add:"-3" }}</span>
+                                {% endif %}
+                            </div>
                         </div>
 
-                        {% if project.projectCountry.all and project.projectCountry.all.count > 0 %}
-                            <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
-                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
-                                </svg>
-                                <span class="">{{ project.projectCountry.all|join:", " }}</span>
-                            </div>
-                        {% endif %}
+                        <div class="">
+
+                            {% if project.localita %}
+                                <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                                    </svg>
+                                    <span class="">{{ project.localita.name }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
