@@ -25,7 +25,7 @@
             </div>
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="localita_id">Località</label>
+                <label for="localita_id">Regione</label>
 {#                <select id="regione" name="regione" class="custom-select form-select">#}
 {#                    <option value="">{% trans "Seleziona" %}#}
 {#                    {% for regione in regioni %}#}
@@ -34,7 +34,7 @@
 {#                    {% endfor %}#}
 {#                </select>#}
                 <select id="localita" name="localita_id" class="custom-select form-select">
-                    <option value="">{% trans "Seleziona" %} {{ filters.localita_id }} </option>
+                    <option value="">{% trans "Seleziona" %}</option>
                     {% for loc in localita %}
                                 <option {% if loc.id|cut:" " == filters.localita_id|cut:" " %} selected {% endif %}
                                                                                  value="{{ loc.id }}">{{ loc.name }}</option>
@@ -111,8 +111,11 @@
                 {% if filters.keywords %}
                     {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
                 {% endif %}
+{#                {% if filters.localita_id %}#}
+{#                    {% include 'includes/tag.html' with text='Regione: '|add:filters.localita_id hasClose=True %}#}
+{#                {% endif %}#}
                 {% if filters.localita_id %}
-                    {% include 'includes/tag.html' with text='Regione: '|add:filters.localita_id hasClose=True %}
+                    {% include 'includes/tag.html' with text='Regione: '|add:localita_selected hasClose=True %}
                 {% endif %}
                 {% if filters.status %}
                     {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=True %}

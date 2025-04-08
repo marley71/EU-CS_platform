@@ -319,6 +319,10 @@ def projects(request):
     else:
         projects = projects.order_by('-dateUpdated')
 
+    localita_selected = None
+    if request.GET.get('localita_id'):
+        localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+
     counter = len(projects)
 
     paginator = Paginator(projects, 18)
@@ -385,6 +389,7 @@ def projects(request):
         'isSearchPage': True,
         'homeSearchCategories' : homeSearchCategories,
         'localita' : localita,
+        'localita_selected' : localita_selected.name,
         'show_search_bar': False})
 
 @login_required

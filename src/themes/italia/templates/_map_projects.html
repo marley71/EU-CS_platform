@@ -64,7 +64,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             position: absolute;
-            top: 12%;
+            top: 13%;
             left: 48px;
             z-index: 1000;
             width: 310px;
@@ -89,6 +89,18 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
             Progetti
+
+        </label>
+    </div>
+        <div class="layer-option ps-4">
+        <input type="checkbox" name="layer" id="project_bio" checked value="projects_bio"
+               class="me-1 map-checkbox"
+        >
+        <label for="project_bio">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+            Biodiv. sampling week
 
         </label>
     </div>
@@ -224,7 +236,25 @@
              */
         });
 
+        var projects_bio  =  L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            /*
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
 
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+            */
+        });
         // Perform AJAX request to get the
         var xhr1 = new XMLHttpRequest();
         xhr1.open('GET', '/get_projects/', true);
@@ -247,6 +277,24 @@
                     // Add the marker to the feature group
                     marker.addTo(projects);
                 }
+                markersData = JSON.parse(xhr1.responseText).markers_bio;
+                console.debug('markers bio', markersData);
+                // Create markers on the map based on the data received
+                for (var i = 0; i < markersData.length; i++) {
+                    var marker = L.marker([markersData[i].latitude, markersData[i].longitude], {
+                        icon: projectIcon,
+                        projectId: markersData[i].project_id,
+                        name: markersData[i].name,
+                    });
+                    marker.bindPopup('<div>' +
+                        '<a href="' + markersData[i].project_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
+                        '</div>');
+                    // Add the properties to the marker as a GeoJSON feature
+                    marker.feature = {properties: {name: markersData[i].name}};
+                    // Add the marker to the feature group
+                    marker.addTo(projects_bio);
+                }
+
                 /*
                                     var zonesData = JSON.parse(xhr1.responseText).zones;
                                     console.debug('zones',zonesData)
@@ -292,9 +340,12 @@
 
         projects.addTo(map);
         organisations.addTo(map);
+        projects_bio.addTo(map)
+
         var layers = {
             projects: projects,
-            organisations: organisations
+            organisations: organisations,
+            projects_bio : projects_bio
         }
         /*
         var baseLayers = {

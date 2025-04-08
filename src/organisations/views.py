@@ -26,7 +26,7 @@ from projects.models import Project
 from resources.models import Resource
 from .forms import OrganisationForm, OrganisationPermissionForm
 from .models import HelpText, Organisation, OrganisationPermission, OrganisationType
-
+from localita.models import Localita
 
 User = get_user_model()
 
@@ -200,6 +200,11 @@ def organisations(request):
         filters['orderby'] = request.GET['orderby']        
     """
 
+    localitaids = organisations.values_list(
+        'localita_id', flat=True).distinct()
+    localita = Localita.objects.filter(id__in=localitaids)
+
+
     organisations = applyFilters(request, organisations)
     filters = setFilters(request, filters)
     organisations.distinct()
@@ -249,6 +254,9 @@ def organisations(request):
     paginator = Paginator(organisations, 18)
     page = request.GET.get('page')
     organisations = paginator.get_page(page)
+    localita_selected = None
+    if request.GET.get('localita_id'):
+        localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
 
     return TemplateResponse(request, 'organisations.html', {
         'organisations': organisations,
@@ -265,6 +273,8 @@ def organisations(request):
         'orgTypes': orgTypes,
         'isSearchPage': True,
         'homeSearchCategories': homeSearchCategories,
+        'localita': localita,
+        'localita_selected': localita_selected.name,
         'show_search_bar': False})
 
 
@@ -405,7 +415,10 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(country=request.GET['country'])
         if request.GET.get('orgTypes'):
             queryset = queryset.filter(orgType__type=request.GET['orgTypes'])
-            
+
+        if request.GET.get('localita_id'):
+            queryset = queryset.filter(localita_id=request.GET.get('localita_id'))
+
     return queryset
 
 def setFilters(request, filters):
@@ -416,5 +429,7 @@ def setFilters(request, filters):
     if request.GET.get('orgTypes'):
         filters['orgTypes'] = request.GET['orgTypes']
     if request.GET.get('orderby'):
-        filters['orderby'] = request.GET['orderby']    
+        filters['orderby'] = request.GET['orderby']
+    if request.GET.get('localita_id'):
+        filters['localita_id'] = str(request.GET['localita_id'])
     return filters
