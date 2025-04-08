@@ -2,17 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <style>
         html, body {
             height: 100%;
             /*margin-top: -46px;*/
             padding: 0;
-            
+
         }
-    
+
         #map {
             position: relative;
             top: 0;
@@ -23,104 +24,132 @@
             /*margin-top: 146px;*/
 
         }
+
         .marker-cluster-small {
-            background-color: rgba(82, 13, 194, 0.50);
+            background-color: #FFDA6A;
+            border: 2px solid #f3dfa5;
         }
+
         .marker-cluster-small div {
-            background-color: rgba(82, 13, 194, 0.50);
+            background-color: #FFDA6A;
+            padding-right: 4px;
+            padding-bottom: 2px;
         }
+
         .marker-cluster-medium {
-            background-color: rgba(82, 13, 194, 0.50);
+            background-color: #984C0C;
+            border: 2px solid rgba(196, 135, 84, 0.5);
         }
+
         .marker-cluster-medium div {
-            background-color: rgba(82, 13, 194, 0.50);
+            background-color: #984C0C;
+            color: white;
+            padding-right: 4px;
+            padding-bottom: 2px;
+
         }
 
         .marker-cluster-large {
             background-color: rgba(82, 13, 194, 0.50);
         }
-        .marker-organization-cluster-large div {
-            background-color: rgba(255, 205, 57, 0.50);
+
+        .map-checkbox {
+            accent-color: black;
         }
 
-        .marker-organization-cluster-small {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
-        .marker-organization-cluster-small div {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
-        .marker-organization-cluster-medium {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
-        .marker-organization-cluster-medium div {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
-
-        .marker-organization-cluster-large {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
-        .marker-organization-cluster-large div {
-            background-color: rgba(255, 205, 57, 0.50);
-        }
 
         .custom-layer-control {
             background: white;
             padding: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             position: absolute;
-            top: 40%;
-            left: 10px;
+            top: 12%;
+            left: 48px;
             z-index: 1000;
+            width: 310px;
         }
+
         .layer-option {
             margin: 5px;
         }
     </style>
-    </head>
-    <body>
-        
-        <div id="map"></div>
-        <div class="custom-layer-control">
-            <h4>Seleziona cosa vuoi vedere</h4>
-            <div class="layer-option">
-                <input type="checkbox" name="layer" id="project" checked value="projects">
-                <label for="project">Progetti</label>
-            </div>
-            <div class="layer-option">
-                <input type="checkbox" name="layer" id="organisations" checked value="organisations">
-                <label for="organisations">Organizzazioni</label>
-            </div>
-        </div>
-    
-    
-    
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
-        type="text/css">
-    <script src="//unpkg.com/leaflet-gesture-handling"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+</head>
+<body>
 
-            var map = L.map('map', {center: [42, 13], zoom: 6});
-/*
-            var OpenStreetMap_BZH = L.tileLayer('https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
-                //bounds: [[46.2, -5.5], [50, 0.7]]
-            });
-*/
-/*
-            var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey={apikey}', {
-                    attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    apikey: 'pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
-                    maxZoom: 22
-                });
-*/
-/*
-            L.tileLayer(
-                'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',#}
+<div id="map"></div>
+<div class="custom-layer-control card rounded-4 p-4">
+    <div class="h6">Mostra</div>
+    <div class="layer-option">
+        <input type="checkbox" name="layer" id="project" checked value="projects"
+               class="me-1 map-checkbox"
+        >
+        <label for="project">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+            Progetti
+
+        </label>
+    </div>
+    <div class="layer-option">
+        <input type="checkbox" name="layer" id="organisations" checked value="organisations"
+               class="me-1 map-checkbox"
+        >
+        <label for="organisations">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#bank2"/>
+            </svg>
+            Organizzazioni
+
+        </label>
+    </div>
+    <hr/>
+    <div class="h6 mt-2">Legenda</div>
+    <div class="layer-option">
+        <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+        </svg>
+        &le; 9 elementi
+    </div>
+    <div class="layer-option">
+        <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+        </svg>
+        &ge; 10 elementi
+    </div>
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
+      type="text/css">
+<script src="//unpkg.com/leaflet-gesture-handling"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var map = L.map('map', {center: [42, 13], zoom: 6});
+        /*
+                    var OpenStreetMap_BZH = L.tileLayer('https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
+                        //bounds: [[46.2, -5.5], [50, 0.7]]
+                    });
+        */
+        /*
+                    var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey={apikey}', {
+                            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            apikey: 'pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+                            maxZoom: 22
+                        });
+        */
+        /*
+                    L.tileLayer(
+                        'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+
+
+        #}
 
                 //'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
                 {
@@ -131,171 +160,168 @@
             }).addTo(map);
 */
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
-            //L.tileLayer(Thunderforest_Neighbourhood).addTo(map);
-            //L.tileLayer(OpenStreetMap_BZH).addTo(map);
-            L.control.scale().addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        //L.tileLayer(Thunderforest_Neighbourhood).addTo(map);
+        //L.tileLayer(OpenStreetMap_BZH).addTo(map);
+        L.control.scale().addTo(map);
 
-            var projectIcon = L.divIcon({
-                className: 'individual-icon',
-                /* binoculars icon in red */
-                /*html: '<h5><i class="bi bi-bank2"></i><span>P</span></h5>',*/
-                html : '<svg class="bi mb-1" width="14" height="14" fill="currentColor"><use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#bank2"/></svg>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
+        var projectIcon = L.divIcon({
+            className: 'individual-icon',
+            /* binoculars icon in red */
+            /*html: '<h5><i class="bi bi-bank2"></i><span>P</span></h5>',*/
+            html: '<svg class="bi mb-1" width="16" height="16" fill="currentColor"><use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/></svg>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
 
-            var organisationIcon = L.divIcon({
-                className: 'individual-icon',
-                /* binoculars icon in red */
-                //html: '<h5><i class="bi bi-clipboard2-data-fill"></i>O</h5>',
-                html : '<svg class="bi mb-1" width="14" height="14" fill="currentColor"><use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/></svg>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
-
-
-            var projects = L.markerClusterGroup({
-                spiderfyOnMaxZoom: true,
-                showCoverageOnHover: false,
-                zoomToBoundsOnClick: true,
-                /*
-                iconCreateFunction: function(cluster) {
-                    var childCount = cluster.getChildCount();
-                     var c = ' marker-cluster-';
-                     if (childCount < 10) {
-                       c += 'small';
-                     }
-                     else if (childCount < 100) {
-                       c += 'medium';
-                     }
-                     else {
-                       c += 'large';
-                     }
-
-                    return L.divIcon({ className: "marker-cluster "+c});
-                }*/
-            });
-            var organisations = L.markerClusterGroup({
-                /*
-                iconCreateFunction: function(cluster) {
-                    var childCount = cluster.getChildCount();
-                     var c = ' marker-organization-cluster-';
-                     if (childCount < 10) {
-                       c += 'small';
-                     }
-                     else if (childCount < 100) {
-                       c += 'medium';
-                     }
-                     else {
-                       c += 'large';
-                     }
-
-                    return L.divIcon({ className: "marker-cluster "+c});
-                }*/
-            });
-     
-
-            // Perform AJAX request to get the 
-            var xhr1 = new XMLHttpRequest();
-            xhr1.open('GET', '/get_projects/', true);
-            xhr1.onreadystatechange = function () {
-                if (xhr1.readyState === 4 && xhr1.status === 200) {
-                    var markersData = JSON.parse(xhr1.responseText).markers;
-                    console.debug('markers',markersData);
-                    // Create markers on the map based on the data received
-                    for (var i = 0; i < markersData.length; i++) {
-                        var marker = L.marker([markersData[i].latitude, markersData[i].longitude], { 
-                            icon: projectIcon,
-                            projectId: markersData[i].project_id,
-                            name: markersData[i].name,
-                        });
-                        marker.bindPopup('<div>' +
-                            '<a href="' + markersData[i].project_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
-                            '</div>');
-                        // Add the properties to the marker as a GeoJSON feature
-                        marker.feature = { properties: { name: markersData[i].name } };
-                        // Add the marker to the feature group
-                        marker.addTo(projects);
-                    }
-/*
-                    var zonesData = JSON.parse(xhr1.responseText).zones;
-                    console.debug('zones',zonesData)
-                    zonesData.forEach(progetto => {
-                        L.geoJSON(JSON.parse(progetto.location), {
-                            onEachFeature: function (feature, layer) {
-                                layer.bindPopup(progetto.nome);
-                            }
-                        }).addTo(map);
-                    })
-*/
+        var organisationIcon = L.divIcon({
+            className: 'individual-icon',
+            /* binoculars icon in red */
+            //html: '<h5><i class="bi bi-clipboard2-data-fill"></i>O</h5>',
+            html: '<svg class="bi mb-1" width="16" height="16" fill="currentColor"><use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#bank2"/></svg>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
 
 
-                }
-            };
-
-            // Perform AJAX request to get the organisations
-            var xhr2 = new XMLHttpRequest();
-            xhr2.open('GET', '/get_organisations/', true);
-            xhr2.onreadystatechange = function () {
-                if (xhr2.readyState === 4 && xhr2.status === 200) {
-                    var markersData = JSON.parse(xhr2.responseText).markers;
-
-                    // Create markers on the map based on the data received
-                    for (var i = 0; i < markersData.length; i++) {
-                        var marker = L.marker([markersData[i].latitude, markersData[i].longitude], { icon: organisationIcon });
-                        marker.bindPopup('<div>' +
-                            '<a href="' + markersData[i].organisation_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
-                            '</div>');
-                        // Add the properties to the marker as a GeoJSON feature
-                        marker.feature = { properties: { name: markersData[i].name } };
-                        // Add the marker to the feature group
-                        marker.addTo(organisations);
-                    }
-                }
-            };
-
-            // Perform AJAX request to get the platforms
-            var xhr3 = new XMLHttpRequest();
-           
-            xhr1.send();
-            xhr2.send();
-     
-            projects.addTo(map);
-            organisations.addTo(map);
-            var layers = {
-                projects : projects,
-                organisations : organisations
-            }
+        var projects = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
             /*
-            var baseLayers = {
-                "<i class='bi bi-bank2'></i> Project": projects,
-                "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
-            };
-            L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
+
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+            */
+        });
+        var organisations = L.markerClusterGroup({
+            /*
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
+
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+
              */
-            document.querySelectorAll('input[name="layer"]').forEach(function(input) {
-                input.addEventListener('change', function() {
-                    console.debug(this.value,this.checked);
-                    if (this.checked) {
-                        map.addLayer(layers[this.value])
-                    } else {
-                        map.removeLayer(layers[this.value]);
-                    }
-                    /*
-                    if (this.id === 'osm') {
-                        map.removeLayer(satelliteLayer);
-                        map.addLayer(osmLayer);
-                    } else if (this.id === 'satellite') {
-                        map.removeLayer(osmLayer);
-                        map.addLayer(satelliteLayer);
-                    }*/
-                });
+        });
+
+
+        // Perform AJAX request to get the
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open('GET', '/get_projects/', true);
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                var markersData = JSON.parse(xhr1.responseText).markers;
+                console.debug('markers', markersData);
+                // Create markers on the map based on the data received
+                for (var i = 0; i < markersData.length; i++) {
+                    var marker = L.marker([markersData[i].latitude, markersData[i].longitude], {
+                        icon: projectIcon,
+                        projectId: markersData[i].project_id,
+                        name: markersData[i].name,
+                    });
+                    marker.bindPopup('<div>' +
+                        '<a href="' + markersData[i].project_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
+                        '</div>');
+                    // Add the properties to the marker as a GeoJSON feature
+                    marker.feature = {properties: {name: markersData[i].name}};
+                    // Add the marker to the feature group
+                    marker.addTo(projects);
+                }
+                /*
+                                    var zonesData = JSON.parse(xhr1.responseText).zones;
+                                    console.debug('zones',zonesData)
+                                    zonesData.forEach(progetto => {
+                                        L.geoJSON(JSON.parse(progetto.location), {
+                                            onEachFeature: function (feature, layer) {
+                                                layer.bindPopup(progetto.nome);
+                                            }
+                                        }).addTo(map);
+                                    })
+                */
+
+
+            }
+        };
+
+        // Perform AJAX request to get the organisations
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', '/get_organisations/', true);
+        xhr2.onreadystatechange = function () {
+            if (xhr2.readyState === 4 && xhr2.status === 200) {
+                var markersData = JSON.parse(xhr2.responseText).markers;
+
+                // Create markers on the map based on the data received
+                for (var i = 0; i < markersData.length; i++) {
+                    var marker = L.marker([markersData[i].latitude, markersData[i].longitude], {icon: organisationIcon});
+                    marker.bindPopup('<div>' +
+                        '<a href="' + markersData[i].organisation_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
+                        '</div>');
+                    // Add the properties to the marker as a GeoJSON feature
+                    marker.feature = {properties: {name: markersData[i].name}};
+                    // Add the marker to the feature group
+                    marker.addTo(organisations);
+                }
+            }
+        };
+
+        // Perform AJAX request to get the platforms
+        var xhr3 = new XMLHttpRequest();
+
+        xhr1.send();
+        xhr2.send();
+
+        projects.addTo(map);
+        organisations.addTo(map);
+        var layers = {
+            projects: projects,
+            organisations: organisations
+        }
+        /*
+        var baseLayers = {
+            "<i class='bi bi-bank2'></i> Project": projects,
+            "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
+        };
+        L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
+         */
+        document.querySelectorAll('input[name="layer"]').forEach(function (input) {
+            input.addEventListener('change', function () {
+                console.debug(this.value, this.checked);
+                if (this.checked) {
+                    map.addLayer(layers[this.value])
+                } else {
+                    map.removeLayer(layers[this.value]);
+                }
+                /*
+                if (this.id === 'osm') {
+                    map.removeLayer(satelliteLayer);
+                    map.addLayer(osmLayer);
+                } else if (this.id === 'satellite') {
+                    map.removeLayer(osmLayer);
+                    map.addLayer(satelliteLayer);
+                }*/
             });
         });
-    </script>
+    });
+</script>
 </body>
 </html>
