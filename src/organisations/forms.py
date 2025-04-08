@@ -3,6 +3,7 @@ from django_select2.forms import Select2MultipleWidget
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from .models import Organisation, OrganisationType
+from localita.models import Localita
 from projects.forms import getCountryCode
 from ckeditor.widgets import CKEditorWidget
 from django.conf import settings
@@ -72,6 +73,11 @@ class OrganisationForm(forms.Form):
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     longitude = forms.DecimalField(
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
+    localita = forms.ModelChoiceField(
+        queryset=Localita.objects.all(),
+        label=_("Località"),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please, select località of your project.'))
 
     # TODO: I link this more to be used in others
     def save(self, args, logo_path):

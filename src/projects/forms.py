@@ -7,9 +7,10 @@ from django_summernote.widgets import SummernoteWidget
 from django.utils.translation import ugettext_lazy as _
 from geopy.geocoders import Nominatim, options
 from geopy.exc import GeocoderServiceError
-from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry, Localita
+from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry
 from .models import ParticipationTask, GeographicExtend, HasTag, DifficultyLevel, TranslatedProject
 from organisations.models import Organisation
+from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
 

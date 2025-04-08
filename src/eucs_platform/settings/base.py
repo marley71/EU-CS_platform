@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     "django_select2",
     "blog",
     "pages",
+    "localita",
     "django_summernote",
     "leaflet",
     "django_countries",

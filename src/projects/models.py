@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from django.conf import settings
 from organisations.models import Organisation
 from django_countries.fields import CountryField
-
+from localita.models import Localita
 
 class Status(models.Model):
     STATUS_CHOICES = (
@@ -21,21 +21,6 @@ class Status(models.Model):
 
     def humanized(self):
         return self.status.replace(' ', '-')
-
-
-class Localita(models.Model):
-    name = models.CharField(max_length=100, editable=False)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-
-    # class Meta:
-    #     db_table = 'localita'  # Specifica il nome della tabella nel database
-
-    def __str__(self):
-        return f'{self.name}'
-
-    def humanized(self):
-        return self.name.replace(' ', '-')
 
 class ProjectCountry(models.Model):
     country = CountryField()

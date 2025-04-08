@@ -2,8 +2,9 @@ import csv
 import os
 import random
 from django.core.management.base import BaseCommand,CommandError
-from projects.models import Project,Status,Keyword,Topic,HasTag,Localita
+from projects.models import Project,Status,Keyword,Topic,HasTag
 from organisations.models import Organisation
+from localita.models import Localita
 from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
@@ -17,7 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        #self.normalProjects()
+        self.normalProjects()
         self.weeklyProjects()
         self.stdout.write('Database seeded successfully!')
 
@@ -33,7 +34,8 @@ class Command(BaseCommand):
     def getOrganisations(self,row):
         org = Organisation.objects.filter(name=row['Principale organizzazione promotrice']).first()
         if org == None:
-
+            localita = Localita.objects.filter(name=row['Regione']).first()
+            self.stdout.write('localita ' + localita.name + ' ' + str(localita.id))
             orgType = OrganisationType.objects.filter(type='default').first()
             if orgType == None:
                 orgType = OrganisationType.objects.create(
@@ -47,7 +49,7 @@ class Command(BaseCommand):
                 orgType=orgType,
                 latitude=latitudine,
                 longitude=longitudine,
-
+                localita_id=localita.id,
             )
         return org
 

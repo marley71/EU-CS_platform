@@ -7,10 +7,11 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from projects.models import Project, Likes, Follows
+from projects.models import Project, Likes, Follows, Keyword
 from resources.models import Resource
 from blog.models import Post
 from organisations.models import Organisation
+from localita.models import Localita
 from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event
@@ -18,6 +19,8 @@ from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
 
 from rest_framework import serializers
+
+
 
 class ProgettoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,9 +64,12 @@ def final_launch(request):
 
 def get_projects(request):
     # Filter approved projects with non-null mainOrganisation
-    projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
-
+    #projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
+    keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
+    projects = Project.objects.filter(approved=True).exclude(keywords__id = keyword.id).prefetch_related('projectCountry')
+    projects_bio = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
     markers = []
+    markers_bio = []
     #zones = [];
     for project in projects:
         # Check if the project has projectCountry related
@@ -86,21 +92,41 @@ def get_projects(request):
                 'project_id': project.id
             }
             markers.append(marker)
-        elif project.mainOrganisation:
-            # Use mainOrganisation if there's no projectCountry
+        # elif project.mainOrganisation:
+        #     # Use mainOrganisation if there's no projectCountry
+        #     marker = {
+        #         'latitude': project.mainOrganisation.latitude,
+        #         'longitude': project.mainOrganisation.longitude,
+        #         'name': project.name,
+        #         'project_url': f'/project/{project.id}',
+        #         'project_id': project.id
+        #     }
+        #     markers.append(marker)
+    for project in projects_bio:
+        # Check if the project has projectCountry related
+        # if project.projectCountry.exists():
+        #     for country in project.projectCountry.all():
+        #         marker = {
+        #             'latitude': country.latitude,
+        #             'longitude': country.longitude,
+        #             'name': project.name,
+        #             'project_url': f'/project/{project.id}',
+        #             'project_id': project.id
+        #         }
+        #         markers.append(marker)
+        if project.localita_id:
             marker = {
-                'latitude': project.mainOrganisation.latitude,
-                'longitude': project.mainOrganisation.longitude,
+                'latitude': project.localita.latitude,
+                'longitude': project.localita.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
                 'project_id': project.id
             }
-            markers.append(marker)
-
+            markers_bio.append(marker)
     #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
     #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
     zones = []
-    return JsonResponse({'markers': markers, 'zones': zones})
+    return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
 
 def get_organisations(request):
     # Filter approved projects with non-null mainOrganisation
