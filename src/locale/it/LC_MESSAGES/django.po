@@ -2610,7 +2610,7 @@ msgstr "Il mio privacy center"
 
 #: templates/base_r2.html:167
 msgid "New submission"
-msgstr "Nuovo invio"
+msgstr "Nuovo contenuto"
 
 #: templates/base_r2.html:225
 msgid "FORUM"

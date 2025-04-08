@@ -13,11 +13,15 @@
 {#</div>#}
 
 
-<div class="card rounded-4 p-0" style="width: 310px;">
-    <div style="height:308px;width:308px;" class="text-center">
+<div class="card rounded-4 p-0 w-100" style="height:500px;">
 
-        <img src="{% thumbnail member.picture|default:'default_profile.png' 308x308 crop %}"
-             class="rounded-top-4" style="height:308px;width: 308px;" alt="...">
+    <div class="col-12">
+        <div class="rounded-top-4"
+             style="height:308px;width:308px; background-image: url('/media/{{ member.picture|default:'cards/card_users_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+        </div>
+
+
     </div>
     <div class="card-body">
         <h5 class="card-title mb-1">
@@ -27,26 +31,30 @@
             {% endif %}
         </h5>
 
-        <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
-            {% for area in member.interestAreas.all %}
-                {% if forloop.counter <= 2 %}
-                    <span class="badge rounded-pill badge-card-main ">
+        <div class="d-flex flex-column">
+
+
+            <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                {% for area in member.interestAreas.all %}
+                    {% if forloop.counter <= 2 %}
+                        <span class="badge rounded-pill badge-card-main ">
                         {{ area | capfirst }}
                     </span>
+                    {% endif %}
+                {% endfor %}
+                {% if member.interestAreas.count > 3 %}
+                    <span class="badge rounded-pill badge-card-main ">+{{ member.interestAreas.count|add:"-3" }}</span>
                 {% endif %}
-            {% endfor %}
-            {% if member.interestAreas.count > 3 %}
-                <span class="badge rounded-pill badge-card-main ">+{{ member.interestAreas.count|add:"-3" }}</span>
+            </div>
+
+            {% if member.country.name %}
+                <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                    </svg>
+                    <span class="">{{ member.country.name }}</span>
+                </div>
             {% endif %}
         </div>
-
-        {% if member.country.name %}
-            <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
-                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
-                </svg>
-                <span class="">{{ member.country.name }}</span>
-            </div>
-        {% endif %}
     </div>
 </div>

@@ -20,7 +20,7 @@
                     {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
 
                     <div class="rounded-start-4"
-                         style="height:248px; background-image: url('/media/{{ project.image1 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                         style="height:248px; background-image: url('/media/{{ project.image1|default:"card_projects_ph_big.png" | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
                         {% if project.status %}
                             <div class="" style="position: absolute; top: 16px; left: 28px;">
