@@ -25,7 +25,7 @@
             </div>
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="country">Località</label>
+                <label for="localita_id">Località</label>
 {#                <select id="regione" name="regione" class="custom-select form-select">#}
 {#                    <option value="">{% trans "Seleziona" %}#}
 {#                    {% for regione in regioni %}#}
@@ -105,14 +105,14 @@
         </div>
         <div class="row">
             <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
-                {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
                     <span>Filtri attivi: </span>
                 {% endif %}
                 {% if filters.keywords %}
                     {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
                 {% endif %}
-                {% if filters.country %}
-                    {% include 'includes/tag.html' with text='Regione: '|add:filters.country hasClose=True %}
+                {% if filters.localita_id %}
+                    {% include 'includes/tag.html' with text='Regione: '|add:filters.localita_id hasClose=True %}
                 {% endif %}
                 {% if filters.status %}
                     {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=True %}
@@ -161,7 +161,7 @@
             <div>
                 <div class="small">
                     <span class"subnavbarCounter-text">
-                    {% if filters.keywords or filters.country or filters.status or filters.topic or filters.participationTask %}
+                    {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
                         <strong>{{ counter }}</strong> progetti selezionati su <strong>{{ totalProjects }}</strong>
                         totali
                     {% else %}

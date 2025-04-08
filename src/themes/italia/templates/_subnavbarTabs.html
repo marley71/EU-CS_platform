@@ -11,7 +11,7 @@
                        href="
                                {% url 'projects' %}{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
                         <svg class="bi mb-1" width="18" height="18" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
                         </svg>
                          {% trans "Projects" %} ({{ projectsCounter }})
                     </a>
@@ -21,7 +21,7 @@
                        href="
                                {% url 'organisations' %}{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
                         <svg class="bi mb-1" width="18" height="18" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#buildings"/>
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#bank2"/>
                         </svg>
                         {% trans "Organisations" %} ({{ organisationsCounter }})
                     </a>
@@ -30,7 +30,7 @@
                     <a class="nav-link ps-4  {% active_link 'profiles:users' %} nav-tab-search"
                        href="/users/{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
                         <svg class="bi mb-1" width="18" height="18" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#people"/>
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#people-fill"/>
                         </svg>
                          {% trans "Users" %} ({{ usersCounter }})
                     </a>

@@ -314,3 +314,7 @@ footer a:hover {
 
   // No need for an active state here
 }
+
+a.card-main:hover .card-title {
+  text-decoration: underline;
+}
