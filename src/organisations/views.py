@@ -257,6 +257,7 @@ def organisations(request):
     localita_selected = None
     if request.GET.get('localita_id'):
         localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        localita_selected = localita_selected.name
 
     return TemplateResponse(request, 'organisations.html', {
         'organisations': organisations,
@@ -274,7 +275,7 @@ def organisations(request):
         'isSearchPage': True,
         'homeSearchCategories': homeSearchCategories,
         'localita': localita,
-        'localita_selected': localita_selected.name,
+        'localita_selected': localita_selected,
         'show_search_bar': False})
 
 
