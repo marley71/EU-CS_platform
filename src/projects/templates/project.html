@@ -213,7 +213,10 @@
                 <div class="col-xl-4 offset-xl-1 col-md-5 offset-md-1 col-12">
 
                     {% if project.image2 %}
-                        <img class="img-fluid" src='/media/{{ project.image2 | safe }}'/>
+                        <div class=""
+                         style="height:300px; background-image: url('/media/{{ project.image2 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+                        </div>
                     {% endif %}
 
 
@@ -279,21 +282,30 @@
                     {% endif %}
 
 
-                    {% if project.geographicextend.all or project.localita %}
-                        <h5 class="mt-5">{% trans "Location" %}</h5>
+                    {% if project.geographicextend %}
+                        <h5 class="mt-5">Estensione geografica</h5>
                         <div>
                             {% for geographicextend in project.geographicextend.all %}
                                 <a class="project-topic"
                                    href="/projects?geographicextend={{ geographicextend }}">{{ geographicextend }}</a>
                             {% endfor %}
-                            {% if project.localita %}
+                        </div>
+                    {% endif %}
+                    {% if project.projectlocality %}
+                        <h5 class="mt-5">Luogo di svolgimento</h5>
+                        <div>
+                                    <a class="project-topic" href="#">{{ project.projectlocality }}</a>
+                        </div>
+                    {% endif %}
+                    {% if project.localita %}
+                        <h5 class="mt-5">Regione</h5>
+                        <div>
                                 <div>
                                     <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                         <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                                     </svg>
-                                    <a class="project-topic" href="#">{{ project.localita }}</a>
+                                    <a class="project-topic" href="#">{{ project.localita.name }}</a>
                                 </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                     {% if project.localita %}

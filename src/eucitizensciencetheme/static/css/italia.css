@@ -12776,8 +12776,22 @@ footer a:hover {
   border: 1px solid var(--bs-btn-hover-border-color);
 }
 
+.btn-primary:hover {
+  color: #fff;
+  background-color: #33336A;
+  border-color: #13133F;
+}
+
 a.card-main:hover .card-title {
   text-decoration: underline;
+}
+
+a.card-main .card-title {
+  color: var(--bs-body-color);
+}
+
+a.card-main .card-subtitle {
+  color: var(--bs-body-color);
 }
 
 .my-link {

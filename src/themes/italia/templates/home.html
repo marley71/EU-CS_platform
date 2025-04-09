@@ -13,7 +13,7 @@
 
 
         <div class="container m-auto">
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="d-none d-lg-flex align-items-center justify-content-between">
                 <div class="pe-5 me-5">
 
                     <div class="h1  mb-4">
@@ -25,6 +25,16 @@
                     </p>
                 </div>
                 <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
+            </div>
+            <div class="d-block d-lg-none align-items-center justify-content-between mb-7">
+                <div class="h1 mb-4 text-center pt-6">
+                    La piattaforma italiana dei progetti di Citizen Science
+                </div>
+                <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
+                <div>
+                    Ut molestias dolores est nihil illum ad sunt voluptas. Vel dolores soluta et incidunt rerum aut
+                    aliquam tempora aut vero optio aut internos tenetur aut beatae optio et quia sapiente.
+                </div>
             </div>
         </div>
     </section>
@@ -39,20 +49,20 @@
                      "
 
         >
-                <div class="row pt-5 pb-6 ps-6 pe-6">
-                    <div class="col-10 offset-1 mb-5">
-                        <div class="card rounded-4 mb-1">
-                            <div class="card-body text-center">
+            <div class="row pt-5 pb-6 ps-lg-6 pe-lg-6">
+                <div class="col-12 col-lg-10 offset-lg-1 mb-5">
+                    <div class="card rounded-4 mb-1">
+                        <div class="card-body text-center">
 
-                                <div class="h3">
-                                    Esplora la piattaforma
-                                </div>
-                                {% include "_subnavbarNew.html" %}
+                            <div class="h3">
+                                Esplora la piattaforma
                             </div>
+                            {% include "_subnavbarNew.html" %}
                         </div>
                     </div>
-                    <div class="col-2"></div>
                 </div>
+                <div class="col-2"></div>
+            </div>
         </div>
     </section>
 
@@ -67,23 +77,45 @@
 
     <section class="bg-white rounded-top-5 pt-5" style="margin-top: -30px;">
 
-        <div class="container d-flex align-items-center pb-5 gap-3">
+        <div class="container">
+            <div class="d-none d-xl-flex align-items-center pb-5 gap-3">
 
-            <div class="h2">
-                Cosa puoi trovare qui
+
+                <div class="h2">
+                    Cosa puoi trovare qui
+                </div>
+                <div class="w-25">
+                    {% include 'includes/card_info.html' with cardActionLink="/projects" cardActionLinkText="Cerca progetti" cardTitle="Progetti" bgimage="img/cards/bg_card_progetti.png" %}
+                </div>
+                <div class="w-25">
+                    {% include 'includes/card_info.html' with cardTitle="Organizzazioni" bgimage="img/cards/bg_card_organizzazioni.png" cardActionLinkText="Cerca organizzazioni" cardActionLink="/organisations" %}
+                </div>
+                <div class="w-25">
+                    {% include 'includes/card_info.html' with cardTitle="Utenti" bgimage="img/cards/bg_card_utenti.png" cardActionLinkText="Cerca utenti" cardActionLink="/users" %}
+                </div>
             </div>
-            <div class="w-25">
-                {% include 'includes/card_info.html' with cardActionLink="/projects" cardActionLinkText="Cerca progetti" cardTitle="Progetti" bgimage="img/cards/bg_card_progetti.png" %}
+
+            <div class="d-flex d-xl-none flex-column align-items-center pb-5 gap-3">
+
+
+                <div class="h2">
+                    Cosa puoi trovare qui
+                </div>
+                <div class="">
+                    {% include 'includes/card_info.html' with cardActionLink="/projects" cardActionLinkText="Cerca progetti" cardTitle="Progetti" bgimage="img/cards/bg_card_progetti.png" %}
+                </div>
+                <div class="">
+                    {% include 'includes/card_info.html' with cardTitle="Organizzazioni" bgimage="img/cards/bg_card_organizzazioni.png" cardActionLinkText="Cerca organizzazioni" cardActionLink="/organisations" %}
+                </div>
+                <div class="">
+                    {% include 'includes/card_info.html' with cardTitle="Utenti" bgimage="img/cards/bg_card_utenti.png" cardActionLinkText="Cerca utenti" cardActionLink="/users" %}
+                </div>
             </div>
-            <div class="w-25">
-                {% include 'includes/card_info.html' with cardTitle="Organizzazioni" bgimage="img/cards/bg_card_organizzazioni.png" cardActionLinkText="Cerca organizzazioni" cardActionLink="/organisations" %}
-            </div>
-            <div class="w-25">
-                {% include 'includes/card_info.html' with cardTitle="Utenti" bgimage="img/cards/bg_card_utenti.png" cardActionLinkText="Cerca utenti" cardActionLink="/users" %}
-            </div>
+
         </div>
 
-    <!--
+
+        <!--
     {% for section in sections %}
     <div class="container-fluid">
         <div class="container">
@@ -103,22 +135,21 @@
     </div>
     {% endfor %}
 -->
-    {% if projects %}
-        {% include '_latest_projects.html' %}
-    {% endif %}
-    {% if events %}
-        {% include '_upcoming_events.html' %}
-    {% endif %}
-    {% if posts %}
-        {% include '_latest_resources.html' %}
-    {% endif %}
-    {#{% if trainings %}#}
-    {#    {% include '_latest_training_resources.html' %}#}
-    {#{% endif %}#}
+        {% if projects %}
+            {% include '_latest_projects.html' %}
+        {% endif %}
+        {% if events %}
+            {% include '_upcoming_events.html' %}
+        {% endif %}
+        {% if posts %}
+            {% include '_latest_resources.html' %}
+        {% endif %}
+        {#{% if trainings %}#}
+        {#    {% include '_latest_training_resources.html' %}#}
+        {#{% endif %}#}
 
 
-
-    {% include '_what_is_citizen_science.html' %}
+        {% include '_what_is_citizen_science.html' %}
 
     </section>
 
