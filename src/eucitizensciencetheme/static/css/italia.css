@@ -12780,4 +12780,12 @@ a.card-main:hover .card-title {
   text-decoration: underline;
 }
 
+.my-link {
+  color: #33336A;
+}
+
+.my-link:hover {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=italia.css.map */
