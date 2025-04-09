@@ -35,10 +35,15 @@
 
                     {#            {% include "_projects_cards.html" %}#}
                     <div class="col-12 col-md-6 d-flex align-items-center mb-4">
-                                {% include "includes/card_main_org.html" with organisation=organisation %}
+                        {% include "includes/card_main_org.html" with organisation=organisation %}
                     </div>
                 {% endfor %}
                 {#        {% include "_projects_cards.html" %}#}
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    {% include "organisations_paginator.html" %}
+                </div>
             </div>
         </div>
     </section>
@@ -46,29 +51,29 @@
 {% endblock list_of_items %}
 
 {% block scripts %}
-<script src="{% static 'site/js/bootstrap-autocomplete.js'%}"></script>
-<script>
-    $('.basicAutoComplete').autoComplete(
-	{ minLength: 3 }
-	);
+    <script src="{% static 'site/js/bootstrap-autocomplete.js' %}"></script>
+    <script>
+        $('.basicAutoComplete').autoComplete(
+            {minLength: 3}
+        );
 
-	$('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
-		$('#searchOrganisations').submit();
-	});
-
-	$(function () {
-		$('.custom-select').on('change', function () {
-			$('#searchOrganisations').submit();
-		});
-        $('#pill-country').on('click', function() {
-            $('#country').val('')
-            $('#searchOrganisations').submit();
-        });
-        $('#pill-orgTypes').on('click', function() {
-            $('#orgTypes').val('')
+        $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
             $('#searchOrganisations').submit();
         });
 
-	});
-</script>
+        $(function () {
+            $('.custom-select').on('change', function () {
+                $('#searchOrganisations').submit();
+            });
+            $('#pill-country').on('click', function () {
+                $('#country').val('')
+                $('#searchOrganisations').submit();
+            });
+            $('#pill-orgTypes').on('click', function () {
+                $('#orgTypes').val('')
+                $('#searchOrganisations').submit();
+            });
+
+        });
+    </script>
 {% endblock scripts %}
