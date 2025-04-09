@@ -7,193 +7,197 @@
 
 
 {% block list_of_items %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
 
-{#<!-- Search form -->#}
-{# <div class="container">#}
-{#	 <div class="row">#}
-{#    <div class="col-12 mt-4">#}
-{#       <!-- <form method="GET" action="" style="margin-bottom: 32px; display: flex; justify-content: center; padding-top: 20px; width: 100%;">#}
-{#            <input id="q" type="text" class="form-border-Blue" name="q" placeholder="Search..." value="{{ filters.q }}" style="flex-grow: 1; margin-right: 24px;">#}
-{#            <input type="submit" value="Search" class="btn btn-my-outline-darkGreen" style="padding-left: 40px; padding-right: 40px;">#}
-{#        </form>-->#}
-{#        {% include "_finder_events.html" %}#}
-{#    </div>#}
-{#	 </div>#}
-{#</div> #}
-{#<!-- End of search form -->#}
+    {#<!-- Search form -->#}
+    {# <div class="container">#}
+    {#	 <div class="row">#}
+    {#    <div class="col-12 mt-4">#}
+    {#       <!-- <form method="GET" action="" style="margin-bottom: 32px; display: flex; justify-content: center; padding-top: 20px; width: 100%;">#}
+    {#            <input id="q" type="text" class="form-border-Blue" name="q" placeholder="Search..." value="{{ filters.q }}" style="flex-grow: 1; margin-right: 24px;">#}
+    {#            <input type="submit" value="Search" class="btn btn-my-outline-darkGreen" style="padding-left: 40px; padding-right: 40px;">#}
+    {#        </form>-->#}
+    {#        {% include "_finder_events.html" %}#}
+    {#    </div>#}
+    {#	 </div>#}
+    {#</div> #}
+    {#<!-- End of search form -->#}
+    <section class="bg-plum-100 py-6">
 
-<div class="container pt-5 pb-5">
-    {% if ongoingEvents %}
-    <h1 class="h1 text-center mb-5">
-        {% trans "On going <strong>events</strong>" %}{% if q %} ({{ num_ongoingEvents }}){% endif %}
-    </h1>
-    <div class="row">
-            {% for event in ongoingEvents %}
-            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
-                {% include "includes/card_evento.html" with event=event %}
-            </div>
-            {% endfor %}
-    </div>
-    {% endif %}
+        <div class="container">
+            {% if ongoingEvents %}
+                <h1 class="h1 text-center mt-5 mb-5">
+                    {% trans "On going <strong>events</strong>" %}{% if q %} ({{ num_ongoingEvents }}){% endif %}
+                </h1>
+                <div class="row">
+                    {% for event in ongoingEvents %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                            {% include "includes/card_evento.html" with event=event %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
 
-    {% if events %}
-    <h1 class="h1 text-center mb-5">
-        {% trans "Upcoming <span class='lightBlue-color'>events</span>" %}{% if q %} ({{ num_upcomingEvents }}){% endif %}
-    </h1>
-    <div class="row">
-            {% for event in events %}
-            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
-                {% include "includes/card_evento.html" with event=event %}
-            </div>
-            {% endfor %}
-    </div>
-    {% endif %}
+            {% if events %}
+                <h1 class="h1 text-center mt-5 mb-5">
+                    {% trans "Upcoming <span class='lightBlue-color'>events</span>" %}{% if q %} (
+                        {{ num_upcomingEvents }}){% endif %}
+                </h1>
+                <div class="row">
+                    {% for event in events %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                            {% include "includes/card_evento.html" with event=event %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-    {% if pastEvents %}
-    <h1 class="h1 text-center mb-5">
-        {% trans "Past <span class='lightBlue-color'>events</span>" %}{% if q %} ({{ num_pastEvents }}){% endif %}
-    </h1>
-    <div class="row">
-            {% for event in pastEvents %}
-            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
-                {% include "includes/card_evento.html" with event=event %}
-            </div>
-            {% endfor %}
-    </div>
+            {% if pastEvents %}
+                <h1 class="h1 text-center mt-5 mb-5">
+                    {% trans "Past <span class='lightBlue-color'>events</span>" %}{% if q %} ({{ num_pastEvents }}
+                        ){% endif %}
+                </h1>
+                <div class="row">
+                    {% for event in pastEvents %}
+                        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-3">
+                            {% include "includes/card_evento.html" with event=event %}
+                        </div>
+                    {% endfor %}
+                </div>
 
-    {% if pastEvents.has_other_pages %}
-    <ul class="pagination">
-        {% if pastEvents.number|add:'-3' > 1 %}
-        <a href="?{% param_replace page=1 %}">
-            <li class="btn mb-4 btn-light">{{ 1 }}</li>
-        </a>
-        {% endif %}
+                {% if pastEvents.has_other_pages %}
+                    <ul class="pagination">
+                        {% if pastEvents.number|add:'-3' > 1 %}
+                            <a href="?{% param_replace page=1 %}">
+                                <li class="btn mb-4 btn-light">{{ 1 }}</li>
+                            </a>
+                        {% endif %}
 
-        {% if pastEvents.number|add:'-3' > 1 and pastEvents.number|add:'-4' > 1 %}
-            <a href="?{% param_replace page=pastEvents.number|add:'-4' %}">
-            <li class="btn mb-4 btn-light">&hellip;</li>
-            </a>
-        {% endif %}
-        {% for i in pastEvents.paginator.page_range %}
-        {% if pastEvents.number == i %}
-        <li class="active btn btn-info mb-4"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-        {% elif i > pastEvents.number|add:'-4' and i < pastEvents.number|add:'4' %}
-        <a href="?{% param_replace page=i %}">
-            <li class="btn mb-4 btn-light">{{ i }}</li>
-        </a>
-        {% endif %}
-        {% endfor %}
-        
-        {% if pastEvents.paginator.num_pages > pastEvents.number|add:'3' and pastEvents.paginator.num_pages > pastEvents.number|add:'4' %}
-            <a href="?{% param_replace page=pastEvents.number|add:'4' %}">
-            <li class="btn mb-4 btn-light">&hellip;</li>
-            </a>
-        {% endif %}
+                        {% if pastEvents.number|add:'-3' > 1 and pastEvents.number|add:'-4' > 1 %}
+                            <a href="?{% param_replace page=pastEvents.number|add:'-4' %}">
+                                <li class="btn mb-4 btn-light">&hellip;</li>
+                            </a>
+                        {% endif %}
+                        {% for i in pastEvents.paginator.page_range %}
+                            {% if pastEvents.number == i %}
+                                <li class="active btn btn-info mb-4"><span>{{ i }} <span
+                                        class="sr-only">(current)</span></span></li>
+                            {% elif i > pastEvents.number|add:'-4' and i < pastEvents.number|add:'4' %}
+                                <a href="?{% param_replace page=i %}">
+                                    <li class="btn mb-4 btn-light">{{ i }}</li>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
 
-        {% if pastEvents.paginator.num_pages > pastEvents.number|add:'3' %}
-            <a href="?{% param_replace page=pastEvents.paginator.num_pages %}">
-            <li class="btn mb-4 btn-light">{{ pastEvents.paginator.num_pages }}</li>
-            </a>
-        {% endif %}
-    </ul>
-    {% endif %}
+                        {% if pastEvents.paginator.num_pages > pastEvents.number|add:'3' and pastEvents.paginator.num_pages > pastEvents.number|add:'4' %}
+                            <a href="?{% param_replace page=pastEvents.number|add:'4' %}">
+                                <li class="btn mb-4 btn-light">&hellip;</li>
+                            </a>
+                        {% endif %}
 
-    {% endif %}
+                        {% if pastEvents.paginator.num_pages > pastEvents.number|add:'3' %}
+                            <a href="?{% param_replace page=pastEvents.paginator.num_pages %}">
+                                <li class="btn mb-4 btn-light">{{ pastEvents.paginator.num_pages }}</li>
+                            </a>
+                        {% endif %}
+                    </ul>
+                {% endif %}
 
-</div>
+            {% endif %}
+
+        </div>
+    </section>
 {% endblock list_of_items %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-    function adjustSelectHeights() {
-        var maxHeight = 0;
-        $('.select2-container--default .select2-selection--multiple').each(function() {
-            var thisHeight = $(this).height();
-            if (thisHeight > maxHeight) {
-                maxHeight = thisHeight;
-            }
-        });
-        $('.select2-container--default .select2-selection--multiple').css('height', maxHeight + 'px');
-    }
-
-    $(document).ready(function() {
-        $("#organisations").select2({
-            placeholder: "Select organisations",
-        }).on('select2:select select2:unselect', adjustSelectHeights);
-            
-        $("#project").select2({
-            placeholder: "Select projects",
-        }).on('select2:select select2:unselect', adjustSelectHeights);
-
-        $("#country").select2({
-            placeholder: "Select countries",
-        }).on('select2:select select2:unselect', adjustSelectHeights);
-            
-        $("#languages").select2({
-            placeholder: "Select languages",
-        }).on('select2:select select2:unselect', adjustSelectHeights);
-
-        // Triggers the adjustment function at the beginning
-        adjustSelectHeights();
-
-        $("#submitButton").click(function(event){
-            event.preventDefault();
-            $('#searchEvents').submit();
-        });
-    });
-    function setFeaturedEvent(idEvent, featured){
-        var htmlId = "featured" + idEvent;
-        var request = $.ajax(
-            {
-                type: "POST",
-                url: "{% url 'setFeaturedEvent' %}",
-                data: {
-                    "event_id": idEvent,
-                    "featured": featured,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function (response) {
-                    window.location.reload(false);
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function adjustSelectHeights() {
+            var maxHeight = 0;
+            $('.select2-container--default .select2-selection--multiple').each(function () {
+                var thisHeight = $(this).height();
+                if (thisHeight > maxHeight) {
+                    maxHeight = thisHeight;
                 }
-            }
-        );
-    }
-
-function setApprovedEvent(idEvent, approved){
-    var eventID= 0;
-
-    var request = $.ajax(
-        {
-            type: "POST",
-            url: "{% url 'setApprovedEvent' %}",
-            data: {
-                "event_id": idEvent,
-                "approved": approved,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function (response) {
-                window.location.reload(false)
-                if(!approved){
-                    eventID = idEvent
-                    window.location.href ="{% url 'submitter_contact' group='editEvent' pk=12345 %}".replace(/12345/, eventID.toString());
-                }
-            }
+            });
+            $('.select2-container--default .select2-selection--multiple').css('height', maxHeight + 'px');
         }
-    );
-}
 
-$(function () {
-	$('.custom-select').on('change', function () {
-		$('#searchEvents').submit();
-	});
-    
-    });
+        $(document).ready(function () {
+            $("#organisations").select2({
+                placeholder: "Select organisations",
+            }).on('select2:select select2:unselect', adjustSelectHeights);
+
+            $("#project").select2({
+                placeholder: "Select projects",
+            }).on('select2:select select2:unselect', adjustSelectHeights);
+
+            $("#country").select2({
+                placeholder: "Select countries",
+            }).on('select2:select select2:unselect', adjustSelectHeights);
+
+            $("#languages").select2({
+                placeholder: "Select languages",
+            }).on('select2:select select2:unselect', adjustSelectHeights);
+
+            // Triggers the adjustment function at the beginning
+            adjustSelectHeights();
+
+            $("#submitButton").click(function (event) {
+                event.preventDefault();
+                $('#searchEvents').submit();
+            });
+        });
+
+        function setFeaturedEvent(idEvent, featured) {
+            var htmlId = "featured" + idEvent;
+            var request = $.ajax(
+                {
+                    type: "POST",
+                    url: "{% url 'setFeaturedEvent' %}",
+                    data: {
+                        "event_id": idEvent,
+                        "featured": featured,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        window.location.reload(false);
+                    }
+                }
+            );
+        }
+
+        function setApprovedEvent(idEvent, approved) {
+            var eventID = 0;
+
+            var request = $.ajax(
+                {
+                    type: "POST",
+                    url: "{% url 'setApprovedEvent' %}",
+                    data: {
+                        "event_id": idEvent,
+                        "approved": approved,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        window.location.reload(false)
+                        if (!approved) {
+                            eventID = idEvent
+                            window.location.href = "{% url 'submitter_contact' group='editEvent' pk=12345 %}".replace(/12345/, eventID.toString());
+                        }
+                    }
+                }
+            );
+        }
+
+        $(function () {
+            $('.custom-select').on('change', function () {
+                $('#searchEvents').submit();
+            });
+
+        });
 
 
-
-
-</script>
+    </script>
 {% endblock scripts %}
