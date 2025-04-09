@@ -44,10 +44,16 @@
 
                     {#            {% include "_projects_cards.html" %}#}
                     <div class="col-12 col-md-6 d-flex align-items-center mb-4">
-                            {% include "includes/card_main.html" with project=project %}
+                        {% include "includes/card_main.html" with project=project %}
                     </div>
                 {% endfor %}
                 {#        {% include "_projects_cards.html" %}#}
+            </div>
+
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    {% include "paginator.html" %}
+                </div>
             </div>
         </div>
     </section>
