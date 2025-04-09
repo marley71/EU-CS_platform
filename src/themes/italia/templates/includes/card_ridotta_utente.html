@@ -17,7 +17,7 @@
     <div class="row ms-0 bg-transparent">
         <div class="col-3 p-0">
             <div class="rounded-start-4 w-100"
-                 style="height:113px; background-image: url('/media/{{ image|default:'cards/card_organisations_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                 style="height:113px; background-image: url('/media/{{ image|default:'cards/card_users_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
             </div>
 
@@ -28,25 +28,21 @@
                 <div class="flex-fill">
 
                     <h5 class="card-title">
-                        {{ cardTitle|safe|truncatechars:37|default:'Citizen Science italia' }}
+                        {{ member.user.name }}&nbsp;
+                        {% if member.surname %}
+                            {{ member.surname }}
+                        {% endif %}
                     </h5>
                 </div>
 
                 <div>
 
-
-                    {% if tipologia %}
-                        <div class="d-flex gap-1 justify-content-start align-items-center">
-                            <span class="badge rounded-pill badge-card-secondary ">{{ tipologia|capfirst }}</span>
-                        </div>
-                    {% endif %}
-
-                    {% if flags %}
+                    {% if member.country.name %}
                         <div class="d-flex gap-1 justify-content-start align-items-center">
                             <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                             </svg>
-                            <span class="">{{ flags }}</span>
+                            <span class="">{{ member.country.name }}</span>
                         </div>
                     {% endif %}
                 </div>
