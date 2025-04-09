@@ -84,6 +84,7 @@ class OrganisationForm(forms.Form):
         print("In save")
         pk = self.data.get('organisationID', '')
         orgType = get_object_or_404(OrganisationType, id=self.data['orgType'])
+        localita = get_object_or_404(Localita, id=self.data['localita'])
         if (pk):
             organisation = get_object_or_404(Organisation, id=pk)
             organisation.name = self.data['name']
@@ -94,6 +95,7 @@ class OrganisationForm(forms.Form):
             organisation.logoCredit = self.data['logo_credit']
             organisation.latitude = self.data['latitude']
             organisation.longitude = self.data['longitude']
+            organisation.localita_id = localita.id
         else:
             organisation = Organisation(
                 name=self.data['name'],
@@ -104,7 +106,9 @@ class OrganisationForm(forms.Form):
                 logoCredit=self.data['logo_credit'],
                 orgType=orgType,
                 contactPoint=self.data['contact_point'],
-                contactPointEmail=self.data['contact_point_email'])
+                contactPointEmail=self.data['contact_point_email'],
+                localita_id=localita.id,
+            )
             
         for key, value in self.data.items():
             if key.startswith('description_'):

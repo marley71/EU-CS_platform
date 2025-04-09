@@ -91,7 +91,8 @@ def events(request):
 def new_event(request):
     user = request.user
     form = EventForm()
-    text = get_object_or_404(HelpText, slug='new-event')
+    #text = get_object_or_404(HelpText, slug='new-event')
+    text = "Nuovo evento"
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():

@@ -79,6 +79,8 @@ def sendProjectEmail(pk, user):
     project = get_object_or_404(Project, id=pk)
     subject = '[EU-CITIZEN.SCIENCE] Your project "%s" has been submitted' % project.name
     print(subject)
+    print(user.email)
+    print(settings.EMAIL_RECIPIENT_LIST)
     message = render_to_string('emails/new_project.html', {
         'username': user.name,
         'domain': settings.HOST,
@@ -86,9 +88,12 @@ def sendProjectEmail(pk, user):
         'projectid': pk})
     # to = [user.email]
     to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
     to.append(user.email)
     bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
-    email = EmailMessage(subject, message, to=to, bcc=bcc)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'help@eu-cs-platform.dev.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
     email.content_subtype = "html"
     email.send()
 

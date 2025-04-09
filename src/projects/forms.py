@@ -124,6 +124,7 @@ class ProjectForm(forms.Form):
         widget=s2forms.ModelSelect2TagWidget(
             search_fields=['keyword__icontains'],
             attrs={
+                #'data-url': '/path/to/your/tag-search-url/',
                 'data-token-separators': '[","]'}),
         required=True,
         help_text=_(
@@ -179,14 +180,14 @@ class ProjectForm(forms.Form):
         required=False,
         label=_("Geographic extend"))
 
-    # projectlocality = forms.CharField(
-    #     max_length=300,
-    #     widget=forms.TextInput(),
-    #     required=False,
-    #     label=_("Project locality"),
-    #     help_text=_('Please describe the locality of the project, in terms of where the main participant '
-    #                 'activities take place. E.g. in your backyard, parks in London, rivers in Europe, '
-    #                 'online globally, etc.'))
+    projectlocality = forms.CharField(
+        max_length=300,
+        widget=forms.TextInput(),
+        required=False,
+        label=_("Project locality"),
+        help_text=_('Please describe the locality of the project, in terms of where the main participant '
+                    'activities take place. E.g. in your backyard, parks in London, rivers in Europe, '
+                    'online globally, etc.'))
 
     projectGeographicLocation = forms.MultiPolygonField(
         required=False,
@@ -412,7 +413,7 @@ class ProjectForm(forms.Form):
         project.hasTag.set(self.data.getlist('hasTag'))
         project.geographicextend.set(self.data.getlist('geographicextend'))
         project.organisation.set(self.data.getlist('organisation'))
-        project.projectCountry.set(self.cleaned_data['projectCountry'])
+        #project.projectCountry.set(self.cleaned_data['projectCountry'])
 
         for key, value in self.data.items():
             if key.startswith('description_'):

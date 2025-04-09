@@ -34,8 +34,8 @@ User = get_user_model()
 @login_required(login_url='/login')
 def new_organisation(request):
     user = request.user
-    text = get_object_or_404(HelpText, slug='new-organisation')
-
+    #text = get_object_or_404(HelpText, slug='new-organisation')
+    text = "Nuova Organizzazione"
     print("Data submitted", request.POST)
 
 
@@ -65,7 +65,8 @@ def new_organisation(request):
             message = render_to_string('emails/new_organisation.html', {'submitter': user, 'organisationName': saved_organisation.name})
             to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
             to.append(request.user.email)
-            email = EmailMessage(subject, message, to=to)
+            from_email = 'help@eu-cs-platform.dev.it' #settings.EMAIL_FROM_CONTENTS
+            email = EmailMessage(subject=subject, body=message, from_email=from_email, to=to)
             email.content_subtype = "html"
             email.send()
             return redirect('/organisation/'+str(saved_organisation.id), {})
