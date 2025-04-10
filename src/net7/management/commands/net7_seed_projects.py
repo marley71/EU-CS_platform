@@ -38,7 +38,7 @@ class Command(BaseCommand):
             if not rows:
                 raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
 
-            start_period = "2020-01-01 00:00:00"
+            start_period = "2020-04-01 00:00:00"
             end_period = "2025-07-31 23:59:59"
 
             for row in rows:
