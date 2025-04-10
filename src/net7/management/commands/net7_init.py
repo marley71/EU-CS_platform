@@ -172,103 +172,103 @@ class Command(BaseCommand):
     def createCountries(self):
         Localita.objects.create(
             name='Abruzzo',  # row['Common'],
-            latitude=42.219,
-            longitude=13.2357,
+            latitude=42.166259,
+            longitude=4.022696,
         )
         Localita.objects.create(
             name='Basilicata',  # row['Common'],
-            latitude=40.3820,
-            longitude=15.4812,
+            latitude=40.510071,
+            longitude=16.189772,
         )
         Localita.objects.create(
             name='Calabria',  # row['Common'],
-            latitude=38.5422,
-            longitude=16.3535,
+            latitude=39.034998,
+            longitude=16.485507,
         )
         Localita.objects.create(
             name='Campania',  # row['Common'],
-            latitude=40.5114,
-            longitude=14.152,
+            latitude=40.784588,
+            longitude=14.898782,
         )
         Localita.objects.create(
             name='Emilia Romagna',  # row['Common'],
-            latitude=44.2944,
-            longitude=11.2048,
+            latitude=44.528254,
+            longitude=11.735328,
         )
         Localita.objects.create(
             name='Friuli Venezia Giulia',  # row['Common'],
-            latitude=45.3858,
-            longitude=13.4620,
+            latitude=46.048633,
+            longitude=13.095477,
         )
         Localita.objects.create(
             name='Lazio',  # row['Common'],
-            latitude=41.5427,
-            longitude=12.2924,
+            latitude=41.806455,
+            longitude=12.979574,
         )
         Localita.objects.create(
             name='Liguria',  # row['Common'],
-            latitude=44.2417,
-            longitude=8.568,
+            latitude=44.350578,
+            longitude=9.338875,
         )
         Localita.objects.create(
             name='Lombardia',  # row['Common'],
-            latitude=45.2757,
-            longitude=9.1124,
+            latitude=45.456372,
+            longitude=9.529773,
         )
         Localita.objects.create(
             name='Marche',  # row['Common'],
-            latitude=43.3715,
-            longitude=13.3051,
+            latitude=43.466468,
+            longitude=12.993210,
         )
         Localita.objects.create(
             name='Molise',  # row['Common'],
-            latitude=41.3336,
-            longitude=14.3937,
+            latitude=41.602853,
+            longitude=14.714702,
         )
         Localita.objects.create(
             name='Piemonte',  # row['Common'],
-            latitude=45.358,
-            longitude=7.4056,
+            latitude=44.910963,
+            longitude=7.873050,
         )
         Localita.objects.create(
             name='Puglia',  # row['Common'],
-            latitude=41.745,
-            longitude=16.5211,
+            latitude=40.575244,
+            longitude=17.575290,
         )
         Localita.objects.create(
             name='Sardegna',  # row['Common'],
-            latitude=39.137,
-            longitude=9.74,
+            latitude=39.888745,
+            longitude=9.057782,
         )
         Localita.objects.create(
             name='Sicilia',  # row['Common'],
-            latitude=38.70,
-            longitude=13.2143,
+            latitude=37.563651,
+            longitude=14.084140,
         )
         Localita.objects.create(
             name='Toscana',  # row['Common'],
-            latitude=43.4628,
-            longitude=11.1529,
+            latitude=43.656673,
+            longitude=10.883104,
         )
         Localita.objects.create(
             name='Trentino Alto Adige',  # row['Common'],
-            latitude=46.47,
-            longitude=11.722,
+            latitude=46.022601,
+            longitude=11.220584,
         )
         Localita.objects.create(
             name='Umbria',  # row['Common'],
-            latitude=43.649,
-            longitude=12.2323,
+            latitude=43.228488,
+            longitude=12.430742,
         )
         Localita.objects.create(
             name='Valle d\'Aosta',  # row['Common'],
-            latitude=45.4418,
-            longitude=7.1914,
+            latitude=45.723548,
+            longitude=7.334444,
         )
         Localita.objects.create(
             name='Veneto',  # row['Common'],
-            latitude=45.2617,
-            longitude=12.1939,
+            latitude=45.547164,
+            longitude=11.316033,
         )
 
 
