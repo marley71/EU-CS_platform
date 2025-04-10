@@ -135,9 +135,14 @@ def get_organisations(request):
     # Create a list of marker dictionaries with the required data
     markers = []
     for organisation in organisations:
+        #print('localiid' + str(organisation.localita_id))
+        #if organisation.localita_id:
+        #    localita = Localita.objects.get(id=organisation.localita_id)
         marker = {
             'latitude': organisation.latitude,
             'longitude': organisation.longitude,
+            #'latitude': localita.latitude,
+            #'longitude': localita.longitude,
             'name': organisation.name,
             'organisation_url': f'/organisation/{organisation.id}',
         }

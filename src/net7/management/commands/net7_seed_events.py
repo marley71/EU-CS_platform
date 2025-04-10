@@ -47,16 +47,16 @@ class Command(BaseCommand):
                 # Converti la stringa in un oggetto datetime
                 date_object = datetime.strptime(row['start_date'], "%Y-%m-%d %H:%M:%S")
                 # Assicurati che l'oggetto datetime sia consapevole del fuso orario
-                start_date = timezone.make_aware(data_futuro_start)
-
+                #start_date = timezone.make_aware(data_futuro_start)
+                start_date = timezone.make_aware(date_object)
                 # Genera un numero casuale di giorni da 1 a 30
                 giorni_random = random.randint(31, 60)
 
                 data_futuro_end = data_inizio + timedelta(days=giorni_random)
 
-                #date_object = datetime.strptime(row['end_date'], "%Y-%m-%d %H:%M:%S")
-                end_date = timezone.make_aware(data_futuro_end)
-
+                date_object = datetime.strptime(row['end_date'], "%Y-%m-%d %H:%M:%S")
+                #end_date = timezone.make_aware(data_futuro_end)
+                end_date = timezone.make_aware(date_object)
 
 
 
@@ -73,6 +73,7 @@ class Command(BaseCommand):
                     start_date=start_date,
                     end_date=end_date,
                     event_type='online',
+                    place=row['place'],
                     creator_id=1, # id superadmin
                     #organisation=organisation
 

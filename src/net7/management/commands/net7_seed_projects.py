@@ -1,6 +1,7 @@
 import csv
 import os
 import random
+from decimal import Decimal
 from django.core.management.base import BaseCommand,CommandError
 from projects.models import Project,Status,Keyword,Topic,HasTag, GeographicExtend
 from organisations.models import Organisation
@@ -157,7 +158,11 @@ class Command(BaseCommand):
                     type='default',
                     type_it='default',
                 )
-            latitudine, longitudine = self.genera_coordinate_italia()
+            #latitudine, longitudine = self.genera_coordinate_italia()
+            quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
+            latitudine = localita.latitude + quantita_casuale
+            quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
+            longitudine = localita.longitude + quantita_casuale
             org = Organisation.objects.create(
                 name=row['Principale organizzazione promotrice'],
                 creator_id=1,
