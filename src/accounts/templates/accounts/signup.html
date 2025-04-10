@@ -7,8 +7,10 @@
 {% block title %}{{ block.super }} :: Sign Up{% endblock %}
 
 {% block list_of_items %}
-    <section class="bg-plum-100 pb-5" style="background-image:url({% static 'img/account_bg.png' %})">
-        <div class="container row m-auto">
+    <section class="bg-plum-100 pb-0" >
+        <div class="container row m-auto pb-6" style="
+                background-size: 100% auto;
+                background-image:url({% static 'img/account_bg.svg' %}); background-repeat: repeat-y;">
             <div class="col-12 col-lg-8 offset-lg-2 mt-5">
 
                 <div class="card shadow mt-5 rounded-4 pt-5 pb-3 px-3 "
