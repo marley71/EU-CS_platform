@@ -23,8 +23,8 @@
         <div>
 
             <h5 class="card-title mb-1">{{ notizia.title }}</h5>
-            <p class="card-text mb-3">
-                {{ notizia.content | safe | truncatechars:120 }}
+            <p class="card-text mb-2 mt-1">
+                {{ notizia.content | safe | truncatechars:150 }}
             </p>
         </div>
         <div class="flex-fill d-flex flex-column justify-content-end">
