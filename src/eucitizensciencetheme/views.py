@@ -277,6 +277,28 @@ def privacy(request):
 def projects_map(request):
     return TemplateResponse(request, 'pages/map.html', {})
 
+def bdsweek_projects_map(request):
+
+    user = request.user
+    keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
+    projects = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
+    projectsCounter = len(projects)
+    # To only show some topics and keywords
+    for project in projects:
+        combined = list(project.topic.all()) + list(project.keywords.all())
+        if len(combined) > 3:
+            project.display_items = combined[:3]
+            project.more_count = len(combined) - 3
+        else:
+            project.display_items = combined
+            project.more_count = 0
+
+
+    return TemplateResponse(request, 'pages/bdsweek_map.html', {
+        'projects': projects,
+        'projectsCounter': projectsCounter,
+        })
+
 def subscribe(request):
     return TemplateResponse(request, 'pages/subscribe.html', {})
 

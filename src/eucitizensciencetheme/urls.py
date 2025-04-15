@@ -25,6 +25,7 @@ urlpatterns = [
     path("policy_maker_event_2021/", views.policy_maker_event_2021, name="policy_maker_event_2021"),
     path("privacy/", views.privacy, name="privacy"),
     path("map/", views.projects_map, name="map"),
+    path("bdsweek_map/", views.bdsweek_projects_map, name="bdsweek_map"),
     path("subscribe/", views.subscribe, name="subscribe"),
     path("terms/", views.terms, name="terms"),
     path("translations/", views.translations, name="translations"),

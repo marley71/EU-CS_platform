@@ -163,10 +163,16 @@ class Command(BaseCommand):
             position=4
         )
         TopBar.objects.create(
+            name='bdsweek_map',
+            slug='/bdsweek_map',
+            name_it='BDS Week',
+            position=5
+        )
+        TopBar.objects.create(
             name='about',
             slug='/p/about',
             name_it='About',
-            position=5
+            position=6
         )
 
     def createCountries(self):
