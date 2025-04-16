@@ -23,9 +23,10 @@
         #id_projectGeographicLocation_map {
             width: 100% !important;
         }
+
         #map {
             height: 300px; /* Altezza della mappa */
-            width: 100%;   /* Larghezza della mappa */
+            width: 100%; /* Larghezza della mappa */
         }
     </style>
 
@@ -91,16 +92,75 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="text-end">
+                    <div class="text-end col-12 offset-lg-5 col-lg-7">
+
                         <a target="_blank"
                            href="{% if 'http' not in project.url %}//{% endif %}{{ project.url }}"
-                           class="btn btn-primary">
+                           class="btn btn-primary w-100">
                             Vai al sito del progetto
                             <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
                             </svg>
                         </a>
                     </div>
+
+                    <div class="col-12 col-lg-7 offset-lg-5  text-end mt-1">
+                        {% if hasPermissionToEdit %}
+                            <a class="btn btn-outline-secondary w-100" href="{% url 'editProject' project.id %}">
+                                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                                </svg>
+                                {% trans "Edit" %}
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    {#                {% if user.is_staff %}#}
+                    {#                <div class="col-12 mt-4">#}
+                    {#                    <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>#}
+                    {#                    {% if project.id in approvedProjects %}#}
+                    {#                    <div class="mt-3">#}
+                    {#                        <a class="btn btn-green" onclick="setApproved({{project.id}}, false)">#}
+                    {#                            <i class="far fa-thumbs-up"> </i> Approved#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                    {#                    {% elif project.id in unApprovedProjects %}#}
+                    {#                    <div>#}
+                    {#                        <a class="btn btn-red" onclick="setApproved({{project.id}}, true)">#}
+                    {#                            <i class="far fa-thumbs-up"></i> Unapproved#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                    {#                    {% else %}<!-- This project is not yet moderated -->#}
+                    {#                    <div>This project is not yet moderated</div>#}
+                    {#                    <a class="btn btn-green" onclick="setApproved({{project.id}}, true)">#}
+                    {#                        <i class="far fa-thumbs-up"></i> Approve#}
+                    {#                    </a>#}
+                    {#                    <a class="btn btn-red" onclick="setApproved({{project.id}}, false)">#}
+                    {#                        <i class="far fa-thumbs-down"></i> Unapprove#}
+                    {#                    </a>#}
+                    {#                    {% endif %}#}
+                    {#                    {% if project.featured %}#}
+                    {#                    <div class="mt-3">#}
+                    {#                        <a  class="btn btn-green" onclick="setFeatured({{project.id}}, false)">#}
+                    {#                            <i class="fas fa-arrow-alt-circle-up"></i> Is featured#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                    {#                    {% else %}#}
+                    {#                    <div class="mt-3">#}
+                    {#                        <a  class="btn btn-secondary" onclick="setFeatured({{project.id}}, true)">#}
+                    {#                            <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                    {#                    {% endif %}#}
+                    {#                    <div class="mt-3">#}
+                    {#                        <a class="btn btn-secondary"  href="{% url 'submitter_contact' 'project' project.id %}">#}
+                    {#                            <i class="far fa-envelope"></i> Contact project submitter#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                    {#                </div>#}
+                    {#                {% endif %}#}
+
+
                     <div class="text-end mt-3">
                         {% include "_social_zone.html" %}
                     </div>
@@ -150,7 +210,7 @@
                         <h4 class="mt-5">Coordinatore</h4>
                         <div class="row">
                             <div class="col-6">
-                                {% include 'includes/card_ridotta.html' with cardTitle=project.mainOrganisation.name|default:"Nessuna organizzazione"  image=project.mainOrganisation.logo tipologia=project.mainOrganisation.orgType.type %}
+                                {% include 'includes/card_ridotta_org.html' with organisation=project.mainOrganisation %}
                             </div>
                         </div>
                     {% endif %}
@@ -159,7 +219,7 @@
                         <div class="row">
                             {% for organisation in project.organisation.all %}
                                 <div class="col-6">
-                                    {% include 'includes/card_ridotta.html' with cardTitle=organisation.name|default:"Nessuna organizzazione"  image=organisation.logo tipologia=organisation.orgType.type %}
+                                    {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
                                 </div>
                             {% endfor %}
                         </div>
@@ -214,7 +274,7 @@
 
                     {% if project.image2 %}
                         <div class=""
-                         style="height:300px; background-image: url('/media/{{ project.image2 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                             style="height:300px; background-image: url('/media/{{ project.image2 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
                         </div>
                     {% endif %}
@@ -294,18 +354,18 @@
                     {% if project.projectlocality %}
                         <h5 class="mt-5">Luogo di svolgimento</h5>
                         <div>
-                                    <a class="project-topic" href="#">{{ project.projectlocality }}</a>
+                            <a class="project-topic" href="#">{{ project.projectlocality }}</a>
                         </div>
                     {% endif %}
                     {% if project.localita %}
                         <h5 class="mt-5">Regione</h5>
                         <div>
-                                <div>
-                                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
-                                    </svg>
-                                    <a class="project-topic" href="#">{{ project.localita.name }}</a>
-                                </div>
+                            <div>
+                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                                </svg>
+                                <a class="project-topic" href="#">{{ project.localita.name }}</a>
+                            </div>
                         </div>
                     {% endif %}
                     {% if project.localita %}
@@ -429,9 +489,9 @@
             // Coordinate del punto centrale (ad esempio, Roma)
             if ("{{ project.localita.id }}") {
                 console.debug('aaaaa');
-                var lat = parseFloat("{{ project.localita.latitude }}".replace(',','.')); //41.9028; // Latitudine
-                var lon = parseFloat("{{ project.localita.longitude }}".replace(',','.')); //12.4964; // Longitudine
-                console.debug(lat,lon)
+                var lat = parseFloat("{{ project.localita.latitude }}".replace(',', '.')); //41.9028; // Latitudine
+                var lon = parseFloat("{{ project.localita.longitude }}".replace(',', '.')); //12.4964; // Longitudine
+                console.debug(lat, lon)
                 // Crea la mappa e imposta il punto centrale
                 var map = L.map('map').setView([lat, lon], 8); // 13 è il livello di zoom
 

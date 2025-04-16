@@ -1,0 +1,37 @@
+<nav class="navbar navbar-light pb-0 pl-0 ps-0 border-top-0 border-end-0 border-start-0 border-0 subnavbar">
+    <ul class="nav nav-tabs w-100 d-flex justify-content-start border-bottom-1">
+        {% if editable %}
+            <li class="nav-item text-start subnavbar-item">
+                <a class="nav-link ps-4 {% if 'submissions' not in request.path and 'privacy' not in request.path%}active{% endif %} nav-tab-search"
+                   href="/users/me">
+                    Profilo
+                </a>
+            </li>
+            <li class="nav-item subnavbar-item">
+                <a class="nav-link ps-4 {% if 'submissions' in request.path %}active{% endif %}  nav-tab-search"
+                   href="/users/me/submissions">
+                    Contenuti pubblicati
+                </a>
+            </li>
+            <li class="nav-item subnavbar-item">
+                <a class="nav-link ps-4 {% if 'privacy' in request.path %}active{% endif %}  nav-tab-search"
+                   href="/users/me/privacy">
+                    Privacy center
+                </a>
+            </li>
+        {% else %}
+            <li class="nav-item text-start subnavbar-item">
+                <a class="nav-link ps-4 {% if 'submissions' not in request.path and 'privacy' not in request.path%}active{% endif %} nav-tab-search"
+                   href="/users/{{ show_user.profile.slug }}">
+                    Profilo
+                </a>
+            </li>
+            <li class="nav-item subnavbar-item">
+                <a class="nav-link ps-4 {% if 'submissions' in request.path %}active{% endif %}  nav-tab-search"
+                   href="/users/{{ show_user.profile.slug }}/submissions">
+                    Contenuti pubblicati
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

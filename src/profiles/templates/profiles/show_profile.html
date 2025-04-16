@@ -5,22 +5,7 @@
 
     <div class="row">
         <div class="col-12 p-0">
-            <nav class="navbar navbar-light pb-0 pl-0 ps-0 border-top-0 border-end-0 border-start-0 border-0 subnavbar">
-                <ul class="nav nav-tabs w-100 d-flex justify-content-start border-bottom-1">
-                    <li class="nav-item text-start subnavbar-item bg-white ">
-                        <a class="nav-link ps-4 {% if 'submissions' not in request.path %}active{% endif %} nav-tab-search"
-                           href="/users/{{ show_user.profile.slug }}">
-                            Profilo
-                        </a>
-                    </li>
-                    <li class="nav-item subnavbar-item">
-                        <a class="nav-link ps-4 {% if 'submissions' in request.path %}active{% endif %}  nav-tab-search"
-                           href="/users/{{ show_user.profile.slug }}/submissions">
-                            Contenuti pubblicati
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            {%  include './user_tabs.html' %}
         </div>
     </div>
 
@@ -29,6 +14,15 @@
 
         <h3 class="col-12 p-0">
             Biografia e background disciplinare
+
+            {% if editable %}
+                <a class="btn btn-outline-secondary float-end ms-2" href="/users/me/edit">
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                    </svg>
+                </a>
+            {% endif %}
+
         </h3>
         {% if show_user.profile.bio %}
             {{ show_user.profile.bio | safe }}
@@ -45,7 +39,17 @@
             </div>
         {% endif %}
 
-        <h4 class="col-12 p-0 mt-4">{% trans "Interest and expertise areas" %}</h4>
+        <h3 class="col-12 p-0 mt-4">
+            {% trans "Interest and expertise areas" %}
+            {% if editable %}
+
+                <a class="btn btn-outline-secondary float-end ms-2" href="/users/me/edit">
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </h3>
         {% if show_user.profile.interestAreas.count > 0 %}
             <div class="col-12 p-0 d-flex flex-wrap gap-2 justify-content-start align-items-center mt-2">
                 {% for area in show_user.profile.interestAreas.all %}
@@ -65,12 +69,22 @@
             </div>
         {% endif %}
 
-        <h4 class="col-12 p-0 mt-4">{% trans "Organisations" %}</h4>
+        <h3 class="col-12 p-0 mt-4">
+            {% trans "Organisations" %}
+            {% if editable %}
+                <a class="btn btn-outline-secondary float-end ms-2" href="/users/me/edit">
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                    </svg>
+                </a>
+            {% endif %}
+
+        </h3>
         {% if show_user.profile.organisation.count > 0 %}
             <div class="col-12 row mt-2">
                 {% for organisation in show_user.profile.organisation.all %}
                     <div class="col-6 mb-3">
-                        {% include 'includes/card_ridotta.html' with cardTitle=organisation.name|default:"Nessuna organizzazione"  image=organisation.logo tipologia=organisation.orgType.type %}
+                        {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
                     </div>
                 {% endfor %}
             </div>
