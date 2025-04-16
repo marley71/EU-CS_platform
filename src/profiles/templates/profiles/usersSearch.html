@@ -32,7 +32,7 @@
                 {% for user in users %}
 
                     {#            {% include "_projects_cards.html" %}#}
-                    <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center mb-3">
+                    <div class="col-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center align-items-center mb-4">
                         <a href="/users/{{ user.slug }}">
                             {% include "includes/card_utente.html" with member=user %}
                         </a>

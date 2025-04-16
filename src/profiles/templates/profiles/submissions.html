@@ -15,7 +15,7 @@
     {% if projects_submitted.count > 0 %}
         <div class="col-12 row mt-4">
             {% for project in projects_submitted.all %}
-                <div class="col-6 mb-3">
+                <div class="col-12 col-lg-6 mb-3">
                     {% include 'includes/card_ridotta.html' with project=project %}
                 </div>
             {% endfor %}
@@ -38,7 +38,7 @@
     {% if organisations_submitted.count > 0 %}
         <div class="col-12 row mt-4">
             {% for organisation in organisations_submitted %}
-                <div class="col-6 mb-3">
+                <div class="col-12 col-lg-6 mb-3">
                     {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
                 </div>
             {% endfor %}

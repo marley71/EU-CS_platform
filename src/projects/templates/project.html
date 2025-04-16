@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-7 col-md-6 col-12">
+                <div class="col-xl-8 col-xxl-7 col-md-6 col-12">
                     <!-- TODO: I dont like this look -->
                     {% if hasTranslation %}
                         {% for translation in project.translatedProject.all|dictsort:"id" %}
@@ -209,7 +209,7 @@
                     {% if project.mainOrganisation %}
                         <h4 class="mt-5">Coordinatore</h4>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-xl-6 col-12">
                                 {% include 'includes/card_ridotta_org.html' with organisation=project.mainOrganisation %}
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                         <h4 class="mt-5">{% trans "Other Organisations involved" %}</h4>
                         <div class="row">
                             {% for organisation in project.organisation.all %}
-                                <div class="col-6">
+                                <div class="col-xl-6 col-12">
                                     {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
                                 </div>
                             {% endfor %}
@@ -270,7 +270,7 @@
 
 
                 </div>
-                <div class="col-xl-4 offset-xl-1 col-md-5 offset-md-1 col-12">
+                <div class="col-xl-4 offset-xxl-1 offset-xl-0 col-md-5 offset-md-1 col-12">
 
                     {% if project.logo %}
                         <div class=""
