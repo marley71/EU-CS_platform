@@ -7,7 +7,8 @@ from projects.models import Project
 from .models import Post
 from django_select2 import forms as s2forms
 import pytz
-
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 EVENT_TYPE_CHOICES = [
     ('online', 'On-line event'),
@@ -69,42 +70,25 @@ class PostForm(forms.Form):
         if pk:
             post = get_object_or_404(Post, id=pk)
             post.title = self.data['title']
-            post.description = self.data['description']
-            post.place = self.data['place']
-            post.country = self.data['country']
-            post.start_date = self.data['start_date']
-            post.end_date = self.data['end_date']
-            #post.hour = hour
-            post.timezone=self.data['timezone']
-            post.language=self.data['language']
-            post.url = self.data['url']
-            post.event_type = self.data['event_type']
-            post.latitude = self.data['latitude']
-            post.longitude = self.data['longitude']
-            post.creator=args.user
-            post.project = self.cleaned_data['project']
-            post.mainOrganisation = self.cleaned_data['mainOrganisation']
-            post.organisations.set(self.cleaned_data['organisations'])
+            post.content = self.data['content']
+            post.slug = self.data['slug']
+            #post.created_on = self.data['created_on']
+            post.status = self.data['status']
+            post.excerpt=self.data['excerpt']
+            post.sticky=self.data['sticky']
+            post.author=args.user
         else:
+            #date_object = datetime.strptime(datetime.now(), "%Y-%m-%d %H:%M:%S")
+            # Assicurati che l'oggetto datetime sia consapevole del fuso orario
+            created_on = timezone.make_aware(datetime.now())
             post = Post(
                 title=self.data['title'],
-                description=self.data['description'],
-                place=self.data['place'],
-                country=self.data['country'],
-                start_date=self.data['start_date'],
-                end_date=self.data['end_date'],
-                #hour=hour,
-                timezone=self.data['timezone'],
-                language=self.data['language'],
-                url=self.data['url'],
-                latitude=self.data['latitude'],
-                longitude=self.data['longitude'],
-                event_type=self.data['event_type'],
-                creator=args.user
+                content=self.data['content'],
+                slug=self.data['slug'],
+                created_on=created_on,
+                status=self.data['status'],
+                excerpt=self.data['excerpt'],
+                sticky=self.data['sticky'],
+                author=args.user
             )
-            post.save()
-            post.project = self.cleaned_data['project']
-            post.mainOrganisation = self.cleaned_data['mainOrganisation']
-            post.organisations.set(self.cleaned_data['organisations'])
-
         post.save()

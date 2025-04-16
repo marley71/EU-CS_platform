@@ -27,7 +27,7 @@
 {% block list_of_items %}
 {% include '_crop_zone.html' %}
 <div class="container mt-5">
-     <form action="/new_event" class="edit-project" method="post" enctype="multipart/form-data"> 
+     <form action="/new_blog" class="edit-project" method="post" enctype="multipart/form-data">
         <div class="row">
             {% csrf_token %}
             <div class="col-12">
@@ -60,6 +60,16 @@
 
                                 {{ form.sticky|as_crispy_field }}
                                 {{ form.status|as_crispy_field }}
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-11 mb-5">
+
+                                <button type="submit mb-5" class="btn btn-outline-success submit"  onclick="return validateMap();">
+                                    <i class="fas fa-share-square"></i> {% trans "Add" %}
+                                </button>
 
                             </div>
                         </div>

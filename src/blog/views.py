@@ -1,5 +1,5 @@
 from django.views import generic
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from urllib.parse import urlencode
 from django.conf import settings
 from .models import Post
@@ -38,7 +38,7 @@ def new_blog(request):
         form = PostForm(request.POST)
         if form.is_valid():
             form.save(request)
-            return redirect('/blogs')
+            return redirect('/blog')
         else:
             print(form.errors)
     return TemplateResponse(request, 'new_post.html', {
