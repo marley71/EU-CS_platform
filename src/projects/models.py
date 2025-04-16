@@ -134,6 +134,10 @@ class Project(models.Model):
 
     name = models.CharField(max_length=200, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
+    logo = models.ImageField(
+        upload_to='images/', max_length=300, null=True, blank=True)
+    logoCredit = models.ImageField(
+        upload_to='images/', max_length=300, null=True, blank=True)
     description = models.TextField()
     citizen_science_aspects_description = models.TextField()
     aim = models.TextField(null=True, blank=True)

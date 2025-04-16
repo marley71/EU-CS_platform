@@ -1,20 +1,21 @@
 from django.contrib.gis.db import models
 from django.conf import settings
 from django_countries.fields import CountryField
+from localita.models import Localita
 
-class Localita(models.Model):
-    name = models.CharField(max_length=100, editable=False)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-
-    class Meta:
-        db_table = 'localita'  # Specifica il nome della tabella nel database
-
-    def __str__(self):
-        return f'{self.name}'
-
-    def humanized(self):
-        return self.name.replace(' ', '-')
+# class Localita(models.Model):
+#     name = models.CharField(max_length=100, editable=False)
+#     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+#     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+#
+#     class Meta:
+#         db_table = 'localita'  # Specifica il nome della tabella nel database
+#
+#     def __str__(self):
+#         return f'{self.name}'
+#
+#     def humanized(self):
+#         return self.name.replace(' ', '-')
 
 
 class OrganisationType(models.Model):
@@ -39,6 +40,8 @@ class Organisation(models.Model):
     orgType = models.ForeignKey(OrganisationType, on_delete=models.CASCADE)
     logo = models.ImageField(upload_to='images/', max_length=300, null=True, blank=True)
     logoCredit = models.CharField(max_length=300, null=True, blank=True)
+    image1 = models.ImageField(upload_to='images/', max_length=300, null=True, blank=True)
+    image1Credit = models.CharField(max_length=300, null=True, blank=True)
     contactPoint = models.CharField(max_length=100, null=True, blank=True)
     contactPointEmail = models.EmailField(max_length=100, null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)

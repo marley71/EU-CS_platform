@@ -52,6 +52,15 @@ class OrganisationForm(forms.Form):
         max_length=300,
         required=False,
         label=_("Logo credit, if applicable"))
+    image1 = forms.ImageField(
+        required=False,
+        help_text=_(
+            'Please upload the image of your organisation (.jpg or .png).'),
+        widget=forms.FileInput)
+    image1Credit = forms.CharField(
+        max_length=300,
+        required=False,
+        label=_("Image1 credit, if applicable"))
     x = forms.FloatField(widget=forms.HiddenInput(), required=False)
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
