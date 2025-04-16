@@ -242,13 +242,13 @@
 
                     {% endif %}
 
-                    {% if project.imageCredit3 or project.imageCredit2 %}
+                    {% if project.imageCredit1 or project.logoCredit %}
                         <h4 class="mt-5 leftborder">{% trans "About branding" %}</h4>
-                        {% if project.imageCredit3 %}
-                            <p class="leftborder">{% trans "<b>Profile image design by: </b>" %} {{ project.imageCredit3|safe }} </p>
+                        {% if project.imageCredit1 %}
+                            <p class="leftborder">{% trans "<b>Image design by: </b>" %} {{ project.imageCredit1|safe }} </p>
                         {% endif %}
-                        {% if project.imageCredit2 %}
-                            <p class="leftborder">{% trans "<b>Logo design by: </b>" %} {{ project.imageCredit2|safe }} </p>
+                        {% if project.logoCredit %}
+                            <p class="leftborder">{% trans "<b>Logo design by: </b>" %} {{ project.logoCredit|safe }} </p>
                         {% endif %}
 
                     {% endif %}
@@ -272,9 +272,9 @@
                 </div>
                 <div class="col-xl-4 offset-xl-1 col-md-5 offset-md-1 col-12">
 
-                    {% if project.image2 %}
+                    {% if project.logo %}
                         <div class=""
-                             style="height:300px; background-image: url('/media/{{ project.image2 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                             style="height:300px; background-image: url('/media/{{ project.logo | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
                         </div>
                     {% endif %}
