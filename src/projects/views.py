@@ -217,6 +217,9 @@ def editProject(request, pk):
         'originUID': project.originUID,
         'originURL': project.originURL,
         'projectCountry': project.projectCountry.all,
+        'localita' : project.localita,
+        'logo' : project.logo,
+        'logoCredit' : project.logoCredit,
     }
 
     translation_fields=['description','aim', 'howToParticipate','equipment']

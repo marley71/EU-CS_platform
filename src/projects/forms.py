@@ -474,14 +474,21 @@ class ProjectForm(forms.Form):
         project.imageCredit1 = self.data['image_credit1']
         project.imageCredit2 = self.data['image_credit2']
         project.imageCredit3 = self.data['image_credit3']
-        
+        try :
+            localita = Localita.objects.get(id=self.data['localita'])
+            print('Localita trovata')
+        except Localita.DoesNotExist:
+            localita = None
+        if localita:
+            project.localita_id = localita.id
+
         project.doingAtHome = doingAtHome
-       
+        #project.localita
         project.fundingProgram = self.data['funding_program']
         project.mainOrganisation = mainOrganisation
         project.projectGeographicLocation = projectGeographicLocation
 
-        project.projectCountry.set(self.cleaned_data['projectCountry'])
+        #project.projectCountry.set(self.cleaned_data['projectCountry'])
 
         for key, value in self.data.items():
             if key.startswith('description_'):
