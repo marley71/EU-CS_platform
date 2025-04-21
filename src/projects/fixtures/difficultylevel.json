@@ -3,26 +3,33 @@
 				{
 								"model": "projects.difficultyLevel",
 								"fields": {
-												"difficultyLevel": "Not Indicated"
+												"difficultyLevel": "Not Indicated",
+									"difficultyLevel_it": "Non indicato"
+
+
 								}
 				},
 
 				{
 								"model": "projects.difficultyLevel",
 								"fields": {
-												"difficultyLevel": "Easy"
+												"difficultyLevel": "Easy",
+									"difficultyLevel_it": "Facile"
+
 								}
 				},
 				{
 								"model": "projects.difficultyLevel",
 								"fields": {
-												"difficultyLevel": "Medium"
+												"difficultyLevel": "Medium",
+									"difficultyLevel_it": "Medio"
 								}
 				},
 				{
 								"model": "projects.difficultyLevel",
 								"fields": {
-												"difficultyLevel": "Hard"
+												"difficultyLevel": "Hard",
+									"difficultyLevel_it": "Difficile"
 								}
 				}
 ]

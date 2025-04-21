@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.core.files import File
 
 class Command(BaseCommand):
-    help = 'Seed projects'
+    help = 'Seed blog'
 
     def handle(self, *args, **kwargs):
 

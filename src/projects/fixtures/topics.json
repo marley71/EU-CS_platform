@@ -2,175 +2,217 @@
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Agriculture & Veterinary science"
+            "topic": "Agriculture & Veterinary science",
+            "topic_it": "Agricoltura e veterinaria"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Animals"
+            "topic": "Animals",
+            "topic_it": "Animali"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Archaeology & Cultural"
+            "topic": "Archaeology & Cultural",
+            "topic_it": "Archeologia e cultura"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Astronomy & Space"
+            "topic": "Astronomy & Space",
+            "topic_it": "Astronomia e spazio"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Biodiversity"
+            "topic": "Biodiversity",
+            "topic_it": "Biodiversità"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Biogeography"
+            "topic": "Biogeography",
+            "topic_it": "Biogeografia"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Biology"
+            "topic": "Biology",
+            "topic_it": "Biologia"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Birds"
+            "topic": "Birds",
+            "topic_it": "Uccelli"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Chemical sciences"
+            "topic": "Chemical sciences",
+            "topic_it": "Scienze chimiche"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Climate & Weather"
+            "topic": "Climate & Weather",
+            "topic_it": "Clima e meteo"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Ecology & Environment"
+            "topic": "Ecology & Environment",
+            "topic_it": "Ecologia e ambiente"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Education"
+            "topic": "Education",
+            "topic_it": "Istruzione"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Food science"
+            "topic": "Food science",
+            "topic_it": "Scienze alimentari"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Genetics"
+            "topic": "Genetics",
+            "topic_it": "Genetica"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Geography"
+            "topic": "Geography",
+            "topic_it": "Geografia"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Geology & Earth science"
+            "topic": "Geology & Earth science",
+            "topic_it": "Geologia e scienze della Terra"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Health & Medicine"
+            "topic": "Health & Medicine",
+            "topic_it": "Salute e medicina"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Indigenous culture"
+            "topic": "Indigenous culture",
+            "topic_it": "Cultura indigena"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Information & Computing sciences"
+            "topic": "Information & Computing sciences",
+            "topic_it": "Scienze dell'informazione e informatica"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Insects & pollinators"
+            "topic": "Insects & pollinators",
+            "topic_it": "Insetti e impollinatori"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Long-term species monitoring"
+            "topic": "Long-term species monitoring",
+            "topic_it": "Specie a lungo termine Monitoraggio"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Ocean, Water, Marine & Terrestrial"
+            "topic": "Ocean, Water, Marine & Terrestrial",
+            "topic_it": "Oceano, acqua, ambiente marino e terrestre"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Nature & outdoors"
+            "topic": "Nature & outdoors",
+            "topic_it": "Natura e attività all'aperto"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Natural resource management"
+            "topic": "Natural resource management",
+            "topic_it": "Gestione delle risorse naturali"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Physics"
+            "topic": "Physics",
+            "topic_it": "Fisica"
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Science policy"
+            "topic": "Science policy",
+            "topic_it": "Politica scientifica"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Social sciences"
+            "topic": "Social sciences",
+            "topic_it": "Scienze sociali"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Sound"
+            "topic": "Sound",
+            "topic_it": "Suono"
+
         }
     },
     {
         "model": "projects.topic",
         "fields": {
-            "topic": "Transportation"
+            "topic": "Transportation",
+            "topic_it": "Trasporti"
         }
     }
 ]

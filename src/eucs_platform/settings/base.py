@@ -294,9 +294,13 @@ LANGUAGE_CODES = [
     'zh_CN'
 ]
 
-MODELTRANSLATION_LANGUAGES = (
-    'en', 'es', 'pt', 'nl', 'et', 'fr', 'de', 'el', 'hu', 'it', 'lt', 'sv')
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+# MODELTRANSLATION_LANGUAGES = (
+#     'en', 'es', 'pt', 'nl', 'et', 'fr', 'de', 'el', 'hu', 'it', 'lt', 'sv')
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+
+MODELTRANSLATION_LANGUAGES = ('it','en')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'it'
+
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True

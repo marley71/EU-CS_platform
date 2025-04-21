@@ -565,7 +565,7 @@ def deleteProject(request, pk):
 
 
 def setImages(request, form):
-    print('setImages')
+    #print('setImages')
     images = []
     image1_path = saveImage(request, form, 'image1', '1')
     image2_path = saveImage(request, form, 'image2', '2')
@@ -573,7 +573,7 @@ def setImages(request, form):
     images.append(image1_path)
     images.append(image2_path)
     images.append(image3_path)
-    print(images)
+    #print(images)
     return images
 
 

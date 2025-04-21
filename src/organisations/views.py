@@ -44,22 +44,23 @@ def new_organisation(request):
         image_path_database = ''
         form = OrganisationForm(request.POST, request.FILES)
         if form.is_valid():
-            image_path = ''
-            if(request.FILES.get('logo')):
-                x = form.cleaned_data.get('x')
-                y = form.cleaned_data.get('y')
-                w = form.cleaned_data.get('width')
-                h = form.cleaned_data.get('height')
-                photo = request.FILES['logo']
-                image = Image.open(photo)
-                cropped_image = image.crop((x, y, w+x, h+y))
-                resized_image = cropped_image.resize((600, 400), Image.LANCZOS)
-                _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
-                random_num = random.randint(0, 1000)
-                image_path = "media/images/" + _datetime + '_' + str(random_num) + '_' + photo.name
-                resized_image.save(image_path)
-                image_path_database = "images/" + _datetime + '_' + str(random_num) + '_' + photo.name
-            saved_organisation = form.save(request, image_path_database)
+            # image_path = ''
+            # if(request.FILES.get('logo')):
+            #     x = form.cleaned_data.get('x')
+            #     y = form.cleaned_data.get('y')
+            #     w = form.cleaned_data.get('width')
+            #     h = form.cleaned_data.get('height')
+            #     photo = request.FILES['logo']
+            #     image = Image.open(photo)
+            #     cropped_image = image.crop((x, y, w+x, h+y))
+            #     resized_image = cropped_image.resize((600, 400), Image.LANCZOS)
+            #     _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
+            #     random_num = random.randint(0, 1000)
+            #     image_path = "media/images/" + _datetime + '_' + str(random_num) + '_' + photo.name
+            #     resized_image.save(image_path)
+            #     image_path_database = "images/" + _datetime + '_' + str(random_num) + '_' + photo.name
+            images = self.setImages(request,form)
+            saved_organisation = form.save(request, images)
             messages.success(request, _('Organisation added correctly'))
             subject = 'New organisation submitted'
             message = render_to_string('emails/new_organisation.html', {'submitter': user, 'organisationName': saved_organisation.name})
@@ -77,6 +78,69 @@ def new_organisation(request):
             request,
             'organisation_form.html',
             {'form': form, 'user': user, 'text': text})
+
+
+def setImages(request, form):
+    #print('setImages')
+    images = []
+    post_data = request.POST
+    print(post_data)  # Stampa i dati POST nella console
+    image1_path = saveImage(request, form, 'logo', 'logo')
+    image2_path = saveImage(request, form, 'image1', '1')
+    images.append(image1_path)
+    images.append(image2_path)
+    #print(images)
+    return images
+
+def saveImage(request, form, element, ref):
+    image_path = ''
+    filepath = request.FILES.get(element, False)
+    withImage = form.cleaned_data.get('withImage' + ref)
+    if (filepath):
+        x = form.cleaned_data.get('x_' + ref) if form.cleaned_data.get('x_' + ref) else 0
+        y = form.cleaned_data.get('y_' + ref) if form.cleaned_data.get('y_' + ref) else 0
+        w = form.cleaned_data.get('width_' + ref) if form.cleaned_data.get('width_' + ref) else 600
+        h = form.cleaned_data.get('height_' + ref) if form.cleaned_data.get('height_' + ref) else 400
+        print('x ' + str(x) + ' y ' + str(y) + ' w ' + str(w) + ' h ' + str(h))
+        photo = request.FILES[element]
+        image = Image.open(photo)
+        if not image:
+            return None
+
+        cropped_image = image.crop((x, y, w+x, h+y))
+        if (ref == '3'):
+            finalSize = (1100, 400)
+        else:
+            finalSize = (600, 400)
+
+        resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
+
+        if (cropped_image.width > image.width):
+            size = (abs(int(
+                (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
+            whitebackground = Image.new(
+                mode='RGBA', size=size, color=(255, 255, 255, 0))
+            position = ((finalSize[0] - whitebackground.width), 0)
+            resized_image.paste(whitebackground, position)
+            position = (0, 0)
+            resized_image.paste(whitebackground, position)
+        if (cropped_image.height > image.height):
+            size = (finalSize[0], abs(
+                int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
+            whitebackground = Image.new(
+                mode='RGBA', size=size, color=(255, 255, 255, 0))
+            position = (0, (finalSize[1] - whitebackground.height))
+            resized_image.paste(whitebackground, position)
+            position = (0, 0)
+            resized_image.paste(whitebackground, position)
+
+        image_path = saveImageWithPath(resized_image, photo.name)
+    elif withImage:
+        image_path = '/'
+    else:
+        image_path = ''
+
+    return image_path
 
 
 def organisation(request, pk):
@@ -131,7 +195,8 @@ def edit_organisation(request, pk):
         'contact_point': organisation.contactPoint,
         'contact_point_email': organisation.contactPointEmail,
         'latitude': organisation.latitude,
-        'longitude': organisation.longitude
+        'longitude': organisation.longitude,
+        'localita': organisation.localita,
     }
 
     translation_fields = ['description']
@@ -144,28 +209,31 @@ def edit_organisation(request, pk):
     if request.method == 'POST':
         form = OrganisationForm(request.POST, request.FILES)
         if form.is_valid():
-            image_path = ''
-            if(request.FILES.get('logo')):
-                x = form.cleaned_data.get('x')
-                y = form.cleaned_data.get('y')
-                w = form.cleaned_data.get('width')
-                h = form.cleaned_data.get('height')
-                photo = request.FILES['logo']
-                image = Image.open(photo).convert("RGBA")
-                cropped_image = image.crop((x, y, w+x, h+y))
-                resized_image = cropped_image.resize((600, 400), Image.Resampling.LANCZOS)
-
-                white_bg = Image.new('RGBA', (600, 400), 'white')
-                final_image = Image.alpha_composite(white_bg, resized_image)
-                final_image_rgb = final_image.convert("RGB")
-                _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
-                random_num = random.randint(0, 1000)
-                image_path = "media/images/" + _datetime + '_' + str(random_num) + '_' + photo.name
-                final_image.save(image_path)
-                image_path_database = "images/" + _datetime + '_' + str(random_num) + '_' + photo.name
-            else:
-                image_path_database = ''
-            form.save(request, image_path_database)
+            images = setImages(request, form)
+            form.save(request, images)
+            # --vecchio codice ---
+            # image_path = ''
+            # if(request.FILES.get('logo')):
+            #     x = form.cleaned_data.get('x')
+            #     y = form.cleaned_data.get('y')
+            #     w = form.cleaned_data.get('width')
+            #     h = form.cleaned_data.get('height')
+            #     photo = request.FILES['logo']
+            #     image = Image.open(photo).convert("RGBA")
+            #     cropped_image = image.crop((x, y, w+x, h+y))
+            #     resized_image = cropped_image.resize((600, 400), Image.Resampling.LANCZOS)
+            #
+            #     white_bg = Image.new('RGBA', (600, 400), 'white')
+            #     final_image = Image.alpha_composite(white_bg, resized_image)
+            #     final_image_rgb = final_image.convert("RGB")
+            #     _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
+            #     random_num = random.randint(0, 1000)
+            #     image_path = "media/images/" + _datetime + '_' + str(random_num) + '_' + photo.name
+            #     final_image.save(image_path)
+            #     image_path_database = "images/" + _datetime + '_' + str(random_num) + '_' + photo.name
+            # else:
+            #     image_path_database = ''
+            # form.save(request, image_path_database)
             return redirect('/organisation/'+str(organisation.id), {})
         else:
             print(form.errors)
@@ -378,7 +446,7 @@ def saveImageWithPath(image, photoName):
     _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
     random_num = random.randint(0, 1000)
     image_path = "images/" + _datetime + '_' + str(random_num) + '_' + photoName
-    image.save(image_path)
+    image.save('media/' + image_path)
     return image_path
 
 def applyFilters(request, queryset):

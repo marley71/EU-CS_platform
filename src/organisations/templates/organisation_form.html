@@ -105,11 +105,34 @@
                                 </a>
 
                                 {{ form.logo|as_crispy_field }}
-                                {{ form.x|as_crispy_field }}
-                                {{ form.y|as_crispy_field }}
-                                {{ form.height|as_crispy_field }}
-                                {{ form.width|as_crispy_field }}
+                                {{ form.x_logo|as_crispy_field }}
+                                {{ form.y_logo|as_crispy_field }}
+                                {{ form.height_logo|as_crispy_field }}
+                                {{ form.width_logo|as_crispy_field }}
                                 {{ form.logo_credit|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <h3 class="leftborder mt-5">{% trans "Organisation image1" %}</h3>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-11">
+                                <a id="imgResult" href="#"> <img
+                                                  class="img-fluid img-zoom"
+                                                  id="imageResult"
+                                                  src="{% thumbnail organisation.image1|default:'void_600.png' 600x400 crop%}">
+                                </a>
+
+                                {{ form.image1|as_crispy_field }}
+                                {{ form.x_1|as_crispy_field }}
+                                {{ form.y_1|as_crispy_field }}
+                                {{ form.height_1|as_crispy_field }}
+                                {{ form.width_1|as_crispy_field }}
+                                {{ form.image1Credit|as_crispy_field }}
                             </div>
                         </div>
                     </div>

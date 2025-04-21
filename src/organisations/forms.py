@@ -61,10 +61,16 @@ class OrganisationForm(forms.Form):
         max_length=300,
         required=False,
         label=_("Image1 credit, if applicable"))
-    x = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    y = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    width = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+
+    x_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    x_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+
     contact_point = forms.CharField(
         max_length=100,
         help_text=_(
@@ -89,11 +95,11 @@ class OrganisationForm(forms.Form):
         help_text=_('Please, select località of your project.'))
 
     # TODO: I link this more to be used in others
-    def save(self, args, logo_path):
+    def save(self, args, images):
         print("In save")
         pk = self.data.get('organisationID', '')
         orgType = get_object_or_404(OrganisationType, id=self.data['orgType'])
-        localita = get_object_or_404(Localita, id=self.data['localita'])
+        #localita = get_object_or_404(Localita, id=self.data['localita'])
         if (pk):
             organisation = get_object_or_404(Organisation, id=pk)
             organisation.name = self.data['name']
@@ -104,7 +110,8 @@ class OrganisationForm(forms.Form):
             organisation.logoCredit = self.data['logo_credit']
             organisation.latitude = self.data['latitude']
             organisation.longitude = self.data['longitude']
-            organisation.localita_id = localita.id
+            organisation.localita_id = self.data['localita']
+            organisation.image1Credit = self.data['image1Credit']
         else:
             organisation = Organisation(
                 name=self.data['name'],
@@ -113,23 +120,32 @@ class OrganisationForm(forms.Form):
                 latitude=self.data['latitude'],
                 longitude=self.data['longitude'],
                 logoCredit=self.data['logo_credit'],
+                image1Credit=self.data['image1Credit'],
                 orgType=orgType,
                 contactPoint=self.data['contact_point'],
                 contactPointEmail=self.data['contact_point_email'],
-                localita_id=localita.id,
+                localita_id=self.data['localita'],
             )
             
         for key, value in self.data.items():
             if key.startswith('description_'):
                 setattr(organisation, key, value)
         organisation.save()
+        print('Organisation saved',images)
+        if (images[0]):
+            organisation.logo = images[0]
+        if (images[1]):
+            organisation.image1 = images[1]
 
         # TODO: Fix this
-        if len(logo_path):
-            organisation.logo = logo_path
-        country = getCountryCode(
-            organisation.latitude, organisation.longitude).upper()
-        organisation.country = country
+        # if len(logo_path):
+        #     organisation.logo = logo_path
+        # if len(image1_path):
+        #     organisation.image1 = image1_path
+
+#        country = getCountryCode(
+#            organisation.latitude, organisation.longitude).upper()
+#        organisation.country = country
         organisation.save()
         return organisation
 

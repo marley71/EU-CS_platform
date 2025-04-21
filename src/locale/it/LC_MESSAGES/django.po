@@ -492,6 +492,10 @@ msgstr "Informazioni del contatto"
 msgid "Organisation logo"
 msgstr "Logo dell'organizzazione"
 
+#: organisations/templates/organisation_form.html:75
+msgid "Organisation image1"
+msgstr "Immagine rappresentativa organizzazione"
+
 #: organisations/templates/organisation_form.html:96
 #: projects/templates/project.html:209
 msgid "Location"
