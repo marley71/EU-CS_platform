@@ -193,6 +193,10 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
+
+
+
+
                                 <img class="img-fluid img-zoom"
                                 id="imageResult1"
                                 src="{% thumbnail project.image1|default:'void_600.png' 600x400 %}">
@@ -228,6 +232,21 @@
                                 {{ form.width3|as_crispy_field }}
                                 {{ form.image_credit3|as_crispy_field }}
                                 <div class="mb-5"></div>
+
+
+                                <img class="img-fluid mt-3"
+                                     id="imageResultlogo"
+                                     src="{% thumbnail project.logo|default:'void_1100.png' 1100x400 %}" alt="Image not upload">
+                                {{ form.withImagelogo|as_crispy_field }}
+                                {{ form.logo|as_crispy_field }}
+                                {{ form.xlogo|as_crispy_field }}
+                                {{ form.ylogo|as_crispy_field }}
+                                {{ form.heightlogo|as_crispy_field }}
+                                {{ form.widthlogo|as_crispy_field }}
+                                {{ form.logo_credit|as_crispy_field }}
+                                <div class="mb-5"></div>
+
+
                                 {% include "_save_zone.html" %}
                                 <div class="mb-5"></div>
                             </div>
@@ -358,6 +377,17 @@
           reader.readAsDataURL(this.files[0]);
         }
       });
+      $("#id_logo").change(function () {
+        imgSelected = 3;
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $("#image").attr("src", e.target.result);
+            $("#modalCrop").modal("show");
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
       $("#imageResult").click(function () {
         $("#modalCrop").modal("show");
       });
@@ -365,6 +395,9 @@
         $("#modalCrop").modal("show");
       });
       $("#imageResult3").click(function () {
+        $("#modalCrop").modal("show");
+      });
+      $("#imageResultlogo").click(function () {
         $("#modalCrop").modal("show");
       });
       /* SCRIPTS TO HANDLE THE CROPPER BOX */

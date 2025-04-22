@@ -316,6 +316,22 @@ class ProjectForm(forms.Form):
         required=False,
         label=_("Heading image credit, if applicable"))
 
+    logo = forms.ImageField(
+        required=False,
+        label=_("Logo progetto"),
+        help_text=_('It will be resized to 1100x400 pixels'),
+        widget=forms.FileInput)
+    xlogo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    ylogo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    widthlogo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    heightlogo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    withImagelogo = forms.BooleanField(
+        widget=forms.HiddenInput(), required=False, initial=False)
+    logo_credit = forms.CharField(
+        max_length=300,
+        required=False,
+        label=_("Heading logo credit, if applicable"))
+
     # Others, some of them unused
     host = forms.CharField(
         max_length=100,
@@ -394,7 +410,10 @@ class ProjectForm(forms.Form):
             project.image2 = images[1]
         if (images[2] != '/'):
             project.image3 = images[2]
-
+        if (images[3] != '/'):
+            project.logo = images[3]
+        print("immagini progetto")
+        print(images)
         user = args.user
         if user.is_staff == False:
             project.dateUpdated = timezone.now()
@@ -454,6 +473,7 @@ class ProjectForm(forms.Form):
             imageCredit1=self.data['image_credit1'],
             imageCredit2=self.data['image_credit2'],
             imageCredit3=self.data['image_credit3'],
+            logoCredit = self.data['logo_credit'],
             fundingProgram=self.data['funding_program'],
             participatingInaContest=participatingInaContest,
             projectGeographicLocation=projectGeographicLocation)
@@ -474,6 +494,7 @@ class ProjectForm(forms.Form):
         project.imageCredit1 = self.data['image_credit1']
         project.imageCredit2 = self.data['image_credit2']
         project.imageCredit3 = self.data['image_credit3']
+        project.logoCredit = self.data['logo_credit']
         try :
             localita = Localita.objects.get(id=self.data['localita'])
             print('Localita trovata')

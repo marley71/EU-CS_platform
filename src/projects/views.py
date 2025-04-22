@@ -206,6 +206,9 @@ def editProject(request, pk):
         'image3': project.image3,
         'image_credit3': project.imageCredit3,
         'withImage3': (True, False)[project.image3 == ""],
+        'logo': project.logo,
+        'logo_credit': project.logoCredit,
+        'withImagelogo': (True, False)[project.logo == ""],
         'contact_person': project.author,
         'contact_person_email': project.author_email,
         'host': project.host,
@@ -218,8 +221,7 @@ def editProject(request, pk):
         'originURL': project.originURL,
         'projectCountry': project.projectCountry.all,
         'localita' : project.localita,
-        'logo' : project.logo,
-        'logoCredit' : project.logoCredit,
+
     }
 
     translation_fields=['description','aim', 'howToParticipate','equipment']
@@ -570,9 +572,11 @@ def setImages(request, form):
     image1_path = saveImage(request, form, 'image1', '1')
     image2_path = saveImage(request, form, 'image2', '2')
     image3_path = saveImage(request, form, 'image3', '3')
+    imagelogo_path = saveImage(request, form, 'logo', 'logo')
     images.append(image1_path)
     images.append(image2_path)
     images.append(image3_path)
+    images.append(imagelogo_path)
     #print(images)
     return images
 
@@ -581,11 +585,13 @@ def saveImage(request, form, element, ref):
     image_path = ''
     filepath = request.FILES.get(element, False)
     withImage = form.cleaned_data.get('withImage' + ref)
+    #print('ref ' + ref + 'withImage' + ref + ' withImage ' + str(withImage)  + ' filepath ' + str(filepath))
     if (filepath):
-        x = form.cleaned_data.get('x' + ref)
-        y = form.cleaned_data.get('y' + ref)
-        w = form.cleaned_data.get('width' + ref)
-        h = form.cleaned_data.get('height' + ref)
+        x = form.cleaned_data.get('x' + ref) if form.cleaned_data.get('x_' + ref) else 0
+        y = form.cleaned_data.get('y' + ref) if form.cleaned_data.get('y_' + ref) else 0
+        w = form.cleaned_data.get('width' + ref) if form.cleaned_data.get('width_' + ref) else 600
+        h = form.cleaned_data.get('height' + ref) if form.cleaned_data.get('height_' + ref) else 400
+        #print(element)
         photo = request.FILES[element]
         image = Image.open(photo)
         cropped_image = image.crop((x, y, w+x, h+y))
