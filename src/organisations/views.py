@@ -59,7 +59,7 @@ def new_organisation(request):
             #     image_path = "media/images/" + _datetime + '_' + str(random_num) + '_' + photo.name
             #     resized_image.save(image_path)
             #     image_path_database = "images/" + _datetime + '_' + str(random_num) + '_' + photo.name
-            images = self.setImages(request,form)
+            images = setImages(request,form)
             saved_organisation = form.save(request, images)
             messages.success(request, _('Organisation added correctly'))
             subject = 'New organisation submitted'
