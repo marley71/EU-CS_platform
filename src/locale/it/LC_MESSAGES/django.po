@@ -503,7 +503,7 @@ msgstr "Luogo"
 
 #: organisations/templates/organisation_form.html:100
 msgid "This is a required parameter"
-msgstr ""
+msgstr "Questo è un parametro obbligatorio"
 
 #: organisations/templates/organisation_form.html:108
 #: profiles/templates/profiles/edit_profile.html:56 templates/_save_zone.html:3
@@ -787,6 +787,9 @@ msgstr "Si prega di scrivere il nome del progetto."
 msgid "Project name"
 msgstr "Progetto"
 
+msgid "Project-name"
+msgstr "Progetto"
+
 #: projects/forms.py:39
 msgid "Please provide the URL to an external website of the project."
 msgstr "Si prega di fornire l'URL a un sito Web esterno del progetto."
@@ -831,6 +834,16 @@ msgstr ""
 "xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Quello che introduci in "
 "questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
 "moderazione (max 2000 caratteri)."
+
+msgid "Please describe the citizen science aspect(s)"
+msgstr "Si prega di descrivere l'aspetto o gli aspetti di Citizen science del "
+"progetto e il collegamento del progetto a SAcitizen science utilizzando i <a "
+"href=\"https://zenodo.org/cohttps://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
+">10 Principi di Citizen Science di ECSA </a> e i <a href=\"https://osf.io/"
+"xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Quello che introduci in "
+"questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
+"moderazione (max 2000 caratteri)."
+
 
 #: projects/forms.py:62
 msgid "Description of citizen science aspects"
@@ -3908,6 +3921,36 @@ msgstr "Aggiungi alla biblioteca"
 #: templates/translations.html:10
 msgid "Translations"
 msgstr "Traduzioni"
+
+msgid "Please provide the name of the project."
+msgstr "Si prega di fornire il nome del progetto."
+
+msgid "Please, select località of your project."
+msgstr "Seleziona la località del tuo progetto."
+
+msgid "Please provide the aim of your project here (max 3000 characters)."
+msgstr "Indica qui l'obiettivo del tuo progetto (massimo 3000 caratteri)."
+
+msgid "Please describe the citizen science aspect(s) of the project and the link of the project to citizen science using the ECSA Characteristics of Citizen Science and the ECSA 10 Principles of Citizen Science. What you introduce in this text field will not appear on the platform; it is just for moderation purposes (max 2000 characters)."
+msgstr "Descrivi gli aspetti di citizen science del progetto e il collegamento tra il progetto e la citizen science utilizzando le Caratteristiche della Citizen Science dell'ECSA e i 10 Principi della Citizen Science dell'ECSA. Il testo inserito in questo campo non apparirà sulla piattaforma; è solo a scopo di moderazione (massimo 2000 caratteri)."
+
+msgid "Please describe how people can get involved in the project (max 3000 characters)."
+msgstr "Descrivi in che modo le persone possono essere coinvolte nel progetto (max 3000 caratteri)."
+
+msgid "Heading logo credit, if applicable"
+msgstr "Credit del logo dell'intestazione, se applicabile"
+
+msgid "Please upload the image of your organisation (.jpg or .png)."
+msgstr "Carica l'immagine della tua organizzazione (.jpg o .png)."
+
+msgid "Organisation image"
+msgstr "Immagine organizzazione"
+
+msgid "Organisation image credit, if applicable"
+msgstr "Credit immagine organizzazione, se applicabile"
+
+
+
 
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"

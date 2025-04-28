@@ -236,7 +236,7 @@
 
                                 <img class="img-fluid mt-3"
                                      id="imageResultlogo"
-                                     src="{% thumbnail project.logo|default:'void_1100.png' 1100x400 %}" alt="Image not upload">
+                                     src="{% thumbnail project.logo|default:'600.png' 600x400 %}" alt="Image not upload">
                                 {{ form.withImagelogo|as_crispy_field }}
                                 {{ form.logo|as_crispy_field }}
                                 {{ form.xlogo|as_crispy_field }}
@@ -311,6 +311,7 @@
                         $('#projectID').val(response.Project)
                         console.log('continue')
                         $('.savedInfo').html('<div class="bg-my-darkGreen text-white fade show" style="margin: 12px;"> <p style="margin: 16px 12px -42px 12px;"> <small> {% trans "Your project has been saved." %}<br>{% trans "You can continue editing at any time in the" %} <a href="https://eu-citizen.science//users/me/submissions">{% trans "My Submissions section of your personal area."%}</a> </small> </p> </div>').show().fadeOut(8000, "swing")
+                        window.location.reload();
                     }
                     else{
                         window.location.href = '/project/'+response.Project+'?prev='+window.location.pathname
@@ -326,9 +327,9 @@
                         $('#hint_id_'+i).append('<div class="myerror small text-danger">'+val+'</div>')
                         $('#cke_id_'+i).addClass('error')
                         $('#'+i+'-tab').addClass('error')
-                     
 
-                       
+
+
                     })
                     $('html, body').animate({
                         scrollTop: $('.myerror:visible:first').offset().top-300
@@ -343,6 +344,7 @@
 
     $(function () {
       var imgSelected;
+      var cropper = null;
       /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
       $("#id_image1").change(function () {
         imgSelected = 1;
@@ -378,7 +380,7 @@
         }
       });
       $("#id_logo").change(function () {
-        imgSelected = 3;
+        imgSelected = 'logo';
         if (this.files && this.files[0]) {
           var reader = new FileReader();
           reader.onload = function (e) {
@@ -388,7 +390,7 @@
           reader.readAsDataURL(this.files[0]);
         }
       });
-      $("#imageResult").click(function () {
+      $("#imageResult1").click(function () {
         $("#modalCrop").modal("show");
       });
       $("#imageResult2").click(function () {
@@ -405,27 +407,39 @@
       var cropBoxData;
       var canvasData;
       $("#modalCrop").on("shown.bs.modal", function () {
-        $image.cropper({
-          viewMode: 1,
-          aspectRatio: imgSelected == 3 ? 11/4 : 3/2,
-          minCropBoxWidth: imgSelected == 3 ? 1100 : 600,
-          minCropBoxHeight: 400,
-          dragMode: 'move',
-          guides: false,
-          center: false,
-          highlight: false,
-          cropBoxResizable: false,
-          toggleDragModeOnDblclick: false,
-          ready: function () {
-            $image.cropper("setCanvasData", canvasData);
-            $image.cropper("setCropBoxData", cropBoxData);
-          }
-        });
+          cropper = new Cropper($image, {
+              viewMode: 1,
+              aspectRatio: imgSelected == 3 ? 11 / 4 : 3 / 2,
+              minCropBoxWidth: imgSelected == 3 ? 1100 : 600,
+              minCropBoxHeight: 400,
+              dragMode: 'move',
+              guides: false,
+              center: false,
+              highlight: false,
+              cropBoxResizable: false,
+              toggleDragModeOnDblclick: false,
+          });
       }).on("hidden.bs.modal", function () {
+          console.debug('hide');
         cropBoxData = $image.cropper("getCropBoxData");
         canvasData = $image.cropper("getCanvasData");
         $image.cropper("destroy");
       });
+
+      const myModalEl = document.getElementById('modalCrop')
+        console.debug('aggancio eventi sulla modale',myModalEl)
+        myModalEl.addEventListener('shown.bs.modal', function (event) {
+            // do something...
+            console.debug('aproooo')
+        })
+        myModalEl.addEventListener('hidden.bs.modal', function (event) {
+          // do something...
+            console.debug('chiusssaaa')
+        })
+        myModalEl.addEventListener('hide.bs.modal', function (event) {
+          // do something...
+            console.debug('chiusssaaaa11')
+        })
 
       $(".js-zoom-in").click(function () {
         $image.cropper("zoom", 0.1);
@@ -443,8 +457,12 @@
         $("#id_height" + imgSelected).val(cropData["height"]);
         $("#id_width" + imgSelected).val(cropData["width"]);
         $("#modalCrop").modal("hide");
-        $('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas',
-        {width: imgSelected == 3 ? 1100 : 600, height: 400}).toDataURL());
+        console.debug('image selected ' + '#imageResult' + imgSelected);
+        setTimeout(function () {
+            $('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas', {width: (imgSelected == 3 ? 1100 : 600), height: 400}).toDataURL());
+            $image.cropper("destroy");
+            },200)
+
       });
 
       $(".read-before-save").click(function () {
@@ -459,7 +477,7 @@
 <!-- ALERT IF BACK BUTTON IS PRESSED -->
 <script>
   $(document).ready(function() {
-    
+
     if (window.history && window.history.pushState) {
 
 window.history.pushState('forward', null, null);

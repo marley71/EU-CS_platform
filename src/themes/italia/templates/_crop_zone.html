@@ -1,10 +1,10 @@
 {% load i18n %}
-<div class="modal fade" id="modalCrop">
+<div class="modal fade" id="modalCrop" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog mdialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{% trans "Crop the photo" %}</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="crop-modal-close">
                     <span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span>
                 </button>
             </div>
@@ -24,9 +24,17 @@
                         <span><i class="material-icons" style="font-size: 18px;">{% trans "zoom_out" %}</i></span>
                     </button>
                 </div>
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="crop-modal-annulla">{% trans "Cancel" %}</button>
                 <button type="button" class="btn btn-primary js-crop-and-upload">{% trans "Crop and upload" %}</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $('#crop-modal-close').click(function () {
+        $("#modalCrop").modal("hide");
+    })
+    $('#crop-modal-annulla').click(function () {
+        $("#modalCrop").modal("hide");
+    })
+</script>

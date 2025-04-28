@@ -88,7 +88,7 @@ class ProjectForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(),
         help_text=_('Please provide the name of the project.'),
-        label=_('Project name'))
+        label=_('Project-name'))
 
     url = forms.URLField(
         max_length=200,
@@ -98,12 +98,13 @@ class ProjectForm(forms.Form):
 
     citizen_science_aspects_description = forms.CharField(
         widget=CKEditorWidget(config_name='frontpage'),
-        help_text=_('Please describe the citizen science aspect(s) of the project and the link of the project to '
-                    'citizen science using the '
-                    '<a href="https://zenodo.org/communities/citscicharacteristics" target="_blank">ECSA '
-                    'Characteristics of Citizen Science</a> and the <a href="https://zenodo.org/record/5127534#.YzQQNEzP2Um" target="_blank">ECSA 10 '
-                    'Principles of Citizen Science</a>. What you introduce in this text field will not appear '
-                    'on the platform; it is just for moderation purposes (max 2000 characters).'),
+        # help_text=_('Please describe the citizen science aspect(s) of the project and the link of the project to '
+        #             'citizen science using the '
+        #             '<a href="https://zenodo.org/communities/citscicharacteristics" target="_blank">ECSA '
+        #             'Characteristics of Citizen Science</a> and the <a href="https://zenodo.org/record/5127534#.YzQQNEzP2Um" target="_blank">ECSA 10 '
+        #             'Principles of Citizen Science</a>. What you introduce in this text field will not appear '
+        #             'on the platform; it is just for moderation purposes (max 2000 characters).'),
+        help_text = _("Please describe the citizen science aspect(s)"),
         max_length=2000,
         label=_('Description of citizen science aspects'))
 

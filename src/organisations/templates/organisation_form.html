@@ -40,7 +40,7 @@
             <div class="col-12">
                 <div class="row">
                   <div class="col-2"></div>
-                  <div class="col-8"> 
+                  <div class="col-8">
                     <h2>{{text.title}}</h2>
                     {{text.paragraph | safe}}
                   </div>
@@ -73,7 +73,7 @@
                                       </div>
                                     {% endfor %}
                                   </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -98,10 +98,10 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <a id="imgResult" href="#"> <img
+                                <a id="aimageResultlogo" href="#"> <img
                                                   class="img-fluid img-zoom"
-                                                  id="imageResult"
-                                                  src="{% thumbnail organisation.logo|default:'void_600.png' 600x400 crop%}"> 
+                                                  id="imageResultlogo"
+                                                  src="{% thumbnail organisation.logo|default:'void_600.png' 600x400 crop%}">
                                 </a>
 
                                 {{ form.logo|as_crispy_field }}
@@ -121,9 +121,9 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <a id="imgResult" href="#"> <img
+                                <a id="aimageResult1" href="#"> <img
                                                   class="img-fluid img-zoom"
-                                                  id="imageResult"
+                                                  id="imageResult1"
                                                   src="{% thumbnail organisation.image1|default:'void_600.png' 600x400 crop%}">
                                 </a>
 
@@ -171,12 +171,30 @@
 <script src="https://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
 <script src="{% static 'site/js/leaflet-geosearch_2_7.min.js' %}"></script>
 <script>
-  $(document).ready(function () {
+  //$(document).ready(function () {
     $(function () {
-      changed = false;
+      var changed = false;
+      var imgSelected;
       /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
       $("#id_logo").change(function () {
-        $('#imageResult').attr('src', '');
+        $('#imageResultlogo').attr('src', '');
+        imgSelected = 'logo';
+         console.debug('change ',imgSelected)
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            changed = true;
+            $("#image").attr("src", e.target.result);
+            $("#modalCrop").modal("show");
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      $("#id_image1").change(function () {
+        $('#imageResult1').attr('src', '');
+        imgSelected = 1;
+        console.debug('change ',imgSelected)
         if (this.files && this.files[0]) {
           var reader = new FileReader();
           reader.onload = function (e) {
@@ -189,9 +207,19 @@
       });
 
 
-      $("#imageResult").click(function () {
+      $("#aimageResultlogo").click(function () {
+          console.debug('#imageResultlogo click',changed)
         if(!changed)
         $("#id_logo").click();
+        else{
+          $("#modalCrop").modal("show");
+        }
+      });
+
+      $("#aimageResult1").click(function () {
+          console.debug('#imageResult1 click',changed)
+        if(!changed)
+        $("#image1").click();
         else{
           $("#modalCrop").modal("show");
         }
@@ -222,6 +250,7 @@
         cropBoxData = $image.cropper("getCropBoxData");
         canvasData = $image.cropper("getCanvasData");
         $image.cropper("destroy");
+        console.debug('modale chiusaaaa')
       });
 
       $(".js-zoom-in").click(function () {
@@ -240,8 +269,17 @@
         $("#id_height").val(cropData["height"]);
         $("#id_width").val(cropData["width"]);
         $("#modalCrop").modal("hide");
-        $('#imageResult').attr('src', $image.cropper('getCroppedCanvas',
+
+
+        setTimeout(function () {
+            console.debug('#imageResult'+ imgSelected,$('#imageResult'+ imgSelected))
+            $('#imageResult'+ imgSelected).attr('src', $image.cropper('getCroppedCanvas',
         {width: 600, height: 400}).toDataURL());
+            //$('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas', {width: (imgSelected == 3 ? 1100 : 600), height: 400}).toDataURL());
+            $image.cropper("destroy");
+            },200)
+
+      });
 
         $("#deleteLogo").html('<a class="btn btn-red" ><i class="fas fa-trash-alt"></i> </a>  ');
         $("#deleteLogo").click(function () {
@@ -253,8 +291,8 @@
 
       });
 
-    });
-  });
+    //});
+  //});
 </script>
 
 <script type="text/javascript">
