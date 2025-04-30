@@ -3,6 +3,9 @@ from django.conf import settings
 from organisations.models import Organisation
 from django_countries.fields import CountryField
 from localita.models import Localita
+from provincia.models import Provincia
+
+
 
 class Status(models.Model):
     STATUS_CHOICES = (
@@ -167,6 +170,7 @@ class Project(models.Model):
     projectGeographicLocation = models.MultiPolygonField(blank=True, null=True)
     projectCountry = models.ManyToManyField(ProjectCountry, blank=True, related_name="projects")
     localita = models.ForeignKey(Localita, on_delete=models.CASCADE)  #models.SET_NULL TODO capire cosa metter qui
+    provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
     #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
 
     # Legacy
