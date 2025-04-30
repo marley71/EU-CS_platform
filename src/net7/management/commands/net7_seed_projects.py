@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand,CommandError
 from projects.models import Project,Status,Keyword,Topic,HasTag, GeographicExtend
 from organisations.models import Organisation
 from localita.models import Localita
+from provincia.models import Provincia
 from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
@@ -19,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        self.normalProjects()
+        #self.normalProjects()
         self.weeklyProjects()
         self.stdout.write('Database seeded successfully!')
 
@@ -80,7 +81,7 @@ class Command(BaseCommand):
 
     def weeklyProjects(self):
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week.csv')
+        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week_FINALE.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
@@ -101,19 +102,22 @@ class Command(BaseCommand):
                 status = self.getStatus(row['Stato di attività'])
                 organisation = self.getOrganisations(row)
                 # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
-                localita = Localita.objects.filter(name=row['Regione']).first()
+                self.stdout.write(f'cerco provincia (' + str(row['PROVINCIA']) + ')')
+
+                provincia = Provincia.objects.filter(sigla=str(row['PROVINCIA']).strip()).first()
+                localita = Localita.objects.filter(name=provincia.regione).first()
                 # keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['Nome del progetto'])
                 start_date, end_date = self.generate_start_end_dates(start_period, end_period)
                 start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
                 end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
-
+                email = str(row['email']).strip()
                 project = Project.objects.create(
                     name=row['Nome del progetto'],
-                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    aim=row['Scopo principale del progetto'],
-                    aim_it=row['Scopo principale del progetto'],
+                    description=row['Descrizione'],
+                    description_it=row['Descrizione'],
+                    aim=' ', #row['Scopo principale del progetto'],
+                    aim_it=' ', #row['Scopo principale del progetto'],
                     url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
@@ -124,8 +128,9 @@ class Command(BaseCommand):
                     end_date=timezone.make_aware(end_date),
                     dateUpdated=timezone.make_aware(end_date),
                     localita_id=localita.id,
+                    provincia_id=provincia.id,
                     author=row['Contatti'],
-                    author_email=row['email'],
+                    author_email=email,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     # keyword=keyword.keyword,
                     # organisation=organisation
@@ -135,7 +140,7 @@ class Command(BaseCommand):
                 # project.keywords.add(keyword)
                 row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
                 self.setKeywords(project, row)
-                self.setImage(project, row)
+                self.setImageBsw(project, row)
                 self.setGeograficExtend(project, row)
 
     def getStatus(self,code):
@@ -177,6 +182,13 @@ class Command(BaseCommand):
         latitudine = random.uniform(36.6, 47.1)
         longitudine = random.uniform(6.6, 18.5)
         return latitudine, longitudine
+
+    def setImageBsw(self,project,row):
+        image_path = str(settings.BASE_DIR) + '/../resources/demo/foto_BSW/' + row['immagine']
+        self.stdout.write('base path ' + image_path)
+        # Associa il file immagine al modello
+        with open(image_path, 'rb') as image_file:
+            project.image1.save(row['immagine'], File(image_file), save=True)
 
     def setImage(self,project,row):
         image_path = str(settings.BASE_DIR) + '/../resources/demo/Immagini_progetti/' + row['immagine']
@@ -257,4 +269,5 @@ class Command(BaseCommand):
             generated_end_date = generated_start_date + timedelta(days=1)
 
         return generated_start_date, generated_end_date
+
 

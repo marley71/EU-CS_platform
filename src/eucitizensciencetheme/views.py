@@ -12,6 +12,7 @@ from resources.models import Resource
 from blog.models import Post
 from organisations.models import Organisation
 from localita.models import Localita
+from provincia.models import Provincia
 from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event
@@ -123,6 +124,7 @@ def get_projects(request):
                 'project_id': project.id
             }
             markers_bio.append(marker)
+
     #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
     #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
     zones = []
@@ -279,7 +281,21 @@ def projects_map(request):
 
 def bdsweek_projects_map(request):
 
-    user = request.user
+    # user = request.user
+    # keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
+    # projects = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
+    # projectsCounter = len(projects)
+    # # To only show some topics and keywords
+    # for project in projects:
+    #     combined = list(project.topic.all()) + list(project.keywords.all())
+    #     if len(combined) > 3:
+    #         project.display_items = combined[:3]
+    #         project.more_count = len(combined) - 3
+    #     else:
+    #         project.display_items = combined
+    #         project.more_count = 0
+
+
     keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     projects = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
     projectsCounter = len(projects)
@@ -292,7 +308,6 @@ def bdsweek_projects_map(request):
         else:
             project.display_items = combined
             project.more_count = 0
-
 
     return TemplateResponse(request, 'pages/bdsweek_map.html', {
         'projects': projects,

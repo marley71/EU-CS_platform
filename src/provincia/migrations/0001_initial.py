@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
             name='Province',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='id')),
-                ('name', models.CharField(max_length=255)),
+                ('nome', models.CharField(max_length=255)),
                 ('sigla', models.CharField(max_length=255)),
                 ('regione', models.CharField(max_length=255)),
                 ('latitude',models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True)),

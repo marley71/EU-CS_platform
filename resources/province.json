@@ -1,0 +1,965 @@
+[
+    {
+        "provincia": "L'Aquila",
+        "sigla": "AQ",
+        "regione": "Abruzzo",
+        "coordinate": {
+            "latitude": 42.3513,
+            "longitude": 13.3995
+        }
+    },
+    {
+        "provincia": "Teramo",
+        "sigla": "TE",
+        "regione": "Abruzzo",
+        "coordinate": {
+            "latitude": 42.7001,
+            "longitude": 13.6851
+        }
+    },
+    {
+        "provincia": "Pescara",
+        "sigla": "PE",
+        "regione": "Abruzzo",
+        "coordinate": {
+            "latitude": 42.4610,
+            "longitude": 14.2188
+        }
+    },
+    {
+        "provincia": "Chieti",
+        "sigla": "CH",
+        "regione": "Abruzzo",
+        "coordinate": {
+            "latitude": 42.3514,
+            "longitude": 14.1574
+        }
+    },
+    {
+        "provincia": "Potenza",
+        "sigla": "PZ",
+        "regione": "Basilicata",
+        "coordinate": {
+            "latitude": 40.6660,
+            "longitude": 16.6080
+        }
+    },
+    {
+        "provincia": "Matera",
+        "sigla": "MT",
+        "regione": "Basilicata",
+        "coordinate": {
+            "latitude": 40.6664,
+            "longitude": 16.6055
+        }
+    },
+    {
+        "provincia": "Catanzaro",
+        "sigla": "CZ",
+        "regione": "Calabria",
+        "coordinate": {
+            "latitude": 38.9070,
+            "longitude": 16.5862
+        }
+    },
+    {
+        "provincia": "Cosenza",
+        "sigla": "CS",
+        "regione": "Calabria",
+        "coordinate": {
+            "latitude": 39.3006,
+            "longitude": 16.2510
+        }
+    },
+    {
+        "provincia": "Crotone",
+        "sigla": "KR",
+        "regione": "Calabria",
+        "coordinate": {
+            "latitude": 39.0880,
+            "longitude": 17.1004
+        }
+    },
+    {
+        "provincia": "Reggio Calabria",
+        "sigla": "RC",
+        "regione": "Calabria",
+        "coordinate": {
+            "latitude": 38.1107,
+            "longitude": 15.6508
+        }
+    },
+    {
+        "provincia": "Vibo Valentia",
+        "sigla": "VV",
+        "regione": "Calabria",
+        "coordinate": {
+            "latitude": 38.6591,
+            "longitude": 15.9680
+        }
+    },
+    {
+        "provincia": "Napoli",
+        "sigla": "NA",
+        "regione": "Campania",
+        "coordinate": {
+            "latitude": 40.8522,
+            "longitude": 14.2681
+        }
+    },
+    {
+        "provincia": "Salerno",
+        "sigla": "SA",
+        "regione": "Campania",
+        "coordinate": {
+            "latitude": 40.6779,
+            "longitude": 14.7624
+        }
+    },
+    {
+        "provincia": "Caserta",
+        "sigla": "CE",
+        "regione": "Campania",
+        "coordinate": {
+            "latitude": 41.0806,
+            "longitude": 14.3314
+        }
+    },
+    {
+        "provincia": "Benevento",
+        "sigla": "BN",
+        "regione": "Campania",
+        "coordinate": {
+            "latitude": 41.1281,
+            "longitude": 14.7867
+        }
+    },
+    {
+        "provincia": "Avellino",
+        "sigla": "AV",
+        "regione": "Campania",
+        "coordinate": {
+            "latitude": 40.9491,
+            "longitude": 14.7850
+        }
+    },
+  {
+        "provincia": "Bologna",
+        "sigla": "BO",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.4939,
+            "longitude": 11.3426
+        }
+    },
+    {
+        "provincia": "Ferrara",
+        "sigla": "FE",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.8372,
+            "longitude": 11.6195
+        }
+    },
+    {
+        "provincia": "Forlì-Cesena",
+        "sigla": "FC",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.1582,
+            "longitude": 12.0325
+        }
+    },
+    {
+        "provincia": "Modena",
+        "sigla": "MO",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.6456,
+            "longitude": 10.9252
+        }
+    },
+    {
+        "provincia": "Parma",
+        "sigla": "PR",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.8015,
+            "longitude": 10.3279
+        }
+    },
+    {
+        "provincia": "Piacenza",
+        "sigla": "PC",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 45.0486,
+            "longitude": 9.6919
+        }
+    },
+    {
+        "provincia": "Ravenna",
+        "sigla": "RA",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.4184,
+            "longitude": 12.1870
+        }
+    },
+    {
+        "provincia": "Reggio Emilia",
+        "sigla": "RE",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.6983,
+            "longitude": 10.6304
+        }
+    },
+    {
+        "provincia": "Rimini",
+        "sigla": "RN",
+        "regione": "Emilia Romagna",
+        "coordinate": {
+            "latitude": 44.0583,
+            "longitude": 12.5694
+        }
+    },
+    {
+        "provincia": "Trieste",
+        "sigla": "TS",
+        "regione": "Friuli Venezia Giulia",
+        "coordinate": {
+            "latitude": 45.6495,
+            "longitude": 13.7768
+        }
+    },
+    {
+        "provincia": "Gorizia",
+        "sigla": "GO",
+        "regione": "Friuli Venezia Giulia",
+        "coordinate": {
+            "latitude": 45.9660,
+            "longitude": 13.6158
+        }
+    },
+    {
+        "provincia": "Udine",
+        "sigla": "UD",
+        "regione": "Friuli Venezia Giulia",
+        "coordinate": {
+            "latitude": 46.0653,
+            "longitude": 13.2342
+        }
+    },
+    {
+        "provincia": "Pordenone",
+        "sigla": "PN",
+        "regione": "Friuli Venezia Giulia",
+        "coordinate": {
+            "latitude": 45.9576,
+            "longitude": 12.6597
+        }
+    },
+  {
+        "provincia": "Roma",
+        "sigla": "RM",
+        "regione": "Lazio",
+        "coordinate": {
+            "latitude": 41.9028,
+            "longitude": 12.4964
+        }
+    },
+    {
+        "provincia": "Frosinone",
+        "sigla": "FR",
+        "regione": "Lazio",
+        "coordinate": {
+            "latitude": 41.4634,
+            "longitude": 13.9040
+        }
+    },
+    {
+        "provincia": "Latina",
+        "sigla": "LT",
+        "regione": "Lazio",
+        "coordinate": {
+            "latitude": 41.4634,
+            "longitude": 12.9048
+        }
+    },
+    {
+        "provincia": "Rieti",
+        "sigla": "RI",
+        "regione": "Lazio",
+        "coordinate": {
+            "latitude": 42.4033,
+            "longitude": 12.8518
+        }
+    },
+    {
+        "provincia": "Viterbo",
+        "sigla": "VT",
+        "regione": "Lazio",
+        "coordinate": {
+            "latitude": 42.4048,
+            "longitude": 12.1072
+        }
+    },
+    {
+        "provincia": "Genova",
+        "sigla": "GE",
+        "regione": "Liguria",
+        "coordinate": {
+            "latitude": 44.4056,
+            "longitude": 8.9462
+        }
+    },
+    {
+        "provincia": "Imperia",
+        "sigla": "IM",
+        "regione": "Liguria",
+        "coordinate": {
+            "latitude": 43.8854,
+            "longitude": 7.7715
+        }
+    },
+    {
+        "provincia": "La Spezia",
+        "sigla": "SP",
+        "regione": "Liguria",
+        "coordinate": {
+            "latitude": 44.1006,
+            "longitude": 9.8230
+        }
+    },
+    {
+        "provincia": "Savona",
+        "sigla": "SV",
+        "regione": "Liguria",
+        "coordinate": {
+            "latitude": 44.3056,
+            "longitude": 8.4706
+        }
+    },
+    {
+        "provincia": "Milano",
+        "sigla": "MI",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.4642,
+            "longitude": 9.1900
+        }
+    },
+    {
+        "provincia": "Bergamo",
+        "sigla": "BG",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.6996,
+            "longitude": 9.6700
+        }
+    },
+    {
+        "provincia": "Brescia",
+        "sigla": "BS",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.5380,
+            "longitude": 10.2117
+        }
+    },
+    {
+        "provincia": "Como",
+        "sigla": "CO",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.8302,
+            "longitude": 9.0860
+        }
+    },
+    {
+        "provincia": "Cremona",
+        "sigla": "CR",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.1334,
+            "longitude": 10.0255
+        }
+    },
+    {
+        "provincia": "Lecco",
+        "sigla": "LC",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.8723,
+            "longitude": 9.3922
+        }
+    },
+    {
+        "provincia": "Lodi",
+        "sigla": "LO",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.3152,
+            "longitude": 9.5016
+        }
+    },
+    {
+        "provincia": "Mantova",
+        "sigla": "MN",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.1586,
+            "longitude": 10.7919
+        }
+    },
+    {
+        "provincia": "Monza e Brianza",
+        "sigla": "MB",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.5853,
+            "longitude": 9.2745
+        }
+    },
+    {
+        "provincia": "Pavia",
+        "sigla": "PV",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.1954,
+            "longitude": 9.1512
+        }
+    },
+    {
+        "provincia": "Sondrio",
+        "sigla": "SO",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 46.1632,
+            "longitude": 9.8171
+        }
+    },
+    {
+        "provincia": "Varese",
+        "sigla": "VA",
+        "regione": "Lombardia",
+        "coordinate": {
+            "latitude": 45.8106,
+            "longitude": 8.8437
+        }
+    },
+    {
+        "provincia": "Ancona",
+        "sigla": "AN",
+        "regione": "Marche",
+        "coordinate": {
+            "latitude": 43.6158,
+            "longitude": 13.5188
+        }
+    },
+    {
+        "provincia": "Ascoli Piceno",
+        "sigla": "AP",
+        "regione": "Marche",
+        "coordinate": {
+            "latitude": 42.8536,
+            "longitude": 13.5766
+        }
+    },
+    {
+        "provincia": "Fermo",
+        "sigla": "FM",
+        "regione": "Marche",
+        "coordinate": {
+            "latitude": 43.1595,
+            "longitude": 13.8272
+        }
+    },
+    {
+        "provincia": "Macerata",
+        "sigla": "MC",
+        "regione": "Marche",
+        "coordinate": {
+            "latitude": 43.3020,
+            "longitude": 13.4550
+        }
+    },
+    {
+        "provincia": "Pesaro e Urbino",
+        "sigla": "PU",
+        "regione": "Marche",
+        "coordinate": {
+            "latitude": 43.9075,
+            "longitude": 12.9177
+        }
+    },
+    {
+        "provincia": "Campobasso",
+        "sigla": "CB",
+        "regione": "Molise",
+        "coordinate": {
+            "latitude": 41.5582,
+            "longitude": 14.6648
+        }
+    },
+    {
+        "provincia": "Isernia",
+        "sigla": "IS",
+        "regione": "Molise",
+        "coordinate": {
+            "latitude": 41.5904,
+            "longitude": 14.2200
+        }
+    },
+    {
+        "provincia": "Torino",
+        "sigla": "TO",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 45.0703,
+            "longitude": 7.6869
+        }
+    },
+    {
+        "provincia": "Alessandria",
+        "sigla": "AL",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 44.9106,
+            "longitude": 8.6109
+        }
+    },
+    {
+        "provincia": "Asti",
+        "sigla": "AT",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 44.8951,
+            "longitude": 8.2068
+        }
+    },
+    {
+        "provincia": "Biella",
+        "sigla": "BI",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 45.5930,
+            "longitude": 8.0512
+        }
+    },
+    {
+        "provincia": "Cuneo",
+        "sigla": "CN",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 44.5507,
+            "longitude": 7.7267
+        }
+    },
+    {
+        "provincia": "Novara",
+        "sigla": "NO",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 45.4413,
+            "longitude": 8.6163
+        }
+    },
+    {
+        "provincia": "Verbano-Cusio-Ossola",
+        "sigla": "VB",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 45.9333,
+            "longitude": 8.3833
+        }
+    },
+    {
+        "provincia": "Vercelli",
+        "sigla": "VC",
+        "regione": "Piemonte",
+        "coordinate": {
+            "latitude": 45.3225,
+            "longitude": 8.4300
+        }
+    },
+    {
+        "provincia": "Bari",
+        "sigla": "BA",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 41.1171,
+            "longitude": 16.8719
+        }
+    },
+    {
+        "provincia": "Barletta-Andria-Trani",
+        "sigla": "BT",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 41.3122,
+            "longitude": 16.2741
+        }
+    },
+    {
+        "provincia": "Brindisi",
+        "sigla": "BR",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 40.6330,
+            "longitude": 17.9337
+        }
+    },
+    {
+        "provincia": "Foggia",
+        "sigla": "FG",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 41.4629,
+            "longitude": 15.5462
+        }
+    },
+    {
+        "provincia": "Lecce",
+        "sigla": "LE",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 40.3526,
+            "longitude": 18.1750
+        }
+    },
+    {
+        "provincia": "Taranto",
+        "sigla": "TA",
+        "regione": "Puglia",
+        "coordinate": {
+            "latitude": 40.4141,
+            "longitude": 17.2293
+        }
+    },
+    {
+        "provincia": "Cagliari",
+        "sigla": "CA",
+        "regione": "Sardegna",
+        "coordinate": {
+            "latitude": 39.2238,
+            "longitude": 9.1217
+        }
+    },
+    {
+        "provincia": "Carbonia-Iglesias",
+        "sigla": "CI",
+        "regione": "Sardegna",
+        "coordinate": {
+            "latitude": 39.1142,
+            "longitude": 8.5353
+        }
+    },
+    {
+        "provincia": "Medio Campidano",
+        "sigla": "MC",
+        "regione": "Sardegna",
+        "coordinate": {
+            "latitude": 39.3660,
+            "longitude": 8.7122
+        }
+    },
+    {
+        "provincia": "Nuoro",
+        "sigla": "NU",
+        "regione": "Sardegna",
+        "coordinate": {
+            "latitude": 40.3246,
+            "longitude": 9.4725
+        }
+    },
+    {
+        "provincia": "Sassari",
+        "sigla": "SS",
+        "regione": "Sardegna",
+        "coordinate": {
+            "latitude": 40.7282,
+            "longitude": 8.5755
+        }
+    },
+    {
+        "provincia": "Palermo",
+        "sigla": "PA",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 38.1157,
+            "longitude": 13.3615
+        }
+    },
+    {
+        "provincia": "Agrigento",
+        "sigla": "AG",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 37.2969,
+            "longitude": 13.5764
+        }
+    },
+    {
+        "provincia": "Caltanissetta",
+        "sigla": "CL",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 37.4885,
+            "longitude": 14.0639
+        }
+    },
+    {
+        "provincia": "Catania",
+        "sigla": "CT",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 37.5079,
+            "longitude": 14.8940
+        }
+    },
+    {
+        "provincia": "Enna",
+        "sigla": "EN",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 37.5646,
+            "longitude": 14.2861
+        }
+    },
+    {
+        "provincia": "Messina",
+        "sigla": "ME",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 38.1938,
+            "longitude": 15.5540
+        }
+    },
+    {
+        "provincia": "Ragusa",
+        "sigla": "RG",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 36.9314,
+            "longitude": 14.7222
+        }
+    },
+    {
+        "provincia": "Siracusa",
+        "sigla": "SR",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 37.0625,
+            "longitude": 15.2863
+        }
+    },
+    {
+        "provincia": "Trapani",
+        "sigla": "TP",
+        "regione": "Sicilia",
+        "coordinate": {
+            "latitude": 38.0169,
+            "longitude": 12.5127
+        }
+    },
+    {
+        "provincia": "Firenze",
+        "sigla": "FI",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.7696,
+            "longitude": 11.2558
+        }
+    },
+    {
+        "provincia": "Arezzo",
+        "sigla": "AR",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.4632,
+            "longitude": 11.8600
+        }
+    },
+    {
+        "provincia": "Grosseto",
+        "sigla": "GR",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 42.7490,
+            "longitude": 11.1090
+        }
+    },
+    {
+        "provincia": "Livorno",
+        "sigla": "LI",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.5486,
+            "longitude": 10.3235
+        }
+    },
+    {
+        "provincia": "Lucca",
+        "sigla": "LU",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.8422,
+            "longitude": 10.5000
+        }
+    },
+    {
+        "provincia": "Massa-Carrara",
+        "sigla": "MS",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 44.0654,
+            "longitude": 10.0860
+        }
+    },
+    {
+        "provincia": "Pisa",
+        "sigla": "PI",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.7164,
+            "longitude": 10.4037
+        }
+    },
+    {
+        "provincia": "Pistoia",
+        "sigla": "PT",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.9357,
+            "longitude": 10.9293
+        }
+    },
+    {
+        "provincia": "Prato",
+        "sigla": "PO",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.8873,
+            "longitude": 11.1033
+        }
+    },
+    {
+        "provincia": "Siena",
+        "sigla": "SI",
+        "regione": "Toscana",
+        "coordinate": {
+            "latitude": 43.3180,
+            "longitude": 11.3301
+        }
+    },
+    {
+        "provincia": "Trento",
+        "sigla": "TN",
+        "regione": "Trentino Alto Adige",
+        "coordinate": {
+            "latitude": 46.0682,
+            "longitude": 11.1210
+        }
+    },
+    {
+        "provincia": "Bolzano",
+        "sigla": "BZ",
+        "regione": "Trentino Alto Adige",
+        "coordinate": {
+            "latitude": 46.4983,
+            "longitude": 11.3548
+        }
+    },
+    {
+        "provincia": "Perugia",
+        "sigla": "PG",
+        "regione": "Umbria",
+        "coordinate": {
+            "latitude": 43.1108,
+            "longitude": 12.3885
+        }
+    },
+    {
+        "provincia": "Terni",
+        "sigla": "TR",
+        "regione": "Umbria",
+        "coordinate": {
+            "latitude": 42.5635,
+            "longitude": 12.6421
+        }
+    },
+    {
+        "provincia": "Aosta",
+        "sigla": "AO",
+        "regione": "Valle d'Aosta",
+        "coordinate": {
+            "latitude": 45.7373,
+            "longitude": 7.3205
+        }
+    },
+    {
+        "provincia": "Venezia",
+        "sigla": "VE",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.4408,
+            "longitude": 12.3155
+        }
+    },
+    {
+        "provincia": "Belluno",
+        "sigla": "BL",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 46.1940,
+            "longitude": 12.2154
+        }
+    },
+    {
+        "provincia": "Padova",
+        "sigla": "PD",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.4062,
+            "longitude": 11.8768
+        }
+    },
+    {
+        "provincia": "Rovigo",
+        "sigla": "RO",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.0703,
+            "longitude": 11.7885
+        }
+    },
+    {
+        "provincia": "Treviso",
+        "sigla": "TV",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.6667,
+            "longitude": 12.2457
+        }
+    },
+    {
+        "provincia": "Verona",
+        "sigla": "VR",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.4384,
+            "longitude": 10.9916
+        }
+    },
+    {
+        "provincia": "Vicenza",
+        "sigla": "VI",
+        "regione": "Veneto",
+        "coordinate": {
+            "latitude": 45.5950,
+            "longitude": 11.5300
+        }
+    }
+]

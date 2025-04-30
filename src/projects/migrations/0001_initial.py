@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('dateCreated', models.DateTimeField(auto_now=True, verbose_name='Created date')),
                 ('dateUpdated', models.DateTimeField(auto_now=True, verbose_name='Updated date')),
                 ('origin', models.CharField(max_length=100)),
-                ('name', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=255)),
                 ('aim', models.CharField(max_length=100)),
                 ('description', models.CharField(max_length=300)),
                 ('keywords', models.CharField(max_length=100)),
