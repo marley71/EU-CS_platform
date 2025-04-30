@@ -165,7 +165,7 @@ class Command(BaseCommand):
         TopBar.objects.create(
             name='bdsweek_map',
             slug='/bdsweek_map',
-            name_it='BDS Week',
+            name_it='BS Week',
             position=5
         )
         TopBar.objects.create(
