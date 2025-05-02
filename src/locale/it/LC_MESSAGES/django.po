@@ -790,6 +790,10 @@ msgstr "Progetto"
 msgid "Project-name"
 msgstr "Progetto"
 
+
+msgid "Please, select provincia of your project."
+msgstr "Perfavore, inserisci la provincia del progetto"
+
 #: projects/forms.py:39
 msgid "Please provide the URL to an external website of the project."
 msgstr "Si prega di fornire l'URL a un sito Web esterno del progetto."

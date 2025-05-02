@@ -54,7 +54,8 @@
                               {{ form.url|as_crispy_field }}
                               {{ form.status|as_crispy_field }}
                               {{ form.keywords|as_crispy_field }}
-                                {{ form.localita|as_crispy_field }}
+
+                            {{ form.provincia|as_crispy_field }}
                                 <label class="control-label">{% trans "Description" %}</label>
                                 {{ form.description.label_tag}}
                                 <!-- Project description -->
@@ -236,7 +237,7 @@
 
                                 <img class="img-fluid mt-3"
                                      id="imageResultlogo"
-                                     src="{% thumbnail project.logo|default:'600.png' 600x400 %}" alt="Image not upload">
+                                     src="{% thumbnail project.logo|default:'void_600.png' 600x400 %}" alt="Image not upload">
                                 {{ form.withImagelogo|as_crispy_field }}
                                 {{ form.logo|as_crispy_field }}
                                 {{ form.xlogo|as_crispy_field }}

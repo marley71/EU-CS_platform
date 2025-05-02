@@ -5,6 +5,12 @@ from django.db import models
 from django_select2.forms import Select2MultipleWidget
 from django_ckeditor_5.fields import CKEditor5Widget
 from modeltranslation.admin import TabbedTranslationAdmin
+from django.utils.translation import ugettext_lazy as _
+from provincia.models import Provincia
+from django.core.exceptions import ValidationError
+from django.http import Http404
+
+from localita.models import Localita
 
 
 class DifficultyLevelAdmin(TabbedTranslationAdmin):
@@ -13,6 +19,11 @@ class DifficultyLevelAdmin(TabbedTranslationAdmin):
 
 class ProjectFormA(forms.ModelForm):
     topic = forms.ModelMultipleChoiceField(queryset=Topic.objects.all(), widget=Select2MultipleWidget, required=False)
+    provincia = forms.ModelChoiceField(
+        queryset=Provincia.objects.all().order_by('nome'),
+        label=_("Provincia"),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please, select provincia of your project.'))
     # projectCountry = forms.ModelChoiceField(
     #     queryset=ProjectCountry.objects.all(),
     #     widget=forms.Select,
@@ -32,10 +43,18 @@ class ParticipationTaskAdmin(TabbedTranslationAdmin):
 class ProjectAdmin(TabbedTranslationAdmin):
     list_filter = ('creator', 'status', )
     form = ProjectFormA
-    exclude = ('projectCountry', 'projectlocality', 'projectGeographicLocation' )
+    exclude = ('projectCountry', 'projectlocality', 'projectGeographicLocation','localita' )
     formfield_overrides = {
         models.TextField: {'widget': CKEditor5Widget(config_name='extends')}
     }
+
+    def save_model(self, request, obj, form, change):
+        # Calcola il valore di price (ad esempio, impostalo a un valore arbitrario)
+        localita = Localita.objects.get(name=obj.provincia.regione)
+        if localita == None:
+            raise Http404("Località non trovata.")
+        obj.localita = localita
+        super().save_model(request, obj, form, change)
     pass
 
 class StatusAdmin(TabbedTranslationAdmin):

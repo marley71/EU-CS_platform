@@ -13,6 +13,7 @@ from organisations.models import Organisation
 from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
+from provincia.models import Provincia
 
 
 # TODO: Fix this to be an env variable
@@ -114,11 +115,17 @@ class ProjectForm(forms.Form):
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         help_text=_('Please, select the status of your project.'))
 
-    localita = forms.ModelChoiceField(
-        queryset=Localita.objects.all(),
-        label=_("Località"),
+    # localita = forms.ModelChoiceField(
+    #     queryset=Localita.objects.all(),
+    #     label=_("Località"),
+    #     widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+    #     help_text=_('Please, select località of your project.'))
+
+    provincia = forms.ModelChoiceField(
+        queryset=Provincia.objects.all().order_by('nome'),
+        label=_("Provincia"),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
-        help_text=_('Please, select località of your project.'))
+        help_text=_('Please, select provincia of your project.'))
 
     keywords = forms.ModelMultipleChoiceField(
         queryset=Keyword.objects.all(),
@@ -413,8 +420,8 @@ class ProjectForm(forms.Form):
             project.image3 = images[2]
         if (images[3] != '/'):
             project.logo = images[3]
-        print("immagini progetto")
-        print(images)
+        #print("immagini progetto")
+        #print(images)
         user = args.user
         if user.is_staff == False:
             project.dateUpdated = timezone.now()
@@ -497,12 +504,16 @@ class ProjectForm(forms.Form):
         project.imageCredit3 = self.data['image_credit3']
         project.logoCredit = self.data['logo_credit']
         try :
-            localita = Localita.objects.get(id=self.data['localita'])
-            print('Localita trovata')
-        except Localita.DoesNotExist:
+            provincia = Provincia.objects.get(id=self.data['provincia'])
+            localita = Localita.objects.get(name=provincia.regione)
+            #print('Localita trovata')
+        except Provincia.DoesNotExist:
             localita = None
-        if localita:
+            provincia = None
+
+        if localita and provincia:
             project.localita_id = localita.id
+            project.provincia_id = provincia.id
 
         project.doingAtHome = doingAtHome
         #project.localita
