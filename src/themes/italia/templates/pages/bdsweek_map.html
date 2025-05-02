@@ -7,7 +7,7 @@
     <meta name="Map" content="Map of projects, resources, events">
 {% endblock %}
 {% block splash %}
-    <section class="bg-plum-100 py-6">
+    <section class="bg-plum-100 pt-6 pb-4">
 
         <div class="container">
 
@@ -15,15 +15,26 @@
                 <div>
                     <img src="{% static 'img/logo_bdsweek4.png' %}"
                          alt="Logo BioDiversity Sampling Week (12 - 18 Maggio 2025)"
-                         style="height:150px;"
+                         style="height:180px;"
                     >
                 </div>
                 <div class="h1 text-center">
-                    Biodiversity Sampling Week (BSW) - 12-18 Maggio 2025
+                    Biodiversity Sampling Week<br/>12-18 Maggio 2025
+                </div>
+                <div class="text-center">
+                    In collaborazione con: <br/>
+
+                    <a target="_blank" href="">
+                        <img src="{% static 'img/logo_CSI.jpg' %}"
+                             alt="Logo CSI"
+                             style="height:120px;"
+                        >
+                    </a>
                 </div>
             </div>
 
-            <div class="mt-5">
+
+            <div class="mt-6">
                 <p>
 
                     Una settimana per esplorare e proteggere la biodiversità italiana
@@ -36,8 +47,12 @@
                     per
                     mappare la ricchezza naturale italiana e valutarne lo stato di salute.
                 </p>
+            </div>
+            <div class="mt-4">
+
+                <div class="h3 text-center">Mappa delle attività di citizen science</div>
                 <p>
-                    Scopri le iniziative sulla mappa e contatta gli organizzatori per partecipare!
+Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare.
                 </p>
             </div>
         </div>
