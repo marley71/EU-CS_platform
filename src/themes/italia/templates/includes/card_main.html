@@ -50,16 +50,38 @@
                             </div>
                         </div>
 
-                        <div class="">
+                        <div class="d-flex justify-content-between align-items-center mt-4">
 
-                            {% if project.localita %}
-                                <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                            {% if project.provincia %}
+                                <div class="d-flex gap-1 justify-content-start align-items-center">
                                     <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                         <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                                     </svg>
-                                    <span class="">{{ project.localita.name }}</span>
+                                    <span class="">{{ project.provincia.nome }}
+{#                                        {{ project.localita.name }}#}
+                                    </span>
                                 </div>
+                            {% else %}
+                                <div> &nbsp;</div>
                             {% endif %}
+
+                            {% if project.start_date %}
+                                <div class="d-flex justify-content-end align-items-center">
+
+                                    <svg class="bi me-2" width="14" height="14" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar"/>
+                                    </svg>
+                                    {% if project.start_date %}
+                                        {{ project.start_date | date:"d/m/Y" }}
+                                    {% endif %}
+                                    {% if project.end_date and project.start_date != project.end_date %}
+                                        - {{ project.end_date | date:"d/m/Y" }}
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div> &nbsp;</div>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>

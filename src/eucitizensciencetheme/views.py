@@ -84,10 +84,10 @@ def get_projects(request):
         #             'project_id': project.id
         #         }
         #         markers.append(marker)
-        if project.localita_id:
+        if project.provincia_id:
             marker = {
-                'latitude': project.localita.latitude,
-                'longitude': project.localita.longitude,
+                'latitude': project.provincia.latitude,
+                'longitude': project.provincia.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
                 'project_id': project.id
@@ -115,10 +115,10 @@ def get_projects(request):
         #             'project_id': project.id
         #         }
         #         markers.append(marker)
-        if project.localita_id:
+        if project.provincia_id:
             marker = {
-                'latitude': project.localita.latitude,
-                'longitude': project.localita.longitude,
+                'latitude': project.provincia.latitude,
+                'longitude': project.provincia.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
                 'project_id': project.id
