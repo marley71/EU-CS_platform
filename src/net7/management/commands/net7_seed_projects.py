@@ -18,10 +18,28 @@ from django.utils import timezone
 class Command(BaseCommand):
     help = 'Seed projects'
 
-    def handle(self, *args, **kwargs):
+    def add_arguments(self, parser):
+        # Argomento opzionale "type" con valore predefinito "bio"
+        parser.add_argument(
+            '--type',
+            type=str,  # Specifica il tipo di dato
+            default='all',  # Valore predefinito
+            help='default tutti, bio solo biodiversity e normal gli altri'  # Descrizione dell'argomento
+        )
 
-        #self.normalProjects()
-        self.weeklyProjects()
+    def handle(self, *args, **kwargs):
+        type_value = kwargs['type']  # Ottieni il valore dell'argomento
+
+        self.stdout.write(self.style.SUCCESS(f'Valore di type: {type_value}'))
+        if type_value == 'all':
+            self.normalProjects()
+            self.weeklyProjects()
+        elif type_value == 'bio':
+            self.weeklyProjects()
+        elif type_value == 'normal':
+            self.normalProjects()
+        else:
+            self.stdout.write(self.style.ERROR(f'Valore di type: {type_value} non valido'))
         self.stdout.write('Database seeded successfully!')
 
     def normalProjects(self):
@@ -81,7 +99,7 @@ class Command(BaseCommand):
 
     def weeklyProjects(self):
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week_FINALE.csv')
+        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week_FINALE_05052025.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
