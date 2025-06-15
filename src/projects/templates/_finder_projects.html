@@ -13,10 +13,10 @@
 
                 <label for="topic">Argomento scientifico</label>
 
-                <select class="custom-select form-select" id="topic" name="topic">
-                    <option value="">{% trans "Topic" %}</option>
+                <select class="custom-select form-select django-select2" id="topic" name="topic" multiple>
+{#                    <option value="" {% if not filters.topic %} selected {% endif %}>{% trans "Tutti gli argomenti" %}</option>#}
                     {% for topic in topics %}
-                        <option {% if topic.topic == filters.topic %} selected {% endif %} value="{{ topic }}">
+                        <option {% if topic.topic|stringformat:"s" in filters.topic %} selected {% endif %} value="{{ topic }}">
                             {{ topic|capfirst }}
                         </option>
                     {% endfor %}
@@ -33,10 +33,11 @@
 {#                                                                                 value="{{ regione }}"> {{ regione }}</option>#}
 {#                    {% endfor %}#}
 {#                </select>#}
-                <select id="localita" name="localita_id" class="custom-select form-select">
-                    <option value="">{% trans "Seleziona" %}</option>
+
+                <select id="localita" name="localita_id" class="custom-select form-select django-select2" multiple>
+{#                    <option value="" {% if not filters.localita_id %} selected {% endif %}>{% trans "Tutte le regioni" %}</option>#}
                     {% for loc in localita %}
-                                <option {% if loc.id|cut:" " == filters.localita_id|cut:" " %} selected {% endif %}
+                                <option {% if loc.id|stringformat:"s" in filters.localita_id %} selected {% endif %}
                                                                                  value="{{ loc.id }}">{{ loc.name }}</option>
                     {% endfor %}
                 </select>
@@ -109,16 +110,16 @@
                     <span>Filtri attivi: </span>
                 {% endif %}
                 {% if filters.keywords %}
-                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
+                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=False %}
                 {% endif %}
 {#                {% if filters.localita_id %}#}
 {#                    {% include 'includes/tag.html' with text='Regione: '|add:filters.localita_id hasClose=True %}#}
 {#                {% endif %}#}
                 {% if filters.localita_id %}
-                    {% include 'includes/tag.html' with text='Regione: '|add:localita_selected hasClose=True %}
+                    {% include 'includes/tag.html' with text='Regioni: '|add:localita_selected hasClose=False %}
                 {% endif %}
                 {% if filters.status %}
-                    {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=True %}
+                    {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=False %}
                 {% endif %}
                 {#                {% if filters.hasTag %}#}
                 {#                    <a class="badge badge-card-secondary" id="pill-hasTag" style="cursor: pointer">#}
@@ -127,7 +128,7 @@
                 {#                    </a>#}
                 {#                {% endif %}#}
                 {% if filters.topic %}
-                    {% include 'includes/tag.html' with text='Argomento scientifico: '|add:filters.topic hasClose=True %}
+                    {% include 'includes/tag.html' with text='Argomento scientifico: '|add:topic_selected hasClose=False %}
                 {% endif %}
                 {% if filters.participationTask %}
                     {% include 'includes/tag.html' with text='Attività di partecipazione: '|add:filters.participationTask hasClose=True %}

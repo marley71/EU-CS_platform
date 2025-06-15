@@ -136,6 +136,9 @@ msgstr[1] "%d email di prova sono state inviate"
 msgid "Please write the title of the event."
 msgstr "Si prega di scrivere il titolo o il nome della risorsa."
 
+msgid "Event Title"
+msgstr "Inserisci il titolo dell’evento"
+
 #: events/forms.py:13 profiles/models.py:39
 msgid "Title"
 msgstr "Titolo"
@@ -145,6 +148,9 @@ msgstr "Titolo"
 #| msgid "A brief description of the event"
 msgid "Please add a brief description of the event."
 msgstr "Breve descrizione dell'evento"
+
+msgid "Descrizione Evento"
+msgstr "Aggiungi una breve descrizione dell'evento."
 
 #: events/forms.py:16 organisations/forms.py:26 projects/forms.py:45
 #: projects/forms.py:430 projects/templates/translation_form.html:48
@@ -163,7 +169,7 @@ msgstr ""
 
 #: events/forms.py:21
 msgid "Start date"
-msgstr ""
+msgstr "Data inizio"
 
 #: events/forms.py:23
 #, fuzzy
@@ -171,9 +177,15 @@ msgstr ""
 msgid "Please indicate the start and end dates of the event."
 msgstr "Si prega di indicare la scala spaziale del progetto"
 
+msgid "Data Evento"
+msgstr "Indica la data di fine e di inizio dell’evento "
+
 #: events/forms.py:24
 msgid "End date"
-msgstr ""
+msgstr "Data fine"
+
+msgid "Timezone"
+msgstr "Fuso orario"
 
 #: events/forms.py:26
 #, fuzzy
@@ -181,9 +193,32 @@ msgstr ""
 msgid "Please indicate the start time of the event."
 msgstr "Si prega di indicare la scala spaziale del progetto"
 
+msgid "Orario Evento"
+msgstr "Indica l’orario di inizio dell’evento"
+
+
+msgid "Please indicate the language of the event."
+msgstr "Indica la lingua in cui si terrà l’evento"
+
 #: events/forms.py:27
 msgid "Hour"
-msgstr ""
+msgstr "Orario"
+
+msgid "Associated project"
+msgstr "Progetto associato"
+
+msgid "Event type"
+msgstr "Tipo di evento"
+
+msgid "Please indicate if the event is online or physical."
+msgstr "Indica se l’evento sarà in presenza, virtuale o ibrido"
+
+msgid "Evento Online o Presenza"
+msgstr "Indica se l’evento sarà in presenza, virtuale o ibrido"
+
+msgid "If this event is associated with a project, please select it. If not listed, please add it <a href=\"/newProject\" target=\"_blank\">here</a> before submitting the event"
+msgstr "Se questo evento è associato a un progetto, selezionalo dalla lista. Se il progetto non è presente in elenco, aggiungilo <a href=\"/newProject\" target=\"_blank\">qui</a> prima di inviare l'evento"
+
 
 #: events/forms.py:28 organisations/forms.py:19 platforms/forms.py:31
 #: projects/forms.py:38 resources/forms.py:26
@@ -195,6 +230,9 @@ msgstr "URL"
 #| msgid "Please provide a URL to an external web site for the event"
 msgid "Please provide a URL to an external web site for the event."
 msgstr "Fornisci un URL a un sito web esterno per l'evento"
+
+msgid "Url Evento"
+msgstr "Fornisci un URL a un sito web esterno per l'evento, se presente"
 
 #: events/templates/_intro_new_event.html:6
 #: organisations/templates/_intro_form_organisation.html:8
@@ -988,7 +1026,13 @@ msgstr ""
 
 #: projects/forms.py:181
 msgid "Lead organisation / coordinator"
-msgstr "Organizzazione capofila / coordinatore"
+msgstr "Coordinatore dell’evento"
+
+msgid "Please select the organisation coordinating the event. If not listed, please add it <a href=\"/new_organisation\" target=\"_blank\">here</a> before submitting the event"
+msgstr "Seleziona l'organizzazione che coordina l'evento. Se non è presente nell'elenco, aggiungila <a href=\"/new_organisation\" target=\"_blank\">qui</a> prima di inviare l'evento."
+
+msgid "Please select other organisation(s) participating in the event. If not listed,please add it <a href=\"/new_organisation\" target=\"_blank\">here</a> before submitting the event"
+msgstr "Seleziona eventuali altre organizzazioni che partecipano all'evento. Se non sono elencate, aggiungile <a href=\"/new_organisation\" target=\"_blank\">qui</a> prima di inviare l'evento"
 
 #: projects/forms.py:190
 msgid ""

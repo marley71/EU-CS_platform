@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_type',
-            field=models.CharField(choices=[('online', 'On-line event'), ('face-to-face', 'Face-to-face event'), ('hybrid', 'Hybrid event')], default='online', max_length=20),
+            field=models.CharField(choices=[('online', 'On-line'), ('face-to-face', 'In presenza'), ('hybrid', 'Evento ibrido')], default='online', max_length=20),
         ),
     ]

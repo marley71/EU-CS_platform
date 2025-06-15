@@ -332,9 +332,15 @@ def projects(request):
 
     localita_selected = None
     if request.GET.get('localita_id'):
-        localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
-        localita_selected = localita_selected.name
+        localita_ids = request.GET.getlist('localita_id')
+        localitaFound = Localita.objects.filter(id__in=localita_ids)
+        localita_selected = ', '.join([item.name for item in localitaFound])
+        #localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        #localita_selected = localita_selected.name
 
+    topic_selected = None
+    if request.GET.get('topic'):
+        topic_selected = ', '.join(request.GET.getlist('topic'))
     counter = len(projects)
 
     paginator = Paginator(projects, 18)
@@ -402,6 +408,7 @@ def projects(request):
         'homeSearchCategories' : homeSearchCategories,
         'localita' : localita,
         'localita_selected' : localita_selected,
+        'topic_selected' : topic_selected,
         'show_search_bar': False})
 
 @login_required
@@ -731,9 +738,12 @@ def applyFilters(request, projects):
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
             
         if request.GET.get('topic'):
-            topic = Topic.objects.filter(topic=request.GET['topic']).first()
+            topics = request.GET.getlist('topic')
+            projects = projects.filter(topic__topic__in=topics)
+
+            #topic = Topic.objects.filter(topic=request.GET['topic']).first()
             #projects = projects.filter(topic=topic)
-            projects = projects.filter(topic__topic=request.GET['topic'])
+            #projects = projects.filter(topic__topic=request.GET['topic'])
 
         if request.GET.get('status'):
             projects = projects.filter(status__status=request.GET['status'])
@@ -755,7 +765,8 @@ def applyFilters(request, projects):
         if request.GET.get('localita_id'):
             #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
             #projects = projects.filter(projectCountry=projectCountry)
-            projects = projects.filter(localita_id=request.GET.get('localita_id'))
+            localita_ids = request.GET.getlist('localita_id')
+            projects = projects.filter(localita_id__in=localita_ids)
 
         if request.GET.get('country'):
             projects = projects.filter(
@@ -814,7 +825,8 @@ def setFilters(request, filters):
     if request.GET.get('keywords'):
         filters['keywords'] = request.GET['keywords']
     if request.GET.get('topic'):
-        filters['topic'] = request.GET['topic']
+        filters['topic'] = request.GET.getlist('topic')  # str(request.GET['localita_id'])
+        #filters['topic'] = request.GET['topic']
     if request.GET.get('status'):
         filters['status'] = request.GET['status']
     if request.GET.get('doingAtHome'):
@@ -834,7 +846,7 @@ def setFilters(request, filters):
     # if request.GET.get('regione'):
     #     filters['regione'] = request.GET['regione']
     if request.GET.get('localita_id'):
-        filters['localita_id'] = str(request.GET['localita_id'])
+        filters['localita_id'] = request.GET.getlist('localita_id') #str(request.GET['localita_id'])
     return filters
 
 

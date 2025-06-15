@@ -16,8 +16,8 @@
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Research entity",
-            "type_it": "Ente di ricerca"
+            "type": "Academic",
+            "type_it": "Accademico"
         }
     },
     {
@@ -32,7 +32,7 @@
         "model": "organisations.OrganisationType",
         "fields": {
             "type": "Community-led",
-            "type_it": "Comitato/Gruppo/Organizzazione informale"
+            "type_it": "Guidato dalla comunità"
         }
     },
     {
@@ -40,13 +40,6 @@
         "fields": {
             "type": "Consortium",
             "type_it": "Consorzio"
-        }
-    },
-    {
-        "model": "organisations.OrganisationType",
-        "fields": {
-            "type": "Association",
-            "type_it": "Associazione"
         }
     }
 ]

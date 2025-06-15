@@ -10,9 +10,9 @@ import pytz
 
 
 EVENT_TYPE_CHOICES = [
-    ('online', 'On-line event'),
-    ('face-to-face', 'Face-to-face event'),
-    ('hybrid', 'Hybrid event'),
+    ('online', 'On-line'),
+    ('face-to-face', 'In presenza'),
+    ('hybrid', 'Evento ibrido'),
 ]
 
 
@@ -20,41 +20,43 @@ class EventForm(forms.Form):
     title = forms.CharField(
             max_length=200,
             widget=forms.TextInput(),
-            help_text=_('Please write the title of the event.'),
+            help_text=_('Event Title'),
             label=_('Title'))
     description = forms.CharField(widget=forms.Textarea(), max_length = 3000,
-            help_text=_('Please add a brief description of the event.'),
+            help_text=_('Descrizione Evento'),
             label=_('Description'))
     place = forms.CharField(max_length=200,widget=forms.HiddenInput(),required=False,
-            help_text=_('Please indicate the location of the event.'),
+            help_text=_('Evento Online o Presenza'),
             label=_('Place'))
     country = forms.CharField(max_length=50,widget=forms.HiddenInput(),required=False)
     start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),
             label=_('Start date'))
     end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),
-            help_text=_('Please indicate the start and end dates of the event.'),
+            help_text=_('Data Evento'),
             label=_('End date'))
     hour = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False,
-            help_text=_('Please indicate the start time of the event.'),
+            help_text=_('Orario Evento'),
             label=_('Hour'))
-    timezone = forms.ChoiceField(choices=[(tz, tz) for tz in pytz.all_timezones], required=False, widget=forms.Select(attrs={'class' : 'form-control'}))
+    timezone = forms.ChoiceField(choices=[(tz, tz) for tz in pytz.all_timezones], required=False,
+                                 widget=forms.Select(attrs={'class' : 'form-control'}),
+                                 label=_('Timezone'))
     language = forms.ChoiceField(choices=[
-        ('NL', 'Dutch'),
-        ('EN', 'English'),
-        ('ET', 'Estonian'),
-        ('FR', 'Français'),
-        ('DE', 'German'),
-        ('EL', 'Greek'),
-        ('HU', 'Hungarian'),
-        ('IT', 'Italian'),
-        ('LT', 'Lituanian'),
-        ('PT', 'Portuguese'),
-        ('ES', 'Spanish'),
-        ('SV', 'Swedish'),
-        ('OT', 'Other'),
+        #('NL', 'Dutch'),
+        ('EN', 'Inglese'),
+        #('ET', 'Estonian'),
+        ('FR', 'Francese'),
+        ('DE', 'Tedesco'),
+        #('EL', 'Greek'),
+        #('HU', 'Hungarian'),
+        ('IT', 'Italiano'),
+        #('LT', 'Lituanian'),
+        #('PT', 'Portuguese'),
+        #('ES', 'Spanish'),
+        #('SV', 'Swedish'),
+        #('OT', 'Other'),
     ], initial='EN', widget=forms.Select(attrs={'class' : 'form-control'}), help_text=_('Please indicate the language of the event.'), label=_('Language'))   
     url = forms.CharField(max_length=200, label=_('URL'),widget=forms.TextInput(),required=False,
-            help_text=_('Please provide a URL to an external web site for the event.'))
+            help_text=_('Url Evento'))
     latitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     longitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
 

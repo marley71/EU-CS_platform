@@ -325,8 +325,12 @@ def organisations(request):
     organisations = paginator.get_page(page)
     localita_selected = None
     if request.GET.get('localita_id'):
-        localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
-        localita_selected = localita_selected.name
+        localita_ids = request.GET.getlist('localita_id')
+        localitaFound = Localita.objects.filter(id__in=localita_ids)
+        localita_selected = ', '.join([item.name for item in localitaFound])
+
+        # localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        # localita_selected = localita_selected.name
 
     return TemplateResponse(request, 'organisations.html', {
         'organisations': organisations,
@@ -487,7 +491,9 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(orgType__type=request.GET['orgTypes'])
 
         if request.GET.get('localita_id'):
-            queryset = queryset.filter(localita_id=request.GET.get('localita_id'))
+            localita_ids = request.GET.getlist('localita_id')
+            #print("filtro localita_id " + str(localita_ids))
+            queryset = queryset.filter(localita_id__in=localita_ids)
 
     return queryset
 
@@ -501,5 +507,5 @@ def setFilters(request, filters):
     if request.GET.get('orderby'):
         filters['orderby'] = request.GET['orderby']
     if request.GET.get('localita_id'):
-        filters['localita_id'] = str(request.GET['localita_id'])
+        filters['localita_id'] = request.GET.getlist('localita_id')
     return filters
