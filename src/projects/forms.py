@@ -58,7 +58,7 @@ class ProjectForm(forms.Form):
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please describe how people can get involved in the project (max 3000 characters).'),
                 label=lang_code,
-                required=False,
+                required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE,
             )
             self.fields[f'equipment_{lang_code}'] = forms.CharField(
                 max_length=3000,
@@ -95,6 +95,7 @@ class ProjectForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(),
         label=_('URL'),
+        required=False,
         help_text=_('Please provide the URL to an external website of the project.'))
 
     citizen_science_aspects_description = forms.CharField(
@@ -155,7 +156,7 @@ class ProjectForm(forms.Form):
         widget=Select2MultipleWidget(),
         help_text=_(
             'Please select the project topic(s) or field(s) of science.'),
-        required=False,
+        #required=False,
         label=_("Topic"))
 
     hasTag = forms.ModelMultipleChoiceField(

@@ -85,7 +85,7 @@ class Command(BaseCommand):
         HelpText.objects.create(
             id=1,
             title="nuovo progetto",
-            title_it="nuovo progetto",
+            title_it="Nuovo progetto/Nuova attività",
             paragraph="nuovo progetto",
             paragraph_it="nuovo progetto",
             slug="new-project",

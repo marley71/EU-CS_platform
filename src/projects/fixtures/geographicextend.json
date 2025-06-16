@@ -2,43 +2,25 @@
     {
         "model": "projects.geographicextend",
         "fields": {
-            "geographicextend": "Global"
+            "geographicextend": "Nazionale"
         }
     },
     {
         "model": "projects.geographicextend",
         "fields": {
-            "geographicextend": "Macro-regional"
+            "geographicextend": "Regionale"
         }
     },
     {
         "model": "projects.geographicextend",
         "fields": {
-            "geographicextend": "National"
+            "geographicextend": "Provinciale"
         }
     },
     {
         "model": "projects.geographicextend",
         "fields": {
-            "geographicextend": "Sub-national"
-        }
-    },
-    {
-        "model": "projects.geographicextend",
-        "fields": {
-            "geographicextend": "Regional"
-        }
-    },
-    {
-        "model": "projects.geographicextend",
-        "fields": {
-            "geographicextend": "City"
-        }
-    },
-    {
-        "model": "projects.geographicextend",
-        "fields": {
-            "geographicextend": "Neighbourhood"
+            "geographicextend": "Comunale"
         }
     }
 ]

@@ -34,7 +34,7 @@
                 <div class="col-2"></div>
                 <div class="col-8">
                   <h2>{{ text.title }}</h2>
-                  {{ text.paragraph | safe }}
+{#                  {{ text.paragraph | safe }}#}
                 </div>
               </div>
               <div class="row">
@@ -115,7 +115,7 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                {{ form.participationTask |as_crispy_field }}
+{#                                {{ form.participationTask |as_crispy_field }}#}
                                 {{ form.difficultyLevel |as_crispy_field }}
                                   <!-- Project How to participate -->
                                   <label class="control-label">{% trans "How to participate" %}</label>

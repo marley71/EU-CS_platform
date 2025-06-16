@@ -826,7 +826,7 @@ msgid "Project name"
 msgstr "Progetto"
 
 msgid "Project-name"
-msgstr "Progetto"
+msgstr "Titolo"
 
 
 msgid "Please, select provincia of your project."
@@ -857,7 +857,7 @@ msgstr ""
 #: projects/templates/project.html:72 projects/templates/project.html:93
 #: projects/templates/translation_form.html:55
 msgid "Aim"
-msgstr "Scopo"
+msgstr "Obiettivi"
 
 #: projects/forms.py:55
 msgid ""
@@ -878,11 +878,11 @@ msgstr ""
 "moderazione (max 2000 caratteri)."
 
 msgid "Please describe the citizen science aspect(s)"
-msgstr "Si prega di descrivere l'aspetto o gli aspetti di Citizen science del "
-"progetto e il collegamento del progetto a SAcitizen science utilizzando i <a "
+msgstr "Si prega di descrivere l'aspetto o gli aspetti di Citizen Science del "
+"progetto/attività e il loro collegamento con i criteri di moderazione <a "
 "href=\"https://zenodo.org/cohttps://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
 ">10 Principi di Citizen Science di ECSA </a> e i <a href=\"https://osf.io/"
-"xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Quello che introduci in "
+"xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Il testo scritto in "
 "questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
 "moderazione (max 2000 caratteri)."
 
@@ -912,21 +912,21 @@ msgstr "Parole chiave"
 
 #: projects/forms.py:84
 msgid "Closest approximate start date of the project"
-msgstr "Data approssimativa di inizio del progetto"
+msgstr "Data di inizio del progetto/attività"
 
 #: projects/forms.py:89
 msgid "Approximate end date of the project"
-msgstr "Data approssimativa di fine del progetto"
+msgstr "Data di fine del progetto/attività"
 
 #: projects/forms.py:94
 msgid "Please select the project topic(s) or field(s) of science."
 msgstr ""
-"Seleziona l'argomento/gli argomenti del progetto o il/i campo/i della "
-"scienza."
+"Seleziona l'argomento/gli argomenti del progetto o il/i campo/i della scienza."
+"Gli argomenti scientifici sono tratti dallo standard <a href=\"https://eur-lex.europa.eu/browse/eurovoc.html\" target=\"_blank\">EuroVoc</a>"
 
 #: projects/forms.py:96 projects/templates/_finder_projects.html:52
 msgid "Topic"
-msgstr "Argomento"
+msgstr "Argomento scientifico"
 
 #: projects/forms.py:101
 msgid "Please select the tags that apply to your project."
@@ -969,22 +969,22 @@ msgstr "Come partecipare"
 #: projects/forms.py:130
 msgid ""
 "Please indicate any required or suggested equipment to be used in the "
-"project (max 2000 characters)."
+"project (max 3000 characters)."
 msgstr ""
-"Si prega di indicare qualsiasi attrezzatura richiesta o suggerita da "
-"utilizzare nel progetto (max 2000 caratteri)."
+"Indicare eventuali attrezzature richieste o suggerite da "
+"utilizzare nel progetto/nell’attività (max 3000 caratteri)."
 
 #: projects/forms.py:134 projects/templates/translation_form.html:69
 msgid "Equipment"
-msgstr "Equipaggiamento"
+msgstr "Cosa portare"
 
 #: projects/forms.py:140
 msgid "Please indicate the spatial scale of the project"
-msgstr "Si prega di indicare la scala spaziale del progetto"
+msgstr "Si prega di indicare l’estensione geografica del progetto/dell’attività"
 
 #: projects/forms.py:148
 msgid "Project locality"
-msgstr "Località del progetto"
+msgstr "Località"
 
 #: projects/forms.py:149
 msgid ""
@@ -992,10 +992,10 @@ msgid ""
 "participant activities take place. E.g. in your backyard, parks in London, "
 "rivers in Europe, online globally, etc."
 msgstr ""
-"Si prega di descrivere la località del progetto, in termini di dove si "
-"svolgono le principali attività dei partecipanti. Per esempio nel tuo "
-"cortile, nei parchi di Londra, nei fiumi in Europa, online a livello "
-"globale, ecc."
+"Si prega di inserire i dettagli circa la località del progetto/dell’attività. Se disponibile, è possibile  inserire "
+"anche un indirizzo puntuale (es. Luogo di ritrovo), "
+"Per esempio: quartiere XY, nei parchi pubblici della città XY,corsi "
+"d’acqua della provincia di XY, online, etc."
 
 #: projects/forms.py:156
 msgid "Project geographic location"
@@ -1455,7 +1455,7 @@ msgstr "Località del progetto"
 
 #: projects/templates/project_form.html:87
 msgid "Contact and hosts details"
-msgstr "Dettagli di contatto e host"
+msgstr "Dettagli di contatto"
 
 #: projects/templates/project_form.html:98
 msgid "Funding Information"
@@ -3971,7 +3971,7 @@ msgid "Translations"
 msgstr "Traduzioni"
 
 msgid "Please provide the name of the project."
-msgstr "Si prega di fornire il nome del progetto."
+msgstr "Si prega di fornire il titolo del progetto/attività."
 
 msgid "Please, select località of your project."
 msgstr "Seleziona la località del tuo progetto."
