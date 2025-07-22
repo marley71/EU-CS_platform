@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 
 
+
 class Command(BaseCommand):
     help = 'Seed projects'
 
@@ -91,10 +92,12 @@ class Command(BaseCommand):
                 )
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
+
                 # project.keywords.add(keyword)
                 self.setKeywords(project, row)
                 self.setImage(project, row)
                 self.setGeograficExtend(project, row)
+
 
 
     def weeklyProjects(self):
@@ -155,6 +158,7 @@ class Command(BaseCommand):
                 )
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
+                # project.province.add(provincia)
                 # project.keywords.add(keyword)
                 row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
                 self.setKeywords(project, row)

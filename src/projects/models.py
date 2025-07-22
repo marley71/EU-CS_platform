@@ -41,7 +41,8 @@ class ProjectCountry(models.Model):
 
 class Topic(models.Model):
     topic = models.TextField()
-
+    broader = models.TextField()
+    concept = models.TextField()
     def __str__(self):
         return f'{self.topic}'
 
@@ -170,7 +171,8 @@ class Project(models.Model):
     projectGeographicLocation = models.MultiPolygonField(blank=True, null=True)
     projectCountry = models.ManyToManyField(ProjectCountry, blank=True, related_name="projects")
     localita = models.ForeignKey(Localita, on_delete=models.CASCADE)  #models.SET_NULL TODO capire cosa metter qui
-    provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
+    provincia = models.ForeignKey('provincia.Provincia', on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
+    #province = models.ManyToManyField('provincia.Provincia', related_name='projects_project') #nuova relazione molti a molti
     #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
 
     # Legacy

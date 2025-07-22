@@ -39,7 +39,7 @@ class Command(BaseCommand):
             call_command('loaddata','./organisations/fixtures/organisation_types.json')
             call_command('loaddata', './projects/fixtures/participationtasks.json')
             call_command('loaddata', './projects/fixtures/status.json')
-            call_command('loaddata', './projects/fixtures/topics.json')
+            # call_command('loaddata', './projects/fixtures/topics.json')
             call_command('loaddata', './projects/fixtures/difficultylevel.json')
             call_command('loaddata', './projects/fixtures/hastag.json')
             call_command('loaddata', './projects/fixtures/geographicextend.json')
