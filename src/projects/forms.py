@@ -8,13 +8,20 @@ from django.utils.translation import ugettext_lazy as _
 from geopy.geocoders import Nominatim, options
 from geopy.exc import GeocoderServiceError
 from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry
-from .models import ParticipationTask, GeographicExtend, HasTag, DifficultyLevel, TranslatedProject
+from .models import ParticipationTask, GeographicExtend, HasTag, DifficultyLevel, TranslatedProject, Provincia
 from organisations.models import Organisation
 from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
-from provincia.models import Provincia
+#from provincia.models import Provincia
 
+
+
+STATO_TYPE_CHOICES = [
+    ('completato', 'Completato'),
+    ('non-ancora-iniziato', 'Non ancora iniziato'),
+    ('sospeso', 'Sospeso'),
+]
 
 # TODO: Fix this to be an env variable
 geolocator = Nominatim(user_agent="eu-citizen-science-platform")
@@ -122,12 +129,27 @@ class ProjectForm(forms.Form):
     #     widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
     #     help_text=_('Please, select località of your project.'))
 
-    provincia = forms.ModelChoiceField(
-        queryset=Provincia.objects.all().order_by('nome'),
-        label=_("Provincia"),
-        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
-        help_text=_('Please, select provincia of your project.'))
+    # provincia = forms.ModelChoiceField(
+    #     queryset=Provincia.objects.all().order_by('nome'),
+    #     label=_("Provincia"),
+    #     widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+    #     help_text=_('Please, select provincia of your project.'))
 
+    provincia = forms.ModelMultipleChoiceField(
+        queryset=Provincia.objects.all(),
+        widget=Select2MultipleWidget(),
+        help_text=_(
+            'Please select the project provincia(s) or field(s) of science.'),
+        # required=False,
+        label=_("Provincia"))
+
+    stato = forms.ChoiceField(
+        choices=STATO_TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please indicate project status'),
+        label=_('Status type'),
+        required=True
+    )
     keywords = forms.ModelMultipleChoiceField(
         queryset=Keyword.objects.all(),
         widget=s2forms.ModelSelect2TagWidget(
@@ -433,6 +455,13 @@ class ProjectForm(forms.Form):
             else:
                 project.dateUpdated = project.dateUpdated
 
+        provinciaId = next(iter(self.data.getlist('provincia')), None)
+        #print('PROVINCIAID', provinciaId)
+        if provinciaId:
+            provincia = Provincia.objects.get(id=provinciaId)
+            if provincia:
+                localita = Localita.objects.get(name=provincia.regione)
+                project.localita = localita
         project.save()
         project.topic.set(self.data.getlist('topic'))
         project.keywords.set(self.data.getlist('keywords'))
@@ -441,6 +470,8 @@ class ProjectForm(forms.Form):
         project.hasTag.set(self.data.getlist('hasTag'))
         project.geographicextend.set(self.data.getlist('geographicextend'))
         project.organisation.set(self.data.getlist('organisation'))
+        project.provincia.set(self.data.getlist('provincia'))
+
         #project.projectCountry.set(self.cleaned_data['projectCountry'])
 
         for key, value in self.data.items():
@@ -505,8 +536,13 @@ class ProjectForm(forms.Form):
         project.imageCredit3 = self.data['image_credit3']
         project.logoCredit = self.data['logo_credit']
         try :
-            provincia = Provincia.objects.get(id=self.data['provincia'])
-            localita = Localita.objects.get(name=provincia.regione)
+            #provincia = Provincia.objects.get(id=self.data['provincia'])
+
+            provinciaId = next(iter(self.data.getlist('provincia')), None)
+            if provinciaId:
+                provincia = Provincia.objects.get(id=provinciaId)
+                if provincia:
+                    localita = Localita.objects.get(name=provincia.regione)
             #print('Localita trovata')
         except Provincia.DoesNotExist:
             localita = None
@@ -514,7 +550,9 @@ class ProjectForm(forms.Form):
 
         if localita and provincia:
             project.localita_id = localita.id
-            project.provincia_id = provincia.id
+            project.provincia.set(self.data.getlist('provincia'))
+            #project.add(provincia)
+            #project.provincia_id = provincia.id
 
         project.doingAtHome = doingAtHome
         #project.localita

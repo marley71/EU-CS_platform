@@ -3,10 +3,10 @@ import os
 import random
 from decimal import Decimal
 from django.core.management.base import BaseCommand,CommandError
-from projects.models import Project,Status,Keyword,Topic,HasTag, GeographicExtend
+from projects.models import Project,Status,Keyword,Topic,HasTag, GeographicExtend, Provincia
 from organisations.models import Organisation
 from localita.models import Localita
-from provincia.models import Provincia
+#from provincia.models import Provincia
 from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
@@ -149,7 +149,7 @@ class Command(BaseCommand):
                     end_date=timezone.make_aware(end_date),
                     dateUpdated=timezone.make_aware(end_date),
                     localita_id=localita.id,
-                    provincia_id=provincia.id,
+                    #provincia_id=provincia.id,
                     author=row['Contatti'],
                     author_email=email,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                 )
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
-                # project.province.add(provincia)
+                project.provincia.add(provincia)
                 # project.keywords.add(keyword)
                 row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
                 self.setKeywords(project, row)

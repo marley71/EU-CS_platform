@@ -924,6 +924,22 @@ msgstr ""
 "Seleziona l'argomento/gli argomenti del progetto o il/i campo/i della scienza."
 "Gli argomenti scientifici sono tratti dallo standard <a href=\"https://eur-lex.europa.eu/browse/eurovoc.html\" target=\"_blank\">EuroVoc</a>"
 
+
+#: projects/forms.py:94
+msgid "Please select the project provincia(s) or field(s) of science."
+msgstr ""
+"Seleziona la provincia o province del progetto."
+
+
+# label stato progetto
+msgid "Please indicate project status"
+msgstr "Definisci lo stato di lavoro del progetto"
+
+msgid "Status type"
+msgstr "Stato progetto"
+
+
+
 #: projects/forms.py:96 projects/templates/_finder_projects.html:52
 msgid "Topic"
 msgstr "Argomento scientifico"

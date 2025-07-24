@@ -130,7 +130,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "localita",
-    "provincia",
+    #"provincia",
     "authtools",
     "crispy_forms",
     "easy_thumbnails",

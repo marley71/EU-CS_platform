@@ -2,7 +2,10 @@ import json
 import os
 from django.core.management.base import BaseCommand,CommandError
 
-from provincia.models import Provincia
+from profiles.views import projects
+
+#from provincia.models import Provincia
+from projects.models  import Provincia
 from django.conf import settings
 
 class Command(BaseCommand):

@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 concept = item['concept']['value']
                 label_it = item['label_it']['value']
                 label_en = item['label_en']['value']
-                broader = None
+                broader = ""
                 if 'broader' in item:
                     broader = item['broader']['value']
                 print('Creo record ' + concept + ' it ' + label_it + ' en ' + label_en + ' broader ' + str(broader) )

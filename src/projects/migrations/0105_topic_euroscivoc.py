@@ -6,7 +6,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0104_project_provincia'),
+        #('projects', '0104_project_provincia'),
+        ('projects', '0103_project_logo_20250416'),
     ]
 
     operations = [

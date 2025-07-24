@@ -7,12 +7,12 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from projects.models import Project, Likes, Follows, Keyword
+from projects.models import Project, Likes, Follows, Keyword, Provincia
 from resources.models import Resource
 from blog.models import Post
 from organisations.models import Organisation
 from localita.models import Localita
-from provincia.models import Provincia
+#from provincia.models import Provincia
 from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event

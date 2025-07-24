@@ -221,7 +221,7 @@ def editProject(request, pk):
         'originURL': project.originURL,
         'projectCountry': project.projectCountry.all,
         'localita' : project.localita,
-        'provincia': project.provincia,
+        'provincia': project.provincia.all,
 
     }
 

@@ -3,7 +3,7 @@ from django.conf import settings
 from organisations.models import Organisation
 from django_countries.fields import CountryField
 from localita.models import Localita
-from provincia.models import Provincia
+#from provincia.models import Provincia
 
 
 
@@ -41,11 +41,20 @@ class ProjectCountry(models.Model):
 
 class Topic(models.Model):
     topic = models.TextField()
-    broader = models.TextField()
-    concept = models.TextField()
+    broader = models.TextField(null=True, blank=True)
+    concept = models.TextField(null=True, blank=True)
     def __str__(self):
         return f'{self.topic}'
 
+
+class Provincia(models.Model):
+    nome = models.CharField(max_length=100, editable=False)
+    sigla = models.CharField(max_length=3, editable=False)
+    regione = models.CharField(max_length=100, editable=False)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    def __str__(self):
+        return f'{self.nome} ({self.regione})'
 
 class HasTag(models.Model):
     hasTag = models.TextField()
@@ -171,10 +180,11 @@ class Project(models.Model):
     projectGeographicLocation = models.MultiPolygonField(blank=True, null=True)
     projectCountry = models.ManyToManyField(ProjectCountry, blank=True, related_name="projects")
     localita = models.ForeignKey(Localita, on_delete=models.CASCADE)  #models.SET_NULL TODO capire cosa metter qui
-    provincia = models.ForeignKey('provincia.Provincia', on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
+    #provincia = models.ForeignKey('provincia.Provincia', on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
     #province = models.ManyToManyField('provincia.Provincia', related_name='projects_project') #nuova relazione molti a molti
     #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
-
+    provincia = models.ManyToManyField(Provincia)  # nuova relazione molti a molti
+    stato = models.CharField(max_length=50, null=True, blank=True) # stato progetto.. completato,non ancora iniziato, abbandonato
     # Legacy
     country = CountryField(null=True, blank=True)
 

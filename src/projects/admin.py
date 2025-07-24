@@ -1,12 +1,14 @@
 from django.contrib import admin
-from .models import Project, Topic, Status, ApprovedProjects, FollowedProjects, HasTag, DifficultyLevel, ParticipationTask, HelpText, ProjectCountry
+from .models import (Project, Topic, Status, ApprovedProjects, FollowedProjects,
+                     Provincia, HasTag, DifficultyLevel, ParticipationTask, HelpText, ProjectCountry)
+from .forms import STATO_TYPE_CHOICES
 from django import forms
 from django.db import models
 from django_select2.forms import Select2MultipleWidget
 from django_ckeditor_5.fields import CKEditor5Widget
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.translation import ugettext_lazy as _
-from provincia.models import Provincia
+#from provincia.models import Provincia
 from django.core.exceptions import ValidationError
 from django.http import Http404
 
@@ -19,11 +21,19 @@ class DifficultyLevelAdmin(TabbedTranslationAdmin):
 
 class ProjectFormA(forms.ModelForm):
     topic = forms.ModelMultipleChoiceField(queryset=Topic.objects.all(), widget=Select2MultipleWidget, required=False)
-    provincia = forms.ModelChoiceField(
-        queryset=Provincia.objects.all().order_by('nome'),
-        label=_("Provincia"),
+    provincia = forms.ModelMultipleChoiceField(queryset=Provincia.objects.all(), widget=Select2MultipleWidget, required=False)
+    stato = forms.ChoiceField(
+        choices=STATO_TYPE_CHOICES,
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
-        help_text=_('Please, select provincia of your project.'))
+        help_text=_('Please indicate project status'),
+        label=_('Status type'),
+        required=True
+    )
+    # provincia = forms.ModelChoiceField(
+    #     queryset=Provincia.objects.all().order_by('nome'),
+    #     label=_("Provincia"),
+    #     widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+    #     help_text=_('Please, select provincia of your project.'))
     # projectCountry = forms.ModelChoiceField(
     #     queryset=ProjectCountry.objects.all(),
     #     widget=forms.Select,
@@ -50,7 +60,10 @@ class ProjectAdmin(TabbedTranslationAdmin):
 
     def save_model(self, request, obj, form, change):
         # Calcola il valore di price (ad esempio, impostalo a un valore arbitrario)
-        localita = Localita.objects.get(name=obj.provincia.regione)
+        localita = None
+        if obj.provincia is not None and obj.provincia.first():
+            localita = Localita.objects.get(name=obj.provincia.first().regione)
+
         if localita == None:
             raise Http404("Località non trovata.")
         obj.localita = localita
