@@ -23,6 +23,7 @@ class Event(models.Model):
     start_date = models.DateTimeField('Start date')
     end_date = models.DateTimeField('End date')
     hour = models.TimeField(null=True, blank=True)
+    language_other = models.CharField(max_length=200, null=True)
     timezone = models.CharField(max_length=100, choices=[(tz, tz) for tz in pytz.all_timezones], default='Europe/Brussels')
     #TODO: reference this to settings
     language = models.CharField(max_length=20, choices=[

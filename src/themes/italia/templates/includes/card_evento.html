@@ -13,95 +13,128 @@
 {#</div>#}
 
 
-<div class="card shadow rounded-4 px-0 py-0 w-100" style="height:350px;">
-    <div class="card-header d-flex justify-content-between align-content-center rounded-top-4"
-         style="background-color: #F7F7FF;"
-    >
-        <div>
-            <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar-event-fill"/>
-            </svg>
-            {{ event.start_date | date:"d/m/Y" }}
-        </div>
-        {% if event.place %}
-            <div class="">
+{% with startDate=event.start_date|date:"d/m/Y" endDate=event.end_date|date:"d/m/Y" %}
+    <div class="card shadow rounded-4 px-0 py-0 w-100" style="height:350px;">
+        <div class="card-header d-flex justify-content-between align-content-center rounded-top-4"
+             style="background-color: #F7F7FF;"
+        >
+            <div>
                 <svg class="bi mb-1" width="14" height="14" fill="currentColor">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pin-map-fill"/>
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar-event-fill"/>
                 </svg>
-                {{ event.place }}<br>
-            </div>
-        {% endif %}
-    </div>
-    <div class="card-body d-flex flex-column justify-content-between">
-        <div class="d-flex flex-column gap-1">
-
-            <h3>{{ event.title  | safe | truncatechars:45 }}</h3>
-            <p>
-                {{ event.description | safe | truncatechars:100 }}
-                {% if event.description|length > 100 %}
-                    &nbsp; <a href="#" class="" data-bs-toggle="modal" data-bs-target="#evento-{{ event.id }}">
-                    Continua a leggere
-                </a>
+                {{ startDate }}
+                {% if endDate and endDate != startDate %}
+                    - {{ endDate }}
                 {% endif %}
-            </p>
+                <div>
+                    {% if event.hour %}
+                <div class="">
+                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clock-fill"/>
+                    </svg>
+                    {{ event.hour|time:"H:i" }}
+                    {% if event.timezone %}
+                    - {{ event.timezone }}
+                {% endif %}
 
-            <!-- Button trigger modal -->
+                </div>
+            {% endif %}
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div class="d-flex flex-column gap-1">
+
+                <h3>{{ event.title  | safe | truncatechars:45 }}</h3>
+                <p>
+                    {{ event.description | safe | truncatechars:100 }}
+                    {% if event.description|length > 100 %}
+                        &nbsp; <a href="#" class="" data-bs-toggle="modal" data-bs-target="#evento-{{ event.id }}">
+                        Continua a leggere
+                    </a>
+                    {% endif %}
+                </p>
+
+                <!-- Button trigger modal -->
 
 
-            {% if event.description|length > 100 %}
-                <!-- Modal -->
-                <div class="modal modal-lg fade" id="evento-{{ event.id }}" tabindex="-1"
-                     aria-labelledby="#evento-{{ event.id }}-label"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="evento-{{ event.id }}-label">
-                                    {{ event.title }}
-                                </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                {{ event.description | safe }}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Chiudi
-                                </button>
-                                <button type="button" class="btn btn-primary">
-                                    <a href="{{ event.url }}">
+                {% if event.description|length > 100 %}
+                    <!-- Modal -->
+                    <div class="modal modal-lg fade" id="evento-{{ event.id }}" tabindex="-1"
+                         aria-labelledby="#evento-{{ event.id }}-label"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="evento-{{ event.id }}-label">
+                                        {{ event.title }}
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ event.description | safe }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Chiudi
+                                    </button>
+                                    <button type="button" class="btn btn-primary">
+                                        <a href="{{ event.url }}">
 
-                                        Vai alla pagina dell'evento
-                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
-                                        </svg>
-                                    </a>
-                                </button>
+                                            Vai alla pagina dell'evento
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                                            </svg>
+                                        </a>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                {% endif %}
+
+                {% if event.mainOrganisation %}
+                    <div class="badge rounded-pill badge-card-main">
+                        {{ event.mainOrganisation }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="d-flex flex-column">
+
+                <div class="text-end">
+                    <a class="btn btn-outline-secondary"
+                       href="{% if 'http' not in event.url %}//{% endif %}{{ event.url }}"
+                       target="_blank">
+                        Vai alla pagina dell'evento
+                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                        </svg>
+                    </a>
+
                 </div>
-            {% endif %}
-
-            {% if event.mainOrganisation %}
-                <div class="badge rounded-pill badge-card-main">
-                    {{ event.mainOrganisation }}
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="d-flex flex-column">
-
-            <div class="text-end">
-                <a class="btn btn-outline-secondary" href="{% if 'http' not in event.url %}//{% endif %}{{ event.url }}"
-                   target="_blank">
-                    Vai alla pagina dell'evento
-                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
-                    </svg>
-                </a>
-
             </div>
         </div>
+
+        <div class="card-footer d-flex justify-content-between align-content-center rounded-bottom-4"
+             style="background-color: #F7F7FF;"
+        >
+            <div>
+                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#translate"/>
+                </svg>
+                {{ event.language }}
+            </div>
+            {% if event.place %}
+                <div class="">
+                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pin-map-fill"/>
+                    </svg>
+                    {{ event.place }}<br>
+                </div>
+            {% endif %}
+        </div>
     </div>
-</div>
+{% endwith %}
