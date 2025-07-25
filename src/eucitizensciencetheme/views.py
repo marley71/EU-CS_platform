@@ -84,15 +84,26 @@ def get_projects(request):
         #             'project_id': project.id
         #         }
         #         markers.append(marker)
-        if project.provincia_id:
+
+        if project.latitude and project.longitude:
             marker = {
-                'latitude': project.provincia.latitude,
-                'longitude': project.provincia.longitude,
+                'latitude': project.latitude,
+                'longitude': project.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
                 'project_id': project.id
             }
             markers.append(marker)
+
+        # if project.provincia_id:
+        #     marker = {
+        #         'latitude': project.provincia.latitude,
+        #         'longitude': project.provincia.longitude,
+        #         'name': project.name,
+        #         'project_url': f'/project/{project.id}',
+        #         'project_id': project.id
+        #     }
+        #     markers.append(marker)
         # elif project.mainOrganisation:
         #     # Use mainOrganisation if there's no projectCountry
         #     marker = {
@@ -115,15 +126,26 @@ def get_projects(request):
         #             'project_id': project.id
         #         }
         #         markers.append(marker)
-        if project.provincia_id:
+
+        if project.latitude and project.longitude:
             marker = {
-                'latitude': project.provincia.latitude,
-                'longitude': project.provincia.longitude,
+                'latitude': project.latitude,
+                'longitude': project.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
                 'project_id': project.id
             }
             markers_bio.append(marker)
+
+        # if project.provincia_id:
+        #     marker = {
+        #         'latitude': project.provincia.latitude,
+        #         'longitude': project.provincia.longitude,
+        #         'name': project.name,
+        #         'project_url': f'/project/{project.id}',
+        #         'project_id': project.id
+        #     }
+        #     markers_bio.append(marker)
 
     #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
     #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]

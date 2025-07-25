@@ -87,6 +87,8 @@ class Command(BaseCommand):
                     dateUpdated=timezone.make_aware(end_date),
                     localita_id=localita.id,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
+                    longitude=localita.longitude,
+                    latitude=localita.latitude,
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -158,7 +160,14 @@ class Command(BaseCommand):
                 )
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
-                project.provincia.add(provincia)
+                if provincia:
+                    project.provincia.add(provincia)
+                    project.latitude = provincia.latitude
+                    project.longitude = provincia.longitude
+                elif localita:
+                    project.latitude = localita.latitude
+                    project.longitude = localita.longitude
+
                 # project.keywords.add(keyword)
                 row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
                 self.setKeywords(project, row)

@@ -247,6 +247,8 @@ class Project(models.Model):
     totalLikes = models.IntegerField(default=0)
     totalFollowers = models.IntegerField(default=0)
     firstAccess = models.DateTimeField('First access', null=True, blank=True, default=None)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name}'
