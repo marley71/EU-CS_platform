@@ -71,6 +71,18 @@ class Event(models.Model):
         if self.language == 'OT': return  self.language_other
         return self.language  #TODO mettere la traduzione
 
+    @property
+    def place_calc(self):
+        match self.event_type:
+            case "online":
+                return "On-line"
+            case "face-to-face":
+                return self.place
+            case "hybrid":
+                return self.place + " (Ev. ibrido)"
+            case _:
+                return ""
+
     class Meta:
         ordering = ['start_date']
 
