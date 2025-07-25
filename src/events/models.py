@@ -66,6 +66,11 @@ class Event(models.Model):
     organisations = models.ManyToManyField(Organisation, blank=True)
     approved = models.BooleanField(default=False)
 
+    @property
+    def language_calc(self):
+        if self.language == 'OT': return  self.language_other
+        return self.language  #TODO mettere la traduzione
+
     class Meta:
         ordering = ['start_date']
 
