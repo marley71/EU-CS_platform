@@ -50,8 +50,10 @@ class PostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea(), max_length = 3000,
             help_text=_('Please add a brief description of the post.'),
             label=_('Description'))
-    status = forms.ChoiceField(choices=STATUS, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}), help_text=_('Please indicate the language of the event.'), label=_('Language'))
-    sticky = forms.ChoiceField(choices=STICKY, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}), help_text=_('Please indicate the language of the event.'), label=_('Language'))
+    status = forms.ChoiceField(choices=STATUS, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}),
+                               help_text=_('Please indicate the status of the blog.'), label=_('Status'))
+    sticky = forms.ChoiceField(choices=STICKY, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}),
+                               help_text=_('Please indicate if the blog is in original language.'), label=_('Language'))
 
 
     # def __init__(self, *args, **kwargs):

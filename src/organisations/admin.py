@@ -14,6 +14,7 @@ class HelpTextAdmin(TabbedTranslationAdmin):
     pass
 
 class OrganisationAdmin(TabbedTranslationAdmin):
+    exclude = ('location', )
     list_filter = ('orgType',)
     ordering = ('-name',)
     formfield_overrides = {

@@ -24,7 +24,7 @@ class ProjectFormA(forms.ModelForm):
     provincia = forms.ModelMultipleChoiceField(queryset=Provincia.objects.all(), widget=Select2MultipleWidget, required=False)
     stato = forms.ChoiceField(
         choices=STATO_TYPE_CHOICES,
-        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        widget=forms.Select(),
         help_text=_('Please indicate project status'),
         label=_('Status type'),
         required=True

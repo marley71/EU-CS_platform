@@ -39,7 +39,7 @@ def new_blog(request):
     user = request.user
     form = PostForm()
     #text = get_object_or_404(HelpText, slug='new-event')
-    text = "Nuovo evento"
+    text = "Nuova notizia"
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():

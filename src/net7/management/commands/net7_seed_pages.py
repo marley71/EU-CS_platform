@@ -62,3 +62,20 @@ class Command(BaseCommand):
             raise CommandError(f"Il file {about_file} non esiste.")
         except IOError:
             raise CommandError("Errore durante la lettura del file.")
+
+        external_file = os.path.join(basedir, 'resources', 'risorse-esterne.htm')
+
+        try:
+            with open(external_file, 'r') as file:
+                contenuto = file.read()
+                Pages.objects.create(
+                    creator_id=1,
+                    name="External Resources",
+                    slug="external-resources",
+                    content=contenuto,
+                    content_it=contenuto,
+                )
+        except FileNotFoundError:
+            raise CommandError(f"Il file {external_file} non esiste.")
+        except IOError:
+            raise CommandError("Errore durante la lettura del file.")

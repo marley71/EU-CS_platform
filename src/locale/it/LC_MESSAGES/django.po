@@ -1129,6 +1129,26 @@ msgstr ""
 "blog/2021/05/31/june-monthoftheprojects-eu-citizenscience/\"> Ulteriori "
 "informazioni qui!</a>"
 
+
+msgid "Please write the title of the blog."
+msgstr "Perfavore scrivi il titolo della notizia."
+
+msgid "Please insert slug of the blog."
+msgstr "Perfavore scrivi la chiave da utilizzare per linkare la notizia."
+
+msgid "Please add a brief description of the post."
+msgstr "Perfavore scrivi una breve descrizione della notizia."
+
+msgid "Please insert excerpt of the blog."
+msgstr "Per favore, inserisci un estratto della notizia."
+
+msgid "Please indicate if the blog is in original language."
+msgstr "Per favore, indica se la notizia è in lingua originale"
+
+msgid "Please indicate the status of the blog."
+msgstr "Per favore, indica lo stato della notizia."
+
+
 #: projects/forms.py:428
 msgid "Please provide a <i>description</i> field translation."
 msgstr "Fornisci una traduzione del campo <i>descrizione</i>."
@@ -1156,7 +1176,10 @@ msgstr "In evidenza"
 
 #: projects/templates/_finder_projects.html:25
 msgid "Status"
-msgstr "Status"
+msgstr "Stato"
+
+msgid "Excerpt"
+msgstr "Sunto"
 
 #: projects/templates/_finder_projects.html:34
 msgid "Tag"
