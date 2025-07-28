@@ -6,6 +6,11 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from django.template.response import TemplateResponse
+from PIL import Image
+from django.utils import formats
+from datetime import datetime, timezone
+import random
+
 
 class PostList(generic.ListView):
     def get_context_data(self, **kwargs):
@@ -43,7 +48,8 @@ def new_blog(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save(request)
+            images = setImages(request, form)
+            form.save(request, images)
             return redirect('/blog')
         else:
             print(form.errors)
@@ -52,3 +58,65 @@ def new_blog(request):
         'user': user,
         'text': text,
         'user_agent': settings.USER_AGENT})
+
+
+def setImages(request, form):
+    #print('setImages')
+    images = []
+    image_path = saveImage(request, form, 'image')
+    images.append(image_path)
+    return images
+
+
+def saveImage(request, form, element):
+    image_path = ''
+    filepath = request.FILES.get(element, False)
+    withImage = form.cleaned_data.get('withImage')
+    #print('ref ' + ref + 'withImage' + ref + ' withImage ' + str(withImage)  + ' filepath ' + str(filepath))
+    if (filepath):
+        x = form.cleaned_data.get('x') if form.cleaned_data.get('x') else 0
+        y = form.cleaned_data.get('y') if form.cleaned_data.get('y') else 0
+        w = form.cleaned_data.get('width') if form.cleaned_data.get('width') else 600
+        h = form.cleaned_data.get('height') if form.cleaned_data.get('height') else 400
+        #print(element)
+        photo = request.FILES[element]
+        image = Image.open(photo)
+        cropped_image = image.crop((x, y, w+x, h+y))
+        finalSize = (600, 400)
+        resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
+
+        if (cropped_image.width > image.width):
+            size = (abs(int(
+                (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
+            whitebackground = Image.new(
+                mode='RGBA', size=size, color=(255, 255, 255, 0))
+            position = ((finalSize[0] - whitebackground.width), 0)
+            resized_image.paste(whitebackground, position)
+            position = (0, 0)
+            resized_image.paste(whitebackground, position)
+        if (cropped_image.height > image.height):
+            size = (finalSize[0], abs(
+                int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
+            whitebackground = Image.new(
+                mode='RGBA', size=size, color=(255, 255, 255, 0))
+            position = (0, (finalSize[1] - whitebackground.height))
+            resized_image.paste(whitebackground, position)
+            position = (0, 0)
+            resized_image.paste(whitebackground, position)
+
+        image_path = saveImageWithPath(resized_image, photo.name)
+    elif withImage:
+        image_path = '/'
+    else:
+        image_path = ''
+
+    return image_path
+
+
+def saveImageWithPath(image, photoName):
+    _datetime = formats.date_format(datetime.now(), 'Y-m-d_hhmmss')
+    random_num = random.randint(0, 1000)
+    image_path = "images/" + _datetime + \
+        '_' + str(random_num) + '_' + photoName
+    image.save("media/"+image_path)
+    return image_path

@@ -55,6 +55,16 @@
                                 {{ form.url|as_crispy_field }}
                                 {{ form.description|as_crispy_field }}
                                 {{ form.language|as_crispy_field }}
+
+                                <div id="div_id_language_other" class="form-group {% if form.language.value != 'OT' %}d-none {% endif %}">
+                                    <label for="id_language_other" class="control-label  requiredField">
+                                        Altra Lingua<span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="controls ">
+                                        <input type="text" class="form-control form-control valid" name="language_other" id="id_language_other" maxlength="255" value="{{ form.language_other.value }}">
+                                        <div id="hint_id_language_other" class="help-block">Specificare la lingua</div>
+                                    </div>
+                                </div>
                                 {{ form.start_date|as_crispy_field }}
                                 {{ form.end_date|as_crispy_field }}
                                 <div class="row">
@@ -69,7 +79,7 @@
                                 {{ form.event_type|as_crispy_field }}
 
                                 <div id="show-map" class="row mb-3">
-                                  <h4 class="leftborder mt-3">{% trans "Event location" %}</h4>  
+                                  <h4 class="leftborder mt-3">{% trans "Event location" %}</h4>
                                   <p style="font-size:12px">{% trans "This is a required parameter" %}<sup>*</sup> <br>
                                     <div class="row" id="map-container">
                                       {% leaflet_map "map" callback="window.map_init_basic" %}
@@ -123,15 +133,18 @@
     timezone.value = tz.name(); // Preselect the user's time zone in the dropdown
     
     $('#show-map').hide(); // Hide the map by default
+$('#div_id_place').hide();
 
     $('#id_event_type').change(function() {
     var eventType = $(this).val(); 
     if (eventType === 'face-to-face' || eventType === 'hybrid') {
-        $('#show-map').show();
+        //$('#show-map').show();
+        $('#div_id_place').show();
         document.getElementById('id_place').value = "";
-        map.invalidateSize();
+        //map.invalidateSize();
       } else {
-        $('#show-map').hide();
+        //$('#show-map').hide();
+         $('#div_id_place').hide();
         document.getElementById('id_place').value = "On-line";
       }
     });
@@ -305,6 +318,14 @@
 
     //debugger;
     return true;
+}
+function languageChange(value) {
+      if (value === 'OT') {
+          $('#div_id_language_other').removeClass('d-none');
+      } else {
+          $('#div_id_language_other').addClass('d-none');
+      }
+      //alert(value);
 }
 </script>
 

@@ -1165,6 +1165,11 @@ msgstr "Fornisci una traduzione del campo <i>come partecipare</i>."
 msgid "Please provide a <i>translated equipment</i> field translation."
 msgstr "Fornisci una traduzione del campo <i>attrezzatura tradotta</i>."
 
+#: blog/forms.py
+msgid "Please write the data of the blog."
+msgstr "Scrivi la data della notizia"
+
+
 #: projects/forms.py:450 projects/templates/project.html:81
 #: projects/templates/project.html:102
 msgid "Needed equipment"

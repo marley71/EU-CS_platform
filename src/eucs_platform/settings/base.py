@@ -227,6 +227,14 @@ DATABASES = {
 
 LANGUAGE_CODE = "en"
 
+FORMS_LANGUAGES = (
+    ('EN', 'Inglese'),
+    ('FR', 'Francese'),
+    ('DE', 'Tedesco'),
+    ('IT', 'Italiano'),
+    ('OT', 'Altro'),
+)
+
 TRANSLATED_LANGUAGES = (
     ('nl', 'Dutch'),
     ('en', 'English'),
@@ -241,6 +249,15 @@ TRANSLATED_LANGUAGES = (
     ('es', 'Spanish'),
     ('sv', 'Swedish'),
 )
+
+TRANSLATED_LANGUAGES_KEY = {
+    'it' : 'Italiano',
+    'en' : 'Inglese',
+    'fr' : 'Francese',
+    'de' : 'Tedesco',
+}
+
+
 LANGUAGE_CODES = [
     'fr',
     'en',

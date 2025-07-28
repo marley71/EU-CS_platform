@@ -8,6 +8,7 @@ from projects.models import Project
 from django_select2 import forms as s2forms
 import pytz
 
+from django.conf import settings
 
 EVENT_TYPE_CHOICES = [
     ('online', 'On-line'),
@@ -25,7 +26,10 @@ class EventForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea(), max_length = 3000,
             help_text=_('Descrizione Evento'),
             label=_('Description'))
-    place = forms.CharField(max_length=200,widget=forms.HiddenInput(),required=False,
+    # place = forms.CharField(max_length=200,widget=forms.HiddenInput(),required=False,
+    #         help_text=_('Evento Online o Presenza'),
+    #         label=_('Place'))
+    place = forms.CharField(max_length=200,widget=forms.TextInput(),required=False,
             help_text=_('Evento Online o Presenza'),
             label=_('Place'))
     country = forms.CharField(max_length=50,widget=forms.HiddenInput(),required=False)
@@ -34,28 +38,16 @@ class EventForm(forms.Form):
     end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),
             help_text=_('Data Evento'),
             label=_('End date'))
-    hour = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=False,
+    hour = forms.TimeField(widget=forms.TextInput(attrs={'type': 'time'}), required=True,
             help_text=_('Orario Evento'),
             label=_('Hour'))
     timezone = forms.ChoiceField(choices=[(tz, tz) for tz in pytz.all_timezones], required=False,
                                  widget=forms.Select(attrs={'class' : 'form-control'}),
                                  label=_('Timezone'))
-    language = forms.ChoiceField(choices=[
-        #('NL', 'Dutch'),
-        ('EN', 'Inglese'),
-        #('ET', 'Estonian'),
-        ('FR', 'Francese'),
-        ('DE', 'Tedesco'),
-        #('EL', 'Greek'),
-        #('HU', 'Hungarian'),
-        ('IT', 'Italiano'),
-        #('LT', 'Lituanian'),
-        #('PT', 'Portuguese'),
-        #('ES', 'Spanish'),
-        #('SV', 'Swedish'),
-        #('OT', 'Other'),
-    ], initial='EN', widget=forms.Select(attrs={'class' : 'form-control'}), help_text=_('Please indicate the language of the event.'), label=_('Language'))   
-    url = forms.CharField(max_length=200, label=_('URL'),widget=forms.TextInput(),required=False,
+    language = forms.ChoiceField(choices= settings.FORMS_LANGUAGES, initial='EN', widget=forms.Select(attrs={'class' : 'form-control'}),
+        help_text=_('Please indicate the language of the event.'), label=_('Language'))
+    language_other = forms.CharField(max_length=200,required=False,)
+    url = forms.CharField(max_length=200, label=_('URL'),widget=forms.TextInput(),required=True,
             help_text=_('Url Evento'))
     latitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     longitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
@@ -103,6 +95,15 @@ class EventForm(forms.Form):
         label=_("Other Organisations"),
         required=False)
 
+    def clean(self):
+        cleaned_data = super().clean()
+        field0_value = cleaned_data.get('language')
+        field1_value = cleaned_data.get('language_other')
+        #print('field0_value', field0_value)
+        # Se field0 è 'OT', allora field1 deve essere valorizzato
+        if field0_value == 'OT' and not field1_value:
+            self.add_error('language_other', 'Il campo lingua altro deve essere valorizzato quando la lingua  è Altro.')
+
     def __init__(self, *args, **kwargs):
         instance = kwargs.get('instance')
         if instance:
@@ -110,6 +111,9 @@ class EventForm(forms.Form):
                 kwargs['initial'] = kwargs.get('initial', {})
                 kwargs['initial']['event_type'] = event_type
         super().__init__(*args, **kwargs)
+        self.fields['language'].widget.attrs.update({
+            'onchange': 'languageChange(this.value)'
+        })
     
     def save(self, args):
         pk = self.data.get('eventID', '')

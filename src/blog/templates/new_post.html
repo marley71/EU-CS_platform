@@ -53,14 +53,34 @@
                             <div class="col-11">
 
                                 {{ form.title|as_crispy_field }}
-                                {{ form.slug|as_crispy_field }}
+                                {{ form.data|as_crispy_field }}
+{#                                {{ form.slug|as_crispy_field }}#}
                                 {{ form.content|as_crispy_field }}
-                                {{ form.excerpt|as_crispy_field }}
+{#                                {{ form.excerpt|as_crispy_field }}#}
+{#                                {{ form.data|as_crispy_field }}#}
                                 {% comment %}{{ form.created_on|as_crispy_field }}{% endcomment %}
 
-                                {{ form.sticky|as_crispy_field }}
+{#                                {{ form.sticky|as_crispy_field }}#}
                                 {{ form.status|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-11">
 
+
+
+
+                                <img class="img-fluid img-zoom"
+                                id="imageResult"
+                                src="{% thumbnail project.image|default:'default_blog.png' 600x400 %}">
+                                {{ form.image|as_crispy_field }}
+                                {{ form.x|as_crispy_field }}
+                                {{ form.y|as_crispy_field }}
+                                {{ form.height|as_crispy_field }}
+                                {{ form.width|as_crispy_field }}
+                                {{ form.withImage|as_crispy_field }}
+                                <div class="mb-5"></div>
                             </div>
                         </div>
                         <div class="row">

@@ -27,33 +27,47 @@ class PostForm(forms.Form):
         (1, "Yes")
     )
 
-    image = models.ImageField(max_length=200, default='default_blog.png')
-    created_on = models.DateTimeField()
+    image = forms.ImageField(
+        required=False,
+        label=_("Image for the thumbnail profile"),
+        help_text=_('It will be resized to 600x400 pixels'),
+        widget=forms.FileInput)
 
+    x = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    withImage = forms.BooleanField(
+        widget=forms.HiddenInput(), required=False, initial=False)
+
+    created_on = models.DateTimeField()
     title = forms.CharField(
             max_length=200,
             widget=forms.TextInput(),
             help_text=_('Please write the title of the blog.'),
             label=_('Title'))
-
-    slug = forms.CharField(
-        max_length=200,
-        widget=forms.TextInput(),
-        help_text=_('Please insert slug of the blog.'),
-        label=_('Slug'))
-    excerpt = forms.CharField(
-        max_length=200,
-        widget=forms.TextInput(),
-        help_text=_('Please insert excerpt of the blog.'),
-        label=_('Excerpt'))
+    data = forms.DateField(
+        widget=forms.TextInput(attrs={'type': 'date'}),
+        required=True,
+        label=_("Please write the data of the blog."))
+    # slug = forms.CharField(
+    #     max_length=200,
+    #     widget=forms.TextInput(),
+    #     help_text=_('Please insert slug of the blog.'),
+    #     label=_('Slug'))
+    # excerpt = forms.CharField(
+    #     max_length=200,
+    #     widget=forms.TextInput(),
+    #     help_text=_('Please insert excerpt of the blog.'),
+    #     label=_('Excerpt'))
     # author e updated_on
     content = forms.CharField(widget=forms.Textarea(), max_length = 3000,
             help_text=_('Please add a brief description of the post.'),
             label=_('Description'))
     status = forms.ChoiceField(choices=STATUS, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}),
                                help_text=_('Please indicate the status of the blog.'), label=_('Status'))
-    sticky = forms.ChoiceField(choices=STICKY, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}),
-                               help_text=_('Please indicate if the blog is in original language.'), label=_('Language'))
+    # sticky = forms.ChoiceField(choices=STICKY, initial=0, widget=forms.Select(attrs={'class' : 'form-control'}),
+    #                            help_text=_('Please indicate if the blog is in original language.'), label=_('Language'))
 
 
     # def __init__(self, *args, **kwargs):
@@ -64,8 +78,9 @@ class PostForm(forms.Form):
     #             kwargs['initial']['event_type'] = event_type
     #     super().__init__(*args, **kwargs)
     
-    def save(self, args):
+    def save(self, args,images):
         pk = self.data.get('blogID', '')
+        print('data',self.data['data'])
         # hour = self.data['hour']
         # if hour == '':
         #     hour = None
@@ -73,11 +88,11 @@ class PostForm(forms.Form):
             post = get_object_or_404(Post, id=pk)
             post.title = self.data['title']
             post.content = self.data['content']
-            post.slug = self.data['slug']
+            #post.slug = self.data['slug']
             #post.created_on = self.data['created_on']
             post.status = self.data['status']
-            post.excerpt=self.data['excerpt']
-            post.sticky=self.data['sticky']
+            #post.excerpt=self.data['excerpt']
+            #post.sticky=self.data['sticky']
             post.author=args.user
         else:
             #date_object = datetime.strptime(datetime.now(), "%Y-%m-%d %H:%M:%S")
@@ -86,11 +101,14 @@ class PostForm(forms.Form):
             post = Post(
                 title=self.data['title'],
                 content=self.data['content'],
-                slug=self.data['slug'],
+                #slug=self.data['slug'],
                 created_on=created_on,
                 status=self.data['status'],
-                excerpt=self.data['excerpt'],
-                sticky=self.data['sticky'],
+                #excerpt=self.data['excerpt'],
+                #sticky=self.data['sticky'],
                 author=args.user
             )
+        if (images[0] != '/'):
+            post.image = images[0]
+        post.slug = self.data['title'].replace(' ', '-') + '-' + self.data['data']
         post.save()

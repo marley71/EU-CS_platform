@@ -51,8 +51,9 @@ class ProjectForm(forms.Form):
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please provide a description of your project here (max 3000 characters).'),
                 label=lang_code,
-                required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE
+                required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE,
             )
+
             self.fields[f'aim_{lang_code}'] = forms.CharField(
                 max_length=3000,
                 widget=CKEditorWidget(config_name='frontpage'),

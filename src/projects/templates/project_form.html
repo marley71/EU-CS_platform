@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 {% load leaflet_tags %}
 {% load thumbnail %}
+{% load project_tags %}
 
 {% block head %}
 {{block.super }}
@@ -63,7 +64,7 @@
                                 <ul class="nav nav-tabs" id="languageDescriptionTabs" role="tablist">
                                   {% for field in form.get_description_fields %}
                                     <li class="nav-item">
-                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="description_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#description-{{ field.label }}" type="button" role="tab" aria-controls="description-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
+                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="description_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#description-{{ field.label }}" type="button" role="tab" aria-controls="description-{{ field.label }}" aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
                                     </li>
                                   {% endfor %}
                                   </ul>
@@ -82,7 +83,7 @@
                                 <ul class="nav nav-tabs" id="languageAimTabs" role="tablist">
                                   {% for field in form.get_aim_fields %}
                                     <li class="nav-item">
-                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="aim_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#aim-{{ field.label }}" type="button" role="tab" aria-controls="aim-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
+                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="aim_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#aim-{{ field.label }}" type="button" role="tab" aria-controls="aim-{{ field.label }}" aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
                                     </li>
                                   {% endfor %}
                                   </ul>
@@ -124,7 +125,7 @@
                                     {% for field in form.get_how_to_participate_fields %}
                                       <li class="nav-item">
                                         <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="how-to-participate-{{ field.label }}-tab"
-                                        data-bs-toggle="tab" data-bs-target="#how-to-participate-{{ field.label }}" type="button" role="tab" aria-controls="how-to-participate-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
+                                        data-bs-toggle="tab" data-bs-target="#how-to-participate-{{ field.label }}" type="button" role="tab" aria-controls="how-to-participate-{{ field.label }}" aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
                                       </li>
                                     {% endfor %}
                                     </ul>
@@ -140,7 +141,7 @@
                                       {% for field in form.get_equipment_fields %}
                                         <li class="nav-item">
                                           <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="equipment-{{ field.label }}-tab"
-                                          data-bs-toggle="tab" data-bs-target="#equipment-{{ field.label }}" type="button" role="tab" aria-controls="equipment-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
+                                          data-bs-toggle="tab" data-bs-target="#equipment-{{ field.label }}" type="button" role="tab" aria-controls="equipment-{{ field.label }}" aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
                                         </li>
                                       {% endfor %}
                                       </ul>
