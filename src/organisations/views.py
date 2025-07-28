@@ -28,6 +28,8 @@ from .forms import OrganisationForm, OrganisationPermissionForm
 from .models import HelpText, Organisation, OrganisationPermission, OrganisationType
 from localita.models import Localita
 
+from events.models import Event
+
 User = get_user_model()
 
 
@@ -146,6 +148,7 @@ def saveImage(request, form, element, ref):
 def organisation(request, pk):
     organisation = get_object_or_404(Organisation, id=pk)
     user = request.user
+    events = getEvents(pk)
     cooperatorsPK = getCooperators(pk)
     if user != organisation.creator and not user.is_staff and not (user.id in cooperatorsPK):
         editable = False
@@ -174,6 +177,7 @@ def organisation(request, pk):
         'members': members,
         'permissionForm': permissionForm,
         'editable': editable,
+        'events': events,
         'isSearchPage': True})
 
 
@@ -509,3 +513,8 @@ def setFilters(request, filters):
     if request.GET.get('localita_id'):
         filters['localita_id'] = request.GET.getlist('localita_id')
     return filters
+
+def getEvents(orgID):
+    events = list(Event.objects.all().filter(
+        mainOrganisation_id=orgID))
+    return events

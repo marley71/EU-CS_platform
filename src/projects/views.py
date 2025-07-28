@@ -39,7 +39,7 @@ from rest_framework import status
 from resources.models import Resource
 from platforms.models import Platform
 from profiles.models import Profile
-
+from events.models import Event
 
 from resources.views import applyFilters as applyFiltersResources
 
@@ -477,6 +477,7 @@ def project(request, pk):
     project = get_object_or_404(Project, id=pk)
     users = getOtherUsers(project.creator)
     cooperators = getCooperators(pk)
+    events = getEvents(pk)
     project.totalAccesses += 1
 
     if user.is_authenticated:
@@ -557,6 +558,7 @@ def project(request, pk):
         'unApprovedProjects': unApprovedProjects,
         'permissionForm': permissionForm,
         'cooperators': getCooperators(pk),
+        'events': events,
         'hasPermissionToEdit': hasPermissionToEdit,
         'form': form,
         'status': status,
@@ -652,6 +654,10 @@ def getOtherUsers(creator):
         id=creator.id).values_list('name', 'email'))
     return users
 
+def getEvents(projectID):
+    events = list(Event.objects.all().filter(
+        project_id=projectID))
+    return events
 
 def getCooperators(projectID):
     users = list(ProjectPermission.objects.all().filter(

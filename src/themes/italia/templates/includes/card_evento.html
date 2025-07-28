@@ -85,6 +85,13 @@
                                 </div>
                                 <div class="modal-body">
                                     {{ event.description | safe }}
+                                    {% if event.mainOrganisation %}
+                                        <hr/>
+                                        <div class="badge rounded-pill badge-card-main">
+                                            {{ event.mainOrganisation }}
+                                        </div>
+                                    {% endif %}
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -105,11 +112,11 @@
                     </div>
                 {% endif %}
 
-                {% if event.mainOrganisation %}
-                    <div class="badge rounded-pill badge-card-main">
-                        {{ event.mainOrganisation }}
-                    </div>
-                {% endif %}
+{#                {% if event.mainOrganisation %}#}
+{#                    <div class="badge rounded-pill badge-card-main">#}
+{#                        {{ event.mainOrganisation }}#}
+{#                    </div>#}
+{#                {% endif %}#}
             </div>
 
             <div class="d-flex flex-column">

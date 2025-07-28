@@ -277,6 +277,10 @@ msgstr "Eventi</span> in corso <span class='lightBlue-color'>"
 msgid "Upcoming <span class='lightBlue-color'>events</span>"
 msgstr "Prossimi <span class='lightBlue-color'>eventi</span>"
 
+#: events/templates/events.html:24
+msgid "Related <span class='lightBlue-color'>events</span>"
+msgstr "<span class='lightBlue-color'>Eventi</span> correlati"
+
 #: events/templates/events.html:36
 msgid "Past <span class='lightBlue-color'>events</span>"
 msgstr "<span class='lightBlue-color'>Eventi</span> passati"
