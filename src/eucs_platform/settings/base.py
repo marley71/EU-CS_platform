@@ -258,6 +258,19 @@ TRANSLATED_LANGUAGES_KEY = {
 }
 
 
+TIPO_PUBBLICO = (
+    ('ricercatori' , "Ricercatori"),
+    ('pubblico_generico' , "Pubblico Generico"),
+    ('appassionati' , "Appassionati"),
+    ('scuole' , "Scuole") ,
+    ('altro' , "Altro (specificare)"),
+)
+
+TIPO_PROGETTO = (
+    ('attivita' , "Attività"),
+    ('progetto' , "Progetto"),
+)
+
 LANGUAGE_CODES = [
     'fr',
     'en',

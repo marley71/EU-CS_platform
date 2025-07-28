@@ -43,5 +43,5 @@ def item_type(item):
 
 @register.filter
 def lang_label(d, key):
-    print('lang_label', d, key)
+    #print('lang_label', d, key)
     return d.get(key)
