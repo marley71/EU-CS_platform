@@ -29,22 +29,24 @@
                     Crea il profilo di una organizzazione<br/>
                     <hr>
                 </div>
-                <div class="mt-4 mb-4">
-                    <h5><a href="/new_event" class="my-link">
-                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
-                        </svg>
-                        Evento</a></h5>
-                    Crea un Evento<br/>
-                </div>
-                <div class="mt-4 mb-4">
-                    <h5><a href="/new_blog" class="my-link">
-                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
-                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
-                        </svg>
-                        Notizia</a></h5>
-                    Crea un articolo per la sezione Notizie<br/>
-                </div>
+                {% if user.is_staff %}
+                    <div class="mt-4 mb-4">
+                        <h5><a href="/new_event" class="my-link">
+                            <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
+                            </svg>
+                            Evento</a></h5>
+                        Crea un Evento<br/>
+                    </div>
+                {% endif %}
+                {#                <div class="mt-4 mb-4">#}
+                {#                    <h5><a href="/new_blog" class="my-link">#}
+                {#                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">#}
+                {#                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>#}
+                {#                        </svg>#}
+                {#                        Notizia</a></h5>#}
+                {#                    Crea un articolo per la sezione Notizie<br/>#}
+                {#                </div>#}
             </div>
         </div>
     </div>
