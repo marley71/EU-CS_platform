@@ -249,6 +249,11 @@ class Project(models.Model):
     firstAccess = models.DateTimeField('First access', null=True, blank=True, default=None)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    type = models.CharField(max_length=30, null=True, blank=True)   #type = progetto,attivita
+    inaturalist = models.CharField(max_length=255, null=True, blank=True)
+    risultati = models.CharField(max_length=255, null=True, blank=True)
+    tipo_pubblico = models.CharField(max_length=255, null=True, blank=True)
+    tipo_pubblico_altro = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name}'

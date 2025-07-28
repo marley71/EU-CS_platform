@@ -869,11 +869,8 @@ msgid ""
 "will not appear on the platform; it is just for moderation purposes (max "
 "2000 characters)."
 msgstr ""
-"Si prega di descrivere l'aspetto o gli aspetti di Citizen science del "
-"progetto e il collegamento del progetto a SAcitizen science utilizzando i <a "
-"href=\"https://zenodo.org/cohttps://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
-">10 Principi di Citizen Science di ECSA </a> e i <a href=\"https://osf.io/"
-"xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Quello che introduci in "
+"Si prega di descrivere l'aspetto o gli aspetti di Citizen Science del "
+"progetto/dell'attività e il loro collegamento con i criteri di moderazione. Il testo scritto in "
 "questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
 "moderazione (max 2000 caratteri)."
 
@@ -1168,6 +1165,32 @@ msgstr "Fornisci una traduzione del campo <i>attrezzatura tradotta</i>."
 #: blog/forms.py
 msgid "Please write the data of the blog."
 msgstr "Scrivi la data della notizia"
+
+#: project/forms.py
+msgid "Please provide the type of the project."
+msgstr "Perfavore seleziona il tipo progetto"
+
+msgid "Project-type"
+msgstr "Tipo progetto"
+
+msgid "Please provide the link of inaturalist data. Left blank if no data in inaturalist."
+msgstr "Perfavore scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto"
+
+msgid "Inaturalist data"
+msgstr "Dati iNaturalist"
+
+
+msgid "Please provide the link to project result."
+msgstr "Perfavore scrivi il link ai risultati per questo progetto"
+
+msgid "Project-result"
+msgstr "Risultati"
+
+msgid "Please indicate project audience type"
+msgstr "Tipo di pubblico del progetto"
+
+msgid "Audience type"
+msgstr "Tipo di pubblico"
 
 
 #: projects/forms.py:450 projects/templates/project.html:81

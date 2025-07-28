@@ -51,14 +51,17 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
+                            {{ form.type|as_crispy_field }}
                               {{ form.project_name|as_crispy_field }}
                               {{ form.url|as_crispy_field }}
+                            {{ form.inaturalist|as_crispy_field }}
                               {{ form.status|as_crispy_field }}
-                              {{ form.keywords|as_crispy_field }}
+                            {{ form.risultati|as_crispy_field }}
+{#                              {{ form.keywords|as_crispy_field }}#}
 
                             {{ form.provincia|as_crispy_field }}
-                            {{ form.stato|as_crispy_field }}
-                                <label class="control-label">{% trans "Description" %}</label>
+
+                            <label class="control-label">{% trans "Description" %}</label>
                                 {{ form.description.label_tag}}
                                 <!-- Project description -->
                                 <ul class="nav nav-tabs" id="languageDescriptionTabs" role="tablist">
@@ -76,8 +79,7 @@
                                     {% endfor %}
                                   </div>
 
-
-                                <label class="control-label">{% trans "Aim" %}</label>
+                                                            <label class="control-label">{% trans "Aim" %}</label>
                                 <!-- Project Aim -->
                                 {{ form.aim.label_tag}}
                                 <ul class="nav nav-tabs" id="languageAimTabs" role="tablist">
@@ -109,6 +111,17 @@
                                 {{ form.end_date|as_crispy_field }}
                                 {{ form.topic|as_crispy_field }}
                                 {{ form.hasTag |as_crispy_field }}
+                                {{ form.tipo_pubblico|as_crispy_field }}
+                                <div id="div_id_tipo_pubblico_altro" class="form-group {% if form.tipo_pubblico_altro.value != 'altro' %}d-none {% endif %}">
+                                    <label for="id_tipo_pubblico_altro class="control-label  requiredField">
+                                        Altro pubblico<span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="controls ">
+                                        <input type="text" class="form-control form-control valid" name="tipo_pubblico_altro" id="id_tipo_pubblico_altro" maxlength="255" value="{{ form.tipo_pubblico_altro.value }}">
+                                        <div id="hint_id_tipo_pubblico_altro" class="help-block">Specificare il tipo di pubblico</div>
+                                    </div>
+                                </div>
+                                {{ form.stato|as_crispy_field }}
                                 {% include "_save_zone.html" %}
                             </div>
                         </div>
@@ -491,6 +504,15 @@ $(window).on('popstate', function() {
 
 }
     });
+
+  function tipo_pubblicoChange(value) {
+      if (value === 'altro') {
+          $('#div_id_tipo_pubblico_altro').removeClass('d-none');
+      } else {
+          $('#div_id_tipo_pubblico_altro').addClass('d-none');
+      }
+      //alert(value);
+}
 </script>
 
 {% endblock scripts %}

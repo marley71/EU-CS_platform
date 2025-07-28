@@ -20,24 +20,6 @@
     {
         "model": "projects.status",
         "fields": {
-            "status_code": "periodically_active",
-            "status": "Periodically active",
-            "status_it": "Periodicamente attivo"
-
-        }
-    },
-    {
-        "model": "projects.status",
-        "fields": {
-            "status_code": "on_hold",
-            "status": "On hold",
-            "status_it": "In sospeso"
-
-        }
-    },
-    {
-        "model": "projects.status",
-        "fields": {
             "status_code": "completed",
             "status": "Completed",
             "status_it": "Completato"
@@ -50,14 +32,6 @@
             "status_code": "abandoned",
             "status": "Abandoned",
             "status_it": "Abbandonato"
-        }
-    },
-    {
-        "model": "projects.status",
-        "fields": {
-            "status_code": "published",
-            "status": "Published",
-            "status_it": "Pubblicato"
         }
     }
 ]

@@ -75,7 +75,11 @@ class ProjectForm(forms.Form):
                 label=lang_code,
                 required=False,
             )
-            
+        self.fields['tipo_pubblico'].widget.attrs.update({
+            'onchange': 'tipo_pubblicoChange(this.value)'
+        })
+
+
     # return all fields from project_name_en, project_name_es, etc.
     def get_description_fields(self):
         for field_name in self.fields:
@@ -92,7 +96,42 @@ class ProjectForm(forms.Form):
     def get_equipment_fields(self):
         for field_name in self.fields:
             return [self[field_name] for field_name in self.fields if field_name.startswith('equipment_')]
-        
+
+
+    type = forms.ChoiceField(
+        choices=settings.TIPO_PROGETTO,
+        initial='attivita',
+        label=_('Project-type'),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please provide the type of the project.'))
+
+    inaturalist = forms.CharField(
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(),
+        help_text=_('Please provide the link of inaturalist data. Left blank if no data in inaturalist.'),
+        label=_('Inaturalist data'),)
+    risultati = forms.CharField(
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(),
+        help_text=_('Please provide the link to project result.'),
+        label=_('Project-result'),)
+    tipo_pubblico = forms.ChoiceField(
+        choices=settings.TIPO_PUBBLICO,
+        initial='ricercatori',
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please indicate project audience type'),
+        label=_('Audience type'),
+        required=True
+    )
+    tipo_pubblico_altro = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(),
+        help_text=_('Please provide the name of the project.'),
+        label=_('Project-name'))
+
+
     project_name = forms.CharField(
         max_length=200,
         widget=forms.TextInput(),
@@ -158,7 +197,7 @@ class ProjectForm(forms.Form):
             attrs={
                 #'data-url': '/path/to/your/tag-search-url/',
                 'data-token-separators': '[","]'}),
-        required=True,
+        required=False,
         help_text=_(
             'Please select or enter 2-3 keywords separated by commas or by pressing enter.'),
         label=_('Keywords'))
@@ -455,6 +494,12 @@ class ProjectForm(forms.Form):
                 project.dateUpdated = timezone.now()
             else:
                 project.dateUpdated = project.dateUpdated
+        project.tipo_pubblico = self.data['tipo_pubblico']
+        project.tipo_pubblico_altro = self.data['tipo_pubblico_altro']
+        project.stato = self.data['stato']
+        project.type = self.data['type']
+        project.risultati = self.data['risultati']
+        project.inaturalist = self.data['inaturalist']
 
         provinciaId = next(iter(self.data.getlist('provincia')), None)
         #print('PROVINCIAID', provinciaId)
@@ -517,7 +562,9 @@ class ProjectForm(forms.Form):
             logoCredit = self.data['logo_credit'],
             fundingProgram=self.data['funding_program'],
             participatingInaContest=participatingInaContest,
-            projectGeographicLocation=projectGeographicLocation)
+            projectGeographicLocation=projectGeographicLocation,
+            tipo_pubblico_altro=self.data['tipo_pubblico_altro'],
+        )
 
     def updateFields(
             self, project, status, difficultyLevel,
