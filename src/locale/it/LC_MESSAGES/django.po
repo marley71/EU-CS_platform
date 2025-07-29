@@ -295,7 +295,7 @@ msgstr "Nuovo evento"
 
 #: organisations/forms.py:14
 msgid "Please write the name of the organisation."
-msgstr "Per favore, scrivi il nome dell'organizzazione."
+msgstr "Scrivi il nome dell'organizzazione."
 
 #: organisations/forms.py:16 resources/forms.py:22
 msgid "Name"
@@ -834,7 +834,7 @@ msgstr "Titolo"
 
 
 msgid "Please, select provincia of your project."
-msgstr "Perfavore, inserisci la provincia del progetto"
+msgstr "Inserisci la provincia del progetto"
 
 #: projects/forms.py:39
 msgid "Please provide the URL to an external website of the project."
@@ -898,7 +898,7 @@ msgstr "Stato dell'attività"
 
 #: projects/forms.py:68
 msgid "Please, select the status of your project."
-msgstr "Per favore, seleziona lo stato del tuo progetto."
+msgstr "Seleziona lo stato del tuo progetto."
 
 #: projects/forms.py:77
 msgid ""
@@ -1132,22 +1132,22 @@ msgstr ""
 
 
 msgid "Please write the title of the blog."
-msgstr "Perfavore scrivi il titolo della notizia."
+msgstr "Scrivi il titolo della notizia."
 
 msgid "Please insert slug of the blog."
-msgstr "Perfavore scrivi la chiave da utilizzare per linkare la notizia."
+msgstr "Scrivi la chiave da utilizzare per linkare la notizia."
 
 msgid "Please add a brief description of the post."
-msgstr "Perfavore scrivi una breve descrizione della notizia."
+msgstr "Scrivi una breve descrizione della notizia."
 
 msgid "Please insert excerpt of the blog."
-msgstr "Per favore, inserisci un estratto della notizia."
+msgstr "Inserisci un estratto della notizia."
 
 msgid "Please indicate if the blog is in original language."
-msgstr "Per favore, indica se la notizia è in lingua originale"
+msgstr "Indica se la notizia è in lingua originale"
 
 msgid "Please indicate the status of the blog."
-msgstr "Per favore, indica lo stato della notizia."
+msgstr "Indica lo stato della notizia."
 
 
 #: projects/forms.py:428
@@ -1172,20 +1172,20 @@ msgstr "Scrivi la data della notizia"
 
 #: project/forms.py
 msgid "Please provide the type of the project."
-msgstr "Perfavore seleziona il tipo progetto"
+msgstr "Seleziona il tipo progetto"
 
 msgid "Project-type"
 msgstr "Tipo progetto"
 
 msgid "Please provide the link of inaturalist data. Left blank if no data in inaturalist."
-msgstr "Perfavore scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto"
+msgstr "Scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto"
 
 msgid "Inaturalist data"
 msgstr "Dati iNaturalist"
 
 
 msgid "Please provide the link to project result."
-msgstr "Perfavore scrivi il link ai risultati per questo progetto"
+msgstr "Scrivi il link ai risultati per questo progetto"
 
 msgid "Project-result"
 msgstr "Risultati"
@@ -1333,7 +1333,7 @@ msgstr ""
 
 #: projects/templates/_intro_form_project.html:30
 msgid "Please, have a look to the moderation process,"
-msgstr "Per favore, dai un'occhiata al processo di moderazione,"
+msgstr "Si prega di controllare il processo di moderazione,"
 
 #: projects/templates/_intro_form_project.html:32
 msgid ""
@@ -2516,7 +2516,7 @@ msgid ""
 msgstr ""
 "Hai notato che manca qualcosa? Puoi aggiungere i tuoi profili tramite il "
 "pulsante <i>Nuovo invio</i> nel menu in alto. Hai un suggerimento per noi? "
-"Per favore condividi i tuoi pensieri tramite il"
+"Condividi i tuoi pensieri tramite il"
 
 #: templates/about.html:127
 msgid "contact form"
@@ -3928,7 +3928,7 @@ msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
-"Per favore inserisci la tua vecchia password, per motivi di sicurezza, "
+"Inserisci la tua vecchia password, per motivi di sicurezza, "
 "quindi inserisci la nuovapassword per due volte, in modo da verificare che "
 "sia stata digitata correttamente."
 
