@@ -175,9 +175,9 @@ class Command(BaseCommand):
                 self.setGeograficExtend(project, row)
 
     def getStatus(self,code):
-        status = Status.objects.filter(status=code).first()
+        status = Status.objects.filter(status_code=code).first()
         if status == None:
-            raise Error('Stato progetto non valido')
+            raise ValueError('Stato progetto non valido ' + code)
 #             status = Status.objects.create(
 #                 status=code,
 #                 status_it=code,

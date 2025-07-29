@@ -3,7 +3,6 @@ import os
 import random
 from django.core.management.base import BaseCommand,CommandError
 from blog.models import Post
-from projects.models import Status
 from organisations.models import Organisation
 from organisations.models import OrganisationType
 from django.conf import settings
@@ -32,7 +31,7 @@ class Command(BaseCommand):
                 raise ValueError("Il file CSV è vuoto o non contiene dati validi.")
 
             for row in rows:
-                status = self.getStatus(row['status'])
+                status = 1
                 organisation = self.getOrganisations(row)
                 self.stdout.write(row['title'])
                 # Converti la stringa in un oggetto datetime
@@ -60,15 +59,6 @@ class Command(BaseCommand):
 
         self.stdout.write('Database seeded successfully!')
 
-    def getStatus(self,code):
-        status = Status.objects.filter(status_code=code).first()
-        if status == None:
-            status = Status.objects.create(
-                status_code=code,
-                status=code.capitalize(),
-                status_it=code.capitalize(),
-            )
-        return status
 
     def getOrganisations(self,data):
         return Organisation.objects.order_by('?').first()

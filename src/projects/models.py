@@ -10,9 +10,9 @@ from localita.models import Localita
 class Status(models.Model):
     STATUS_CHOICES = (
         ('not_started', 'Not yet started'),
-        ('periodically_active', 'Periodically Active'), 
+#         ('periodically_active', 'Periodically Active'),
         ('active', 'Active'),
-        ('on_hold', 'On Hold'),
+#         ('on_hold', 'On Hold'),
         ('completed', 'Completed'),
         ('abandoned', 'Abandoned'),
     )
