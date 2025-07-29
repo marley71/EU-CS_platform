@@ -894,7 +894,7 @@ msgstr "Descrizione degli aspetti di citizen science"
 
 #: projects/forms.py:66
 msgid "Activity status"
-msgstr "Stato dell'attività"
+msgstr "Stato del progetto/attività"
 
 #: projects/forms.py:68
 msgid "Please, select the status of your project."

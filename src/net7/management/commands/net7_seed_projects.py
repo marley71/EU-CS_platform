@@ -177,10 +177,11 @@ class Command(BaseCommand):
     def getStatus(self,code):
         status = Status.objects.filter(status=code).first()
         if status == None:
-            status = Status.objects.create(
-                status=code,
-                status_it=code,
-            )
+            raise Error('Stato progetto non valido')
+#             status = Status.objects.create(
+#                 status=code,
+#                 status_it=code,
+#             )
         return status
 
     def getOrganisations(self,row):
