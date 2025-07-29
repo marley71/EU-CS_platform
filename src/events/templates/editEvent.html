@@ -101,7 +101,7 @@
                                                 <div class="col-1"></div>
                             <div class="col-11 mb-5">
                     
-                                <button type="submit mb-5" class="btn btn-outline-success submit"  onclick="return validateMap();">
+                                <button type="submit" class="my-5 btn btn-outline-success submit"  onclick="return validateMap();">
                                     <i class="fas fa-share-square"></i> {% trans "Save" %}
                                                     </button>
                                                     
@@ -292,6 +292,7 @@ $('#div_id_place').hide();
   }
 
   function validateMap() {
+      return true;
     // Only validate map if the event type is face-to-face or hybrid
     var eventType = $('#id_event_type').val();
 

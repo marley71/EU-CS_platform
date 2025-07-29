@@ -131,6 +131,7 @@ class EventForm(forms.Form):
             event.hour = hour
             event.timezone=self.data['timezone']
             event.language=self.data['language']
+            event.language_other=self.data['language_other']
             event.url = self.data['url']
             event.event_type = self.data['event_type']
             event.latitude = self.data['latitude']
@@ -150,6 +151,7 @@ class EventForm(forms.Form):
                 hour=hour,
                 timezone=self.data['timezone'],
                 language=self.data['language'],
+                language_other=self.data['language_other'],
                 url=self.data['url'],
                 latitude=self.data['latitude'],
                 longitude=self.data['longitude'],

@@ -165,7 +165,7 @@ msgstr "Si prega di indicare l'editore della risorsa"
 
 #: events/forms.py:19
 msgid "Place"
-msgstr ""
+msgstr "Luogo"
 
 #: events/forms.py:21
 msgid "Start date"
