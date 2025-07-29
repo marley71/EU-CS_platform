@@ -217,7 +217,7 @@ msgid "Evento Online o Presenza"
 msgstr "Indica se l’evento sarà in presenza, virtuale o ibrido"
 
 msgid "If this event is associated with a project, please select it. If not listed, please add it <a href=\"/newProject\" target=\"_blank\">here</a> before submitting the event"
-msgstr "Se questo evento è associato a un progetto, selezionalo dalla lista. Se il progetto non è presente in elenco, aggiungilo <a href=\"/newProject\" target=\"_blank\">qui</a> prima di inviare l'evento"
+msgstr "Se questo evento è associato a un progetto, selezionalo dalla lista. Se il progetto/attività non è presente in elenco, aggiungilo <a href=\"/newProject\" target=\"_blank\">qui</a> prima di inviare l'evento"
 
 
 #: events/forms.py:28 organisations/forms.py:19 platforms/forms.py:31
@@ -707,7 +707,7 @@ msgid ""
 msgstr ""
 "Altra organizzazione che partecipa al progetto. Se non è elencata, "
 "aggiungila <a href=\"/new_organisation\" target=\"_blank\">qui</a> prima di "
-"inviare il progetto"
+"inviare il progetto/attività"
 
 #: profiles/forms.py:73 projects/forms.py:193
 msgid "Other Organisations"
@@ -821,7 +821,7 @@ msgstr "cerca</span>utente <span class='lightBlue-color'>"
 
 #: projects/forms.py:32
 msgid "Please write the name of the project."
-msgstr "Si prega di scrivere il nome del progetto."
+msgstr "Si prega di scrivere il nome del progetto/attività."
 
 #: projects/forms.py:33
 #, fuzzy
@@ -834,11 +834,11 @@ msgstr "Titolo"
 
 
 msgid "Please, select provincia of your project."
-msgstr "Inserisci la provincia del progetto"
+msgstr "Inserisci la provincia del progetto/attività"
 
 #: projects/forms.py:39
 msgid "Please provide the URL to an external website of the project."
-msgstr "Si prega di fornire l'URL a un sito Web esterno del progetto."
+msgstr "Si prega di fornire l'URL a un sito Web esterno del progetto/attività."
 
 #: projects/forms.py:43
 msgid ""
@@ -922,19 +922,19 @@ msgstr "Data di fine del progetto/attività"
 #: projects/forms.py:94
 msgid "Please select the project topic(s) or field(s) of science."
 msgstr ""
-"Seleziona l'argomento/gli argomenti del progetto o il/i campo/i della scienza."
+"Seleziona l'argomento/gli argomenti del progetto/attività o il/i campo/i della scienza."
 "Gli argomenti scientifici sono tratti dallo standard <a href=\"https://eur-lex.europa.eu/browse/eurovoc.html\" target=\"_blank\">EuroVoc</a>"
 
 
 #: projects/forms.py:94
 msgid "Please select the project provincia(s) or field(s) of science."
 msgstr ""
-"Seleziona la provincia o province del progetto."
+"Seleziona la provincia o province del progetto/attività."
 
 
 # label stato progetto
 msgid "Please indicate project status"
-msgstr "Definisci lo stato di lavoro del progetto"
+msgstr "Definisci lo stato di lavoro del progetto/attività"
 
 msgid "Status type"
 msgstr "Stato progetto"
@@ -1016,7 +1016,7 @@ msgstr ""
 
 #: projects/forms.py:156
 msgid "Project geographic location"
-msgstr "Collocazione geografica del progetto"
+msgstr "Collocazione geografica del progetto/attività"
 
 #: projects/forms.py:162
 msgid "Please name the contact person or contact point of the project."
@@ -1037,9 +1037,9 @@ msgid ""
 "please add it <a href=\"/new_organisation\" target=\"_blank\">here</a> "
 "before submitting the project"
 msgstr ""
-"Si prega di selezionare l'organizzazione che coordina il progetto. Se non è "
+"Si prega di selezionare l'organizzazione che coordina il progetto/attività. Se non è "
 "elencato, aggiungilo <a href=\"/new_organisation\" target=\"_blank\">qui</a> "
-"prima di inviare il progetto"
+"prima di inviare il progetto/attività"
 
 #: projects/forms.py:181
 msgid "Lead organisation / coordinator"
@@ -1059,7 +1059,7 @@ msgid ""
 msgstr ""
 "Si prega di selezionare altre organizzazioni che partecipano al progetto. Se "
 "non elencato, aggiungilo <a href=\"/new_organisation\" target=\"_blank"
-"\">qui</a> prima di inviare il progetto"
+"\">qui</a> prima di inviare il progetto/attività"
 
 #: projects/forms.py:202
 msgid ""
@@ -1067,7 +1067,7 @@ msgid ""
 "Commission)<br />Select them from the list or add your own <b>ended by comma "
 "or pressing enter</b>."
 msgstr ""
-"Inserisci le agenzie di finanziamento del progetto (es. Commissione "
+"Inserisci le agenzie di finanziamento del progetto/attività (es. Commissione "
 "Europea)<br />Selezionale dall'elenco o aggiungi le <b>terminando con "
 "virgola o premendo invio</b>."
 
@@ -1100,7 +1100,7 @@ msgstr "Credito della miniatura, se applicabile"
 
 #: projects/forms.py:233
 msgid "Project logo"
-msgstr "Logo del progetto"
+msgstr "Logo del progetto/attività"
 
 #: projects/forms.py:234
 msgid "It will be resized to 600x400 pixels)"
@@ -1172,26 +1172,26 @@ msgstr "Scrivi la data della notizia"
 
 #: project/forms.py
 msgid "Please provide the type of the project."
-msgstr "Seleziona il tipo progetto"
+msgstr "Seleziona il tipo di contenuto (progetto o attività)"
 
 msgid "Project-type"
-msgstr "Tipo progetto"
+msgstr "Tipo di contenuto"
 
 msgid "Please provide the link of inaturalist data. Left blank if no data in inaturalist."
-msgstr "Scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto"
+msgstr "Scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto/attività"
 
 msgid "Inaturalist data"
 msgstr "Dati iNaturalist"
 
 
 msgid "Please provide the link to project result."
-msgstr "Scrivi il link ai risultati per questo progetto"
+msgstr "Scrivi il link ai risultati per questo progetto/attività"
 
 msgid "Project-result"
 msgstr "Risultati"
 
 msgid "Please indicate project audience type"
-msgstr "Tipo di pubblico del progetto"
+msgstr "Tipo di pubblico del progetto/attività"
 
 msgid "Audience type"
 msgstr "Tipo di pubblico"
@@ -1384,7 +1384,7 @@ msgstr "Filtro"
 
 #: projects/templates/modal_projects.html:16
 msgid "search results by project status, or topic"
-msgstr "cerca risultati per status del progetto o argomento"
+msgstr "cerca risultati per status del progetto/attività o argomento"
 
 #: projects/templates/modal_projects.html:18
 msgid ""
@@ -1440,7 +1440,7 @@ msgstr "qui"
 #: projects/templates/project.html:89
 msgid "This project profile is not available in your selected language,"
 msgstr ""
-"Il profilo di questo progetto non è disponibile nella lingua selezionata,"
+"Il profilo di questo progetto/attività non è disponibile nella lingua selezionata,"
 
 #: projects/templates/project.html:108
 msgid "About funding"
@@ -1514,7 +1514,7 @@ msgstr "Area Amministratore"
 
 #: projects/templates/project_form.html:55
 msgid "Useful information to classify the project"
-msgstr "Informazioni utili per classificare il progetto"
+msgstr "Informazioni utili per classificare il progetto/attività"
 
 #: projects/templates/project_form.html:66
 msgid "Participation information"
@@ -1522,7 +1522,7 @@ msgstr "Attività di partecipazione"
 
 #: projects/templates/project_form.html:77
 msgid "Project location"
-msgstr "Località del progetto"
+msgstr "Località del progetto/attività"
 
 #: projects/templates/project_form.html:87
 msgid "Contact and hosts details"
@@ -1534,7 +1534,7 @@ msgstr "Informazioni sul finanziamento"
 
 #: projects/templates/project_form.html:107
 msgid "Project profile images"
-msgstr "Immagini profilo del progetto"
+msgstr "Immagini profilo del progetto/attività"
 
 #: projects/templates/project_review.html:18
 #: resources/templates/resource_review.html:18
@@ -4051,7 +4051,7 @@ msgid "Please provide the aim of your project here (max 3000 characters)."
 msgstr "Indica qui l'obiettivo del tuo progetto (massimo 3000 caratteri)."
 
 msgid "Please describe the citizen science aspect(s) of the project and the link of the project to citizen science using the ECSA Characteristics of Citizen Science and the ECSA 10 Principles of Citizen Science. What you introduce in this text field will not appear on the platform; it is just for moderation purposes (max 2000 characters)."
-msgstr "Descrivi gli aspetti di citizen science del progetto e il collegamento tra il progetto e la citizen science utilizzando le Caratteristiche della Citizen Science dell'ECSA e i 10 Principi della Citizen Science dell'ECSA. Il testo inserito in questo campo non apparirà sulla piattaforma; è solo a scopo di moderazione (massimo 2000 caratteri)."
+msgstr "Descrivi gli aspetti di citizen science del progetto/attività e il collegamento tra il progetto/attività e la citizen science utilizzando le Caratteristiche della Citizen Science dell'ECSA e i 10 Principi della Citizen Science dell'ECSA. Il testo inserito in questo campo non apparirà sulla piattaforma; è solo a scopo di moderazione (massimo 2000 caratteri)."
 
 msgid "Please describe how people can get involved in the project (max 3000 characters)."
 msgstr "Descrivi in che modo le persone possono essere coinvolte nel progetto (max 3000 caratteri)."

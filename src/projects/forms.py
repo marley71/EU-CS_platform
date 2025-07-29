@@ -389,7 +389,7 @@ class ProjectForm(forms.Form):
 
     logo = forms.ImageField(
         required=False,
-        label=_("Logo progetto"),
+        label=_("Logo progetto/attività"),
         help_text=_('It will be resized to 1100x400 pixels'),
         widget=forms.FileInput)
     xlogo = forms.FloatField(widget=forms.HiddenInput(), required=False)
