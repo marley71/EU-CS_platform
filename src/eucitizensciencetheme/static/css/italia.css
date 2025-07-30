@@ -12689,13 +12689,15 @@ textarea.form-control-lg {
   border: 1px solid #BABAE9;
 }
 
-.badge-status-completato {
+.badge-status-completato,
+.badge-status-completed {
   color: #fff;
   background-color: rgb(15, 81, 50.4);
   border: 1px solid rgb(10, 54, 33.6);
 }
 
-.badge-status-attivo {
+.badge-status-attivo,
+.badge-status-active {
   color: rgb(15, 81, 50.4);
   background-color: #fff;
   border: 1px solid rgb(10, 54, 33.6);
@@ -12707,13 +12709,15 @@ textarea.form-control-lg {
   border: 1px solid rgb(5.2, 44, 101.2);
 }
 
-.badge-status-non-ancora-iniziato {
+.badge-status-non-ancora-iniziato,
+.badge-status-not_started {
   color: #495057;
   background-color: #fff;
   border: 1px solid #343a40;
 }
 
-.badge-status-abbandonato {
+.badge-status-abbandonato,
+.badge-status-abandoned {
   color: #fff;
   background-color: #495057;
   border: 1px solid #343a40;
@@ -12723,6 +12727,12 @@ textarea.form-control-lg {
   color: rgb(151.8, 75.6, 12);
   background-color: #fff;
   border: 1px solid rgb(101.2, 50.4, 8);
+}
+
+.badge-status-non-approvato {
+  color: #fff;
+  background-color: #dc3545;
+  border: 1px solid rgb(88, 21.2, 27.6);
 }
 
 .badge-tag {

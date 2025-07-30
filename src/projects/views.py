@@ -260,7 +260,8 @@ def projects(request):
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    totalProjects = len(projects.filter(approved=True))
+    totalProjects = len(projects)
+#     len(projects.filter(approved=True))
 
     homeSearchCategories = request.GET.get('homeSearchCategories')
     countriesWithContent1 = projects.values_list(
@@ -293,6 +294,7 @@ def projects(request):
 
     projects = applyFilters(request, projects)
     projects = projects.distinct()
+#     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
     projects = projects.filter(~Q(hidden=True))
     if user.is_authenticated:
@@ -787,7 +789,8 @@ def applyFilters(request, projects):
             elif request.GET['approved'] == 'notYetModerated':
                 projects = projects.filter(moderated=False)
         else:
-            projects = projects.filter(approved=True)
+            if not request.user.is_staff:
+                projects = projects.filter(approved=True)
 
         
 
