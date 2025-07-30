@@ -75,8 +75,12 @@
             {% endif %}
             <div class="row mt-5 pb-3 border-bottom mb-4">
                 <div class="col-8">
-                    <h1 class="h1">{{ project.name }}</h1>
+                    <h1 class="h1">{{ project.name }} </h1>
                     <div class="row align-items-baseline mt-3" style="margin-left: 0.1rem;">
+                        <div class=" rounded-pill badge badge-status-periodicamente-attivo col-auto me-2">
+                            <div class="circumference"></div>
+                            {{ project.type|capfirst }}
+                        </div>
                         <div class=" rounded-pill badge badge-status-{{ project.status.status_code }} col-auto">
                             <div class="circumference"></div>
                             {{ project.status|capfirst }}
@@ -328,6 +332,12 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    {% if project.tipo_pubblico_calc %}
+                        <h5 class="mt-5">Tipo di pubblico</h5>
+                        <div>
+                            {{ project.tipo_pubblico_calc|capfirst }}
+                        </div>
+                    {% endif %}
 
                     {#                    {% if project.hasTag.all %}#}
                     {#                        <h5 class="mt-3">{% trans "Tags" %}</h5>#}
@@ -379,16 +389,20 @@
                             <a class="project-topic" href="#">{{ project.projectlocality }}</a>
                         </div>
                     {% endif %}
-                    {% if project.provincia %}
-                        <h5 class="mt-5">Provincia / Regione</h5>
+                    {% if project.provincia.all %}
+                        <h5 class="mt-5">Province / Regioni</h5>
                         <div>
-                            <div>
+                            {% for provincia in project.provincia.all %}
+                                <div>
                                 <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                     <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                                 </svg>
-                                <a class="project-topic" href="#">{{ project.provincia.nome }}
-                                    - {{ project.localita.name }}</a>
-                            </div>
+                                <span class="project-topic">{{ provincia.nome }}
+                                    - {{ provincia.regione }}</span>
+                                </div>
+
+                            {% endfor %}
+
                         </div>
                     {% endif %}
                     {% if project.provincia %}
@@ -399,6 +413,19 @@
                     {% if form %}
                         <div class="mt-3">
                             {{ form.projectGeographicLocation|as_crispy_field }}
+                        </div>
+                    {% endif %}
+
+                    {% if project.risultati %}
+                        <h5 class="mt-5">Link ai risultati del progetto</h5>
+                        <div>
+                            <a class="project-topic" href="{{ project.risultati }}">{{ project.risultati }}</a>
+                        </div>
+                    {% endif %}
+                    {% if project.inaturalist %}
+                        <h5 class="mt-5">Link ai dati su iNaturalist</h5>
+                        <div>
+                            <a class="project-topic" href="{{ project.inaturalist }}">{{ project.inaturalist }}</a>
                         </div>
                     {% endif %}
 

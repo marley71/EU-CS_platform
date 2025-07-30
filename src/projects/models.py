@@ -255,6 +255,16 @@ class Project(models.Model):
     tipo_pubblico = models.CharField(max_length=255, null=True, blank=True)
     tipo_pubblico_altro = models.CharField(max_length=255, null=True, blank=True)
 
+    @property
+    def tipo_pubblico_calc(self):
+        match self.tipo_pubblico:
+            case "pubblico_generico":
+                return "Pubblico generico"
+            case "altro":
+                return self.tipo_pubblico_altro
+            case _:
+                return self.tipo_pubblico
+
     def __str__(self):
         return f'{self.name}'
 
@@ -319,3 +329,4 @@ class SearchStats(models.Model):
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.CharField(max_length=200, null=True, blank=True)
     count = models.IntegerField(default=0) #Creado por Jorge para evitar problema de migraciones
+

@@ -1200,7 +1200,7 @@ msgstr "Tipo di pubblico"
 #: projects/forms.py:450 projects/templates/project.html:81
 #: projects/templates/project.html:102
 msgid "Needed equipment"
-msgstr "Equipaggiamento necessario"
+msgstr "Cosa portare"
 
 #: projects/templates/_finder_projects.html:13
 msgid "Featured"
