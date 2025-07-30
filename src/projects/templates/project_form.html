@@ -574,7 +574,7 @@
             }).addTo(mymap);
 
             // Aggiungi un marker draggable
-
+            console.log('map loaded',$('#id_latitude').val(),  $('#id_longitude').val());
             var marker = L.marker([$('#id_latitude').val(),  $('#id_longitude').val()], {draggable: true}).addTo(mymap);
 
             // Funzione per stampare le coordinate

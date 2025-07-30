@@ -184,8 +184,16 @@ class ProjectForm(forms.Form):
         # required=False,
         label=_("Provincia"))
 
-    latitude = forms.CharField(widget=forms.HiddenInput(), required=False)
-    longitude = forms.CharField(widget=forms.HiddenInput(), required=False)
+    latitude = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False,
+        initial=41.85
+    )
+    longitude = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False,
+        initial=12.45
+    )
     stato = forms.ChoiceField(
         choices=STATO_TYPE_CHOICES,
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
@@ -575,8 +583,8 @@ class ProjectForm(forms.Form):
             participatingInaContest=participatingInaContest,
             projectGeographicLocation=projectGeographicLocation,
             tipo_pubblico_altro=self.data['tipo_pubblico_altro'],
-            latitude=self.data['latitude'],
-            longitude=self.data['longitude'],
+            latitude=41,
+            longitude=11,
         )
 
     def updateFields(
