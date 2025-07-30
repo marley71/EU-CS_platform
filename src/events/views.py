@@ -126,6 +126,7 @@ def editEvent(request, pk):
         'place': event.place,
         'country': event.country,
         'language': event.language,
+        'language_other': '',
         'event_type': event.event_type,
         'project': event.project,
         'organisations': event.organisations.all(),
