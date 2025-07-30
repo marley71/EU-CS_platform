@@ -91,6 +91,7 @@ class ProjectForm(forms.Form):
         
     def get_how_to_participate_fields(self):
         for field_name in self.fields:
+            #print(self.fields)
             return [self[field_name] for field_name in self.fields if field_name.startswith('how_to_participate_')]
 
     def get_equipment_fields(self):
@@ -183,6 +184,8 @@ class ProjectForm(forms.Form):
         # required=False,
         label=_("Provincia"))
 
+    latitude = forms.CharField(widget=forms.HiddenInput(), required=False)
+    longitude = forms.CharField(widget=forms.HiddenInput(), required=False)
     stato = forms.ChoiceField(
         choices=STATO_TYPE_CHOICES,
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
@@ -526,14 +529,21 @@ class ProjectForm(forms.Form):
             if key.startswith('aim_'):
                 setattr(project, key, value)
             if key.startswith('how_to_participate_'):
-                setattr(project, key, value)
+                setattr(project, self.to_camel_case(key), value)
             if key.startswith('equipment_'):
-                setattr(project, key, value)
+                setattr(project, self.to_camel_case(key), value)
 
 
         project.save()
 
         return project.id
+
+    def to_camel_case(self,s):
+        parts = s.split('_')
+        # Prima parola in minuscolo, le successive capitalizzate
+        trs =  parts[0].lower() + ''.join(word.capitalize() for word in parts[1:len(parts)-1]) + '_' + parts[len(parts)-1]
+        print(trs)
+        return trs
 
     def createProject(
             self,
@@ -564,6 +574,8 @@ class ProjectForm(forms.Form):
             participatingInaContest=participatingInaContest,
             projectGeographicLocation=projectGeographicLocation,
             tipo_pubblico_altro=self.data['tipo_pubblico_altro'],
+            latitude=self.data['latitude'],
+            longitude=self.data['longitude'],
         )
 
     def updateFields(
@@ -601,7 +613,8 @@ class ProjectForm(forms.Form):
             project.provincia.set(self.data.getlist('provincia'))
             #project.add(provincia)
             #project.provincia_id = provincia.id
-
+        project.latitude = self.data['latitude']
+        project.longitude = self.data['longitude']
         project.doingAtHome = doingAtHome
         #project.localita
         project.fundingProgram = self.data['funding_program']
@@ -616,7 +629,7 @@ class ProjectForm(forms.Form):
             if key.startswith('aim_'):
                 setattr(project, key, value)
             if key.startswith('how_to_participate_'):
-                setattr(project, key, value)
+                setattr(project, self.to_camel_case(key), value)
             if key.startswith('equipment_'):
                 setattr(project, key, value)
 

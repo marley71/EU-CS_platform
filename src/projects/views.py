@@ -222,13 +222,20 @@ def editProject(request, pk):
         'projectCountry': project.projectCountry.all,
         'localita' : project.localita,
         'provincia': project.provincia.all,
+        'longitude' : project.longitude,
+        'latitude' : project.latitude,
 
     }
 
     translation_fields=['description','aim', 'howToParticipate','equipment']
     for field in translation_fields:
         for lang in settings.MODELTRANSLATION_LANGUAGES:
-            initial_data[field+'_'+lang]=getattr(project, field+'_'+lang)
+            if field == 'howToParticipate':
+                initial_data['how_to_participate_'+lang] =getattr(project, field+'_'+lang)
+            else:
+                #print(field+'_'+lang, getattr(project, field+'_'+lang))
+                initial_data[field+'_'+lang]=getattr(project, field+'_'+lang)
+
 
 
     form = ProjectForm(initial=initial_data)

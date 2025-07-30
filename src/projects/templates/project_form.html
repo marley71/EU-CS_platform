@@ -185,6 +185,7 @@
                                     <label class="control-label">{% trans "Equipment" %}</label>
                                     <ul class="nav nav-tabs" id="languageEquipmentTabs" role="tablist">
                                         {% for field in form.get_equipment_fields %}
+
                                             <li class="nav-item">
                                                 <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}"
                                                         id="equipment-{{ field.label }}-tab"
@@ -215,10 +216,14 @@
                                 <div class="col-11">
                                     {{ form.geographicextend |as_crispy_field }}
                                     {{ form.projectlocality |as_crispy_field }}
+                                    {{ form.latitude |as_crispy_field }}
+                                    {{ form.longitude |as_crispy_field }}
                                     {% comment %}
                                 {{ form.projectCountry|as_crispy_field }}
                                 {% include "_save_zone.html" %}
                                 {% endcomment %}
+                                    <div id="mapid"  style="height: 300px; width:100%"></div>
+
                                 </div>
                             </div>
 
@@ -543,6 +548,7 @@
                 });
 
             }
+            init_map();
         });
 
         function tipo_pubblicoChange(value) {
@@ -555,4 +561,34 @@
         }
     </script>
 
+    <script>
+        function init_map() {
+            // Inizializza la mappa
+            var mymap = L.map('mapid').setView([42,11], 6);
+
+            // Aggiunge un tile layer alla mappa (esempio con OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                //maxZoom: 6,
+                zoom: 6,
+                attribution: '© OpenStreetMap'
+            }).addTo(mymap);
+
+            // Aggiungi un marker draggable
+
+            var marker = L.marker([$('#id_latitude').val(),  $('#id_longitude').val()], {draggable: true}).addTo(mymap);
+
+            // Funzione per stampare le coordinate
+            function onDragEnd() {
+                var latlng = marker.getLatLng();
+                console.log("Coordinate attuali: ", latlng.lat, latlng.lng);
+                $('#id_latitude').val(latlng.lat);// attr('value',latlng.lat);
+                $('#id_longitude').val(latlng.lng);//.attr('value',latlng.lng);
+                // Qui puoi memorizzare le coordinate in una variabile o inviarle a un server
+            }
+
+            // Ascolta l'evento dragend sul marker
+            marker.on('dragend', onDragEnd);
+        }
+
+    </script>
 {% endblock scripts %}
