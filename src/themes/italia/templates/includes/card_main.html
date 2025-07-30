@@ -24,9 +24,14 @@
 
                         {% if project.status %}
                             <div class="" style="position: absolute; top: 16px; left: 28px;">
-                                <span class="badge rounded-pill badge-status-{{ project.status.humanized }} ">{{ project.status|capfirst }}</span>
+                                <span class="badge rounded-pill badge-status-{{ project.status.status_code }} ">{{ project.status|capfirst }}</span>
                             </div>
                         {% endif %}
+{#                        {% if not project.approved %}#}
+{#                            <div class="" style="position: absolute; top: 56px; left: 28px;">#}
+{#                                <span class="badge rounded-pill badge-status-non-approvato ">Non approvato</span>#}
+{#                            </div>#}
+{#                        {% endif %}#}
                     </div>
                 </div>
                 <div class="col-md-7 col-8">
@@ -41,6 +46,12 @@
                             </h6>
 
                             <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
+                                                        {% if not project.approved and not project.moderated %}
+                                                            <span class="badge rounded-pill badge-status-non-approvato ">Non moderato</span>
+                                                        {% elif not project.approved %}
+                                                            <span class="badge rounded-pill badge-status-non-approvato ">Non approvato</span>
+                                                        {% endif %}
+
                                 {% for item in project.display_items %}
                                     <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
                                 {% endfor %}

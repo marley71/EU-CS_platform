@@ -4068,6 +4068,11 @@ msgstr "Immagine organizzazione"
 msgid "Organisation image credit, if applicable"
 msgstr "Credit immagine organizzazione, se applicabile"
 
+msgid "Don't approve"
+msgstr "Rifiuta"
+
+msgid "Contact project submitter"
+msgstr "Contatta l'autore"
 
 
 

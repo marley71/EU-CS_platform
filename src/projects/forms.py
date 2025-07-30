@@ -556,6 +556,7 @@ class ProjectForm(forms.Form):
             projectLocality,
             args):
         return Project(
+            localita_id = 1,
             creator=args.user,
             name=self.data.get('project_name', ''),
             url=self.data['url'],

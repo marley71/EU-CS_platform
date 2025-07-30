@@ -77,7 +77,7 @@
                 <div class="col-8">
                     <h1 class="h1">{{ project.name }}</h1>
                     <div class="row align-items-baseline mt-3" style="margin-left: 0.1rem;">
-                        <div class=" rounded-pill badge badge-status-{{ project.status.humanized }} col-auto">
+                        <div class=" rounded-pill badge badge-status-{{ project.status.status_code }} col-auto">
                             <div class="circumference"></div>
                             {{ project.status|capfirst }}
                         </div>
@@ -115,57 +115,74 @@
                                 {% trans "Edit" %}
                             </a>
                         {% endif %}
-                    </div>
 
-                    {#                {% if user.is_staff %}#}
-                    {#                <div class="col-12 mt-4">#}
-                    {#                    <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>#}
-                    {#                    {% if project.id in approvedProjects %}#}
-                    {#                    <div class="mt-3">#}
-                    {#                        <a class="btn btn-green" onclick="setApproved({{project.id}}, false)">#}
-                    {#                            <i class="far fa-thumbs-up"> </i> Approved#}
-                    {#                        </a>#}
-                    {#                    </div>#}
-                    {#                    {% elif project.id in unApprovedProjects %}#}
-                    {#                    <div>#}
-                    {#                        <a class="btn btn-red" onclick="setApproved({{project.id}}, true)">#}
-                    {#                            <i class="far fa-thumbs-up"></i> Unapproved#}
-                    {#                        </a>#}
-                    {#                    </div>#}
-                    {#                    {% else %}<!-- This project is not yet moderated -->#}
-                    {#                    <div>This project is not yet moderated</div>#}
-                    {#                    <a class="btn btn-green" onclick="setApproved({{project.id}}, true)">#}
-                    {#                        <i class="far fa-thumbs-up"></i> Approve#}
-                    {#                    </a>#}
-                    {#                    <a class="btn btn-red" onclick="setApproved({{project.id}}, false)">#}
-                    {#                        <i class="far fa-thumbs-down"></i> Unapprove#}
-                    {#                    </a>#}
-                    {#                    {% endif %}#}
-                    {#                    {% if project.featured %}#}
-                    {#                    <div class="mt-3">#}
-                    {#                        <a  class="btn btn-green" onclick="setFeatured({{project.id}}, false)">#}
-                    {#                            <i class="fas fa-arrow-alt-circle-up"></i> Is featured#}
-                    {#                        </a>#}
-                    {#                    </div>#}
-                    {#                    {% else %}#}
-                    {#                    <div class="mt-3">#}
-                    {#                        <a  class="btn btn-secondary" onclick="setFeatured({{project.id}}, true)">#}
-                    {#                            <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>#}
-                    {#                        </a>#}
-                    {#                    </div>#}
-                    {#                    {% endif %}#}
-                    {#                    <div class="mt-3">#}
-                    {#                        <a class="btn btn-secondary"  href="{% url 'submitter_contact' 'project' project.id %}">#}
-                    {#                            <i class="far fa-envelope"></i> Contact project submitter#}
-                    {#                        </a>#}
-                    {#                    </div>#}
-                    {#                </div>#}
-                    {#                {% endif %}#}
+                    </div>
 
 
                     <div class="text-end mt-3">
                         {% include "_social_zone.html" %}
                     </div>
+
+
+                    <div class="col-12 col-lg-7 offset-lg-5  text-end mt-1">
+
+                        {% if user.is_staff %}
+                            <div class="col-12 mt-4">
+                                {#                                        <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>#}
+                                {% if project.id in approvedProjects %}
+                                    <div class="mt-3">
+                                        <a class="btn btn-outline-danger w-100" onclick="setApproved({{ project.id }}, false)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                            </svg> {%  trans "Don't approve" %}
+                                        </a>
+                                    </div>
+                                {% elif project.id in unApprovedProjects %}
+                                    <div>
+                                        <a class="btn btn-outline-success w-100" onclick="setApproved({{ project.id }}, true)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                            </svg> {%  trans "Approve" %}
+                                        </a>
+                                    </div>
+                                    {% else %}<!-- This project is not yet moderated -->
+                                    <div>Questo contenuto non è ancora stato moderato</div>
+                                        <a class="btn btn-outline-success w-100" onclick="setApproved({{ project.id }}, true)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                            </svg> {%  trans "Approve" %}
+                                        </a>
+                                        <a class="btn btn-outline-danger w-100" onclick="setApproved({{ project.id }}, false)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                            </svg> {%  trans "Don't approve" %}
+                                        </a>
+                                {% endif %}
+                                {#                                        {% if project.featured %}#}
+                                {#                                        <div class="mt-3">#}
+                                {#                                            <a  class="btn btn-green" onclick="setFeatured({{project.id}}, false)">#}
+                                {#                                                <i class="fas fa-arrow-alt-circle-up"></i> Is featured#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                        {% else %}#}
+                                {#                                        <div class="mt-3">#}
+                                {#                                            <a  class="btn btn-secondary" onclick="setFeatured({{project.id}}, true)">#}
+                                {#                                                <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                        {% endif %}#}
+                                <div class="mt-3">
+                                    <a class="btn btn-outline-secondary w-100"
+                                       href="{% url 'submitter_contact' 'project' project.id %}">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#envelope"/>
+                                            </svg> {% trans "Contact project submitter" %}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
                 </div>
             </div>
             <div class="row">
@@ -196,8 +213,8 @@
                         <p class="mt-3 gray7-color">{{ project.description | safe }}</p>
 
                         {% if project.aim %}
-                        <h4 class="mt-5 leftborder">{% trans "Aim" %}</h4>
-                        <p class="gray7-color">{{ project.aim | safe }}</p>
+                            <h4 class="mt-5 leftborder">{% trans "Aim" %}</h4>
+                            <p class="gray7-color">{{ project.aim | safe }}</p>
                         {% endif %}
 
                         {% if project.howToParticipate %}
@@ -369,7 +386,8 @@
                                 <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                     <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
                                 </svg>
-                                <a class="project-topic" href="#">{{ project.provincia.nome }} - {{ project.localita.name }}</a>
+                                <a class="project-topic" href="#">{{ project.provincia.nome }}
+                                    - {{ project.localita.name }}</a>
                             </div>
                         </div>
                     {% endif %}
