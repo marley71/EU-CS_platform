@@ -64,6 +64,7 @@ def saveProjectAjax(request):
     request.POST = updateKeywords(request.POST)
     request.POST = updateFundingBody(request.POST)
     form = ProjectForm(request.POST, request.FILES)
+    #print(form.data)
     if form.is_valid():
         images = setImages(request, form)
         pk = form.save(request, images, [], '')
@@ -180,6 +181,9 @@ def editProject(request, pk):
     if project.end_date:
         end_datetime = formats.date_format(project.end_date, 'Y-m-d')
 
+    #print(project.topic.all().values_list('id',flat=True))
+    topicids = list(project.topic.all().values_list('id', flat=True))
+    topicids = [str(id) for id in topicids]
     initial_data = {
         'project_name': project.name, 
         'url': project.url,
@@ -191,7 +195,7 @@ def editProject(request, pk):
         'status': project.status,
         'mainOrganisation': project.mainOrganisation,
         'organisation': project.organisation.all,
-        'topic': project.topic.all,
+        'topic': topicids,
         'participationTask': project.participationTask.all,
         'hasTag': project.hasTag.all,
         'difficultyLevel': project.difficultyLevel,

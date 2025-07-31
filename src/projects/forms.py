@@ -243,9 +243,8 @@ class ProjectForm(forms.Form):
     topic = forms.MultipleChoiceField(
         #queryset=Topic.objects.all(),
         choices= getTassonomie(),
-        widget=forms.Select(
+        widget=forms.SelectMultiple(
             attrs={
-                'multiple' : 'multiple',
                 'style': 'max-height: 300px; overflow-y: auto;'
             }
         ), #Select2MultipleWidget(),
@@ -253,6 +252,15 @@ class ProjectForm(forms.Form):
             'Please select the project topic(s) or field(s) of science.'),
         #required=False,
         label=_("Topic"))
+
+    # topic = forms.ModelMultipleChoiceField(
+    #     queryset=Topic.objects.all(),
+    #     widget=Select2MultipleWidget(),
+    #     help_text=_(
+    #         'Please select the project topic(s) or field(s) of science.'),
+    #     #required=False,
+    #     label=_("Topic"))
+
 
     hasTag = forms.ModelMultipleChoiceField(
         queryset=HasTag.objects.all(),
@@ -533,6 +541,7 @@ class ProjectForm(forms.Form):
         project.type = self.data['type']
         project.risultati = self.data['risultati']
         project.inaturalist = self.data['inaturalist']
+        print(self.data.getlist('topic'))
 
         provinciaId = next(iter(self.data.getlist('provincia')), None)
         #print('PROVINCIAID', provinciaId)
@@ -542,6 +551,7 @@ class ProjectForm(forms.Form):
                 localita = Localita.objects.get(name=provincia.regione)
                 project.localita = localita
         project.save()
+
         project.topic.set(self.data.getlist('topic'))
         project.keywords.set(self.data.getlist('keywords'))
         project.fundingBody.set(self.data.getlist('funding_body'))
