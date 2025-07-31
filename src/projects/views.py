@@ -228,7 +228,10 @@ def editProject(request, pk):
         'provincia': project.provincia.all,
         'longitude' : project.longitude,
         'latitude' : project.latitude,
-
+        'risultati' : project.risultati,
+        'inaturalist' : project.inaturalist,
+        'type' : project.type,
+        'funding_program' : project.fundingProgram
     }
 
     translation_fields=['description','aim', 'howToParticipate','equipment']

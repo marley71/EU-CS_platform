@@ -210,13 +210,13 @@ class ProjectForm(forms.Form):
         required=False,
         initial=12.45
     )
-    stato = forms.ChoiceField(
-        choices=STATO_TYPE_CHOICES,
-        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
-        help_text=_('Please indicate project status'),
-        label=_('Status type'),
-        required=True
-    )
+#     stato = forms.ChoiceField(
+#         choices=STATO_TYPE_CHOICES,
+#         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+#         help_text=_('Please indicate project status'),
+#         label=_('Status type'),
+#         required=True
+#     )
     keywords = forms.ModelMultipleChoiceField(
         queryset=Keyword.objects.all(),
         widget=s2forms.ModelSelect2TagWidget(
@@ -224,7 +224,7 @@ class ProjectForm(forms.Form):
             attrs={
                 #'data-url': '/path/to/your/tag-search-url/',
                 'data-token-separators': '[","]'}),
-        required=False,
+        required=True,
         help_text=_(
             'Please select or enter 2-3 keywords separated by commas or by pressing enter.'),
         label=_('Keywords'))
@@ -243,15 +243,17 @@ class ProjectForm(forms.Form):
     topic = forms.MultipleChoiceField(
         #queryset=Topic.objects.all(),
         choices= getTassonomie(),
-        widget=forms.SelectMultiple(
+        widget=forms.CheckboxSelectMultiple(
             attrs={
-                'style': 'max-height: 300px; overflow-y: auto;'
+#                 'style': 'max-height: 300px; overflow-y: auto;'
+                'style': 'margin-right:5px;'
             }
         ), #Select2MultipleWidget(),
         help_text=_(
             'Please select the project topic(s) or field(s) of science.'),
         #required=False,
-        label=_("Topic"))
+        label=''#_("Topic")
+        )
 
     # topic = forms.ModelMultipleChoiceField(
     #     queryset=Topic.objects.all(),
@@ -537,11 +539,11 @@ class ProjectForm(forms.Form):
                 project.dateUpdated = project.dateUpdated
         project.tipo_pubblico = self.data['tipo_pubblico']
         project.tipo_pubblico_altro = self.data['tipo_pubblico_altro']
-        project.stato = self.data['stato']
+#         project.stato = self.data['stato']
         project.type = self.data['type']
         project.risultati = self.data['risultati']
         project.inaturalist = self.data['inaturalist']
-        print(self.data.getlist('topic'))
+#         print(self.data.getlist('topic'))
 
         provinciaId = next(iter(self.data.getlist('provincia')), None)
         #print('PROVINCIAID', provinciaId)

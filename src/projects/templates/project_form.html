@@ -130,8 +130,14 @@
                                 <div class="col-11">
                                     {{ form.start_date|as_crispy_field }}
                                     {{ form.end_date|as_crispy_field }}
-                                    {{ form.topic|as_crispy_field }}
-                                    {{ form.hasTag |as_crispy_field }}
+                                <label for="topic" class="control-label ">
+                                    Argomento scientifico*
+                                </label>
+                                    <div style="height:300px !important;overflow-y:auto;border: 1px solid black; margin-top:5px; margin-bottom:5px;padding:6px;">
+
+                                        {{ form.topic|as_crispy_field }}
+                                    </div>
+                                    {{ form.keywords |as_crispy_field }}
                                     {{ form.tipo_pubblico|as_crispy_field }}
                                     <div id="div_id_tipo_pubblico_altro"
                                          class="form-group {% if form.tipo_pubblico_altro.value != 'altro' %}d-none {% endif %}">
@@ -147,7 +153,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{ form.stato|as_crispy_field }}
+{#                                    {{ form.stato|as_crispy_field }}#}
                                     {% include "_save_zone.html" %}
                                 </div>
                             </div>
