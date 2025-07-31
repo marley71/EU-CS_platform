@@ -13,6 +13,7 @@ from organisations.models import Organisation
 from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
+import json
 #from provincia.models import Provincia
 
 
@@ -44,7 +45,7 @@ class ProjectForm(forms.Form):
 
     # Main information
     def __init__(self, *args, **kwargs):
-        super(ProjectForm, self).__init__(*args, **kwargs)  
+        super(ProjectForm, self).__init__(*args, **kwargs)
         for lang_code in settings.MODELTRANSLATION_LANGUAGES:
             self.fields[f'description_{lang_code}'] = forms.CharField(
                 max_length=3000,
@@ -98,6 +99,21 @@ class ProjectForm(forms.Form):
         for field_name in self.fields:
             return [self[field_name] for field_name in self.fields if field_name.startswith('equipment_')]
 
+    def getTassonomie():
+        with open(str(settings.BASE_DIR) + '/../resources/tassonomie.json', 'r') as f:
+            scelte_data = json.load(f)
+        tassonomie = []
+        # Trasforma in formato tuple di tuple (value, label)
+        for item in scelte_data:
+            tassonomie.append((item['id'], item['nome']))
+            if 'children' in item:
+                for child in item['children']:
+                    tassonomie.append((child['id'], "----" + child['nome']))
+                    #tassonomie.append((child['id'], child['nome']))
+                    if 'children' in child:
+                        for child1 in child['children']:
+                            tassonomie.append((child1['id'], '--------' + child1['nome']))
+        return tassonomie
 
     type = forms.ChoiceField(
         choices=settings.TIPO_PROGETTO,
@@ -224,9 +240,15 @@ class ProjectForm(forms.Form):
         required=False,
         label=_("Approximate end date of the project"))
 
-    topic = forms.ModelMultipleChoiceField(
-        queryset=Topic.objects.all(),
-        widget=Select2MultipleWidget(),
+    topic = forms.MultipleChoiceField(
+        #queryset=Topic.objects.all(),
+        choices= getTassonomie(),
+        widget=forms.Select(
+            attrs={
+                'multiple' : 'multiple',
+                'style': 'max-height: 300px; overflow-y: auto;'
+            }
+        ), #Select2MultipleWidget(),
         help_text=_(
             'Please select the project topic(s) or field(s) of science.'),
         #required=False,
@@ -732,3 +754,4 @@ class ProjectPermissionForm(forms.Form):
         widget=Select2MultipleWidget,
         required=False,
         label=_("Give additional users permission to edit"))
+

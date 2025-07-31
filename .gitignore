@@ -76,3 +76,5 @@ src/whoosh_index
 venv
 venv2
 .idea
+
+resources/tassonomie.json

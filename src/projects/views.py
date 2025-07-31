@@ -239,7 +239,6 @@ def editProject(request, pk):
 
 
     form = ProjectForm(initial=initial_data)
-    build_tree(project.topic.all().values())
 
     return TemplateResponse(request, 'project_form.html', {
         'form': form,
@@ -247,16 +246,6 @@ def editProject(request, pk):
         'user': user,
         'permissionForm': permissionForm})
 
-
-def build_tree(records, parent_concept='', livello=0):
-    for r in records:
-        # Se r'è radice o figlio di parent_concept
-        if (parent_concept == '' and not r['broader']) or (r['broader'] == parent_concept):
-            # Formatta il nome con prefisso
-            prefisso = '--' * livello
-            print(f"{prefisso}{r['topic']}")
-            # Ricorsivamente stampa i figli
-            build_tree(records, parent_concept=r['concept'], livello=livello+1)
 
 def translateProject(request, pk):
     project = get_object_or_404(Project, id=pk)

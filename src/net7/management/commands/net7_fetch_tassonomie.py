@@ -5,6 +5,7 @@ from django.db import connection
 import requests
 import json
 from projects.models import Topic
+from django.conf import settings
 
 class Command(BaseCommand):
     help = 'Seed dati principali'
@@ -30,6 +31,7 @@ class Command(BaseCommand):
             data = self.query_sparql()
             #print(json.dumps(data))
             self.save(data)
+            self.writeJsonTree()
         except Exception as e:
             print(e)
 
@@ -52,23 +54,52 @@ class Command(BaseCommand):
     def save(self, data):
         self.stdout.write("Eseguo il comando save ...")
         try:
-            i = 0
             for item in data['result']['sparql']['results']['bindings']:
-                concept = item['concept']['value']
-                label_it = item['label_it']['value']
-                label_en = item['label_en']['value']
-                broader = ""
+
                 if 'broader' in item:
                     broader = item['broader']['value']
-                print('Creo record ' + concept + ' it ' + label_it + ' en ' + label_en + ' broader ' + str(broader) )
+                    topic = Topic.objects.filter(concept=item['concept']['value'],broader=broader).first()
+                else:
+                    topic = Topic.objects.filter(concept=item['concept']['value']).first()
 
-                Topic.objects.create(
-                    #topic = "pippo " + str(i),  #concept,
-                    topic_it = label_it,
-                    topic_en = label_en,
-                    broader = broader,
-                    concept = concept,
-                )
-                i += 1
+                if topic:
+                    topic.label_it = item['label_it']['value']
+                    topic.label_en = item['label_en']['value']
+                    topic.save()
+                else:
+                    concept = item['concept']['value']
+                    label_it = item['label_it']['value']
+                    label_en = item['label_en']['value']
+                    broader = ""
+                    if 'broader' in item:
+                        broader = item['broader']['value']
+                    print('Creo record ' + concept + ' it ' + label_it + ' en ' + label_en + ' broader ' + str(broader) )
+
+                    Topic.objects.create(
+                        #topic = "pippo " + str(i),  #concept,
+                        topic_it = label_it,
+                        topic_en = label_en,
+                        broader = broader,
+                        concept = concept,
+                    )
         except Exception as e:
             print(e)
+
+    def build_tree(self,nodes, parent=''):
+        tree = []
+        for node in nodes:
+            if node['broader'] == parent:
+                children = self.build_tree(nodes, node['concept'])
+                subtree = {'id': node['id'], 'concept': node['concept'], 'nome': node['topic_it']}
+                if children:
+                    subtree['children'] = children
+                tree.append(subtree)
+        return tree
+
+    def writeJsonTree(self):
+        records = list(Topic.objects.all().values('id','concept', 'topic_it', 'broader'))
+        tree = self.build_tree(records,'')
+        print(json.dumps(tree))
+        nomefile = str(settings.BASE_DIR) + '/../resources/tassonomie.json'
+        with open(nomefile, 'w', encoding='utf-8') as f:
+            json.dump(tree, f, ensure_ascii=False, indent=2)

@@ -15,6 +15,7 @@ import platform
 from django.contrib import messages
 # Use 12factor inspired environment variables or from a file
 import environ
+import json
 
 env = environ.Env()
 
