@@ -14,6 +14,7 @@ from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
 import json
+import os
 #from provincia.models import Provincia
 
 
@@ -100,7 +101,11 @@ class ProjectForm(forms.Form):
             return [self[field_name] for field_name in self.fields if field_name.startswith('equipment_')]
 
     def getTassonomie():
-        with open(str(settings.BASE_DIR) + '/../resources/tassonomie.json', 'r') as f:
+        nomefile = str(settings.BASE_DIR) + '/../resources/tassonomie.json'
+        if not os.path.exists(nomefile):
+            return []
+
+        with open(nomefile, 'r') as f:
             scelte_data = json.load(f)
         tassonomie = []
         # Trasforma in formato tuple di tuple (value, label)
