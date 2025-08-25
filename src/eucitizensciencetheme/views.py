@@ -71,7 +71,7 @@ def get_projects(request):
     projects_bio = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
     markers = []
     markers_bio = []
-    #zones = [];
+    zones = [];
     for project in projects:
         # Check if the project has projectCountry related
         # if project.projectCountry.exists():
@@ -94,7 +94,12 @@ def get_projects(request):
                 'project_id': project.id
             }
             markers.append(marker)
-
+        if project.aree:
+            zones.append({
+                'id': project.id,
+                'nome': project.name,
+                'location': project.aree
+            })
         # if project.provincia_id:
         #     marker = {
         #         'latitude': project.provincia.latitude,
@@ -136,7 +141,12 @@ def get_projects(request):
                 'project_id': project.id
             }
             markers_bio.append(marker)
-
+        if project.aree:
+            zones.append({
+                'id': project.id,
+                'nome': project.name,
+                'location': project.aree
+            })
         # if project.provincia_id:
         #     marker = {
         #         'latitude': project.provincia.latitude,
@@ -149,7 +159,7 @@ def get_projects(request):
 
     #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
     #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
-    zones = []
+    #zones = []
     return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
 
 def get_organisations(request):

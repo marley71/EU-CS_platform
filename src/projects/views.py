@@ -231,7 +231,8 @@ def editProject(request, pk):
         'risultati' : project.risultati,
         'inaturalist' : project.inaturalist,
         'type' : project.type,
-        'funding_program' : project.fundingProgram
+        'funding_program' : project.fundingProgram,
+        'aree' : project.aree,
     }
 
     translation_fields=['description','aim', 'howToParticipate','equipment']

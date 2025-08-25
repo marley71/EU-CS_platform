@@ -185,6 +185,8 @@ class Project(models.Model):
     #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
     provincia = models.ManyToManyField(Provincia)  # nuova relazione molti a molti
     stato = models.CharField(max_length=50, null=True, blank=True) # stato progetto.. completato,non ancora iniziato, abbandonato
+    aree = models.JSONField(null=True, blank=True)
+
     # Legacy
     country = CountryField(null=True, blank=True)
 
