@@ -13,7 +13,8 @@ from django.core.files import File
 from django.db.models import Q
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from authtools.models import User
+from profiles.models import Profile
 
 
 class Command(BaseCommand):
@@ -81,7 +82,7 @@ class Command(BaseCommand):
                     longitude = row['Lng']
                 organisation = self.getOrganisations(row,latitude,longitude)
                 user_id = self.getUser(row)
-
+                self.stdout.write(' utente ' + str(user_id))
                 project = Project.objects.create(
                     name=row['Nome del progetto'],
                     description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
@@ -91,7 +92,7 @@ class Command(BaseCommand):
                     url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
-                    creator_id=1,  # id superadmin
+                    creator_id=user_id,  # id superadmin
                     mainOrganisation=organisation,
                     # country=country.country,
                     start_date=timezone.make_aware(start_date),
@@ -237,11 +238,24 @@ class Command(BaseCommand):
         return org
 
     def getUser(self,row):
-        return None
-        # user = User.objects.get(email=row['Email utente'])
-        # if user == None:
-        #     User.
+        if not row['Email utente']:
+            return 1
+        user = User.objects.filter(email=row['Email utente']).first()
+        if user == None:
+            user = User.objects.create(
+                password=row['Email utente'].split('@')[0],
+                is_superuser=False,
+                email=row['Email utente'],
+                is_staff=False,
+                is_active=True,
+                name=row['Email utente'].split('@')[0],
+            )
+            profile = Profile.objects.get(pk=user.id)
+            profile.surname = user.name
+            profile.profileVisible = True
+            profile.save()
 
+        return user.id
 
     def genera_coordinate_italia(self):
         latitudine = random.uniform(36.6, 47.1)
