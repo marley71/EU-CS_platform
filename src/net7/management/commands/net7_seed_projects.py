@@ -45,8 +45,8 @@ class Command(BaseCommand):
 
     def normalProjects(self):
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
-
+        #csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
+        csv_file = os.path.join(basedir, 'resources', 'progetti_agosto2025 (2).csv')
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
 
@@ -63,13 +63,25 @@ class Command(BaseCommand):
             end_period = "2025-07-31 23:59:59"
 
             for row in rows:
+                if not 'PROVINCE' in row:
+                    raise ValueError("Il file CSV non contiene la colonna PROVINCE.")
+
+
                 status = self.getStatus(row['Stato di attività'])
-                organisation = self.getOrganisations(row)
+
                 # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
-                localita = Localita.objects.filter(name=row['Regione']).first()
+                #localita = Localita.objects.filter(name=row['Regione']).first()
                 # keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['Nome del progetto'])
                 start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+                latitude = 41.53
+                longitude = 12.28
+                if row['Lat'] and row['Lng']:
+                    latitude = row['Lat']
+                    longitude = row['Lng']
+                organisation = self.getOrganisations(row,latitude,longitude)
+                user_id = self.getUser(row)
+
                 project = Project.objects.create(
                     name=row['Nome del progetto'],
                     description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
@@ -85,13 +97,16 @@ class Command(BaseCommand):
                     start_date=timezone.make_aware(start_date),
                     end_date=timezone.make_aware(end_date),
                     dateUpdated=timezone.make_aware(end_date),
-                    localita_id=localita.id,
+                    #localita_id=localita.id,
+                    localita_id = 1,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
-                    longitude=localita.longitude,
-                    latitude=localita.latitude,
+                    longitude=longitude,
+                    latitude=latitude,
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
+
+
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
 
@@ -99,6 +114,16 @@ class Command(BaseCommand):
                 self.setKeywords(project, row)
                 self.setImage(project, row)
                 self.setGeograficExtend(project, row)
+                self.setProvince(project, row)
+
+                provincia = project.provincia.first()
+                if provincia:
+                    project.latitude = provincia.latitude
+                    project.longitude = provincia.longitude
+                    project.save()
+                    organisation.latitude = provincia.latitude
+                    organisation.longitude = provincia.longitude
+                    organisation.save()
 
 
 
@@ -184,11 +209,11 @@ class Command(BaseCommand):
 #             )
         return status
 
-    def getOrganisations(self,row):
+    def getOrganisations(self,row,latitude,longitude):
         org = Organisation.objects.filter(name=row['Principale organizzazione promotrice']).first()
         if org == None:
-            localita = Localita.objects.filter(name=row['Regione']).first()
-            self.stdout.write('localita ' + localita.name + ' ' + str(localita.id))
+            #localita = Localita.objects.filter(name=row['Regione']).first()
+            #self.stdout.write('localita ' + localita.name + ' ' + str(localita.id))
             orgType = OrganisationType.objects.filter(type='default').first()
             if orgType == None:
                 orgType = OrganisationType.objects.create(
@@ -196,19 +221,27 @@ class Command(BaseCommand):
                     type_it='default',
                 )
             #latitudine, longitudine = self.genera_coordinate_italia()
-            quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
-            latitudine = localita.latitude + quantita_casuale
-            quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
-            longitudine = localita.longitude + quantita_casuale
+            #quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
+            #latitudine = localita.latitude + quantita_casuale
+            #quantita_casuale = Decimal(str(random.uniform(0.05, 0.20)))
+            #longitudine = localita.longitude + quantita_casuale
+
             org = Organisation.objects.create(
                 name=row['Principale organizzazione promotrice'],
                 creator_id=1,
                 orgType=orgType,
-                latitude=latitudine,
-                longitude=longitudine,
-                localita_id=localita.id,
+                latitude=latitude,
+                longitude=longitude,
+                localita_id=1 #localita.id,
             )
         return org
+
+    def getUser(self,row):
+        return None
+        # user = User.objects.get(email=row['Email utente'])
+        # if user == None:
+        #     User.
+
 
     def genera_coordinate_italia(self):
         latitudine = random.uniform(36.6, 47.1)
@@ -245,9 +278,9 @@ class Command(BaseCommand):
 
 
     def setKeywords(self,project,row):
-        if not row['TAGs/Keywords']:
+        if not row['Keywords']:
             return
-        keywords = str(row['TAGs/Keywords'])
+        keywords = str(row['Keywords'])
         for keyword in keywords.split(','):
             kModel = Keyword.objects.get_or_create(keyword=keyword.strip())
             self.stdout.write(kModel[0].keyword)
@@ -301,5 +334,22 @@ class Command(BaseCommand):
             generated_end_date = generated_start_date + timedelta(days=1)
 
         return generated_start_date, generated_end_date
+
+    def setProvince(self,project,row):
+        province = row['PROVINCE'].split(';')
+        if (not province):
+            self.stdout.write(f'il progetto ' + str(project.id) + ' non ha province ')
+            return
+        for provincia in province:
+            if len(provincia.strip()) == 2:
+                #la considero una sigla.
+                provObj = Provincia.objects.filter(sigla__iexact=provincia.strip()).first()
+            else:
+                provObj = Provincia.objects.filter(nome__iexact=provincia.strip()).first()
+
+            if provObj == None:
+                self.stdout.write(f'il progetto ' + str(project.id) + ' provincia non trovata con  ' + provincia.strip())
+            else:
+                project.provincia.add(provObj)
 
 
