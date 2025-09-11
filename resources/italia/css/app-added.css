@@ -1,0 +1,10 @@
+table.moderazione td,
+table.moderazione th {
+
+    border-bottom: 1px solid gray;
+}
+
+table.moderazione {
+    margin-top:10px;
+    margin-bottom:30px;
+}
