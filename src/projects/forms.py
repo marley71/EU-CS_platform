@@ -15,6 +15,8 @@ from django.utils import timezone
 from django.conf import settings
 import json
 import os
+
+
 #from provincia.models import Provincia
 
 
@@ -319,6 +321,13 @@ class ProjectForm(forms.Form):
         }),
         label=_("Project geographic location"))
 
+    aree = forms.CharField(
+        #max_length=100,
+        widget=forms.Textarea(),
+        help_text=_(
+            'Please name the contact person or contact point of the project.'),
+        required=False,
+        label=_("Public contact point"))
     # projectCountry = forms.ModelMultipleChoiceField(
     #     queryset=ProjectCountry.objects.all(),
     #     widget=Select2MultipleWidget(),
@@ -531,6 +540,11 @@ class ProjectForm(forms.Form):
             project.image3 = images[2]
         if (images[3] != '/'):
             project.logo = images[3]
+
+        if self.data.get('aree',None):
+            project.aree = self.data.get('aree')
+        else:
+            project.aree = None
         #print("immagini progetto")
         #print(images)
         user = args.user

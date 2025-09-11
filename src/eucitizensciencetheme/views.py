@@ -1,3 +1,6 @@
+import os
+import string
+
 from django.views import generic
 from datetime import datetime
 from django.shortcuts import render
@@ -18,6 +21,7 @@ from profiles.models import Profile
 from events.models import Event
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
+from django.conf import settings
 
 from rest_framework import serializers
 
@@ -71,7 +75,7 @@ def get_projects(request):
     projects_bio = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
     markers = []
     markers_bio = []
-    #zones = [];
+    zones = [];
     for project in projects:
         # Check if the project has projectCountry related
         # if project.projectCountry.exists():
@@ -95,25 +99,13 @@ def get_projects(request):
             }
             markers.append(marker)
 
-        # if project.provincia_id:
-        #     marker = {
-        #         'latitude': project.provincia.latitude,
-        #         'longitude': project.provincia.longitude,
-        #         'name': project.name,
-        #         'project_url': f'/project/{project.id}',
-        #         'project_id': project.id
-        #     }
-        #     markers.append(marker)
-        # elif project.mainOrganisation:
-        #     # Use mainOrganisation if there's no projectCountry
-        #     marker = {
-        #         'latitude': project.mainOrganisation.latitude,
-        #         'longitude': project.mainOrganisation.longitude,
-        #         'name': project.name,
-        #         'project_url': f'/project/{project.id}',
-        #         'project_id': project.id
-        #     }
-        #     markers.append(marker)
+        # if project.aree:
+        #     zones.append({
+        #         'id': project.id,
+        #         'nome': project.name,
+        #         'location': project.aree
+        #     })
+
     for project in projects_bio:
         # Check if the project has projectCountry related
         # if project.projectCountry.exists():
@@ -137,20 +129,92 @@ def get_projects(request):
             }
             markers_bio.append(marker)
 
-        # if project.provincia_id:
+        # if project.aree:
+        #     zones.append({
+        #         'id': project.id,
+        #         'nome': project.name,
+        #         'location': project.aree
+        #     })
+
+
+
+    #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
+    #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
+    #zones = []
+    return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
+
+def get_projects_webmapp(request):
+    geojson = {
+        'type': 'FeatureCollection',
+        'features': []
+    }
+    #keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
+    #projects = Project.objects.filter(approved=True).exclude(keywords__id=keyword.id).prefetch_related('projectCountry')
+    projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
+    basedir = os.path.dirname(settings.BASE_DIR)
+    html_file = os.path.join(basedir, 'resources', 'template-webmapp.html')
+    html_string = ''
+    with open(html_file, 'r', encoding='utf-8') as f:
+        html_string = f.read()
+
+    for project in projects:
+        # Check if the project has projectCountry related
+        # if project.projectCountry.exists():
+        #     for country in project.projectCountry.all():
+        #         marker = {
+        #             'latitude': country.latitude,
+        #             'longitude': country.longitude,
+        #             'name': project.name,
+        #             'project_url': f'/project/{project.id}',
+        #             'project_id': project.id
+        #         }
+        #         markers.append(marker)
+
+        varibili_progetto = {
+            'nome': project.name,
+            'id': project.id,
+        }
+        html = html_string
+        for key, val in varibili_progetto.items():
+            html = html.replace(f'{{{{{key}}}}}', str(val))
+
+        # template = string.Template(html_string)
+        # html = template.safe_substitute({
+        #     'nome' : project.name,
+        #     'id' : project.id,
+        # })
+        geojson['features'].append({
+            'type': 'Feature',
+            'properties': {
+                'id': project.id,
+                'popup' : {
+                    'html' : html
+                }
+            },
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [project.longitude, project.latitude]
+            }
+        })
+
+        # if project.latitude and project.longitude:
         #     marker = {
-        #         'latitude': project.provincia.latitude,
-        #         'longitude': project.provincia.longitude,
+        #         'latitude': project.latitude,
+        #         'longitude': project.longitude,
         #         'name': project.name,
         #         'project_url': f'/project/{project.id}',
         #         'project_id': project.id
         #     }
-        #     markers_bio.append(marker)
+        #     markers.append(marker)
 
-    #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
-    #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
-    zones = []
-    return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
+        # if project.aree:
+        #     zones.append({
+        #         'id': project.id,
+        #         'nome': project.name,
+        #         'location': project.aree
+        #     })
+    return JsonResponse(geojson)
+
 
 def get_organisations(request):
     # Filter approved projects with non-null mainOrganisation

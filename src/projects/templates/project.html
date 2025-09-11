@@ -561,10 +561,22 @@
                 var map = L.map('map').setView([lat, lon], 8); // 13 è il livello di zoom
 
                 // Aggiungi una mappa di base (OpenStreetMap)
+                /*
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© OpenStreetMap'
+                }).addTo(map); */
+
+                // layer webmapp
+                //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
+
+                 L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© Webmapp'
                 }).addTo(map);
+
+
+
 
                 // Aggiungi un marker al centro della mappa
                 var marker = L.marker([lat, lon]).addTo(map);

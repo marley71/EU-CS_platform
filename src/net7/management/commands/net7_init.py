@@ -156,18 +156,18 @@ class Command(BaseCommand):
             name_it='Eventi',
             position=3
         )
-#         TopBar.objects.create(
-#             name='map',
-#             slug='/map',
-#             name_it='Mappa',
-#             position=4
-#         )
         TopBar.objects.create(
-            name='bdsweek_map',
-            slug='/bdsweek_map',
-            name_it='BS Week',
-            position=5
+            name='map',
+            slug='/map',
+            name_it='Mappa',
+            position=4
         )
+        # TopBar.objects.create(
+        #     name='bdsweek_map',
+        #     slug='/bdsweek_map',
+        #     name_it='BS Week',
+        #     position=5
+        # )
         TopBar.objects.create(
             name='about',
             slug='/p/about',

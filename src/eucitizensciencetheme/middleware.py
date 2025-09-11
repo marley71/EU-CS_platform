@@ -32,7 +32,7 @@ class FooterMiddleware:
         # do this only if the response is a TemplateResponse
         if isinstance(response, TemplateResponse):
             response.context_data['footer'] = Footer.objects.first()
-            response.context_data['footerPages'] = Pages.objects.filter(id__in=(1,2,3,4,5)).order_by("id")
+            response.context_data['footerPages'] = Pages.objects.filter(id__in=(1,2,3,4,5,7)).order_by("id")
 
         return response
 
