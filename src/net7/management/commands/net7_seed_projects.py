@@ -11,11 +11,11 @@ from organisations.models import OrganisationType
 from django.conf import settings
 from django.core.files import File
 from django.db.models import Q
-from datetime import datetime, timedelta
+#from datetime import datetime, timedelta
 from django.utils import timezone
 from authtools.models import User
 from profiles.models import Profile
-
+import datetime
 
 class Command(BaseCommand):
     help = 'Seed projects'
@@ -78,10 +78,10 @@ class Command(BaseCommand):
 
                 if not row['Data Inizio']:
                     row['Data Inizio'] = "01/01/2025"
-                start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
+                start_date = datetime.datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
                 end_date = None
                 if row['Data Fine']:
-                    end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
+                    end_date = datetime.datetime.strptime(row['Data Fine'], "%d/%m/%Y")
 
                 latitude = 41.53
                 longitude = 12.28
@@ -106,8 +106,8 @@ class Command(BaseCommand):
                     mainOrganisation=organisation,
                     # country=country.country,
                     start_date=timezone.make_aware(start_date),
-                    end_date=timezone.make_aware(end_date),
-                    dateUpdated=timezone.make_aware(end_date),
+                    end_date=timezone.make_aware(end_date) if end_date else None,
+                    dateUpdated=timezone.make_aware(end_date) if end_date else timezone.make_aware(datetime.datetime.now()),
                     #localita_id=localita.id,
                     localita_id = 1,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
