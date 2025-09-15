@@ -74,7 +74,15 @@ class Command(BaseCommand):
                 #localita = Localita.objects.filter(name=row['Regione']).first()
                 # keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['Nome del progetto'])
-                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+                #start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+
+                if not row['Data Inizio']:
+                    row['Data Inizio'] = "01/01/2025"
+                start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
+                end_date = None
+                if row['Data Fine']:
+                    end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
+
                 latitude = 41.53
                 longitude = 12.28
                 if row['Lat'] and row['Lng']:
