@@ -92,9 +92,11 @@ class Command(BaseCommand):
                 user_id = self.getUser(row)
                 self.stdout.write(' utente ' + str(user_id))
                 project = Project.objects.create(
+                    type=row['Tipo'],
                     name=row['Nome del progetto'],
-                    description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    citizen_science_aspects_description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    # description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    # description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
                     aim=row['Scopo principale del progetto'],
                     aim_it=row['Scopo principale del progetto'],
                     url=row['Sito web di riferimento'],
