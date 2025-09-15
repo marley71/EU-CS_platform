@@ -3,6 +3,7 @@ from django.conf import settings
 from pages.models import Pages
 import os
 
+import shutil
 
 class Command(BaseCommand):
     help = 'Seed Pages'
@@ -96,3 +97,8 @@ class Command(BaseCommand):
             raise CommandError(f"Il file {external_file} non esiste.")
         except IOError:
             raise CommandError("Errore durante la lettura del file.")
+
+        shutil.copy(basedir + "/resources/images/pages/biodiversitygateway.png",basedir + "/src/media/images/biodiversitygateway.png")
+        shutil.copy(basedir + "/resources/images/pages/eu-citizen-science.svg",basedir + "/src/media/images/eu-citizen-science.svg")
+        shutil.copy(basedir + "/resources/images/pages/logo-csi_1-800x255.png",basedir + "/src/media/images/logo-csi_1-800x255.png")
+        shutil.copy(basedir + "/resources/images/pages/Logo_NBFC.png",basedir + "/src/media/images/Logo_NBFC.png")
