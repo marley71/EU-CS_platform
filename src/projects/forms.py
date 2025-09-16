@@ -250,6 +250,7 @@ class ProjectForm(forms.Form):
     topic = forms.MultipleChoiceField(
         #queryset=Topic.objects.all(),
         choices= getTassonomie(),
+        required=False,
         widget=forms.CheckboxSelectMultiple(
             attrs={
 #                 'style': 'max-height: 300px; overflow-y: auto;'
@@ -325,9 +326,9 @@ class ProjectForm(forms.Form):
         #max_length=100,
         widget=forms.Textarea(),
         help_text=_(
-            'Please name the contact person or contact point of the project.'),
+            "Please insert project's areas"),
         required=False,
-        label=_("Public contact point"))
+        label=_("Project areas"))
     # projectCountry = forms.ModelMultipleChoiceField(
     #     queryset=ProjectCountry.objects.all(),
     #     widget=Select2MultipleWidget(),
@@ -573,7 +574,7 @@ class ProjectForm(forms.Form):
                 project.localita = localita
         project.save()
 
-        project.topic.set(self.data.getlist('topic'))
+        #project.topic.set(self.data.getlist('topic'))
         project.keywords.set(self.data.getlist('keywords'))
         project.fundingBody.set(self.data.getlist('funding_body'))
         project.participationTask.set(self.data.getlist('participationTask'))

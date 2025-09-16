@@ -1446,6 +1446,16 @@ msgstr ""
 msgid "About funding"
 msgstr ""
 
+
+#: profiles/templates/profiles/privacy_center.html:4
+msgid "Please insert project's areas"
+msgstr "Inserisci le aree del progetto trami il tool del link. in caso di modifica copia il testo in questa area e incollalo nel tool <a href='https://geojson.io' target='_blank'>Tool aree</a>"
+
+#: profiles/templates/profiles/privacy_center.html:4
+msgid "Project areas"
+msgstr "Aree Progetto"
+
+
 #: projects/templates/project.html:111
 #, fuzzy
 #| msgid "Funding body"
