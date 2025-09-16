@@ -738,6 +738,14 @@ msgstr "Nuotrauka"
 msgid "Permissions and password"
 msgstr "Leidimai ir slaptažodis"
 
+#: profiles/templates/profiles/privacy_center.html:4
+msgid "Please insert project's areas"
+msgstr "Inserisci le aree del progetto trami il tool del link. in caso di modifica copia il testo in questa area e incollalo nel tool <a href='' target='_blank'>Tool aree</a>"
+
+#: profiles/templates/profiles/privacy_center.html:4
+msgid "Project areas"
+msgstr "Aree Progetto"
+
 #: profiles/templates/profiles/privacy_center.html:40
 msgid "General information"
 msgstr "Bendrinė informacija"

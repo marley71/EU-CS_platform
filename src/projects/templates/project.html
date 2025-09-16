@@ -586,6 +586,19 @@
                     attribution: '© Webmapp'
                 }).addTo(map);
 
+                    var zonesData = JSON.parse({{aree_json|safe}});
+                    console.debug('zones',zonesData)
+                    L.geoJSON(zonesData).addTo(map);
+                
+
+                /*
+                zonesData.forEach(progetto => {
+                    L.geoJSON(JSON.parse(progetto.location), {
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup(progetto.nome);
+                        }
+                    }).addTo(map);
+                })*/
 
                 // Aggiungi un marker al centro della mappa
                 var marker = L.marker([lat, lon]).addTo(map);

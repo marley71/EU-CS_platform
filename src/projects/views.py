@@ -565,6 +565,8 @@ def project(request, pk):
     followedProject = FollowedProjects.objects.all().filter(
         user_id=user.id, project_id=pk).exists()
     approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+
+
     return TemplateResponse(request, 'project.html', {
         'project': project,
         'liked': liked,
@@ -579,6 +581,7 @@ def project(request, pk):
         'hasPermissionToEdit': hasPermissionToEdit,
         'form': form,
         'status': status,
+        'aree_json' : json.dumps(project.aree.replace('\n', '').replace('\r', '')) if project.aree else json.dumps("[]"),
         'isSearchPage': True})
 
 

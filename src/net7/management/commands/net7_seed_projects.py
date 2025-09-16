@@ -83,8 +83,8 @@ class Command(BaseCommand):
                 if row['Data Fine']:
                     end_date = datetime.datetime.strptime(row['Data Fine'], "%d/%m/%Y")
 
-                latitude = 41.53
-                longitude = 12.28
+                latitude = 41.88915
+                longitude = 12.50196
                 if row['Lat'] and row['Lng']:
                     latitude = row['Lat']
                     longitude = row['Lng']
