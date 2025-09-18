@@ -581,6 +581,7 @@ def project(request, pk):
         'hasPermissionToEdit': hasPermissionToEdit,
         'form': form,
         'status': status,
+        'has_aree' : 1 if project.aree else 0,
         'aree_json' : json.dumps(project.aree.replace('\n', '').replace('\r', '')) if project.aree else json.dumps("[]"),
         'isSearchPage': True})
 
