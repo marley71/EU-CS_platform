@@ -193,7 +193,7 @@ def get_projects_webmapp(request):
             },
             'geometry': {
                 'type': 'Point',
-                'coordinates': [project.longitude, project.latitude]
+                'coordinates': [float(project.longitude), float(project.latitude)]
             }
         })
 
