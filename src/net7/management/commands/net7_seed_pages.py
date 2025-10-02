@@ -10,17 +10,27 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         basedir = os.path.dirname(settings.BASE_DIR)
-        Pages.objects.create(
-            creator_id=1,
-            name="Condizioni di utilizzo",
-            name_it="Condizioni di utilizzo",
-            slug="condizioni-di-utilizzo",
-            content="Condizioni di utilizzo",
-            content_it="Condizioni di utilizzo",
-        )
 
-        moderazione_file = os.path.join(basedir, 'resources', 'moderazione.htm')
 
+        condizioni_utilizzo_file = os.path.join(basedir, 'resources/pages', 'condizioni_utilizzo.htm')
+        try:
+            with open(condizioni_utilizzo_file, 'r') as file:
+                contenuto = file.read()
+
+            Pages.objects.create(
+                creator_id=1,
+                name="Politiche di utilizzo",
+                name_it="Politiche di utilizzo",
+                slug="condizioni-di-utilizzo",
+                content=contenuto,
+                content_it=contenuto,
+            )
+        except FileNotFoundError:
+            raise CommandError(f"Il file {condizioni_utilizzo_file} non esiste.")
+        except IOError:
+            raise CommandError("Errore durante la lettura del file.")
+
+        moderazione_file = os.path.join(basedir, 'resources/pages', 'moderazione.htm')
         try:
             with open(moderazione_file, 'r') as file:
                 contenuto = file.read()
@@ -37,33 +47,34 @@ class Command(BaseCommand):
         except IOError:
             raise CommandError("Errore durante la lettura del file.")
 
+
+        privacy_file = os.path.join(basedir, 'resources/pages', 'privacy.htm')
+        try:
+            with open(privacy_file, 'r') as file:
+                contenuto = file.read()
+            Pages.objects.create(
+                creator_id=1,
+                name="Privacy & Cookie Policy",
+                name_it="Privacy & Cookie Policy",
+                slug="privacy-cookie-policy",
+                content=contenuto,
+                content_it=contenuto,
+            )
+        except FileNotFoundError:
+            raise CommandError(f"Il file {privacy_file} non esiste.")
+        except IOError:
+            raise CommandError("Errore durante la lettura del file.")
+
         Pages.objects.create(
             creator_id=1,
-            name="API",
-            name_it="API",
-            slug="api",
-            content="API",
-            content_it="API",
-        )
-        Pages.objects.create(
-            creator_id=1,
-            name="Privacy Policy",
-            name_it="Privacy Policy",
-            slug="privacy-policy",
-            content="Privacy Policy",
-            content_it="Privacy Policy",
-        )
-        Pages.objects.create(
-            creator_id=1,
-            name="Cookie Policy",
-            name_it="Cookie Policy",
-            slug="cookie-policy",
-            content="Cookie Policy",
-            content_it="Cookie Policy",
+            name="Contatti",
+            name_it="Contatti",
+            slug="contatti",
+            content="Contatti",
+            content_it="Contatti",
         )
 
-        about_file = os.path.join(basedir, 'resources', 'about.htm')
-
+        about_file = os.path.join(basedir, 'resources/pages', 'about.htm')
         try:
             with open(about_file, 'r') as file:
                 contenuto = file.read()
@@ -80,7 +91,7 @@ class Command(BaseCommand):
         except IOError:
             raise CommandError("Errore durante la lettura del file.")
 
-        external_file = os.path.join(basedir, 'resources', 'risorse-esterne.htm')
+        external_file = os.path.join(basedir, 'resources/pages', 'risorse-esterne.htm')
 
         try:
             with open(external_file, 'r') as file:
