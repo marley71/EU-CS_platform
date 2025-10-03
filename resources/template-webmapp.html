@@ -1,35 +1,18 @@
 <div style='font-size: 1.1em; line-height: 1.4em;'>
     {#    <strong>ID:</strong> <span style='white-space: pre-wrap;'>{{id}}</span><br>#}
-    <strong>Titolo del Progetto:</strong> <span style='white-space: pre-wrap;'>{{ nome }}</span><br>
+    <strong>Titolo del Progetto:</strong> <span style='white-space: pre-wrap;'>{{nome}}</span><br>
     <strong>Estensione geografica:</strong> <span style='white-space: pre-wrap;'>
-        {% for geographicextend in project.geographicextend.all %}
-            {{ geographicextend | capfirst }}
-            {% if not forloop.last %} - {% endif %}
-        {% endfor %}
+        {{geographicextend}}
     </span><br>
     <strong>Luogo di svolgimento:</strong> <span style='white-space: pre-wrap;'>
-        {{ projectlocality }}
+        {{projectlocality}}
     </span><br>
-    {% if url %}
         <strong>Maggiori dettagli:</strong>
-        <a target="_blank" href="{{ url }}">
+        <a target="_blank" href="{{url}}">
             <span style='white-space: pre-wrap;'>
-                {{ url }}
+                {{url}}
             </span>
         </a>
         <br>
-    {% endif %}
-    {% if image1 %}
-        <div style='display: flex; justify-content: start;'>
-            <a href='{{ image1 | safe }}'
-               target='_blank'>
-                <img src='{{  image1 | safe }}'
-                     style='width: 60px; margin-right: 5px; height: 60px; border: 1px solid #ccc; border-radius: 40%; padding: 2px;'
-                     alt='Thumbnail'>
-            </a>
-        </div>
-    {% endif %}
-    {#    <br>#}
-    {#    <a href='https://osm2cai.cai.it/resources/source-surveys/4300' target='_blank' style='text-decoration: underline;'>Vedi#}
-    {#        su OSM2CAI</a>#}
+        {{image}}
 </div>

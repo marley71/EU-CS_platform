@@ -157,6 +157,7 @@ def get_projects_webmapp(request):
     with open(html_file, 'r', encoding='utf-8') as f:
         html_string = f.read()
 
+
     for project in projects:
         # Check if the project has projectCountry related
         # if project.projectCountry.exists():
@@ -171,16 +172,36 @@ def get_projects_webmapp(request):
         #         markers.append(marker)
 
         image1 = None
+
+        html_string_image = ''
         if project.image1:
-            image1 = request.get_host + '/media/' + project.image1
+            html_file_image = os.path.join(basedir, 'resources', 'template-webmapp-image.html')
+            with open(html_file_image, 'r', encoding='utf-8') as f:
+                html_string_image = f.read()
+            image1 = request.get_host()  + project.image1.url
+            html_string_image = html_string_image.replace("{{image1}}", str(image1))
+
+
+
+        geographicextend = ""
+        first = True
+        for geo in project.geographicextend.all():
+            if first:
+                geographicextend += geo.geographicextend
+                first = False
+            else:
+                geographicextend += ' - ' + geo.geographicextend
+
         variabili_progetto = {
             'nome': project.name,
             'id': project.id,
-            'projectlocality': project.projectLocality,
+            'projectlocality': project.projectlocality,
             'url': project.url,
-            'image1' : image1,
-            'geographicextend' : project.geographicextend,
+            'geographicextend' : geographicextend,
+            'image' : html_string_image
         }
+
+
         html = html_string
         for key, val in variabili_progetto.items():
             html = html.replace(f'{{{{{key}}}}}', str(val))
