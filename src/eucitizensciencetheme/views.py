@@ -241,19 +241,20 @@ def get_organisations(request):
 
 def home(request):
     # Projects
+    nProjects = 4;
     user = request.user
     main = get_object_or_404(Main)
     projects = Project.objects.get_queryset().filter(~Q(hidden=True)).filter(approved=True).order_by('-dateCreated')
     projectsCounter = len(projects)
-    paginatorprojects = Paginator(projects, 3)
+    paginatorprojects = Paginator(projects, nProjects)
     page = request.GET.get('page')
     projects = paginatorprojects.get_page(page)
     # To only show some topics and keywords
     for project in projects:
         combined = list(project.topic.all()) + list(project.keywords.all())
-        if len(combined) > 3:
-            project.display_items = combined[:3]
-            project.more_count = len(combined) - 3
+        if len(combined) > nProjects:
+            project.display_items = combined[:nProjects]
+            project.more_count = len(combined) - nProjects
         else:
             project.display_items = combined
             project.more_count = 0
