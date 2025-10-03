@@ -389,8 +389,8 @@
                         <h5 class="mt-5">Estensione geografica</h5>
                         <div>
                             {% for geographicextend in project.geographicextend.all %}
-                                <a class="project-topic"
-                                   href="/projects?geographicextend={{ geographicextend }}">{{ geographicextend }}</a>
+                                {{ geographicextend | capfirst }}
+                                {% if not forloop.last %} - {% endif %}
                             {% endfor %}
                         </div>
                     {% endif %}

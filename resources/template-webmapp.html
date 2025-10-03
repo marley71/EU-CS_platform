@@ -1,21 +1,35 @@
 <div style='font-size: 1.1em; line-height: 1.4em;'>
-    <strong>ID:</strong> <span style='white-space: pre-wrap;'>{{id}}</span><br>
-    <strong>Progetto:</strong> <span style='white-space: pre-wrap;'>{{nome}}</span><br>
-    <strong>Data del monitoraggio:</strong> <span style='white-space: pre-wrap;'>23-03-2025</span><br>
-    <strong>Sorgente Attiva:</strong> <span style='white-space: pre-wrap;'>SI</span><br>
-    <strong>Portata:</strong> <span style='white-space: pre-wrap;'>0.1 L/s</span><br>
-    <strong>Temperatura:</strong> <span style='white-space: pre-wrap;'>11.9C</span><br>
-    <strong>Conducibilitá elettrica:</strong> <span style='white-space: pre-wrap;'>407 microS/cm</span><br>
-    <div style='display: flex; justify-content: start;'>
-        <a href='https://osm2cai.cai.it/storage/ugc-media/MVTP8ShERHyyT2BFg7ajKnXCwgtSUMMA9n6dRz4G.jpg' target='_blank'>
-            <img src='https://osm2cai.cai.it/storage/ugc-media/MVTP8ShERHyyT2BFg7ajKnXCwgtSUMMA9n6dRz4G.jpg' style='width: 60px; margin-right: 5px; height: 60px; border: 1px solid #ccc; border-radius: 40%; padding: 2px;' alt='Thumbnail'>
+    {#    <strong>ID:</strong> <span style='white-space: pre-wrap;'>{{id}}</span><br>#}
+    <strong>Titolo del Progetto:</strong> <span style='white-space: pre-wrap;'>{{ nome }}</span><br>
+    <strong>Estensione geografica:</strong> <span style='white-space: pre-wrap;'>
+        {% for geographicextend in project.geographicextend.all %}
+            {{ geographicextend | capfirst }}
+            {% if not forloop.last %} - {% endif %}
+        {% endfor %}
+    </span><br>
+    <strong>Luogo di svolgimento:</strong> <span style='white-space: pre-wrap;'>
+        {{ projectlocality }}
+    </span><br>
+    {% if url %}
+        <strong>Maggiori dettagli:</strong>
+        <a target="_blank" href="{{ url }}">
+            <span style='white-space: pre-wrap;'>
+                {{ url }}
+            </span>
         </a>
-        <a href='https://osm2cai.cai.it/storage/ugc-media/DT3Y9asspKY0RJOzFHH0kxuhdrI0XCD7h5DqnNpU.jpg' target='_blank'>
-            <img src='https://osm2cai.cai.it/storage/ugc-media/DT3Y9asspKY0RJOzFHH0kxuhdrI0XCD7h5DqnNpU.jpg' style='width: 60px; margin-right: 5px; height: 60px; border: 1px solid #ccc; border-radius: 40%; padding: 2px;' alt='Thumbnail'>
-        </a>
-        <a href='https://osm2cai.cai.it/storage/ugc-media/29K3nKPU7dE7rVQI3IBDzkklFssCDGGfNxm9UlIQ.jpg' target='_blank'>
-            <img src='https://osm2cai.cai.it/storage/ugc-media/29K3nKPU7dE7rVQI3IBDzkklFssCDGGfNxm9UlIQ.jpg' style='width: 60px; margin-right: 5px; height: 60px; border: 1px solid #ccc; border-radius: 40%; padding: 2px;' alt='Thumbnail'>
-        </a>
-    </div><br>
-    <a href='https://osm2cai.cai.it/resources/source-surveys/4300' target='_blank' style='text-decoration: underline;'>Vedi su OSM2CAI</a>
+        <br>
+    {% endif %}
+    {% if image1 %}
+        <div style='display: flex; justify-content: start;'>
+            <a href='{{ image1 | safe }}'
+               target='_blank'>
+                <img src='{{  image1 | safe }}'
+                     style='width: 60px; margin-right: 5px; height: 60px; border: 1px solid #ccc; border-radius: 40%; padding: 2px;'
+                     alt='Thumbnail'>
+            </a>
+        </div>
+    {% endif %}
+    {#    <br>#}
+    {#    <a href='https://osm2cai.cai.it/resources/source-surveys/4300' target='_blank' style='text-decoration: underline;'>Vedi#}
+    {#        su OSM2CAI</a>#}
 </div>

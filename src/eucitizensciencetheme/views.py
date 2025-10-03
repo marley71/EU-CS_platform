@@ -170,12 +170,19 @@ def get_projects_webmapp(request):
         #         }
         #         markers.append(marker)
 
-        varibili_progetto = {
+        image1 = None
+        if project.image1:
+            image1 = request.get_host + '/media/' + project.image1
+        variabili_progetto = {
             'nome': project.name,
             'id': project.id,
+            'projectlocality': project.projectLocality,
+            'url': project.url,
+            'image1' : image1,
+            'geographicextend' : project.geographicextend,
         }
         html = html_string
-        for key, val in varibili_progetto.items():
+        for key, val in variabili_progetto.items():
             html = html.replace(f'{{{{{key}}}}}', str(val))
 
         # template = string.Template(html_string)
