@@ -25,7 +25,7 @@
         }
 
         #map {
-            height: 300px; /* Altezza della mappa */
+            height: 600px; /* Altezza della mappa */
             width: 100%; /* Larghezza della mappa */
         }
     </style>
@@ -389,8 +389,8 @@
                         <h5 class="mt-5">Estensione geografica</h5>
                         <div>
                             {% for geographicextend in project.geographicextend.all %}
-                                <a class="project-topic"
-                                   href="/projects?geographicextend={{ geographicextend }}">{{ geographicextend }}</a>
+                                {{ geographicextend | capfirst }}
+                                {% if not forloop.last %} - {% endif %}
                             {% endfor %}
                         </div>
                     {% endif %}
@@ -416,11 +416,6 @@
 
                         </div>
                     {% endif %}
-                    {% if project.latitude and project.longitude %}
-                        <div class="mt-3">
-                            <div id="map"></div>
-                        </div>
-                    {% endif %}
                     {% if form %}
                         <div class="mt-3">
                             {{ form.projectGeographicLocation|as_crispy_field }}
@@ -437,6 +432,12 @@
                         <h5 class="mt-5">Link ai dati su iNaturalist</h5>
                         <div>
                             <a class="project-topic" href="{{ project.inaturalist }}">{{ project.inaturalist }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if project.aree or project.latitude %}
+                        <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
+                            <div id="map"></div>
                         </div>
                     {% endif %}
 
@@ -509,6 +510,9 @@
                 {#                        </div>#}
                 {#                    {% endif %}#}
                 {#                </div>#}
+
+
+
                 <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
 
                     <div class="text-smaller text-muted">
@@ -537,6 +541,7 @@
 
                 </div>
 
+
                 {% if events %}
                     <hr/>
                     <h1 class="h1 text-center mt-5 mb-5">
@@ -563,50 +568,86 @@
         $(function () {
             $(".toast").toast("show")
             // Coordinate del punto centrale (ad esempio, Roma)
-            if ("{{ project.latitude }}{{ project.longitude }}") {
-                console.debug('aaaaa');
-                var lat = parseFloat("{{ project.latitude }}".replace(',', '.')); //41.9028; // Latitudine
-                var lon = parseFloat("{{ project.longitude }}".replace(',', '.')); //12.4964; // Longitudine
-                console.debug(lat, lon)
-                // Crea la mappa e imposta il punto centrale
-                var map = L.map('map').setView([lat, lon], 8); // 13 è il livello di zoom
 
-                // Aggiungi una mappa di base (OpenStreetMap)
-                /*
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© OpenStreetMap'
-                }).addTo(map); */
 
-                // layer webmapp
-                //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
-
-                L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© Webmapp'
-                }).addTo(map);
-
+            if ({{ has_aree }}) {
+                if ("{{ project.latitude }}{{ project.longitude }}") {
+                    console.debug('aaaaa');
+                    var lat = parseFloat("41.806455"); //41.9028; // Latitudine
+                    var lon = parseFloat("12.979574"); //12.4964; // Longitudine
+                    console.debug(lat, lon)
+                    // Crea la mappa e imposta il punto centrale
                     var zonesData = JSON.parse({{aree_json|safe}});
-                    console.debug('zones',zonesData)
-                    L.geoJSON(zonesData).addTo(map);
-                
+                    var map = L.map('map').setView([lat, lon], 6); // 13 è il livello di zoom
 
-                /*
-                zonesData.forEach(progetto => {
-                    L.geoJSON(JSON.parse(progetto.location), {
-                        onEachFeature: function (feature, layer) {
-                            layer.bindPopup(progetto.nome);
-                        }
+                    // Aggiungi una mappa di base (OpenStreetMap)
+                    /*
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map); */
+
+                    // layer webmapp
+                    //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
+
+                    L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© Webmapp'
                     }).addTo(map);
-                })*/
 
-                // Aggiungi un marker al centro della mappa
-                var marker = L.marker([lat, lon]).addTo(map);
+                    console.debug('zones', zonesData)
+                    L.geoJSON(zonesData).addTo(map);
 
-                // Opzionale: Aggiungi un popup al marker
-                marker.bindPopup("<b>{{ project.name }}<b>").openPopup();
+
+                    /*
+                    zonesData.forEach(progetto => {
+                        L.geoJSON(JSON.parse(progetto.location), {
+                            onEachFeature: function (feature, layer) {
+                                layer.bindPopup(progetto.nome);
+                            }
+                        }).addTo(map);
+                    })*/
+
+                    // Aggiungi un marker al centro della mappa
+                }
+
+            } else {
+                if ("{{ project.latitude }}{{ project.longitude }}") {
+                    console.debug('aaaaa');
+                    var lat = parseFloat("{{ project.latitude }}".replace(',', '.')); //41.9028; // Latitudine
+                    var lon = parseFloat("{{ project.longitude }}".replace(',', '.')); //12.4964; // Longitudine
+                    console.debug(lat, lon)
+                    // Crea la mappa e imposta il punto centrale
+                    var map = L.map('map').setView([lat, lon], 7); // 13 è il livello di zoom
+
+                    // Aggiungi una mappa di base (OpenStreetMap)
+                    /*
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map); */
+
+                    // layer webmapp
+                    //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
+
+                    L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© Webmapp'
+                    }).addTo(map);
+
+                    var marker = L.marker([lat, lon]).addTo(map);
+
+                    // Opzionale: Aggiungi un popup al marker
+                    marker.bindPopup("<b>{{ project.name }}<b>").openPopup();
+
+                    // Aggiungi un marker al centro della mappa
+                }
+
             }
+
+
         })
+
 
         $(function () {
             if (typeof geodjango_projectGeographicLocation !== 'undefined') {

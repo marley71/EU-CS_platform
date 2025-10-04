@@ -157,6 +157,7 @@ def get_projects_webmapp(request):
     with open(html_file, 'r', encoding='utf-8') as f:
         html_string = f.read()
 
+
     for project in projects:
         # Check if the project has projectCountry related
         # if project.projectCountry.exists():
@@ -170,12 +171,39 @@ def get_projects_webmapp(request):
         #         }
         #         markers.append(marker)
 
-        varibili_progetto = {
+        image1 = None
+
+        html_string_image = ''
+        if project.image1:
+            html_file_image = os.path.join(basedir, 'resources', 'template-webmapp-image.html')
+            with open(html_file_image, 'r', encoding='utf-8') as f:
+                html_string_image = f.read()
+            image1 = request.get_host()  + project.image1.url
+            html_string_image = html_string_image.replace("{{image1}}", str(image1))
+
+
+
+        geographicextend = ""
+        first = True
+        for geo in project.geographicextend.all():
+            if first:
+                geographicextend += geo.geographicextend
+                first = False
+            else:
+                geographicextend += ' - ' + geo.geographicextend
+
+        variabili_progetto = {
             'nome': project.name,
             'id': project.id,
+            'projectlocality': project.projectlocality,
+            'url': project.url,
+            'geographicextend' : geographicextend,
+            'image' : html_string_image
         }
+
+
         html = html_string
-        for key, val in varibili_progetto.items():
+        for key, val in variabili_progetto.items():
             html = html.replace(f'{{{{{key}}}}}', str(val))
 
         # template = string.Template(html_string)
@@ -193,7 +221,7 @@ def get_projects_webmapp(request):
             },
             'geometry': {
                 'type': 'Point',
-                'coordinates': [project.longitude, project.latitude]
+                'coordinates': [float(project.longitude), float(project.latitude)]
             }
         })
 
@@ -241,19 +269,20 @@ def get_organisations(request):
 
 def home(request):
     # Projects
+    nProjects = 4;
     user = request.user
     main = get_object_or_404(Main)
     projects = Project.objects.get_queryset().filter(~Q(hidden=True)).filter(approved=True).order_by('-dateCreated')
     projectsCounter = len(projects)
-    paginatorprojects = Paginator(projects, 3)
+    paginatorprojects = Paginator(projects, nProjects)
     page = request.GET.get('page')
     projects = paginatorprojects.get_page(page)
     # To only show some topics and keywords
     for project in projects:
         combined = list(project.topic.all()) + list(project.keywords.all())
-        if len(combined) > 3:
-            project.display_items = combined[:3]
-            project.more_count = len(combined) - 3
+        if len(combined) > nProjects:
+            project.display_items = combined[:nProjects]
+            project.more_count = len(combined) - nProjects
         else:
             project.display_items = combined
             project.more_count = 0

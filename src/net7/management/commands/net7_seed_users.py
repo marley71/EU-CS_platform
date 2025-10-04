@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
     def updateProfile(self,user):
         profile = Profile.objects.get(pk=user.id)
-        profile.surname = user.name
+        # profile.surname = user.name
         profile.profileVisible = True
         profile.email_verified = True
         profile.save()

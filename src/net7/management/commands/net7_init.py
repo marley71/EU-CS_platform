@@ -162,17 +162,23 @@ class Command(BaseCommand):
             name_it='Mappa',
             position=4
         )
-        # TopBar.objects.create(
-        #     name='bdsweek_map',
-        #     slug='/bdsweek_map',
-        #     name_it='BS Week',
-        #     position=5
-        # )
+        TopBar.objects.create(
+            name='bdsweek_map',
+            slug='/bdsweek_map',
+            name_it='BS Week',
+            position=5
+        )
         TopBar.objects.create(
             name='about',
             slug='/p/about',
             name_it='About',
             position=6
+        )
+        TopBar.objects.create(
+            name='risorse_esterne',
+            slug='/p/external-resources',
+            name_it='Risorse esterne',
+            position=7
         )
 
     def createCountries(self):

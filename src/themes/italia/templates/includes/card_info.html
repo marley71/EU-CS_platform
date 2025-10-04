@@ -12,10 +12,12 @@
 {#</div>#}
 
 
-<div class="card rounded-4 px-4 py-1 d-flex flex-column gap-3"
+<div class="card rounded-4 px-4 py-1 d-flex flex-column justify-content-between gap-3"
      style="background-image: url('{% static bgimage %}'); background-size: cover;height:310px;">
-    <div class="mt-5 h3 text-white">{{ cardTitle|default:"Progetti" }}</div>
-    <p class="text-white">{{ cardDescription|default:"Et quos voluptatum id ipsam ipsa est quas quidem et aliquam accusamus id quia tempore ut earum vitae qui ipsam suscipit." }}</p>
+    <div class="d-flex flex-column">
+        <div class="mt-5 mb-5 h3 text-white">{{ cardTitle|default:"Progetti" }}</div>
+        <p class="text-white">{{ cardDescription|default:"Et quos voluptatum id ipsam ipsa est quas quidem et aliquam accusamus id quia tempore ut earum vitae qui ipsam suscipit." }}</p>
+    </div>
     <div>
         {% if cardActionLink %}
             <p>
