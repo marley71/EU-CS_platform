@@ -269,8 +269,8 @@ TIPO_PUBBLICO = (
 )
 
 TIPO_PROGETTO = (
-    ('attivita' , "Attività"),
-    ('progetto' , "Progetto"),
+    ('Attivita' , "Attività"),
+    ('Progetto' , "Progetto"),
 )
 
 LANGUAGE_CODES = [
