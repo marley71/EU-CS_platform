@@ -4085,6 +4085,31 @@ msgid "Contact project submitter"
 msgstr "Contatta l'autore"
 
 
+#------ contatto
+
+msgid "contact name"
+msgstr "Nome"
+
+msgid "Please provide your name"
+msgstr "Perfavore inserisci il tuo nome"
+
+msgid "telephone number"
+msgstr "Telefono"
+
+msgid "Please provide your telephone number"
+msgstr "Perfavore inserisci il tuo numero di telefono"
+
+msgid "email address"
+msgstr "Indirizzo email"
+
+msgid "Please provide your email address"
+msgstr "Perfavore inserisci il tuo indirizzo email"
+
+msgid "message"
+msgstr "Messaggio"
+
+msgid "Please provide your message"
+msgstr "Pefavore inserisci il tuo messaggio"
 
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"

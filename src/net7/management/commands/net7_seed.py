@@ -18,7 +18,8 @@ class Command(BaseCommand):
         call_command('net7_seed_province')
 
         self.stdout.write("Eseguo il comando populate projects...")
-        call_command('net7_seed_projects',type='normal')
+        #call_command('net7_seed_projects',type='normal')
+        call_command('net7_seed_projects')
 
         self.stdout.write("Eseguo il comando populate event...")
         call_command('net7_seed_events')
