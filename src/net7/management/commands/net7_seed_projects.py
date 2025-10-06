@@ -136,11 +136,9 @@ class Command(BaseCommand):
                     organisation.longitude = provincia.longitude
                     organisation.save()
 
-
-
     def weeklyProjects(self):
         basedir = os.path.dirname(settings.BASE_DIR)
-        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week_FINALE_05052025.csv')
+        csv_file = os.path.join(basedir, 'resources', 'File progetto biodiversity sampling week_FINALE_04102025.csv')
 
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
@@ -158,20 +156,41 @@ class Command(BaseCommand):
             end_period = "2025-07-31 23:59:59"
 
             for row in rows:
-                status = self.getStatus(row['Stato di attività'])
-                organisation = self.getOrganisations(row)
-                # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
-                self.stdout.write(f'cerco provincia (' + str(row['PROVINCIA']) + ')')
+                if not 'PROVINCE' in row:
+                    raise ValueError("Il file CSV non contiene la colonna PROVINCE.")
 
-                provincia = Provincia.objects.filter(sigla=str(row['PROVINCIA']).strip()).first()
-                localita = Localita.objects.filter(name=provincia.regione).first()
+                status = self.getStatus(row['Stato di attività'])
+
+                # country = ProjectCountry.objects.filter(country_name=row['Regione']).first()
+                #self.stdout.write(f'cerco provincia (' + str(row['PROVINCE']) + ')')
+
+                #provincia = Provincia.objects.filter(sigla=str(row['PROVINCIA']).strip()).first()
+                #localita = Localita.objects.filter(name=provincia.regione).first()
                 # keyword = Keyword.objects.filter(keyword='Importazione').first()
                 self.stdout.write(row['Nome del progetto'])
-                start_date, end_date = self.generate_start_end_dates(start_period, end_period)
-                start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
-                end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
-                email = str(row['email']).strip()
+                #start_date, end_date = self.generate_start_end_dates(start_period, end_period)
+                #start_date = datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
+                #end_date = datetime.strptime(row['Data Fine'], "%d/%m/%Y")
+                if not row['Data Inizio']:
+                    row['Data Inizio'] = "01/01/2025"
+                start_date = datetime.datetime.strptime(row['Data Inizio'], "%d/%m/%Y")
+                end_date = None
+                if row['Data Fine']:
+                    end_date = datetime.datetime.strptime(row['Data Fine'], "%d/%m/%Y")
+
+                latitude = 41.88915
+                longitude = 12.50196
+                if row['Lat'] and row['Lng']:
+                    latitude = row['Lat']
+                    longitude = row['Lng']
+
+                #email = str(row['email']).strip()
+                organisation = self.getOrganisations(row,latitude,longitude)
+                user_id = self.getUser(row)
+                self.stdout.write(' utente ' + str(user_id))
+
                 project = Project.objects.create(
+                    type=row['Tipo'],
                     name=row['Nome del progetto'],
                     description=row['Descrizione'],
                     description_it=row['Descrizione'],
@@ -180,35 +199,48 @@ class Command(BaseCommand):
                     url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
-                    creator_id=1,  # id superadmin
+                    creator_id=user_id,  # id superadmin
                     mainOrganisation=organisation,
                     # country=country.country,
                     start_date=timezone.make_aware(start_date),
                     end_date=timezone.make_aware(end_date),
                     dateUpdated=timezone.make_aware(end_date),
-                    localita_id=localita.id,
+                    #localita_id=localita.id,
                     #provincia_id=provincia.id,
-                    author=row['Contatti'],
-                    author_email=email,
+                    localita_id=1,
+                    #author=row['Contatti'],
+                    #author_email=email,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
+                    longitude=longitude,
+                    latitude=latitude,
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
                 # project.projectCountry.add(country)
                 project.organisation.add(organisation)
-                if provincia:
-                    project.provincia.add(provincia)
-                    project.latitude = provincia.latitude
-                    project.longitude = provincia.longitude
-                elif localita:
-                    project.latitude = localita.latitude
-                    project.longitude = localita.longitude
+                # if provincia:
+                #     project.provincia.add(provincia)
+                #     project.latitude = provincia.latitude
+                #     project.longitude = provincia.longitude
+                # elif localita:
+                #     project.latitude = localita.latitude
+                #     project.longitude = localita.longitude
 
                 # project.keywords.add(keyword)
-                row['TAGs/Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
+                row['Keywords'] = "biodiversity sampling week" #forzo la keyword a questa
                 self.setKeywords(project, row)
                 self.setImageBsw(project, row)
                 self.setGeograficExtend(project, row)
+                self.setProvince(project, row)
+
+                provincia = project.provincia.first()
+                if provincia:
+                    project.latitude = provincia.latitude
+                    project.longitude = provincia.longitude
+                    project.save()
+                    organisation.latitude = provincia.latitude
+                    organisation.longitude = provincia.longitude
+                    organisation.save()
 
     def getStatus(self,code):
         status = Status.objects.filter(status_code=code).first()

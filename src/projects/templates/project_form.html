@@ -131,12 +131,16 @@
                                     {{ form.start_date|as_crispy_field }}
                                     {{ form.end_date|as_crispy_field }}
                                 <label for="topic" class="control-label ">
-                                    Argomento scientifico*
+                                    Argomenti scientifici*
                                 </label>
                                     <div style="height:300px !important;overflow-y:auto;border: 1px solid black; margin-top:5px; margin-bottom:5px;padding:6px;">
 
                                         {{ form.topic|as_crispy_field }}
                                     </div>
+                                <div class="help-block mb-3">
+                                    {%  trans 'Please select the project topic(s) or field(s) of science.' %}
+                                </div>
+
                                     {{ form.keywords |as_crispy_field }}
                                     {{ form.tipo_pubblico|as_crispy_field }}
                                     <div id="div_id_tipo_pubblico_altro"

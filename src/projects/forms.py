@@ -257,8 +257,8 @@ class ProjectForm(forms.Form):
                 'style': 'margin-right:5px;'
             }
         ), #Select2MultipleWidget(),
-        help_text=_(
-            'Please select the project topic(s) or field(s) of science.'),
+        #help_text=_(
+        #    'Please select the project topic(s) or field(s) of science.'),
         #required=False,
         label=''#_("Topic")
         )

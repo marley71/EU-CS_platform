@@ -1,0 +1,363 @@
+{% extends "base_r2.html" %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+
+{% block head %}
+    {{ block.super }}
+
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    {{ form.media.css }}
+    {{ form.media.js }}
+
+{% endblock head %}
+
+    Contatti
+
+{% block navbar-left %}
+    {% include "_navbar.html" with active_link="projects" %}
+{% endblock %}
+
+
+{% block list_of_items %}
+
+
+    <section class="bg-plum-100 pt-5" style="min-height: 800px;">
+    <div class="container mt-5">
+                    <div class="row mt-5 pb-3 border-bottom mb-4">
+                        <div class="col-12 text-center">
+                            <h1>{% block title %} Contatti {% endblock title %}</h1>
+                        </div>
+                    </div>
+            <div class="row pb-5">
+                <div class="col-12 col-md-8 offset-md-2 text-center">
+                <h5>
+                    Hai domande sulla piattaforma o hai dei suggerimenti? Scrivici qui!
+                </h5>
+                </div>
+            </div>
+            <div class="row pb-5">
+                <div class="col-12 col-md-8 offset-md-2">
+
+        <form action="/contatto" id='form_project' class="edit-project" method="post" enctype="multipart/form-data">
+            <div class="row">
+                {% csrf_token %}
+                <div class="col-12">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" id="projectID" name="projectID" value={{ contatto.id }}>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="errors"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    <div class="mb-3">
+                                    {{ form.nome|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
+                                    {{ form.email|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
+                                    {{ form.telefono|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
+                                    {{ form.messaggio|as_crispy_field }}
+                                    </div>
+
+
+                                    <button class="btn btn-outline-success submit mt-3">
+                                        <i class="fas fa-share-square"></i> {% trans "Send" %}
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+        </div>
+
+    </section>
+{% endblock list_of_items %}
+{% block scripts %}
+    <script src="{% static 'site/js/site.js' %}"></script>
+    <script src="{% static 'scripts/cropper.min.js' %}"></script>
+    <script src="{% static 'scripts/jquery-cropper.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('input').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
+            $('select').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
+            $('.select2-selection--multiple').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
+
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].on('focus', function (e) {
+                    id = '#cke_' + $(this).attr('name')
+                    if ($(id).is('.error'))
+                        $(id).removeClass('error');
+                })
+            }
+
+            $('.submit').click(function (e) {
+                e.preventDefault()
+
+                /* To check that we click on Save & continue  */
+                if ($(this).hasClass('continue'))
+                    var contin = true
+                else
+                    var contin = false
+                $('.myerror').remove()
+                $.ajaxSettings.traditional = true;
+                for (var instanceName in CKEDITOR.instances)
+                    CKEDITOR.instances[instanceName].updateElement();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/saveProjectAjax',
+                    processData: false,
+                    contentType: false,
+                    data: new FormData(document.getElementById("form_project")),
+                    success: function (response) {
+                        if (contin) {
+                            $('#projectID').val(response.Project)
+                            console.log('continue')
+                            $('.savedInfo').html('<div class="bg-my-darkGreen text-white fade show" style="margin: 12px;"> <p style="margin: 16px 12px -42px 12px;"> <small> {% trans "Your project has been saved." %}<br>{% trans "You can continue editing at any time in the" %} <a href="https://eu-citizen.science//users/me/submissions">{% trans "My Submissions section of your personal area."%}</a> </small> </p> </div>').show().fadeOut(8000, "swing")
+                            window.location.reload();
+                        } else {
+                            window.location.href = '/project/' + response.Project + '?prev=' + window.location.pathname
+                        }
+                    },
+                    error: function (response) {
+                        if (response.status == 500) {
+                            alert('Unexpected error, please contact with the administrator')
+                        }
+                        $.each(response.responseJSON, function (i, val) {
+                            $('#id_' + i).addClass('error')
+                            $('#id_' + i).parent().find('.select2-selection--multiple').addClass('error')
+                            $('#hint_id_' + i).append('<div class="myerror small text-danger">' + val + '</div>')
+                            $('#cke_id_' + i).addClass('error')
+                            $('#' + i + '-tab').addClass('error')
+
+
+                        })
+                        $('html, body').animate({
+                            scrollTop: $('.myerror:visible:first').offset().top - 300
+                        }, 30);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+
+        $(function () {
+            var imgSelected;
+            var cropper = null;
+            /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+            $("#id_image1").change(function () {
+                imgSelected = 1;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_image2").change(function () {
+                imgSelected = 2;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_image3").change(function () {
+                imgSelected = 3;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_logo").change(function () {
+                imgSelected = 'logo';
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#imageResult1").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResult2").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResult3").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResultlogo").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            /* SCRIPTS TO HANDLE THE CROPPER BOX */
+            var $image = $("#image");
+            var cropBoxData;
+            var canvasData;
+            $("#modalCrop").on("shown.bs.modal", function () {
+                cropper = new Cropper($image, {
+                    viewMode: 1,
+                    aspectRatio: imgSelected == 3 ? 11 / 4 : 3 / 2,
+                    minCropBoxWidth: imgSelected == 3 ? 1100 : 600,
+                    minCropBoxHeight: 400,
+                    dragMode: 'move',
+                    guides: false,
+                    center: false,
+                    highlight: false,
+                    cropBoxResizable: false,
+                    toggleDragModeOnDblclick: false,
+                });
+            }).on("hidden.bs.modal", function () {
+                console.debug('hide');
+                cropBoxData = $image.cropper("getCropBoxData");
+                canvasData = $image.cropper("getCanvasData");
+                $image.cropper("destroy");
+            });
+
+            const myModalEl = document.getElementById('modalCrop')
+            console.debug('aggancio eventi sulla modale', myModalEl)
+            myModalEl.addEventListener('shown.bs.modal', function (event) {
+                // do something...
+                console.debug('aproooo')
+            })
+            myModalEl.addEventListener('hidden.bs.modal', function (event) {
+                // do something...
+                console.debug('chiusssaaa')
+            })
+            myModalEl.addEventListener('hide.bs.modal', function (event) {
+                // do something...
+                console.debug('chiusssaaaa11')
+            })
+
+            $(".js-zoom-in").click(function () {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $(".js-zoom-out").click(function () {
+                $image.cropper("zoom", -0.1);
+            });
+
+            /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+            $(".js-crop-and-upload").click(function () {
+                var cropData = $image.cropper("getData");
+                $("#id_x" + imgSelected).val(cropData["x"]);
+                $("#id_y" + imgSelected).val(cropData["y"]);
+                $("#id_height" + imgSelected).val(cropData["height"]);
+                $("#id_width" + imgSelected).val(cropData["width"]);
+                $("#modalCrop").modal("hide");
+                console.debug('image selected ' + '#imageResult' + imgSelected);
+                setTimeout(function () {
+                    $('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas', {
+                        width: (imgSelected == 3 ? 1100 : 600),
+                        height: 400
+                    }).toDataURL());
+                    $image.cropper("destroy");
+                }, 200)
+
+            });
+
+            $(".read-before-save").click(function () {
+                readSavedConfirmation = true;
+                $("#savedModal").modal("hide");
+                $('form').submit();
+            });
+
+        });
+    </script>
+
+    <!-- ALERT IF BACK BUTTON IS PRESSED -->
+    <script>
+        $(document).ready(function () {
+
+            if (window.history && window.history.pushState) {
+
+                window.history.pushState('forward', null, null);
+
+                $(window).on('popstate', function () {
+                    alert('If you leave before saving, your changes will be lost. Be careful!');
+                });
+
+            }
+            init_map();
+        });
+
+        function tipo_pubblicoChange(value) {
+            if (value === 'altro') {
+                $('#div_id_tipo_pubblico_altro').removeClass('d-none');
+            } else {
+                $('#div_id_tipo_pubblico_altro').addClass('d-none');
+            }
+            //alert(value);
+        }
+    </script>
+
+    <script>
+        function init_map() {
+            // Inizializza la mappa
+            var mymap = L.map('mapid').setView([42,11], 6);
+
+            // Aggiunge un tile layer alla mappa (esempio con OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                //maxZoom: 6,
+                zoom: 6,
+                attribution: '© OpenStreetMap'
+            }).addTo(mymap);
+
+            // Aggiungi un marker draggable
+            console.log('map loaded',$('#id_latitude').val(),  $('#id_longitude').val());
+            var marker = L.marker([$('#id_latitude').val(),  $('#id_longitude').val()], {draggable: true}).addTo(mymap);
+
+            // Funzione per stampare le coordinate
+            function onDragEnd() {
+                var latlng = marker.getLatLng();
+                console.log("Coordinate attuali: ", latlng.lat, latlng.lng);
+                $('#id_latitude').val(latlng.lat);// attr('value',latlng.lat);
+                $('#id_longitude').val(latlng.lng);//.attr('value',latlng.lng);
+                // Qui puoi memorizzare le coordinate in una variabile o inviarle a un server
+            }
+
+            // Ascolta l'evento dragend sul marker
+            marker.on('dragend', onDragEnd);
+        }
+
+    </script>
+{% endblock scripts %}

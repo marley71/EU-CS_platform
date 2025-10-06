@@ -922,8 +922,7 @@ msgstr "Data di fine del progetto/attività"
 #: projects/forms.py:94
 msgid "Please select the project topic(s) or field(s) of science."
 msgstr ""
-"Seleziona l'argomento/gli argomenti del progetto/attività o il/i campo/i della scienza."
-"Gli argomenti scientifici sono tratti dallo standard <a href=\"https://eur-lex.europa.eu/browse/eurovoc.html\" target=\"_blank\">EuroVoc</a>"
+"Seleziona l'argomento/gli argomenti del progetto/attività o il/i campo/i della scienza.<br/>Gli argomenti scientifici sono tratti dallo standard <a href=\"https://op.europa.eu/en/web/eu-vocabularies/euroscivoc\" target=\"_blank\">EuroVoc</a>"
 
 
 #: projects/forms.py:94
@@ -1178,7 +1177,7 @@ msgid "Project-type"
 msgstr "Tipo di contenuto"
 
 msgid "Please provide the link of inaturalist data. Left blank if no data in inaturalist."
-msgstr "Scrivi il link ai dati inaturalist, lasciare vuoto se non ci sono dati su inaturalist per questo progetto/attività"
+msgstr "Scrivi il link ai dati iNaturalist, lasciare vuoto se non ci sono dati su iNaturalist per questo progetto/attività"
 
 msgid "Inaturalist data"
 msgstr "Dati iNaturalist"
@@ -1449,11 +1448,11 @@ msgstr ""
 
 #: profiles/templates/profiles/privacy_center.html:4
 msgid "Please insert project's areas"
-msgstr "Inserisci le aree del progetto trami il tool del link. in caso di modifica copia il testo in questa area e incollalo nel tool <a href='https://geojson.io' target='_blank'>Tool aree</a>"
+msgstr "Inserisci le aree del progetto utilizzando il codice generato da (<a href='https://geojson.io' target='_blank'>GeoJSON</a>). Per informazioni su come usare questa sezione visita il nostro <a href='/p/tutorial-geojson' target='_blank'>Tutorial</a>."
 
 #: profiles/templates/profiles/privacy_center.html:4
 msgid "Project areas"
-msgstr "Aree Progetto"
+msgstr "Aree di svolgimento del Progetto/Attività"
 
 
 #: projects/templates/project.html:111
@@ -4085,6 +4084,31 @@ msgid "Contact project submitter"
 msgstr "Contatta l'autore"
 
 
+#------ contatto
+
+msgid "contact name"
+msgstr "Nome"
+
+msgid "Please provide your name"
+msgstr "Perfavore inserisci il tuo nome"
+
+msgid "telephone number"
+msgstr "Telefono"
+
+msgid "Please provide your telephone number"
+msgstr "Perfavore inserisci il tuo numero di telefono"
+
+msgid "email address"
+msgstr "Indirizzo email"
+
+msgid "Please provide your email address"
+msgstr "Perfavore inserisci il tuo indirizzo email"
+
+msgid "message"
+msgstr "Messaggio"
+
+msgid "Please provide your message"
+msgstr "Pefavore inserisci il tuo messaggio"
 
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"

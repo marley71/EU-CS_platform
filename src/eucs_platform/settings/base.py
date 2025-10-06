@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "localita",
+    "contatti",
     #"provincia",
     "authtools",
     "crispy_forms",
@@ -268,8 +269,8 @@ TIPO_PUBBLICO = (
 )
 
 TIPO_PROGETTO = (
-    ('attivita' , "Attività"),
-    ('progetto' , "Progetto"),
+    ('Attivita' , "Attività"),
+    ('Progetto' , "Progetto"),
 )
 
 LANGUAGE_CODES = [
