@@ -58,7 +58,7 @@ class ContattoForm(forms.Form):
         max_length=200,
         widget=forms.Textarea(),
         help_text=_('Please provide your message'),
-        label=_('message') ,)
+        label=_('Scrivi qui') ,)
 
     ''' Save function '''
 

@@ -14,7 +14,7 @@
 
 {% endblock head %}
 
-{% block title %}{{ block.super }} :: New project{% endblock %}
+    Contatti
 
 {% block navbar-left %}
     {% include "_navbar.html" with active_link="projects" %}
@@ -24,23 +24,30 @@
 {% block list_of_items %}
 
 
+    <section class="bg-plum-100 pt-5" style="min-height: 800px;">
     <div class="container mt-5">
+                    <div class="row mt-5 pb-3 border-bottom mb-4">
+                        <div class="col-12 text-center">
+                            <h1>{% block title %} Contatti {% endblock title %}</h1>
+                        </div>
+                    </div>
+            <div class="row pb-5">
+                <div class="col-12 col-md-8 offset-md-2 text-center">
+                <h5>
+                    Hai domande sulla piattaforma o hai dei suggerimenti? Scrivici qui!
+                </h5>
+                </div>
+            </div>
+            <div class="row pb-5">
+                <div class="col-12 col-md-8 offset-md-2">
+
         <form action="/contatto" id='form_project' class="edit-project" method="post" enctype="multipart/form-data">
             <div class="row">
                 {% csrf_token %}
                 <div class="col-12">
 
                     <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-8">
-                            <h2>{{ text.title }}</h2>
-                            {#                  {{ text.paragraph | safe }}#}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-8">
-                            <h3 class="leftborder">{% trans "Main information" %}</h3>
+                        <div class="col-12">
                             <input type="hidden" id="projectID" name="projectID" value={{ contatto.id }}>
                             <div class="row">
                                 <div class="col-12">
@@ -50,14 +57,22 @@
                             <div class="row">
                                 <div class="col-1"></div>
                                 <div class="col-11">
+                                    <div class="mb-3">
                                     {{ form.nome|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
                                     {{ form.email|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
                                     {{ form.telefono|as_crispy_field }}
+                                    </div>
+                                    <div class="mb-3">
                                     {{ form.messaggio|as_crispy_field }}
+                                    </div>
 
 
-                                    <button class="btn btn-outline-success submit">
-                                        <i class="fas fa-share-square"></i> {% trans "Save" %}
+                                    <button class="btn btn-outline-success submit mt-3">
+                                        <i class="fas fa-share-square"></i> {% trans "Send" %}
                                     </button>
                                 </div>
                             </div>
@@ -70,6 +85,9 @@
             </div>
         </form>
     </div>
+        </div>
+
+    </section>
 {% endblock list_of_items %}
 {% block scripts %}
     <script src="{% static 'site/js/site.js' %}"></script>
