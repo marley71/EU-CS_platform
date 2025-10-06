@@ -1,6 +1,9 @@
 from .models import Contatto
 from django.contrib.gis import forms
 from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 
 class ContattoForm(forms.Form):
 
@@ -98,7 +101,7 @@ class ContattoForm(forms.Form):
 
 
         contatto.save()
-
+        self.inviaEmail(contatto)
         return contatto.id
 
 
@@ -124,3 +127,16 @@ class ContattoForm(forms.Form):
         contatto.email = email
         contatto.messaggio = messaggio
         contatto.telefono = telefono
+
+    def inviaEmail(self,contatto):
+        mail_subject = 'Richiesta informazioni'
+        message = render_to_string('emails/contatto_email.html', {
+            'contatto': contatto,
+            'domain': settings.HOST,
+        })
+        html_message = render_to_string('emails/contatto_email.html', {
+            'contatto': contatto,
+            'domain': settings.HOST,
+        })
+        to_email = settings.INFO_EMAIL
+        send_mail(mail_subject, message, to_email, [to_email], html_message=html_message)
