@@ -92,7 +92,6 @@ class Command(BaseCommand):
             raise CommandError("Errore durante la lettura del file.")
 
         external_file = os.path.join(basedir, 'resources/pages', 'risorse-esterne.htm')
-
         try:
             with open(external_file, 'r') as file:
                 contenuto = file.read()
@@ -113,3 +112,20 @@ class Command(BaseCommand):
         shutil.copy(basedir + "/resources/images/pages/eu-citizen-science.svg",basedir + "/src/media/images/eu-citizen-science.svg")
         shutil.copy(basedir + "/resources/images/pages/logo-csi_1-800x255.png",basedir + "/src/media/images/logo-csi_1-800x255.png")
         shutil.copy(basedir + "/resources/images/pages/Logo_NBFC.png",basedir + "/src/media/images/Logo_NBFC.png")
+
+        tutorialGeojson_file = os.path.join(basedir, 'resources/pages', 'tutorialGeojson.htm')
+        try:
+            with open(tutorialGeojson_file, 'r') as file:
+                contenuto = file.read()
+            Pages.objects.create(
+                creator_id=1,
+                name="Tutorial tool mappa",
+                name_it="Tutorial tool mappa",
+                slug="tutorial-geojson",
+                content=contenuto,
+                content_it=contenuto,
+            )
+        except FileNotFoundError:
+            raise CommandError(f"Il file {tutorialGeojson_file} non esiste.")
+        except IOError:
+            raise CommandError("Errore durante la lettura del file.")
