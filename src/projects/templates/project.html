@@ -86,12 +86,17 @@
                             {{ project.status|capfirst }}
                         </div>
                         <p class="text-smaller col-auto">
+                        {% if project.start_date and project.end_date and project.end_date != project.start_date %}
+                                {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
+
+                                {% trans "until" %} {{ project.end_date | date:"d/m/Y" }}
+                        {%  elif project.start_date and project.end_date == project.start_date %}
+                                {{ project.start_date | date:"d/m/Y" }}
+                        {%  else %}
                             {% if project.start_date %}
                                 {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
                             {% endif %}
-                            {% if project.end_date %}
-                                {% trans "until" %} {{ project.end_date | date:"d/m/Y" }}
-                            {% endif %}
+                        {% endif %}
                         </p>
                     </div>
                 </div>
@@ -510,7 +515,6 @@
                 {#                        </div>#}
                 {#                    {% endif %}#}
                 {#                </div>#}
-
 
 
                 <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
