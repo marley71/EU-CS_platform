@@ -1,0 +1,39 @@
+{% load i18n %}
+<h2>Richiesta informazioni</h2>
+{% block html_body  %}
+<body >
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+        <div style="background-color: #fff; width: 70%; border-radius: 6px; margin-top: 50px; font-family: roboto; padding-left: 24px; padding-right: 24px;">
+            <div>dal sito {{domain}} è stata inviata una richiesta informazioni. <br>Sotto i dati e il messaggio di chi ha effettuato la richiesta</div>
+            <table style="width: 100%; margin-top: 10px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+                <tr>
+                    <th style="text-align: left">
+                        Nome
+                    </th>
+                    <td>{{ contatto.nome }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: left">
+                        Email
+                    </th>
+                    <td>{{ contatto.email }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: left">
+                        Telefono
+                    </th>
+                    <td>{{ contatto.telefono }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: left">
+                        Messaggio
+                    </th>
+                    <td>{{ contatto.messaggio|linebreaksbr }}</td>
+                </tr>
+            </table>
+        </div>
+    <br>
+</body>
+{% endblock html_body %}

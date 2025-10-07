@@ -619,6 +619,7 @@ GRAPH_MODELS = {
     'group_models': True,
 }
 
+INFO_EMAIL='info@citizenscience.it'
 # For OSX
 if platform.system() == 'Darwin':
     GDAL_LIBRARY_PATH = '/opt/homebrew/opt/gdal/lib/libgdal.dylib'

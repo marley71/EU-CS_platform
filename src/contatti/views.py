@@ -14,13 +14,15 @@ from .forms import ContattoForm
 def newContact(request):
     #user = request.user
     form = ContattoForm()
+    inviato = 0
     if request.method == 'POST':
         form.data = request.POST
         form.save()
+        inviato = 1
 
     #text = get_object_or_404(HelpText, slug='new-project')
     return TemplateResponse(request, 'contatto_form.html', {
-        'form': form})
+        'form': form,'inviato': inviato})
 
 
 # def showDigests(request):
