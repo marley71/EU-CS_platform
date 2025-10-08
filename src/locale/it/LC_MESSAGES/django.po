@@ -922,7 +922,7 @@ msgstr "Data di fine del progetto/attività"
 #: projects/forms.py:94
 msgid "Please select the project topic(s) or field(s) of science."
 msgstr ""
-"Seleziona l'argomento/gli argomenti del progetto/attività o il/i campo/i della scienza.<br/>Gli argomenti scientifici sono tratti dallo standard <a href=\"https://op.europa.eu/en/web/eu-vocabularies/euroscivoc\" target=\"_blank\">EuroVoc</a>"
+"Seleziona l'argomento/gli argomenti del progetto/attività o il/i campo/i della scienza.<br/>Gli argomenti scientifici sono tratti dallo standard <a href=\"https://op.europa.eu/en/web/eu-vocabularies/euroscivoc\" target=\"_blank\">EuroSciVoc</a>"
 
 
 #: projects/forms.py:94
