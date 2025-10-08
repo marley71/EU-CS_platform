@@ -297,7 +297,7 @@ class Command(BaseCommand):
                 name=row['Email utente'].split('@')[0],
             )
             profile = Profile.objects.get(pk=user.id)
-            profile.surname = user.name
+            #profile.surname = user.name
             profile.profileVisible = True
             profile.save()
 
