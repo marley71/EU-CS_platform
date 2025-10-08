@@ -996,7 +996,7 @@ msgstr "Cosa portare"
 
 #: projects/forms.py:140
 msgid "Please indicate the spatial scale of the project"
-msgstr "Si prega di indicare l’estensione geografica del progetto/dell’attività"
+msgstr "Indica l'estensione geografica del progetto/attività (es nazionale, comunale, etc)"
 
 #: projects/forms.py:148
 msgid "Project locality"
@@ -1008,10 +1008,9 @@ msgid ""
 "participant activities take place. E.g. in your backyard, parks in London, "
 "rivers in Europe, online globally, etc."
 msgstr ""
-"Si prega di inserire i dettagli circa la località del progetto/dell’attività. Se disponibile, è possibile  inserire "
-"anche un indirizzo puntuale (es. Luogo di ritrovo), "
-"Per esempio: quartiere XY, nei parchi pubblici della città XY,corsi "
-"d’acqua della provincia di XY, online, etc."
+"Inserisci maggiori dettagli circa la località del progetto/attività. Se necessario, è possibile inserire anche un "
+"indirizzo puntuale (es. Luogo di ritrovo), Per esempio: quartiere XY, nei parchi pubblici della città XY,corsi d’acqua "
+"della provincia di XY, online, etc."
 
 #: projects/forms.py:156
 msgid "Project geographic location"
@@ -1448,7 +1447,8 @@ msgstr ""
 
 #: profiles/templates/profiles/privacy_center.html:4
 msgid "Please insert project's areas"
-msgstr "Inserisci le aree del progetto utilizzando il codice generato da (<a href='https://geojson.io' target='_blank'>GeoJSON</a>). Per informazioni su come usare questa sezione visita il nostro <a href='/p/tutorial-geojson' target='_blank'>Tutorial</a>."
+msgstr "Utilizza quest'area per definire l'area o le aree specifiche del tuo progetto utilizzando il codice generato da "
+"(<a href='https://geojson.io' target='_blank'>GeoJSON</a>). Per informazioni su come usare questa sezione visita la sezione <a href='/p/tutorial-geojson' target='_blank'>Tutorial</a>."
 
 #: profiles/templates/profiles/privacy_center.html:4
 msgid "Project areas"
