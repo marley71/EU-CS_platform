@@ -47,7 +47,7 @@ class Command(BaseCommand):
     def normalProjects(self):
         basedir = os.path.dirname(settings.BASE_DIR)
         #csv_file = os.path.join(basedir, 'resources', 'Progetti di CS esistenti in seno a NBFC (Risposte)_TL.csv')
-        csv_file = os.path.join(basedir, 'resources', 'progetti_agosto2025 (2).csv')
+        csv_file = os.path.join(basedir, 'resources', 'progetti_ottobre_2025_finale.csv')
         if not os.path.isfile(csv_file):
             raise CommandError(f"Il file {csv_file} non esiste.")
 
@@ -113,6 +113,7 @@ class Command(BaseCommand):
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
+                    tipo_pubblico=row['Tipo di pubblico'],
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -126,6 +127,8 @@ class Command(BaseCommand):
                 self.setImage(project, row)
                 self.setGeograficExtend(project, row)
                 self.setProvince(project, row)
+                self.setAree(project, row)
+                self.setArgomentiScientifici(project, row)
 
                 provincia = project.provincia.first()
                 if provincia:
@@ -233,6 +236,7 @@ class Command(BaseCommand):
                 self.setGeograficExtend(project, row)
                 self.setProvince(project, row)
 
+
                 provincia = project.provincia.first()
                 if provincia:
                     project.latitude = provincia.latitude
@@ -325,6 +329,24 @@ class Command(BaseCommand):
         # with open(image_path, 'rb') as image_file:
         #     project.image1.save(str(project.id) + str(numero_casuale) + '.png', File(image_file), save=True)
 
+    def setArgomentiScientifici(self,project,row):
+        if not row['Argomenti scientifici']:
+            return
+        argomenti =  row['Argomenti scientifici'].split(';')
+        if (not argomenti):
+            self.stdout.write(f'il progetto ' + str(project.id) + ' non ha argomenti scientifici ')
+            return
+        for argomento in argomenti:
+
+            topic = Topic.objects.filter(topic_it__iexact=argomento.strip()).first()
+
+
+            if topic == None:
+                self.stdout.write(f'il progetto ' + str(project.id) + ' topic non trovata con  ' + argomento.strip())
+            else:
+                project.topic.add(topic)
+
+
     def setGeograficExtend(self,project,row):
         if not row['Entità geografica del progetto']:
             return
@@ -332,6 +354,20 @@ class Command(BaseCommand):
         ge = GeographicExtend.objects.get_or_create(geographicextend=text.strip())
         project.geographicextend.add(ge[0])
 
+
+    def setAree(self,project,row):
+        if not row['GeoJSON nome file']:
+            return
+        basedir = os.path.dirname(settings.BASE_DIR)
+        geojson_file = os.path.join(basedir, 'resources','geojson', row['GeoJSON nome file'] + '.geojson')
+        if not os.path.exists(geojson_file):
+            self.stdout.write(f"Il file {geojson_file} non esiste.")
+            return
+        geojson_text = ""
+        with open(geojson_file, 'r', encoding='utf-8') as f:
+            geojson_text = f.read()
+        project.aree = geojson_text
+        project.save()
 
     def setKeywords(self,project,row):
         if not row['Keywords']:
