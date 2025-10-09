@@ -46,6 +46,9 @@ class ProjectGeographicLocationForm(forms.Form):
 
 class ProjectForm(forms.Form):
 
+    # class Meta:
+    #     model = Project
+    #     fields = ['tipo_pubblico']
     # Main information
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -82,7 +85,20 @@ class ProjectForm(forms.Form):
         self.fields['tipo_pubblico'].widget.attrs.update({
             'onchange': 'tipo_pubblicoChange(this.value)'
         })
+        # if hasattr(self.instance, 'tipo_pubblico') and self.instance.tipo_pubblico:
+        #     # ottieni il valore del campo, es. "a;b;c;"
+        #     val_str = self.instance.tipo_pubblico or ''
+        #     # Splitta e pulisci
+        #     selected = [v for v in val_str.split(';') if v]
+        #     self.fields['tipo_pubblico'].initial = selected
 
+    def clean(self):
+        cleaned_data = super().clean()
+        # Quando salvi, combini le scelte in stringa separata
+        tipo_pubblico = cleaned_data.get('tipo_pubblico', [])
+        tipo_pubblico_altro = cleaned_data.get('tipo_pubblico_altro', None)
+        if 'altro' in tipo_pubblico and not tipo_pubblico_altro:
+            self.add_error('tipo_pubblico_altro', 'Il tipo_pubblico_altro è richiesto quando "altro" è selezionato.')
 
     # return all fields from project_name_en, project_name_es, etc.
     def get_description_fields(self):
@@ -141,10 +157,11 @@ class ProjectForm(forms.Form):
         widget=forms.TextInput(),
         help_text=_('Please provide the link to project result.'),
         label=_('Project-result'),)
-    tipo_pubblico = forms.ChoiceField(
+    tipo_pubblico = forms.MultipleChoiceField(
         choices=settings.TIPO_PUBBLICO,
-        initial='ricercatori',
-        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        #initial='ricercatori',
+        #widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        widget=forms.CheckboxSelectMultiple,
         help_text=_('Please indicate project audience type'),
         label=_('Audience type'),
         required=True
@@ -153,7 +170,10 @@ class ProjectForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(),
         help_text=_('Please provide the name of the project.'),
-        label=_('Project-name'))
+        label=_('Project-name'),
+        required=False
+    )
+
 
 
     project_name = forms.CharField(
@@ -480,12 +500,16 @@ class ProjectForm(forms.Form):
 
     def save(self, args, images, cFields, mainOrganisationFixed):
         pk = self.data.get('projectID', '')
+        print('tipo pubblico')
+        print(self.data.getlist('tipo_pubblico'))
+
         start_dateData = self.data['start_date']
         end_dateData = self.data['end_date']
         projectlocality = self.data['projectlocality']
         #projectGeographicLocation = self.data['projectGeographicLocation']
         projectGeographicLocation = self.data.get('projectGeographicLocation')
         status = get_object_or_404(Status, id=self.data['status'])
+        #print(self.data)
         if (self.data['difficultyLevel']):
             difficultyLevel = get_object_or_404(
                 DifficultyLevel, id=self.data['difficultyLevel'])
@@ -557,8 +581,14 @@ class ProjectForm(forms.Form):
                 project.dateUpdated = timezone.now()
             else:
                 project.dateUpdated = project.dateUpdated
-        project.tipo_pubblico = self.data['tipo_pubblico']
-        project.tipo_pubblico_altro = self.data['tipo_pubblico_altro']
+        project.tipo_pubblico = ";".join(self.data.getlist('tipo_pubblico')) if self.data['tipo_pubblico'] else ''
+        if self.data['tipo_pubblico']:
+            tvalues = ";".join(self.data.getlist('tipo_pubblico'))
+            if 'altro' in tvalues:
+                project.tipo_pubblico_altro = self.data['tipo_pubblico_altro']
+            else:
+                project.tipo_pubblico_altro = ''
+
 #         project.stato = self.data['stato']
         project.type = self.data['type']
         project.risultati = self.data['risultati']

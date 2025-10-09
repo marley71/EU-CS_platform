@@ -264,7 +264,7 @@ TRANSLATED_LANGUAGES_KEY = {
 
 TIPO_PUBBLICO = (
     ('ricercatori' , "Ricercatori"),
-    ('pubblico_generico' , "Pubblico Generico"),
+    ('pubblico generico' , "Pubblico Generico"),
     ('appassionati' , "Appassionati"),
     ('scuole' , "Scuole") ,
     ('altro' , "Altro (specificare)"),

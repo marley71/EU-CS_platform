@@ -16,6 +16,16 @@
                          {% trans "Projects" %} ({{ projectsCounter }})
                     </a>
                 </li>
+                <li class="nav-item text-start subnavbar-item">
+                    <a class="nav-link ps-4  {% active_link 'attivita' %} nav-tab-search"
+                       href="
+                               {% url 'attivita' %}{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
+                        <svg class="bi mb-1" width="18" height="18" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+                        </svg>
+                         {% trans "Attività" %} ({{ attivitaCounter }})
+                    </a>
+                </li>
                 <li class="nav-item subnavbar-item">
                     <a class="nav-link ps-4  {% active_link 'organisations' %} nav-tab-search"
                        href="

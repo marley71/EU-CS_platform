@@ -10,6 +10,7 @@ urlpatterns = [
     path('editProject/<int:pk>', views.editProject, name='editProject'),
     path('saveProjectAjax', views.saveProjectAjax, name='saveProjectAjax'),
     path('projects', views.projects, name='projects'),
+    path('attivita', views.attivita, name='attivita'),
     path('projects_stats', views.projects_stats, name='projects_stats'),
     path('getProjectTranslation/', views.getProjectTranslation,
          name='getProjectTranslation'),
