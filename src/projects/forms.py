@@ -46,6 +46,9 @@ class ProjectGeographicLocationForm(forms.Form):
 
 class ProjectForm(forms.Form):
 
+    # class Meta:
+    #     model = Project
+    #     fields = ['tipo_pubblico']
     # Main information
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -82,7 +85,22 @@ class ProjectForm(forms.Form):
         self.fields['tipo_pubblico'].widget.attrs.update({
             'onchange': 'tipo_pubblicoChange(this.value)'
         })
+        # if hasattr(self.instance, 'tipo_pubblico') and self.instance.tipo_pubblico:
+        #     # ottieni il valore del campo, es. "a;b;c;"
+        #     val_str = self.instance.tipo_pubblico or ''
+        #     # Splitta e pulisci
+        #     selected = [v for v in val_str.split(';') if v]
+        #     self.fields['tipo_pubblico'].initial = selected
 
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     # Quando salvi, combini le scelte in stringa separata
+    #     scelte = cleaned_data.get('tipo_pubblico', [])
+    #     # Concatena le scelte con ';'
+    #     val_str = ';'.join(scelte) + ';' if scelte else ''
+    #     # Assegna al campo del modello
+    #     self.instance.tipo_pubblico = val_str
+    #     return cleaned_data
 
     # return all fields from project_name_en, project_name_es, etc.
     def get_description_fields(self):
@@ -141,10 +159,11 @@ class ProjectForm(forms.Form):
         widget=forms.TextInput(),
         help_text=_('Please provide the link to project result.'),
         label=_('Project-result'),)
-    tipo_pubblico = forms.ChoiceField(
+    tipo_pubblico = forms.MultipleChoiceField(
         choices=settings.TIPO_PUBBLICO,
-        initial='ricercatori',
-        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        #initial='ricercatori',
+        #widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        widget=forms.CheckboxSelectMultiple,
         help_text=_('Please indicate project audience type'),
         label=_('Audience type'),
         required=True

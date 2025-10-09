@@ -122,6 +122,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     "net7",
+    "corsheaders",
     "modeltranslation",
     "eucitizensciencetheme",
     "django.contrib.auth",
@@ -205,6 +206,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'eucitizensciencetheme.middleware.TopBarMiddleware',
     'eucitizensciencetheme.middleware.FooterMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     # Machina
     'machina.apps.forum_permission.middleware.ForumPermissionMiddleware',
     # TopBar
@@ -262,7 +264,7 @@ TRANSLATED_LANGUAGES_KEY = {
 
 TIPO_PUBBLICO = (
     ('ricercatori' , "Ricercatori"),
-    ('pubblico_generico' , "Pubblico Generico"),
+    ('pubblico generico' , "Pubblico Generico"),
     ('appassionati' , "Appassionati"),
     ('scuole' , "Scuole") ,
     ('altro' , "Altro (specificare)"),
@@ -613,6 +615,7 @@ CRONJOBS = [
     ('0 * * * *', 'eucs_platform.cron.NewForumResponseCronJob')
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 GRAPH_MODELS = {
     'all_applications': True,

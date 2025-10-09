@@ -230,6 +230,8 @@ def editProject(request, pk):
         'latitude' : project.latitude,
         'risultati' : project.risultati,
         'inaturalist' : project.inaturalist,
+        'tipo_pubblico': project.tipo_pubblico.split(';') if project.tipo_pubblico else [],
+        'tipo_pubblico_altro': project.tipo_pubblico_altro if project.tipo_pubblico_altro else "",
         'type' : project.type,
         'funding_program' : project.fundingProgram,
         'aree' : project.aree,
