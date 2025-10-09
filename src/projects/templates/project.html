@@ -352,7 +352,7 @@
                         <h5 class="mt-5">Tipo di pubblico</h5>
                         <div>
                         {%  for tp in project.tipo_pubblico_calc %}
-                            {{ tp|capfirst }}
+                            <div>{{ tp|capfirst }}</div>
                         {%  endfor %}
                         </div>
                     {% endif %}

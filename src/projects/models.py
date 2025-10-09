@@ -261,9 +261,10 @@ class Project(models.Model):
     def tipo_pubblico_calc(self):
         tipoPubblico = str(self.tipo_pubblico).split(';')
 
-        for itp, tp in tipoPubblico:
+        for itp, tp in enumerate(tipoPubblico):
             if tp == 'altro':
                 tipoPubblico[itp] = self.tipo_pubblico_altro
+        return tipoPubblico
 
     def __str__(self):
         return f'{self.name}'
