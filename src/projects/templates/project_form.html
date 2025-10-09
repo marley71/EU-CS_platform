@@ -541,7 +541,7 @@
                 $("#savedModal").modal("hide");
                 $('form').submit();
             });
-
+            tipo_pubblicoChange();
         });
     </script>
 
@@ -562,11 +562,23 @@
         });
 
         function tipo_pubblicoChange(value) {
+            console.debug('tipo_pubblicoChange',value)
+            var selectedValues = $('input[name="tipo_pubblico"]:checked').map(function() {
+                return this.value;
+            }).get();
+            if (selectedValues.indexOf('altro') >= 0) {
+                $('#div_id_tipo_pubblico_altro').removeClass('d-none');
+            } else {
+                $('#div_id_tipo_pubblico_altro').addClass('d-none');
+            }
+            /*
+            console.log(selectedValues);
             if (value === 'altro') {
                 $('#div_id_tipo_pubblico_altro').removeClass('d-none');
             } else {
                 $('#div_id_tipo_pubblico_altro').addClass('d-none');
             }
+             */
             //alert(value);
         }
     </script>

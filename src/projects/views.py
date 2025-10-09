@@ -65,6 +65,7 @@ def saveProjectAjax(request):
     request.POST = updateFundingBody(request.POST)
     form = ProjectForm(request.POST, request.FILES)
     #print(form.data)
+    #print('prima del valid')
     if form.is_valid():
         images = setImages(request, form)
         pk = form.save(request, images, [], '')
@@ -271,13 +272,17 @@ def translateProject(request, pk):
 
 def projects(request):
     user = request.user
-    projects = Project.objects.get_queryset()
+    projectsBase = Project.objects.get_queryset()
     topics = Topic.objects.all()
     status = Status.objects.all()
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
+    projects = projectsBase.filter(type='Progetto')
+    projectsA = projectsBase.filter(type='Attività')
+
     totalProjects = len(projects)
+    totalAttivita = len(projectsA)
 #     len(projects.filter(approved=True))
 
     homeSearchCategories = request.GET.get('homeSearchCategories')
@@ -418,6 +423,7 @@ def projects(request):
         'counter': counter,
         'totalProjects': totalProjects,
         'projectsCounter': counter,
+        'attivitaCounter' : totalAttivita,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisationsCounter': organisationsCounter,
@@ -429,6 +435,173 @@ def projects(request):
         'localita_selected' : localita_selected,
         'topic_selected' : topic_selected,
         'show_search_bar': False})
+
+
+def attivita(request):
+    user = request.user
+    projectsBase = Project.objects.get_queryset()
+    topics = Topic.objects.all()
+    status = Status.objects.all()
+    hasTag = HasTag.objects.all()
+    difficultyLevel = DifficultyLevel.objects.all()
+    participationTask = ParticipationTask.objects.all()
+    projects = projectsBase.filter(type='Attività')
+    projectsP = projectsBase.filter(type='Progetto')
+    totalProjects = len(projectsP)
+    print('totalProjects', totalProjects)
+    #     len(projects.filter(approved=True))
+
+    homeSearchCategories = request.GET.get('homeSearchCategories')
+    countriesWithContent1 = projects.values_list(
+        'mainOrganisation__country', flat=True).distinct()
+    countriesWithContent2 = projects.values_list(
+        'organisation__country', flat=True).distinct()
+    countriesWithContent3 = projects.values_list(
+        'country', flat=True).distinct()
+    # regioni = projects.values_list(
+    #     'projectCountry__country_name', flat=True).distinct()
+
+    localitaids = projects.values_list(
+        'localita_id', flat=True).distinct()
+    localita = Localita.objects.filter(id__in=localitaids)
+
+    countriesWithContent = set(
+        chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
+
+    # I think this is not needded
+    filters = {
+        'keywords': '',
+        'topic': '',
+        'status': 0,
+        'host': '',
+        'approved': '',
+        'doingAtHome': '',
+        'difficultyLevel': '',
+        'featured': '',
+        'hasTag': ''}
+
+    projects = applyFilters(request, projects)
+    projects = projects.distinct()
+    #     projects = projects.filter(id=4)
+    filters = setFilters(request, filters)
+    projects = projects.filter(~Q(hidden=True))
+    if user.is_authenticated:
+        likes = Likes.objects.filter(user=user)
+        likes = likes.values_list('project', flat=True)
+
+        follows = Follows.objects.filter(user=user)
+        follows = follows.values_list('project', flat=True)
+    else:
+        likes = None
+        follows = None
+
+    # Ordering
+    if request.GET.get('orderby'):
+        orderBy = request.GET.get('orderby')
+        if ("featured" in orderBy):
+            projectsTop = projects.filter(featured=True)
+            projectsTopIds = list(projectsTop.values_list('id', flat=True))
+            projects = projects.exclude(id__in=projectsTopIds)
+            projects = list(projectsTop) + list(projects)
+
+        if ("name" in orderBy):
+            projects = projects.order_by('name')
+
+        if ("created" in orderBy):
+            projects = projects.order_by('-dateCreated')
+
+        if ("totalAccesses" in orderBy):
+            projects = projects.order_by('-totalAccesses')
+
+        if ("totalLikes" in orderBy):
+            projects = projects.order_by('-totalLikes')
+
+    else:
+        projects = projects.order_by('-dateUpdated')
+
+    localita_selected = None
+    if request.GET.get('localita_id'):
+        localita_ids = request.GET.getlist('localita_id')
+        localitaFound = Localita.objects.filter(id__in=localita_ids)
+        localita_selected = ', '.join([item.name for item in localitaFound])
+        # localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        # localita_selected = localita_selected.name
+
+    topic_selected = None
+    if request.GET.get('topic'):
+        topic_selected = ', '.join(request.GET.getlist('topic'))
+    counter = len(projects)
+
+    paginator = Paginator(projects, 18)
+    page = request.GET.get('page')
+    projects = paginator.get_page(page)
+    # To only show some topics and keywords
+    for project in projects:
+        combined = list(project.topic.all()) + list(project.keywords.all())
+        if len(combined) > 3:
+            project.display_items = combined[:3]
+            project.more_count = len(combined) - 3
+        else:
+            project.display_items = combined
+            project.more_count = 0
+
+    # For resources count
+    allResources = Resource.objects.all()
+    allResources = applyFiltersResources(request, allResources)
+    allResources = allResources.distinct()
+    resources = allResources.filter(~Q(isTrainingResource=True))
+    trainingResources = allResources.filter(isTrainingResource=True)
+    resourcesCounter = len(resources)
+    trainingResourcesCounter = len(trainingResources)
+
+    # For organisations count
+    organisations = Organisation.objects.all()
+    filteredOrganisations = applyFilters(request, organisations).distinct()
+    organisations = organisations.distinct()
+    organisationsCounter = len(filteredOrganisations)
+
+    # For platforms count
+    platforms = Platform.objects.all()
+    platforms = applyFilters(request, platforms)
+    platforms = platforms.distinct()
+    platformsCounter = len(platforms)
+
+    # For users count
+    users = Profile.objects.all().filter(profileVisible=True).filter(user__is_active=True)
+    users = applyFilters(request, users)
+    users = users.distinct()
+    usersCounter = len(users)
+    for project in projects:
+        print(project.topic.all())
+
+    return TemplateResponse(request, 'attivita.html', {
+        'projects': projects,
+        'likes': likes,
+        'follows': follows,
+        'topics': topics,
+        'countriesWithContent': countriesWithContent,
+        'status': status,
+        'filters': filters,
+        'hasTag': hasTag,
+        'difficultyLevel': difficultyLevel,
+        'participationTask': participationTask,
+        'counter': counter,
+        'projectsCounter': totalProjects,
+        'attivitaCounter': counter,
+        'resourcesCounter': resourcesCounter,
+        'trainingResourcesCounter': trainingResourcesCounter,
+        'organisationsCounter': organisationsCounter,
+        'platformsCounter': platformsCounter,
+        'usersCounter': usersCounter,
+        'isSearchPage': True,
+        'homeSearchCategories': homeSearchCategories,
+        'localita': localita,
+        'localita_selected': localita_selected,
+        'topic_selected': topic_selected,
+        'show_search_bar': False})
+
+
+
 
 @login_required
 def likeProjectAjax(request):
