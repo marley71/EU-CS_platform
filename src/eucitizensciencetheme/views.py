@@ -150,7 +150,7 @@ def get_projects_webmapp(request):
     }
     #keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     #projects = Project.objects.filter(approved=True).exclude(keywords__id=keyword.id).prefetch_related('projectCountry')
-    projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
+    projects = Project.objects.filter(approved=True).filter(type='Progetto').prefetch_related('projectCountry')
     basedir = os.path.dirname(settings.BASE_DIR)
     html_file = os.path.join(basedir, 'resources', 'template-webmapp.html')
     html_string = ''
@@ -179,7 +179,7 @@ def get_projects_webmapp(request):
             with open(html_file_image, 'r', encoding='utf-8') as f:
                 html_string_image = f.read()
             image1 = request.get_host()  + project.image1.url
-            html_string_image = html_string_image.replace("{{image1}}", str(image1))
+            html_string_image = html_string_image.replace("{{image1}}", 'https://' + str(image1))
 
 
 

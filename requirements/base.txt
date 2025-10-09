@@ -86,3 +86,4 @@ urllib3
 webencodings
 Whoosh
 wrapt
+django-cors-headers==3.10.0
