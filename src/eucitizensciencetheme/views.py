@@ -143,7 +143,7 @@ def get_projects(request):
     #zones = []
     return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
 
-def get_projects_webmapp(request):
+def get_projects_webmapp(request,type):
     geojson = {
         'type': 'FeatureCollection',
         'features': []
