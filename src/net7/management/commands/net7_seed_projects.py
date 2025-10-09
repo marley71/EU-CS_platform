@@ -132,9 +132,11 @@ class Command(BaseCommand):
 
                 provincia = project.provincia.first()
                 if provincia:
-                    project.latitude = provincia.latitude
-                    project.longitude = provincia.longitude
-                    project.save()
+                    #salvo le lat e lng della provincia solo se non sono definite nel progetto specifico.
+                    if not row['Lat'] and not row['Lng']:
+                        project.latitude = provincia.latitude
+                        project.longitude = provincia.longitude
+                        project.save()
                     organisation.latitude = provincia.latitude
                     organisation.longitude = provincia.longitude
                     organisation.save()
@@ -239,9 +241,11 @@ class Command(BaseCommand):
 
                 provincia = project.provincia.first()
                 if provincia:
-                    project.latitude = provincia.latitude
-                    project.longitude = provincia.longitude
-                    project.save()
+                    # salvo le lat e lng della provincia solo se non sono definite nel progetto specifico.
+                    if not row['Lat'] and not row['Lng']:
+                        project.latitude = provincia.latitude
+                        project.longitude = provincia.longitude
+                        project.save()
                     organisation.latitude = provincia.latitude
                     organisation.longitude = provincia.longitude
                     organisation.save()

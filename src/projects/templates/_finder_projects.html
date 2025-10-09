@@ -5,7 +5,7 @@
 
 
 <div>
-    <form class="form-inline float-lg-right" id="searchProjects" action="{% url 'projects' %}">
+    <form class="form-inline float-lg-right" id="searchProjects" action="{% url formUrl %}">
         <input type="hidden" name="keywords" value="{{ filters.keywords }}"/>
         <div class="row mt-5">
 
@@ -145,7 +145,7 @@
                 {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
                     <div>
 
-                        <a class="text-red-700 text-sm" href="/projects">
+                        <a class="text-red-700 text-sm" href="/{{ formUrl }}">
                             Cancella tutti i filtri
                         </a>
                     </div>
