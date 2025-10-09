@@ -1,18 +1,31 @@
 <div style='font-size: 1.1em; line-height: 1.4em;'>
-    {#    <strong>ID:</strong> <span style='white-space: pre-wrap;'>{{id}}</span><br>#}
-    <strong>Titolo del Progetto:</strong> <span style='white-space: pre-wrap;'>{{nome}}</span><br>
-    <strong>Estensione geografica:</strong> <span style='white-space: pre-wrap;'>
-        {{geographicextend}}
-    </span><br>
-    <strong>Luogo di svolgimento:</strong> <span style='white-space: pre-wrap;'>
-        {{projectlocality}}
-    </span><br>
+    <div>
+        <strong>Titolo del Progetto:</strong>
+    </div>
+    <div>
+        <span>{{nome}}</span>
+    </div>
+    <div style="margin-top:6px;">
+        <strong>Estensione geografica:</strong>
+    </div>
+    <div>
+        <span>{{geographicextend}}</span>
+    </div>
+    <div style="margin-top:6px;">
+        <strong>Luogo di svolgimento:</strong>
+    </div>
+    <div>
+        <span>
+            {{projectlocality}}
+        </span>
+    </div>
+    <div style="margin-top:6px;">
         <strong>Maggiori dettagli:</strong>
-        <a target="_blank" href="{{url}}">
-            <span style='white-space: pre-wrap;'>
-                {{url}}
-            </span>
-        </a>
-        <br>
+            <a target="_blank" href="{{url}}">
+                    {{url}}
+            </a>
+    </div>
+    <div style="margin-top:10px;">
         {{image}}
+    </div>
 </div>
