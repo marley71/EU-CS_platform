@@ -178,8 +178,8 @@ def get_projects_webmapp(request):
             html_file_image = os.path.join(basedir, 'resources', 'template-webmapp-image.html')
             with open(html_file_image, 'r', encoding='utf-8') as f:
                 html_string_image = f.read()
-            image1 = 'https://' + request.get_host()  + project.image1.url
-            html_string_image = html_string_image.replace("{{image1}}", str(image1))
+            image1 = request.get_host()  + project.image1.url
+            html_string_image = html_string_image.replace("{{image1}}", 'https://' + str(image1))
 
 
 
