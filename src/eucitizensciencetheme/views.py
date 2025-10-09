@@ -143,14 +143,45 @@ def get_projects(request):
     #zones = []
     return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
 
-def get_projects_webmapp(request):
+def get_projects_webmapp(request,type=None):
     geojson = {
         'type': 'FeatureCollection',
         'features': []
     }
+
+    match type:
+        case 'progetti-nazionali':
+            projectType = 'Progetto'
+            projectExtension = ['nazionale','Nazionale','internazionale']
+        case 'progetti-regionali':
+            projectType = 'Progetto'
+            projectExtension = ['regionale','Regionale']
+        case 'progetti-locali':
+            projectType = 'Progetto'
+            projectExtension = ['locale','Comunale','Provinciale']
+        case 'attivita-nazionali':
+            projectType = 'Attività'
+            projectExtension = ['nazionale','Nazionale','internazionale']
+        case 'attivita-regionali':
+            projectType = 'Attività'
+            projectExtension =  ['regionale','Regionale']
+        case 'attivita-locali':
+            projectType = 'Attività'
+            projectExtension = ['locale','Comunale','Provinciale']
+        case _:
+            projectType = 'Progetto'
+            projectExtension = None
+
+    #print("type", type)
     #keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     #projects = Project.objects.filter(approved=True).exclude(keywords__id=keyword.id).prefetch_related('projectCountry')
-    projects = Project.objects.filter(approved=True).filter(type='Progetto').prefetch_related('projectCountry')
+    projects = Project.objects.filter(approved=True).filter(type=projectType)
+
+    if projectExtension is not None:
+        projects = projects.filter(geographicextend__geographicextend__in=projectExtension)
+
+    projects = projects.prefetch_related('projectCountry')
+
     basedir = os.path.dirname(settings.BASE_DIR)
     html_file = os.path.join(basedir, 'resources', 'template-webmapp.html')
     html_string = ''

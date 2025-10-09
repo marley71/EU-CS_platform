@@ -91,6 +91,9 @@ class Command(BaseCommand):
                 organisation = self.getOrganisations(row,latitude,longitude)
                 user_id = self.getUser(row)
                 self.stdout.write(' utente ' + str(user_id))
+                tipoPubblico = str(row['Tipo di pubblico']).split(';')
+                tipoPubblico = [s.strip().lower() for s in tipoPubblico]
+
                 project = Project.objects.create(
                     type=row['Tipo'],
                     name=row['Nome del progetto'],
@@ -113,7 +116,7 @@ class Command(BaseCommand):
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
-                    tipo_pubblico=row['Tipo di pubblico'],
+                    tipo_pubblico=";".join(tipoPubblico),
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )

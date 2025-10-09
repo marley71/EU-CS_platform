@@ -18,6 +18,7 @@ urlpatterns = [
     path("final_launch/", views.final_launch, name="final_launch"),
     path('get_projects/', views.get_projects, name='get_projects'),
     path('get_projects_webmapp/', views.get_projects_webmapp, name='get_projects_webmapp'),
+    path('get_projects_webmapp/<str:type>/', views.get_projects_webmapp, name='get_projects_webmapp_p'),
     path('get_organisations/', views.get_organisations, name='get_organisations'),
     path("imprint/", views.imprint, name="imprint"),
     path("moderation/", views.moderation, name="moderation"),

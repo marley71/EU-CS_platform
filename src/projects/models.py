@@ -257,15 +257,14 @@ class Project(models.Model):
     tipo_pubblico = models.CharField(max_length=255, null=True, blank=True)
     tipo_pubblico_altro = models.CharField(max_length=255, null=True, blank=True)
 
-    # @property
-    # def tipo_pubblico_calc(self):
-    #     match self.tipo_pubblico:
-    #         case "pubblico_generico":
-    #             return "Pubblico generico"
-    #         case "altro":
-    #             return self.tipo_pubblico_altro
-    #         case _:
-    #             return self.tipo_pubblico
+    @property
+    def tipo_pubblico_calc(self):
+        tipoPubblico = str(self.tipo_pubblico).split(';')
+
+        for itp, tp in enumerate(tipoPubblico):
+            if tp == 'altro':
+                tipoPubblico[itp] = self.tipo_pubblico_altro
+        return tipoPubblico
 
     def __str__(self):
         return f'{self.name}'
