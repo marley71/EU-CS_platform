@@ -303,7 +303,7 @@ def home(request):
     nProjects = 4;
     user = request.user
     main = get_object_or_404(Main)
-    projects = Project.objects.get_queryset().filter(~Q(hidden=True)).filter(type='Porgetto').filter(approved=True).order_by('-dateCreated')
+    projects = Project.objects.get_queryset().filter(~Q(hidden=True)).filter(type='Progetto').filter(approved=True).order_by('-dateCreated')
     projectsCounter = len(projects)
     paginatorprojects = Paginator(projects, nProjects)
     page = request.GET.get('page')
