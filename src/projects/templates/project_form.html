@@ -68,7 +68,7 @@
                                     {{ form.risultati|as_crispy_field }}
                                     {#                              {{ form.keywords|as_crispy_field }}#}
 
-                                    {{ form.provincia|as_crispy_field }}
+
 
                                     <label class="control-label">{% trans "Description" %}</label>
                                     {{ form.description.label_tag }}
@@ -226,6 +226,7 @@
                                 <div class="col-11">
                                     {{ form.geographicextend |as_crispy_field }}
                                     {{ form.projectlocality |as_crispy_field }}
+                                    {{ form.provincia|as_crispy_field }}
                                     {{ form.latitude |as_crispy_field }}
                                     {{ form.longitude |as_crispy_field }}
                                     {% comment %}
