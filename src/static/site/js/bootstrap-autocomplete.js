@@ -707,7 +707,7 @@
                 href='/platform/'+item.id
             }
 			//console.debug('href',href);
-			window.location.href = href,
+			window.location.href = href;
 
 			return ;
 	    };
