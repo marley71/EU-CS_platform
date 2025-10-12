@@ -4,6 +4,7 @@ from eucitizensciencetheme.models import Main, TopBar
 from django.db import connection
 from projects.models import HelpText,Keyword, Topic, HasTag
 from localita.models import Localita
+from profiles.models import Profile
 
 class Command(BaseCommand):
     help = 'Inizializzazione progetto'
@@ -43,3 +44,5 @@ class Command(BaseCommand):
                 END $$;
             """)
         self.stdout.write('Tutte le tabelle sono state eliminate con successo!')
+
+
