@@ -4,7 +4,8 @@ from eucitizensciencetheme.models import Main, TopBar
 from projects.models import HelpText,Keyword, Topic, HasTag
 from django.db import connection
 from localita.models import Localita
-
+from django.contrib.sites.models import Site
+from authtools.models import User
 
 class Command(BaseCommand):
     help = 'Seed dati principali'
@@ -70,6 +71,11 @@ class Command(BaseCommand):
             id=1,
             platform_name="ubuntu",
             platform_description="ubuntu",
+        )
+        Site.objects.create(
+            id=1,
+            domain="citizenscience.netseven.work",
+            name="citizenscience",
         )
 
     def createSystemData(self):
@@ -273,6 +279,7 @@ class Command(BaseCommand):
             latitude=45.547164,
             longitude=11.316033,
         )
+
     def truncateTables(self):
         with connection.cursor() as cursor:
             cursor.execute("SET client_min_messages TO NOTICE;")
@@ -395,3 +402,4 @@ class Command(BaseCommand):
                         END LOOP;
                     end $$;
             """)
+        User.objects.filter(id__gt=1).delete()

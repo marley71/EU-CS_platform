@@ -490,6 +490,7 @@
 	        this._dd.css({ top: pos.top + this._$el.outerHeight(), left: pos.left, width: this._$el.outerWidth() });
 	        // click event on items
 	        this._dd.on('click', 'li', function (evt) {
+				evt.preventDefault();
 	            // console.log('clicked', evt.currentTarget);
 	            //console.log($(evt.currentTarget));
 	            var item = $(evt.currentTarget).data('item');
@@ -681,31 +682,34 @@
 	        this._dd.append(liList);
 	    };
 	    Dropdown.prototype.itemSelectedLaunchEvent = function (item) {
-	        // launch selected event
-	        console.log('itemSelectedLaunchEvent', item);
+			let href = ''
             if(item.type==='keyword'){
-                this._$el.trigger('autocomplete.select', item);
+                //this._$el.trigger('autocomplete.select', item);
             }else if(item.type==='profile'){
-                window.location.href='/users/'+item.slug
+                href='/users/'+item.slug
             }else if(item.type==='profileInterestArea'){
-                window.location.href='/users?keywords='+item.text
+                href='/users?keywords='+item.text
             }else if(item.type==='project'){
-                window.location.href='/project/'+item.id
+                href='/project/'+item.id
             }else if(item.type==='projectKeyword'){
-                window.location.href='/projects?keywords='+item.text
+                href='/projects?keywords='+item.text
             }else if(item.type==='resourceKeyword'){
-                window.location.href='/resources?keywords='+item.text
+                href='/resources?keywords='+item.text
             }else if(item.type==='trainingKeyword'){
-                window.location.href='/training_resources?keywords='+item.text
+                href='/training_resources?keywords='+item.text
             }else if(item.type==='resource'){
-                window.location.href='/resource/'+item.id
+                href='/resource/'+item.id
             }else if(item.type==='training'){
-                window.location.href='/resource/'+item.id
+                href='/resource/'+item.id
             }else if(item.type==='organisation'){
-                window.location.href='/organisation/'+item.id
+                href='/organisation/'+item.id
             }else if(item.type==='platform'){
-                window.location.href='/platform/'+item.id
+                href='/platform/'+item.id
             }
+			//console.debug('href',href);
+			window.location.href = href;
+
+			return ;
 	    };
 	    return Dropdown;
 	}());

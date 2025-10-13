@@ -29,19 +29,22 @@ class Command(BaseCommand):
                     user = self.createUser(row)
                     self.updateProfile(user)
 
+        self.createsuperuserProfile()
         self.stdout.write('Database seeded successfully!')
 
     def createUser(self,row):
         user = User.objects.filter(email=row['Email']).first()
         if user == None:
             user = User.objects.create(
-                password=row['Email'].split('@')[0],
+                #password=row['Email'].split('@')[0],
                 is_superuser=False,
                 email=row['Email'],
                 is_staff=True,
                 is_active=True,
                 name=row['Nome e Cognome'],
             )
+            user.set_password(row['Email'].split('@')[0])
+            user.save()
         return user
 
     # def createUser(self,idx):
@@ -60,6 +63,15 @@ class Command(BaseCommand):
     def updateProfile(self,user):
         profile = Profile.objects.get(pk=user.id)
         # profile.surname = user.name
+        profile.profileVisible = True
+        profile.email_verified = True
+        profile.save()
+
+    def createsuperuserProfile(self):
+        # aggiungo il profilo all'admin altrimenti ottengo un errore se vado da interfaccia come admin al mio profilo
+        profile, created = Profile.objects.get_or_create(
+            pk=1)
+        profile.surname = 'Admin'
         profile.profileVisible = True
         profile.email_verified = True
         profile.save()

@@ -296,13 +296,15 @@ class Command(BaseCommand):
         user = User.objects.filter(email=row['Email utente']).first()
         if user == None:
             user = User.objects.create(
-                password=row['Email utente'].split('@')[0],
+                #password=row['Email utente'].split('@')[0],
                 is_superuser=False,
                 email=row['Email utente'],
                 is_staff=False,
                 is_active=True,
                 name=row['Email utente'].split('@')[0],
             )
+            user.set_password(row['Email'].split('@')[0])
+            user.save()
             profile = Profile.objects.get(pk=user.id)
             #profile.surname = user.name
             profile.profileVisible = True
