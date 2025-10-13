@@ -212,6 +212,9 @@ def get_projects_webmapp(request,type=None):
             image1 = request.get_host()  + project.image1.url
             html_string_image = html_string_image.replace("{{image1}}", 'https://' + str(image1))
 
+        url = 'https://' + request.get_host() + '/project/' + str(project.id);
+
+
 
 
         geographicextend = ""
@@ -227,7 +230,7 @@ def get_projects_webmapp(request,type=None):
             'nome': project.name,
             'id': project.id,
             'projectlocality': project.projectlocality,
-            'url': project.url,
+            'url': url,
             'geographicextend' : geographicextend,
             'image' : html_string_image
         }
