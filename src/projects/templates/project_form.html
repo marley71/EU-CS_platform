@@ -63,7 +63,6 @@
                                     </div>
                                     {{ form.project_name|as_crispy_field }}
                                     {{ form.url|as_crispy_field }}
-                                    {{ form.inaturalist|as_crispy_field }}
                                     {{ form.status|as_crispy_field }}
                                     {{ form.risultati|as_crispy_field }}
                                     {#                              {{ form.keywords|as_crispy_field }}#}
@@ -119,7 +118,7 @@
                                     </div>
 
                                     {{ form.citizen_science_aspects_description|as_crispy_field }}
-
+                                    {{ form.inaturalist|as_crispy_field }}
                                     {% include "_save_zone.html" %}
                                 </div>
                             </div>
@@ -133,10 +132,20 @@
                                 <label for="topic" class="control-label ">
                                     Argomenti scientifici*
                                 </label>
-                                    <div style="height:300px !important;overflow-y:auto;border: 1px solid black; margin-top:5px; margin-bottom:5px;padding:6px;">
-
-                                        {{ form.topic|as_crispy_field }}
-                                    </div>
+                                <div id="tassonomieTree_div">
+                                    <input id="tassonomie_ids" type="hidden" name="tassonomie_ids" value="">
+                                    <input
+                                            class="w-full textinput textInput form-control"
+                                        type="text"
+                                        id="tassonomieTree"
+                                        placeholder="Seleziona uno o più argomenti scientifici"
+                                        autocomplete="off"
+                                      />
+                                </div>
+{#                                    <div style="height:300px !important;overflow-y:auto;border: 1px solid black; margin-top:5px; margin-bottom:5px;padding:6px;">#}
+{##}
+{#                                        {{ form.topic|as_crispy_field }}#}
+{#                                    </div>#}
                                 <div class="help-block mb-3">
                                     {%  trans 'Please select the project topic(s) or field(s) of science.' %}
                                 </div>
@@ -234,6 +243,9 @@
                                 {% include "_save_zone.html" %}
                                 {% endcomment %}
                                     <div id="mapid"  style="height: 300px; width:100%"></div>
+                                    <div class="help-block">
+                                         Inserisci il pin in corrispondenza della località principale. Questo pin sarà quello visualizzato sulla mappa generale dei progetti ma sarà indicata l'estensione geografica e potrete specificare l'area geografica nella mappa di dettaglio del progetto che potere compilare qui sotto.
+                                    </div>
                                     {{ form.aree |as_crispy_field }}
                                 </div>
                             </div>
@@ -391,7 +403,14 @@
                         if (response.status == 500) {
                             alert('Unexpected error, please contact with the administrator')
                         }
+                        console.debug('response',response)
                         $.each(response.responseJSON, function (i, val) {
+                            // caso topic che e' con il plugin
+                            console.debug('i',i);
+                            if (i == 'topic') {
+                                $('#tassonomieTree').addClass('error')
+                                $('#tassonomieTree_div').append('<div class="myerror small text-danger">' + val + '</div>')
+                            }
                             $('#id_' + i).addClass('error')
                             $('#id_' + i).parent().find('.select2-selection--multiple').addClass('error')
                             $('#hint_id_' + i).append('<div class="myerror small text-danger">' + val + '</div>')
@@ -560,6 +579,47 @@
 
             }
             init_map();
+            tassonomieJson = {{ tassonomieJson | safe }}
+            const None = null;  // per fregare il None di django
+            let selected = {{ form.topic.value | safe}};
+            if (selected == None) {
+                selected = [];
+            }
+            console.debug(selected)
+            comboTree1 = $("#tassonomieTree").comboTree({
+              source: tassonomieJson,
+              isMultiple: true,
+              cascadeSelect: false,
+              collapse: true,
+                selected: selected,
+
+              //selectAll: true,
+            });
+            comboTree1.onChange(function (data) {
+                  console.log(comboTree1.getSelectedIds());
+                  if (comboTree1.getSelectedIds()) {
+                      $('#tassonomie_ids').val(comboTree1.getSelectedIds().join(','))
+                  } else {
+                      $('#tassonomie_ids').val('')
+                  }
+
+            })
+            if (comboTree1.getSelectedIds()) {
+                $('#tassonomie_ids').val(comboTree1.getSelectedIds().join(','))
+            }
+
+            // stile per barre
+            $('.ct-drop-down-container').css('height','200px').css('overflow','auto');
+            $('.ct-input-box').css('width','calc(100% - 35px)');
+            $('.ct-input-wrapper').addClass('d-flex');
+            $('.ct-arrow-btn').addClass('btn');
+            $('.ct-source-ul-main').addClass('list-unstyled');
+            $('.ct-source-ul-main').find('ul').addClass('list-unstyled');
+            $('.ct-source-ul-main').find('ul').find('li').css('padding-left','30px');
+
+            $('.ct-parent-plus').css('cursor', 'pointer').css('padding-right','5px');
+            //comboTree1.collapse
+            //comboTree1.toggleDropDown();
         });
 
         function tipo_pubblicoChange(value) {

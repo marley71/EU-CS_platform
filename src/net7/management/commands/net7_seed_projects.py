@@ -377,7 +377,7 @@ class Command(BaseCommand):
         if not row['Entità geografica del progetto']:
             return
         text = str(row['Entità geografica del progetto'])
-        ge = GeographicExtend.objects.get_or_create(geographicextend=text.strip())
+        ge = GeographicExtend.objects.get_or_create(geographicextend=text.strip().capitalize())
         project.geographicextend.add(ge[0])
 
 
