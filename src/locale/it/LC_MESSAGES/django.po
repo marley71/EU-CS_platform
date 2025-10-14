@@ -1272,6 +1272,10 @@ msgstr "progetto trovato"
 msgid "project"
 msgstr "progetto"
 
+msgid "Project Activity"
+msgstr "Progetto/Attività"
+
+
 #: projects/templates/_intro_form_project.html:14
 msgid ""
 "Thank you for sharing your citizen science project on the EU-Citizen.Science "

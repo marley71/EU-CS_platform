@@ -94,7 +94,7 @@ class Command(BaseCommand):
                 tipoPubblico = str(row['Tipo di pubblico']).split(';')
                 tipoPubblico = [s.strip().lower() for s in tipoPubblico]
 
-                match row['Livello di difficoltà']:
+                match row['Livello difficoltà']:
                     case "Facile":
                         livelloDifficolta = 2
                     case "Medio":
@@ -237,7 +237,7 @@ class Command(BaseCommand):
                     longitude=longitude,
                     latitude=latitude,
                     author=row['Punto di contatto pubblico'],
-                    author_email=row['E-mail contatto']
+                    author_email=row['Email utente']
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -320,7 +320,7 @@ class Command(BaseCommand):
                 is_active=True,
                 name=row['Email utente'].split('@')[0],
             )
-            user.set_password(row['Email'].split('@')[0])
+            user.set_password(row['Email utente'].split('@')[0])
             user.save()
             profile = Profile.objects.get(pk=user.id)
             #profile.surname = user.name

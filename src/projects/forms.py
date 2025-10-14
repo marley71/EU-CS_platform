@@ -138,6 +138,16 @@ class ProjectForm(forms.Form):
                             tassonomie.append((child1['id'], '--------' + child1['nome']))
         return tassonomie
 
+    def getTassonomieJson():
+        nomefile = str(settings.BASE_DIR) + '/../resources/tassonomie.json'
+        if not os.path.exists(nomefile):
+            return []
+
+        with open(nomefile, 'r') as f:
+            scelte_data = json.load(f)
+
+        return scelte_data
+
     type = forms.ChoiceField(
         choices=settings.TIPO_PROGETTO,
         initial='attivita',
@@ -282,7 +292,7 @@ class ProjectForm(forms.Form):
         #required=False,
         label=''#_("Topic")
         )
-
+    tassonomieJson = getTassonomieJson()
     # topic = forms.ModelMultipleChoiceField(
     #     queryset=Topic.objects.all(),
     #     widget=Select2MultipleWidget(),
