@@ -58,14 +58,14 @@ def events(request):
     except EmptyPage:
         # Si la página está fuera de rango (por ejemplo, 9999), entrega la última página de resultados.
         pastEvents = paginator.page(paginator.num_pages)
-    print(pastEvents)
+
     approvedEvents = ApprovedEvents.objects.all().values_list('event_id', flat=True)
     unApprovedEvents = UnApprovedEvents.objects.all().values_list('event_id', flat=True)
 
-    
 
     if not user.is_staff:
-        events = events.exclude(id__in=unApprovedEvents)
+        #events = events.exclude(id__in=unApprovedEvents)
+        events = events.filter(approved=True)
 
     return TemplateResponse(request, 'events.html', {
         'q': query,
@@ -93,7 +93,9 @@ def new_event(request):
     form = EventForm()
     #text = get_object_or_404(HelpText, slug='new-event')
     text = "Nuovo evento"
+    print('nuovo evento')
     if request.method == 'POST':
+        print('nuovo evento post')
         form = EventForm(request.POST)
         if form.is_valid():
             form.save(request)
@@ -137,6 +139,7 @@ def editEvent(request, pk):
         'start_date': start_datetime,
         'end_date': end_datetime,
         'hour': event.hour,
+        'approved': event.approved,
         'url': event.url})
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -205,7 +208,7 @@ def setFilters(request, filters):
     if request.GET.getlist('project[]'):
         filters['project'] = request.GET.getlist('project[]')
     if request.GET.getlist('organisation[]'):
-        filters['organisation'] = request.GET.getlist('organisation[]')  
+        filters['organisation'] = request.GET.getlist('organisation[]')
     return filters
 
 
