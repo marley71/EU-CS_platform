@@ -882,8 +882,8 @@ msgid "Please describe the citizen science aspect(s)"
 msgstr "Si prega di descrivere l'aspetto o gli aspetti di Citizen Science del "
 "progetto/attività e il loro collegamento con i  <a "
 "href=\"https://citizenscience.netseven.work/p/criteri-di-moderazioni-qualita\" target=\"_blank\" "
-">criteri di moderazione </a> <a href=\"https://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
-" target=\"_blank\">e i 10 Principi di Citizen Science di ECSA</a>. Il testo scritto in "
+">criteri di moderazione </a> e i <a href=\"https://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
+" target=\"_blank\">10 Principi di Citizen Science di ECSA</a>. Il testo scritto in "
 "questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
 "moderazione (max 2000 caratteri)."
 
@@ -1086,7 +1086,7 @@ msgstr ""
 
 #: projects/forms.py:217
 msgid "Image for the thumbnail profile"
-msgstr "Immagine per il profilo in miniatura"
+msgstr "Immagine principale"
 
 #: projects/forms.py:218
 msgid "It will be resized to 600x400 pixels"
@@ -1094,7 +1094,7 @@ msgstr "Verrà ridimensionata a 600x400 pixel"
 
 #: projects/forms.py:229
 msgid "Thumbnail credit, if applicable"
-msgstr "Credito della miniatura, se applicabile"
+msgstr "Crediti dell'immagine principale, se applicabile"
 
 #: projects/forms.py:233
 msgid "Project logo"
@@ -1547,7 +1547,7 @@ msgstr "Informazioni sul finanziamento"
 
 #: projects/templates/project_form.html:107
 msgid "Project profile images"
-msgstr "Immagini profilo del progetto/attività"
+msgstr "Immagini del progetto/attività"
 
 #: projects/templates/project_review.html:18
 #: resources/templates/resource_review.html:18
@@ -4070,7 +4070,7 @@ msgid "Please describe how people can get involved in the project (max 3000 char
 msgstr "Descrivi in che modo le persone possono essere coinvolte nel progetto (max 3000 caratteri)."
 
 msgid "Heading logo credit, if applicable"
-msgstr "Credit del logo dell'intestazione, se applicabile"
+msgstr "Crediti del logo, se applicabile"
 
 msgid "Please upload the image of your organisation (.jpg or .png)."
 msgstr "Carica l'immagine della tua organizzazione (.jpg o .png)."

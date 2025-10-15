@@ -290,30 +290,30 @@
                                     {{ form.image_credit1|as_crispy_field }}
                                     <div class="mb-5"></div>
 
-                                    <img class="img-fluid img-zoom"
-                                         id="imageResult2"
-                                         src="{% thumbnail project.image2|default:'void_600.png' 600x400 %}">
-                                    {{ form.image2|as_crispy_field }}
-                                    {{ form.x2|as_crispy_field }}
-                                    {{ form.y2|as_crispy_field }}
-                                    {{ form.height2|as_crispy_field }}
-                                    {{ form.width2|as_crispy_field }}
-                                    {{ form.withImage2|as_crispy_field }}
-                                    {{ form.image_credit2|as_crispy_field }}
-                                    <div class="mb-5"></div>
+{#                                    <img class="img-fluid img-zoom"#}
+{#                                         id="imageResult2"#}
+{#                                         src="{% thumbnail project.image2|default:'void_600.png' 600x400 %}">#}
+{#                                    {{ form.image2|as_crispy_field }}#}
+{#                                    {{ form.x2|as_crispy_field }}#}
+{#                                    {{ form.y2|as_crispy_field }}#}
+{#                                    {{ form.height2|as_crispy_field }}#}
+{#                                    {{ form.width2|as_crispy_field }}#}
+{#                                    {{ form.withImage2|as_crispy_field }}#}
+{#                                    {{ form.image_credit2|as_crispy_field }}#}
+{#                                    <div class="mb-5"></div>#}
 
-                                    <img class="img-fluid mt-3"
-                                         id="imageResult3"
-                                         src="{% thumbnail project.image3|default:'void_1100.png' 1100x400 %}"
-                                         alt="Image not upload">
-                                    {{ form.withImage3|as_crispy_field }}
-                                    {{ form.image3|as_crispy_field }}
-                                    {{ form.x3|as_crispy_field }}
-                                    {{ form.y3|as_crispy_field }}
-                                    {{ form.height3|as_crispy_field }}
-                                    {{ form.width3|as_crispy_field }}
-                                    {{ form.image_credit3|as_crispy_field }}
-                                    <div class="mb-5"></div>
+{#                                    <img class="img-fluid mt-3"#}
+{#                                         id="imageResult3"#}
+{#                                         src="{% thumbnail project.image3|default:'void_1100.png' 1100x400 %}"#}
+{#                                         alt="Image not upload">#}
+{#                                    {{ form.withImage3|as_crispy_field }}#}
+{#                                    {{ form.image3|as_crispy_field }}#}
+{#                                    {{ form.x3|as_crispy_field }}#}
+{#                                    {{ form.y3|as_crispy_field }}#}
+{#                                    {{ form.height3|as_crispy_field }}#}
+{#                                    {{ form.width3|as_crispy_field }}#}
+{#                                    {{ form.image_credit3|as_crispy_field }}#}
+{#                                    <div class="mb-5"></div>#}
 
 
                                     <img class="img-fluid mt-3"
@@ -609,7 +609,7 @@
             }
 
             // stile per barre
-            $('.ct-drop-down-container').css('height','200px').css('overflow','auto');
+            $('.ct-drop-down-container').css('height','200px').css('overflow','auto').css('border','1px solid black').css('margin','5px 0 10px 0');
             $('.ct-input-box').css('width','calc(100% - 35px)');
             $('.ct-input-wrapper').addClass('d-flex');
             $('.ct-arrow-btn').addClass('btn');
