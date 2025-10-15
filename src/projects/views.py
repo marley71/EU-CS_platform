@@ -24,7 +24,7 @@ from itertools import chain
 from reviews.models import Review
 from django_countries import countries
 from itertools import chain
-from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm
+from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm, getTassonomieJson
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
     FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
     HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry
@@ -55,6 +55,7 @@ def newProject(request):
         'form': form,
         'user': user,
         'text': text,
+        'tassonomieJson' : getTassonomieJson(),
         'modeltranlationlanguages': settings.MODELTRANSLATION_LANGUAGES})
 
 
@@ -255,6 +256,7 @@ def editProject(request, pk):
         'form': form,
         'project': project,
         'user': user,
+        'tassonomieJson': getTassonomieJson(),
         'permissionForm': permissionForm})
 
 

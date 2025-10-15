@@ -58,7 +58,7 @@ class ContattoForm(forms.Form):
 
 
     messaggio = forms.CharField(
-        max_length=200,
+        max_length=2000,
         widget=forms.Textarea(),
         help_text=_('Please provide your message'),
         label=_('Scrivi qui') ,)

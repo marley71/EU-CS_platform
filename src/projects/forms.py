@@ -99,6 +99,8 @@ class ProjectForm(forms.Form):
         tipo_pubblico_altro = cleaned_data.get('tipo_pubblico_altro', None)
         if 'altro' in tipo_pubblico and not tipo_pubblico_altro:
             self.add_error('tipo_pubblico_altro', 'Il tipo_pubblico_altro è richiesto quando "altro" è selezionato.')
+        if not self.data.get('tassonomie_ids'):
+            self.add_error('topic', 'Argomento scientifico è richiesto.')
 
     # return all fields from project_name_en, project_name_es, etc.
     def get_description_fields(self):
@@ -319,7 +321,7 @@ class ProjectForm(forms.Form):
         queryset=GeographicExtend.objects.all(),
         widget=Select2MultipleWidget(),
         help_text=_('Please indicate the spatial scale of the project'),
-        required=False,
+        required=True,
         label=_("Geographic extend"))
 
     projectlocality = forms.CharField(
@@ -362,11 +364,11 @@ class ProjectForm(forms.Form):
         widget=forms.TextInput(),
         help_text=_(
             'Please name the contact person or contact point of the project.'),
-        required=False,
+        required=True,
         label=_("Public contact point"))
 
     contact_person_email = forms.EmailField(
-        required=False,
+        required=True,
         widget=forms.TextInput(),
         help_text=_(
             'Please provide the email address of the contact person or contact point.'),
@@ -595,6 +597,11 @@ class ProjectForm(forms.Form):
         project.inaturalist = self.data['inaturalist']
 #         print(self.data.getlist('topic'))
 
+        #print('tassonomie ids ' + self.data.get('tassonomie_ids'))
+        if self.data['tassonomie_ids']:
+            topicIds = self.data['tassonomie_ids'].split(',')
+            project.topic.set(topicIds)
+
         provinciaId = next(iter(self.data.getlist('provincia')), None)
         #print('PROVINCIAID', provinciaId)
         if provinciaId:
@@ -739,6 +746,27 @@ def getCountryCode(latitude, longitude):
     except GeocoderServiceError:
         return ''
 
+def getTassonomieJson():
+    nomefile = str(settings.BASE_DIR) + '/../resources/tassonomie.json'
+    if not os.path.exists(nomefile):
+        return []
+
+    with open(nomefile, 'r') as f:
+        scelte_data = json.load(f)
+
+    replace_children_key(scelte_data)
+    #scelte_data= scelte_data.replace('"', '\\"')
+    return scelte_data
+
+def replace_children_key(data):
+    if isinstance(data, list):
+        for item in data:
+            replace_children_key(item)
+    elif isinstance(data, dict):
+        if 'children' in data:
+            data['subs'] = data.pop('children')
+        for key, value in data.items():
+            replace_children_key(value)
 
 ''' This is the form to translate projects '''
 class ProjectTranslationForm(forms.Form):

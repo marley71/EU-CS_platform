@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.conf import settings
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -23,6 +23,7 @@ from djoser import utils
 from django_ratelimit.decorators import ratelimit
 from django.utils.decorators import method_decorator
 from django.contrib.auth.tokens import default_token_generator
+
 from .tokens import account_activation_token
 from . import forms
 
@@ -113,17 +114,18 @@ class PasswordChangeView(authviews.PasswordChangeView):
     success_url = reverse_lazy("accounts:logout")
 
     def form_valid(self, form):
+        print('BBBB')
         form.save()
         messages.success(
             self.request,
             "Your password was changed, "
             "hence you have been logged out. Please relogin",
         )
-
         return super().form_valid(form)
 
 
 class PasswordResetView(authviews.PasswordResetView):
+
     form_class = forms.PasswordResetForm
     template_name = "accounts/password-reset.html"
     success_url = reverse_lazy("accounts:password-reset-done")

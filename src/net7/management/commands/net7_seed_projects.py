@@ -94,12 +94,22 @@ class Command(BaseCommand):
                 tipoPubblico = str(row['Tipo di pubblico']).split(';')
                 tipoPubblico = [s.strip().lower() for s in tipoPubblico]
 
+                match row['Livello difficoltà']:
+                    case "Facile":
+                        livelloDifficolta = 2
+                    case "Medio":
+                        livelloDifficolta = 3
+                    case "Difficile":
+                        livelloDifficolta = 4
+                    case _:
+                        livelloDifficolta = 1
+
                 project = Project.objects.create(
                     type=row['Tipo'],
                     name=row['Nome del progetto'],
                     citizen_science_aspects_description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    # description=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
-                    # description_it=row['Descrizione degli aspetti di CS (ad esempio in base ai 10 principi di ECSA).'],
+                    description=row['Descrizione del progetto'],
+                    description_it=row['Descrizione del progetto'],
                     aim=row['Scopo principale del progetto'],
                     aim_it=row['Scopo principale del progetto'],
                     url=row['Sito web di riferimento'],
@@ -117,6 +127,11 @@ class Command(BaseCommand):
                     longitude=longitude,
                     latitude=latitude,
                     tipo_pubblico=";".join(tipoPubblico),
+                    howToParticipate=row['Come partecipare'],
+                    equipment=row['Cosa portare'],
+                    howToParticipate_it=row['Come partecipare'],
+                    equipment_it=row['Cosa portare'],
+                    difficultyLevel_id=livelloDifficolta
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -221,6 +236,8 @@ class Command(BaseCommand):
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
+                    author=row['Punto di contatto pubblico'],
+                    author_email=row['Email utente']
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -303,7 +320,7 @@ class Command(BaseCommand):
                 is_active=True,
                 name=row['Email utente'].split('@')[0],
             )
-            user.set_password(row['Email'].split('@')[0])
+            user.set_password(row['Email utente'].split('@')[0])
             user.save()
             profile = Profile.objects.get(pk=user.id)
             #profile.surname = user.name
@@ -360,7 +377,7 @@ class Command(BaseCommand):
         if not row['Entità geografica del progetto']:
             return
         text = str(row['Entità geografica del progetto'])
-        ge = GeographicExtend.objects.get_or_create(geographicextend=text.strip())
+        ge = GeographicExtend.objects.get_or_create(geographicextend=text.strip().capitalize())
         project.geographicextend.add(ge[0])
 
 

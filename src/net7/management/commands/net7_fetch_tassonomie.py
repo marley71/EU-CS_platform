@@ -90,7 +90,7 @@ class Command(BaseCommand):
         for node in nodes:
             if node['broader'] == parent:
                 children = self.build_tree(nodes, node['concept'])
-                subtree = {'id': node['id'], 'concept': node['concept'], 'nome': node['topic_it']}
+                subtree = {'id': node['id'], 'concept': node['concept'], 'nome': node['topic_it'], 'title': node['topic_it']}
                 if children:
                     subtree['children'] = children
                 tree.append(subtree)

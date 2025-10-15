@@ -341,7 +341,7 @@ msgstr ""
 
 #: organisations/forms.py:51 platforms/forms.py:65 projects/forms.py:170
 msgid "Contact point email"
-msgstr "E-mail del contact point"
+msgstr "E-mail del punto di contatto"
 
 #: organisations/forms.py:96 projects/forms.py:484 resources/forms.py:312
 msgid "Give additional users permission to edit"
@@ -880,10 +880,10 @@ msgstr ""
 
 msgid "Please describe the citizen science aspect(s)"
 msgstr "Si prega di descrivere l'aspetto o gli aspetti di Citizen Science del "
-"progetto/attività e il loro collegamento con i criteri di moderazione <a "
-"href=\"https://zenodo.org/cohttps://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
-">10 Principi di Citizen Science di ECSA </a> e i <a href=\"https://osf.io/"
-"xpr2n/\">10 Principi di Citizen Science di ECSA</a>. Il testo scritto in "
+"progetto/attività e il loro collegamento con i  <a "
+"href=\"https://citizenscience.netseven.work/p/criteri-di-moderazioni-qualita\" target=\"_blank\" "
+">criteri di moderazione </a> e i <a href=\"https://zenodo.org/record/5127534#.YV8J0dpBxPa\" "
+" target=\"_blank\">10 Principi di Citizen Science di ECSA</a>. Il testo scritto in "
 "questo campo di testo non apparirà sulla piattaforma; è solo a scopo di "
 "moderazione (max 2000 caratteri)."
 
@@ -928,7 +928,7 @@ msgstr ""
 #: projects/forms.py:94
 msgid "Please select the project provincia(s) or field(s) of science."
 msgstr ""
-"Seleziona la provincia o province del progetto/attività."
+"Seleziona la provincia o province del progetto/attività. Questo campo sarà il punto principale visualizzato sulla mappa ma sarà possibile fornire dettagli più precisi sull'estensione geografica effettiva nei campi sottostanti."
 
 
 # label stato progetto
@@ -962,11 +962,11 @@ msgstr "Attività di partecipazione"
 
 #: projects/forms.py:116
 msgid "Please select the difficulty level."
-msgstr "Seleziona il livello di difficoltà."
+msgstr "Seleziona il livello di impegno."
 
 #: projects/forms.py:118
 msgid "Difficulty level"
-msgstr "Livello di difficoltà"
+msgstr "Livello di impegno"
 
 #: projects/forms.py:122
 msgid ""
@@ -1086,7 +1086,7 @@ msgstr ""
 
 #: projects/forms.py:217
 msgid "Image for the thumbnail profile"
-msgstr "Immagine per il profilo in miniatura"
+msgstr "Immagine principale"
 
 #: projects/forms.py:218
 msgid "It will be resized to 600x400 pixels"
@@ -1094,7 +1094,7 @@ msgstr "Verrà ridimensionata a 600x400 pixel"
 
 #: projects/forms.py:229
 msgid "Thumbnail credit, if applicable"
-msgstr "Credito della miniatura, se applicabile"
+msgstr "Crediti dell'immagine principale, se applicabile"
 
 #: projects/forms.py:233
 msgid "Project logo"
@@ -1271,6 +1271,10 @@ msgstr "progetto trovato"
 #: projects/templates/_intro_form_project.html:8
 msgid "project"
 msgstr "progetto"
+
+msgid "Project Activity"
+msgstr "Progetto/Attività"
+
 
 #: projects/templates/_intro_form_project.html:14
 msgid ""
@@ -1543,7 +1547,7 @@ msgstr "Informazioni sul finanziamento"
 
 #: projects/templates/project_form.html:107
 msgid "Project profile images"
-msgstr "Immagini profilo del progetto/attività"
+msgstr "Immagini del progetto/attività"
 
 #: projects/templates/project_review.html:18
 #: resources/templates/resource_review.html:18
@@ -4066,7 +4070,7 @@ msgid "Please describe how people can get involved in the project (max 3000 char
 msgstr "Descrivi in che modo le persone possono essere coinvolte nel progetto (max 3000 caratteri)."
 
 msgid "Heading logo credit, if applicable"
-msgstr "Credit del logo dell'intestazione, se applicabile"
+msgstr "Crediti del logo, se applicabile"
 
 msgid "Please upload the image of your organisation (.jpg or .png)."
 msgstr "Carica l'immagine della tua organizzazione (.jpg o .png)."

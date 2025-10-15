@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">
-                    Cosa vuoi contribuire?
+                    Come puoi contribuire?
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
@@ -16,8 +16,8 @@
                         <svg class="bi mb-1" width="24" height="24" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
                         </svg>
-                        {% trans "Project" %}</a></h5>
-                    Crea la scheda di un progetto di Citizen Science<br/>
+                        {% trans "Project Activity" %}</a></h5>
+                    Inserisci un progetto o una attività di Citizen Science<br/>
                     <hr>
                 </div>
                 <div class="mt-4">
@@ -38,15 +38,16 @@
                             Evento</a></h5>
                         Crea un Evento<br/>
                     </div>
+                    <hr>
                 {% endif %}
-                {#                <div class="mt-4 mb-4">#}
-                {#                    <h5><a href="/new_blog" class="my-link">#}
-                {#                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">#}
-                {#                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>#}
-                {#                        </svg>#}
-                {#                        Notizia</a></h5>#}
-                {#                    Crea un articolo per la sezione Notizie<br/>#}
-                {#                </div>#}
+                <div class="mt-4 mb-4">
+                    <h5><a href="/new_blog" class="my-link">
+                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
+                        </svg>
+                        Notizia</a></h5>
+                    Crea una notizia<br/>
+                </div>
             </div>
         </div>
     </div>

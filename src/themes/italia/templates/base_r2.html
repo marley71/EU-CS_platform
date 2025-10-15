@@ -18,7 +18,7 @@
 
         <title>
             {% block title %}
-                European Citizen Science Platform
+                Citizen Science.it
             {% endblock title %}
         </title>
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -61,6 +61,8 @@
         <script src="/static/admin/js/vendor/select2/i18n/it.js"></script>
         <script src="/static/django_select2/django_select2.js"></script>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+         <script src="{% static 'Drop-Down-Combo-Tree/comboTreePlugin.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'Drop-Down-Combo-Tree/comboTreePlugin.css' %}">
     {% endblock head %}
     {% block meta %}
     {% endblock meta %}
