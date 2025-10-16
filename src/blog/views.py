@@ -59,6 +59,35 @@ def new_blog(request):
         'text': text,
         'user_agent': settings.USER_AGENT})
 
+@login_required(login_url='/login')
+def edit_blog(request,pk):
+
+    #text = get_object_or_404(HelpText, slug='new-event')
+    text = "Modifica notizia"
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            images = setImages(request, form)
+            form.save(request, images)
+            return redirect('/blog')
+        else:
+            print(form.errors)
+    else:
+        blog = get_object_or_404(Post, id=pk)
+        initial_data = {
+            'title': blog.title,
+            'content': blog.content,
+            'status': blog.status,
+            'data': blog.data,
+        }
+        user = request.user
+        form = PostForm(initial_data, initial_data)
+    return TemplateResponse(request, 'edit_post.html', {
+        'blodId' : blog.id,
+        'form': form,
+        'user': user,
+        'text': text,
+        'user_agent': settings.USER_AGENT})
 
 def setImages(request, form):
     #print('setImages')

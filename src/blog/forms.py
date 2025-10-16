@@ -79,8 +79,10 @@ class PostForm(forms.Form):
     #     super().__init__(*args, **kwargs)
     
     def save(self, args,images):
-        pk = self.data.get('blogID', '')
-        print('data',self.data['data'])
+        resolver_match = args.resolver_match
+        pk = resolver_match.kwargs.get('pk')
+        #pk = self.data.get('id', '')
+        print('blog data',self.data['data'],'blod id',pk,args)
         # hour = self.data['hour']
         # if hour == '':
         #     hour = None
