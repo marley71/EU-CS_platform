@@ -71,9 +71,6 @@
 
 
 
-                                <img class="img-fluid img-zoom"
-                                id="imageResult"
-                                src="{% thumbnail project.image|default:'default_blog.png' 600x400 %}">
                                 {{ form.image|as_crispy_field }}
                                 {{ form.x|as_crispy_field }}
                                 {{ form.y|as_crispy_field }}

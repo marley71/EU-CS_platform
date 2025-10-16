@@ -15,7 +15,7 @@
                 </div>
                 {% for post in post_list %}
                     <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-flex align-items-center justify-content-center mb-3">
-                        <a href="{{ post.get_absolute_url }}">
+                        <a href="{{ post.get_absolute_url }}" class="link-none">
                             {% include "includes/card_notizia.html" with notizia=post %}
                         </a>
                     </div>
