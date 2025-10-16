@@ -57,6 +57,13 @@
                             </a>
                     {%  endif %}
                 </h3>
+                {% if user == event.creator or user.is_staff %}
+                    {% if event.approved %}
+                        <div class="text-success">Approvato</div>
+                    {% else %}
+                        <div class="text-danger">Non Approvato</div>
+                    {% endif %}
+                {% endif %}
                 <p>
                     {{ event.description | safe | truncatechars:100 }}
                     {% if event.description|length > 100 %}

@@ -16,6 +16,10 @@ EVENT_TYPE_CHOICES = [
     ('hybrid', 'Evento ibrido'),
 ]
 
+EVENT_APPROVED = [
+    (True,'Approvato'),
+    (False,'Non approvato'),
+]
 
 class EventForm(forms.Form):
     title = forms.CharField(
@@ -49,8 +53,8 @@ class EventForm(forms.Form):
     language_other = forms.CharField(max_length=200,required=False,)
     url = forms.CharField(max_length=200, label=_('URL'),widget=forms.TextInput(),required=True,
             help_text=_('Url Evento'))
-    latitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
-    longitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput())
+    latitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput(),required=False)
+    longitude = forms.DecimalField(max_digits=9, decimal_places=6, widget=forms.HiddenInput(),required=False)
 
     event_type = forms.ChoiceField(
         choices=EVENT_TYPE_CHOICES,
@@ -58,6 +62,13 @@ class EventForm(forms.Form):
         help_text=_('Please indicate if the event is online or physical.'),
         label=_('Event type'),
         required=True
+    )
+    approved = forms.ChoiceField(
+        choices=EVENT_APPROVED,
+        widget=forms.Select(),
+        help_text=_('Please indicate if the event is online or physical.'),
+        label=_('Event type'),
+        required=False
     )
     project = forms.ModelChoiceField(
         queryset=Project.objects.all(),
@@ -134,12 +145,13 @@ class EventForm(forms.Form):
             event.language_other=self.data['language_other']
             event.url = self.data['url']
             event.event_type = self.data['event_type']
-            event.latitude = self.data['latitude']
-            event.longitude = self.data['longitude']
+            # event.latitude = self.data['latitude']
+            # event.longitude = self.data['longitude']
             event.creator=args.user
             event.project = self.cleaned_data['project']
             event.mainOrganisation = self.cleaned_data['mainOrganisation']
             event.organisations.set(self.cleaned_data['organisations'])
+
         else:
             event = Event(
                 title=self.data['title'],
@@ -153,8 +165,8 @@ class EventForm(forms.Form):
                 language=self.data['language'],
                 language_other=self.data['language_other'],
                 url=self.data['url'],
-                latitude=self.data['latitude'],
-                longitude=self.data['longitude'],
+                # latitude=self.data['latitude'],
+                # longitude=self.data['longitude'],
                 event_type=self.data['event_type'],
                 creator=args.user
             )
@@ -162,5 +174,6 @@ class EventForm(forms.Form):
             event.project = self.cleaned_data['project']
             event.mainOrganisation = self.cleaned_data['mainOrganisation']
             event.organisations.set(self.cleaned_data['organisations'])
-
+        if 'approved' in self.data:
+            event.approved = self.data['approved']
         event.save()

@@ -86,15 +86,17 @@
                                                         </div>
                                                         <div id="map-notification" class="alert alert-danger d-none"></div>
                                                     </div>
-                                                    {{ form.latitude|as_crispy_field }}
-                                                    {{ form.longitude|as_crispy_field }}
+{#                                                    {{ form.latitude|as_crispy_field }}#}
+{#                                                    {{ form.longitude|as_crispy_field }}#}
                                                     {{ form.place|as_crispy_field }}
                                                     {{ form.country|as_crispy_field }}
                                                     
                                                     {{ form.project|as_crispy_field }}
                                                     {{ form.mainOrganisation|as_crispy_field }} 
                                                     {{ form.organisations|as_crispy_field }}   
-                                                  
+                                                    {% if user.is_staff %}
+                                                        {{ form.approved|as_crispy_field }}
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="row">

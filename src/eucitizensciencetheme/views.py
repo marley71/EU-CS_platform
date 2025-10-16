@@ -362,7 +362,10 @@ def home(request):
     # Events
     now = datetime.today()
     now = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    events = Event.objects.all().filter(start_date__gt=now).order_by('-featured', 'start_date')
+    events = Event.objects.all().filter(start_date__gt=now)
+    if not user.is_authenticated or not user.is_staff:
+        events = events.filter(approved=True)
+    events = events.order_by('-featured', 'start_date')
     paginatorEvents = Paginator(events, 3)
     page = request.GET.get('page')
     events = paginatorEvents.get_page(page)
