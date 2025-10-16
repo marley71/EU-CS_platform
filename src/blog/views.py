@@ -78,12 +78,13 @@ def edit_blog(request,pk):
             'title': blog.title,
             'content': blog.content,
             'status': blog.status,
-            'data': blog.data,
+            'data':  blog.data, #formats.date_format(blog.data, 'Y-m-d')
         }
+        print(blog.data)
         user = request.user
-        form = PostForm(initial_data, initial_data)
+        form = PostForm(initial=initial_data)
     return TemplateResponse(request, 'edit_post.html', {
-        'blodId' : blog.id,
+        'blog' : blog,
         'form': form,
         'user': user,
         'text': text,

@@ -19,13 +19,16 @@ EVENT_TYPE_CHOICES = [
 
 class PostForm(forms.Form):
     STATUS = (
-        (0, "Draft"),
-        (1, "Publish")
+        (0, "Non Approvato"),
+        (1, "Approvato"),
     )
     STICKY = (
         (0, "No"),
         (1, "Yes")
     )
+
+    # def __init__(self, *args, **kwargs):
+    #     self.initial_data['data'] = self.initial_data['data'] if self.initial_data['data'] else timezone.now
 
     image = forms.ImageField(
         required=False,
@@ -49,6 +52,7 @@ class PostForm(forms.Form):
     data = forms.DateField(
         widget=forms.TextInput(attrs={'type': 'date'}),
         required=True,
+        #initial=self.initial['data'] if self.initial['data'] else timezone.now,
         label=_("Please write the data of the blog."))
     # slug = forms.CharField(
     #     max_length=200,
@@ -90,6 +94,7 @@ class PostForm(forms.Form):
             post = get_object_or_404(Post, id=pk)
             post.title = self.data['title']
             post.content = self.data['content']
+            post.data = self.data['data']
             #post.slug = self.data['slug']
             #post.created_on = self.data['created_on']
             post.status = self.data['status']

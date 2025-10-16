@@ -27,7 +27,7 @@
 {% block list_of_items %}
 {% include '_crop_zone.html' %}
 <div class="container mt-5">
-     <form action="/edit_blog/{{blodId}}" class="edit-project" method="post" enctype="multipart/form-data">
+     <form action="/edit_blog/{{blog.id}}" class="edit-project" method="post" enctype="multipart/form-data">
         <div class="row">
             {% csrf_token %}
             <div class="col-12">
@@ -73,7 +73,7 @@
 
                                 <img class="img-fluid img-zoom"
                                 id="imageResult"
-                                src="{% thumbnail project.image|default:'default_blog.png' 600x400 %}">
+                                src="{% thumbnail blog.image|default:'default_blog.png' 600x400 %}">
                                 {{ form.image|as_crispy_field }}
                                 {{ form.x|as_crispy_field }}
                                 {{ form.y|as_crispy_field }}
