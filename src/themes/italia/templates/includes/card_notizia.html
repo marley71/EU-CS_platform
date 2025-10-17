@@ -13,7 +13,7 @@
 {#</div>#}
 
 
-<div class="card rounded-4 shadow w-100" style="height: 540px;">
+<div class="card rounded-4 shadow w-100" style="height: 540px;min-width:304px;">
     <div class="text-center rounded-top-4"
          style="height:173px; background-image: url({{ notizia.imagePath }}); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
@@ -23,7 +23,7 @@
         <div>
 
             <h5 class="card-title mb-1">{{ notizia.title }}</h5>
-                {% if user == notizia.creator or user.is_staff %}
+                {% if user == notizia.author or user.is_staff %}
                     <div class="d-flex justify-content-between">
 
                     {% if notizia.status %}

@@ -9,6 +9,7 @@ from django.template.response import TemplateResponse
 from PIL import Image
 from django.utils import formats
 from datetime import datetime, timezone
+from django.db.models import Q
 import random
 
 
@@ -19,7 +20,16 @@ class PostList(generic.ListView):
         query_params.pop('page', None)
         context['query_params'] = urlencode(query_params)
         return context
-    queryset = Post.objects.filter(status=1).order_by('-sticky', '-created_on')
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Post.objects.order_by('-sticky', '-created_on')
+        elif user:
+            return Post.objects.filter(Q(status=1) | Q(author_id=user.id)).order_by('-sticky', '-created_on')
+        else:
+            return Post.objects.filter(status=1).order_by('-sticky', '-created_on')
+
     template_name = 'blog.html'
     paginate_by = '12'
 
