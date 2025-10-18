@@ -89,7 +89,7 @@ class Command(BaseCommand):
                     latitude = row['Lat']
                     longitude = row['Lng']
                 organisation = self.getOrganisations(row,latitude,longitude)
-                user_id = self.getUser(row)
+                user_id = self.getUserId(row)
                 self.stdout.write(' utente ' + str(user_id))
                 tipoPubblico = str(row['Tipo di pubblico']).split(';')
                 tipoPubblico = [s.strip().lower() for s in tipoPubblico]
@@ -209,7 +209,7 @@ class Command(BaseCommand):
 
                 #email = str(row['email']).strip()
                 organisation = self.getOrganisations(row,latitude,longitude)
-                user_id = self.getUser(row)
+                user_id = self.getUserId(row)
                 self.stdout.write(' utente ' + str(user_id))
 
                 project = Project.objects.create(
@@ -237,7 +237,8 @@ class Command(BaseCommand):
                     longitude=longitude,
                     latitude=latitude,
                     author=row['Punto di contatto pubblico'],
-                    author_email=row['Email utente']
+                    author_email=row['Email utente'],
+                    bsw = "2025",
                     # keyword=keyword.keyword,
                     # organisation=organisation
                 )
@@ -299,7 +300,7 @@ class Command(BaseCommand):
 
             org = Organisation.objects.create(
                 name=row['Principale organizzazione promotrice'],
-                creator_id=1,
+                creator_id=self.getUserId(row),
                 orgType=orgType,
                 latitude=latitude,
                 longitude=longitude,
@@ -307,7 +308,7 @@ class Command(BaseCommand):
             )
         return org
 
-    def getUser(self,row):
+    def getUserId(self,row):
         if not row['Email utente']:
             return 1
         user = User.objects.filter(email=row['Email utente']).first()

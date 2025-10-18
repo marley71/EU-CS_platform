@@ -10,7 +10,9 @@ from django.utils import formats
 from .models import Event, HelpText, ApprovedEvents, UnApprovedEvents
 from .forms import EventForm
 from django.db.models import Q
-
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+import copy
 
 def events(request):
     user = request.user
@@ -93,12 +95,11 @@ def new_event(request):
     form = EventForm()
     #text = get_object_or_404(HelpText, slug='new-event')
     text = "Nuovo evento"
-    print('nuovo evento')
     if request.method == 'POST':
-        print('nuovo evento post')
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save(request)
+            event = form.save(request)
+            sendEventEmail(event.id, request.user)
             return redirect('/events')
         else:
             print(form.errors)
@@ -258,3 +259,23 @@ def setApprovedOrUnapprovedEvent(id, approved):
             print("Does not exist this approved event")
         aEvent.approved = 'False'
         aEvent.save()
+
+
+def sendEventEmail(pk, user):
+    event = get_object_or_404(Event, id=pk)
+    subject = '[EU-CITIZEN.SCIENCE] Event "%s" has been submitted' % event.title
+    message = render_to_string('emails/new_event.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'eventTitle': event.title,
+        'eventId': pk})
+    # to = [user.email]
+    to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
+    #to.append(user.email)
+    bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'help@eu-cs-platform.dev.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
+    email.content_subtype = "html"
+    email.send()

@@ -119,3 +119,4 @@ class PostForm(forms.Form):
             post.image = images[0]
         post.slug = self.data['title'].replace(' ', '-') + '-' + self.data['data']
         post.save()
+        return post

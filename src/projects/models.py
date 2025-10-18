@@ -186,10 +186,10 @@ class Project(models.Model):
     provincia = models.ManyToManyField(Provincia)  # nuova relazione molti a molti
     stato = models.CharField(max_length=50, null=True, blank=True) # stato progetto.. completato,non ancora iniziato, abbandonato
     aree = models.JSONField(null=True, blank=True)
-
+    projectlocality = models.CharField(max_length=300, null=True, blank=True)
     # Legacy
     country = CountryField(null=True, blank=True)
-
+    bsw = models.CharField(max_length=30, null=True, blank=True)
     # Contact and host details
     author = models.CharField(max_length=100, null=True, blank=True)
     author_email = models.CharField(max_length=100, null=True, blank=True)

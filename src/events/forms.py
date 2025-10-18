@@ -177,3 +177,4 @@ class EventForm(forms.Form):
         if 'approved' in self.data:
             event.approved = self.data['approved']
         event.save()
+        return event

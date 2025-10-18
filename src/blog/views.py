@@ -10,8 +10,10 @@ from PIL import Image
 from django.utils import formats
 from datetime import datetime, timezone
 from django.db.models import Q
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 import random
-
+import copy
 
 class PostList(generic.ListView):
     def get_context_data(self, **kwargs):
@@ -59,7 +61,8 @@ def new_blog(request):
         form = PostForm(request.POST)
         if form.is_valid():
             images = setImages(request, form)
-            form.save(request, images)
+            post = form.save(request, images)
+            sendBlogEmail(post.id,user)
             return redirect('/blog')
         else:
             print(form.errors)
@@ -160,3 +163,22 @@ def saveImageWithPath(image, photoName):
         '_' + str(random_num) + '_' + photoName
     image.save("media/"+image_path)
     return image_path
+
+def sendBlogEmail(pk, user):
+    post = get_object_or_404(Post, id=pk)
+    subject = '[EU-CITIZEN.SCIENCE] news "%s" has been submitted' % post.title
+    message = render_to_string('emails/new_post.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'eventTitle': post.title,
+        'eventId': pk})
+    # to = [user.email]
+    to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
+    #to.append(user.email)
+    bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'help@eu-cs-platform.dev.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
+    email.content_subtype = "html"
+    email.send()
