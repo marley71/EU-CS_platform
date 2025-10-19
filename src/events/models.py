@@ -3,6 +3,7 @@ from django.conf import settings
 from projects.models import Project
 from organisations.models import Organisation
 from django.utils import timezone
+from datetime import datetime, timedelta
 import pytz
 
 class HelpText(models.Model):
@@ -65,6 +66,8 @@ class Event(models.Model):
         related_name='events_coordinated')
     organisations = models.ManyToManyField(Organisation, blank=True)
     approved = models.BooleanField(default=False)
+    created_on = models.DateTimeField(default=datetime.now())
+    updated_on = models.DateTimeField(auto_now=True)
 
     @property
     def language_calc(self):

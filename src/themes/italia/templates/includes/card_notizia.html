@@ -13,7 +13,7 @@
 {#</div>#}
 
 
-<div class="card rounded-4 shadow w-100" style="height: 480px;">
+<div class="card rounded-4 shadow w-100" style="height: 540px;min-width:304px;">
     <div class="text-center rounded-top-4"
          style="height:173px; background-image: url({{ notizia.imagePath }}); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
@@ -23,6 +23,24 @@
         <div>
 
             <h5 class="card-title mb-1">{{ notizia.title }}</h5>
+                {% if user == notizia.author or user.is_staff %}
+                    <div class="d-flex justify-content-between">
+
+                    {% if notizia.status %}
+                        <div class="text-success">Approvata</div>
+                    {% else %}
+                        <div class="text-danger">Non Approvata</div>
+                    {% endif %}
+                                            <a class="btn btn-outline-secondary p-1 px-2 " href="{% url 'edit_blog' notizia.id %}">
+                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                                </svg>
+{#                                {% trans "Edit" %}#}
+                            </a>
+
+                    </div>
+                {% endif %}
+
             <p class="card-text mb-2 mt-2">
                 {{ notizia.content | safe | truncatechars:150 }}
             </p>

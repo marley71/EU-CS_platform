@@ -6,6 +6,8 @@ from .models import Event
 from organisations.models import Organisation
 from projects.models import Project
 from django_select2 import forms as s2forms
+from datetime import datetime, timedelta
+from django.utils import timezone
 import pytz
 
 from django.conf import settings
@@ -153,6 +155,7 @@ class EventForm(forms.Form):
             event.organisations.set(self.cleaned_data['organisations'])
 
         else:
+            created_on = timezone.make_aware(datetime.now())
             event = Event(
                 title=self.data['title'],
                 description=self.data['description'],
@@ -168,7 +171,8 @@ class EventForm(forms.Form):
                 # latitude=self.data['latitude'],
                 # longitude=self.data['longitude'],
                 event_type=self.data['event_type'],
-                creator=args.user
+                creator=args.user,
+                created_on=created_on,
             )
             event.save()
             event.project = self.cleaned_data['project']
@@ -177,3 +181,4 @@ class EventForm(forms.Form):
         if 'approved' in self.data:
             event.approved = self.data['approved']
         event.save()
+        return event

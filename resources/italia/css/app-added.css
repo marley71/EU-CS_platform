@@ -12,3 +12,7 @@ table.moderazione {
 h3.page-h3 {
     margin-bottom:30px;
 }
+
+.link-none {
+    text-decoration: none !important;
+}

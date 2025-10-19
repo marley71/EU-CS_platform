@@ -9,8 +9,11 @@ from django.template.response import TemplateResponse
 from PIL import Image
 from django.utils import formats
 from datetime import datetime, timezone
+from django.db.models import Q
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 import random
-
+import copy
 
 class PostList(generic.ListView):
     def get_context_data(self, **kwargs):
@@ -19,7 +22,16 @@ class PostList(generic.ListView):
         query_params.pop('page', None)
         context['query_params'] = urlencode(query_params)
         return context
-    queryset = Post.objects.filter(status=1).order_by('-sticky', '-created_on')
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Post.objects.order_by('-sticky', '-created_on')
+        elif user:
+            return Post.objects.filter(Q(status=1) | Q(author_id=user.id)).order_by('-sticky', '-created_on')
+        else:
+            return Post.objects.filter(status=1).order_by('-sticky', '-created_on')
+
     template_name = 'blog.html'
     paginate_by = '12'
 
@@ -49,7 +61,8 @@ def new_blog(request):
         form = PostForm(request.POST)
         if form.is_valid():
             images = setImages(request, form)
-            form.save(request, images)
+            post = form.save(request, images)
+            sendBlogEmail(post.id,user)
             return redirect('/blog')
         else:
             print(form.errors)
@@ -59,6 +72,38 @@ def new_blog(request):
         'text': text,
         'user_agent': settings.USER_AGENT})
 
+@login_required(login_url='/login')
+def edit_blog(request,pk):
+
+    #text = get_object_or_404(HelpText, slug='new-event')
+    text = "Modifica notizia"
+    blog = None
+    user = request.user
+    blog = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            images = setImages(request, form)
+            form.save(request, images)
+            return redirect('/blog')
+        else:
+            print(form.errors)
+
+    else:
+        initial_data = {
+            'title': blog.title,
+            'content': blog.content,
+            'status': blog.status,
+            'data':  blog.data, #formats.date_format(blog.data, 'Y-m-d')
+        }
+        #print(blog.data)
+        form = PostForm(initial=initial_data)
+    return TemplateResponse(request, 'edit_post.html', {
+        'blog' : blog,
+        'form': form,
+        'user': user,
+        'text': text,
+        'user_agent': settings.USER_AGENT})
 
 def setImages(request, form):
     #print('setImages')
@@ -120,3 +165,22 @@ def saveImageWithPath(image, photoName):
         '_' + str(random_num) + '_' + photoName
     image.save("media/"+image_path)
     return image_path
+
+def sendBlogEmail(pk, user):
+    post = get_object_or_404(Post, id=pk)
+    subject = '[EU-CITIZEN.SCIENCE] news "%s" has been submitted' % post.title
+    message = render_to_string('emails/new_post.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'eventTitle': post.title,
+        'eventId': pk})
+    # to = [user.email]
+    to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
+    #to.append(user.email)
+    bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'help@eu-cs-platform.dev.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
+    email.content_subtype = "html"
+    email.send()

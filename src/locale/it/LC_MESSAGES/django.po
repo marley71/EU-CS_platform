@@ -4114,6 +4114,16 @@ msgstr "Messaggio"
 msgid "Please provide your message"
 msgstr "Pefavore inserisci il tuo messaggio"
 
+msgid "Enter Name (max 20 characters)"
+msgstr "Inserisci il Nome (massimo 20 caratteri)"
+
+msgid "Enter Surname (max 20 characters)"
+msgstr "Inserisci il Cognome (massimo 20 caratteri)"
+
+msgid "Renter Password"
+msgstr "Ripeti la password di sopra per verifica"
+
+
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"
 

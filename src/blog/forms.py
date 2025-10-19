@@ -19,13 +19,16 @@ EVENT_TYPE_CHOICES = [
 
 class PostForm(forms.Form):
     STATUS = (
-        (0, "Draft"),
-        (1, "Publish")
+        (0, "Non Approvato"),
+        (1, "Approvato"),
     )
     STICKY = (
         (0, "No"),
         (1, "Yes")
     )
+
+    # def __init__(self, *args, **kwargs):
+    #     self.initial_data['data'] = self.initial_data['data'] if self.initial_data['data'] else timezone.now
 
     image = forms.ImageField(
         required=False,
@@ -49,6 +52,7 @@ class PostForm(forms.Form):
     data = forms.DateField(
         widget=forms.TextInput(attrs={'type': 'date'}),
         required=True,
+        #initial=self.initial['data'] if self.initial['data'] else timezone.now,
         label=_("Please write the data of the blog."))
     # slug = forms.CharField(
     #     max_length=200,
@@ -79,17 +83,21 @@ class PostForm(forms.Form):
     #     super().__init__(*args, **kwargs)
     
     def save(self, args,images):
-        pk = self.data.get('blogID', '')
-        print('data',self.data['data'])
+        resolver_match = args.resolver_match
+        pk = resolver_match.kwargs.get('pk')
+        #pk = self.data.get('id', '')
+        print('blog data',self.data['data'],'blod id',pk,args)
         # hour = self.data['hour']
         # if hour == '':
         #     hour = None
         if pk:
+            updated_on = timezone.make_aware(datetime.now())
             post = get_object_or_404(Post, id=pk)
             post.title = self.data['title']
             post.content = self.data['content']
+            post.data = self.data['data']
             #post.slug = self.data['slug']
-            #post.created_on = self.data['created_on']
+            post.updated_on = updated_on
             post.status = self.data['status']
             #post.excerpt=self.data['excerpt']
             #post.sticky=self.data['sticky']
@@ -103,12 +111,14 @@ class PostForm(forms.Form):
                 content=self.data['content'],
                 #slug=self.data['slug'],
                 created_on=created_on,
+                updated_on=created_on,
                 status=self.data['status'],
                 #excerpt=self.data['excerpt'],
                 #sticky=self.data['sticky'],
                 author=args.user
             )
-        if (images[0] != '/'):
+        if (images[0] != '/' and images[0] != ''):
             post.image = images[0]
         post.slug = self.data['title'].replace(' ', '-') + '-' + self.data['data']
         post.save()
+        return post

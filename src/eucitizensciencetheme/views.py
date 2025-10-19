@@ -169,14 +169,16 @@ def get_projects_webmapp(request,type=None):
             projectType = 'Attività'
             projectExtension = ['locale','Comunale','Provinciale']
         case _:
-            projectType = 'Progetto'
+            projectType = None
             projectExtension = None
 
     #print("type", type)
     #keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     #projects = Project.objects.filter(approved=True).exclude(keywords__id=keyword.id).prefetch_related('projectCountry')
-    projects = Project.objects.filter(approved=True).filter(type=projectType)
+    projects = Project.objects.filter(approved=True).filter(bsw__isnull=True)
 
+    if projectType is not None:
+        projects = projects.filter(type=projectType)
     if projectExtension is not None:
         projects = projects.filter(geographicextend__geographicextend__in=projectExtension)
 
@@ -362,10 +364,11 @@ def home(request):
     # Events
     now = datetime.today()
     now = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    events = Event.objects.all().filter(start_date__gt=now)
+    events = Event.objects.all() #.filter(start_date__gt=now)
     if not user.is_authenticated or not user.is_staff:
         events = events.filter(approved=True)
-    events = events.order_by('-featured', 'start_date')
+    #events = events.order_by('-featured', 'start_date')
+    events= events.order_by('-created_on')
     paginatorEvents = Paginator(events, 3)
     page = request.GET.get('page')
     events = paginatorEvents.get_page(page)

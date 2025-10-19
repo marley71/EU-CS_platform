@@ -120,7 +120,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
             Field("surname"),
             HTML('<label class="mt-4 mb-2">'+_("Enter Password")+'</label>'),
             Field("password1"),
-            HTML('<label class="mt-4 mb-2">'+_("Re-enter Password")+'</label>'),
+            HTML('<label class="mt-4 mb-2">'+_("Renter Password")+'</label>'),
             Field("password2"),
             HTML('<div class="mt-2"></div>'),
 #             Field("profileType"),
