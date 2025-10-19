@@ -77,6 +77,9 @@ def edit_blog(request,pk):
 
     #text = get_object_or_404(HelpText, slug='new-event')
     text = "Modifica notizia"
+    blog = None
+    user = request.user
+    blog = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -85,16 +88,15 @@ def edit_blog(request,pk):
             return redirect('/blog')
         else:
             print(form.errors)
+
     else:
-        blog = get_object_or_404(Post, id=pk)
         initial_data = {
             'title': blog.title,
             'content': blog.content,
             'status': blog.status,
             'data':  blog.data, #formats.date_format(blog.data, 'Y-m-d')
         }
-        print(blog.data)
-        user = request.user
+        #print(blog.data)
         form = PostForm(initial=initial_data)
     return TemplateResponse(request, 'edit_post.html', {
         'blog' : blog,

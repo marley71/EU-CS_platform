@@ -365,7 +365,8 @@ def home(request):
     events = Event.objects.all() #.filter(start_date__gt=now)
     if not user.is_authenticated or not user.is_staff:
         events = events.filter(approved=True)
-    events = events.order_by('-featured', 'start_date')
+    #events = events.order_by('-featured', 'start_date')
+    events= events.order_by('-created_on')
     paginatorEvents = Paginator(events, 3)
     page = request.GET.get('page')
     events = paginatorEvents.get_page(page)

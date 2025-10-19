@@ -91,12 +91,13 @@ class PostForm(forms.Form):
         # if hour == '':
         #     hour = None
         if pk:
+            updated_on = timezone.make_aware(datetime.now())
             post = get_object_or_404(Post, id=pk)
             post.title = self.data['title']
             post.content = self.data['content']
             post.data = self.data['data']
             #post.slug = self.data['slug']
-            #post.created_on = self.data['created_on']
+            post.updated_on = updated_on
             post.status = self.data['status']
             #post.excerpt=self.data['excerpt']
             #post.sticky=self.data['sticky']
@@ -110,12 +111,13 @@ class PostForm(forms.Form):
                 content=self.data['content'],
                 #slug=self.data['slug'],
                 created_on=created_on,
+                updated_on=created_on,
                 status=self.data['status'],
                 #excerpt=self.data['excerpt'],
                 #sticky=self.data['sticky'],
                 author=args.user
             )
-        if (images[0] != '/'):
+        if (images[0] != '/' and images[0] != ''):
             post.image = images[0]
         post.slug = self.data['title'].replace(' ', '-') + '-' + self.data['data']
         post.save()
