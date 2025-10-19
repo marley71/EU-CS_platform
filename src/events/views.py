@@ -35,6 +35,15 @@ def events(request):
     organisations = [org for org in organisations if org is not None]
     print(languages)
 
+    if not user.is_staff:
+        #events = events.exclude(id__in=unApprovedEvents)
+        events = events.filter(approved=True)
+
+    if user and not user.is_staff:
+        events = events.filter(Q(approved=True) | Q(creator_id=user.id))
+    elif not user:
+        events = events.filter(approved=True)
+
     events = applyFilters(request, events).filter(start_date__gt=now)
     ongoingEvents = applyFilters(request, ongoingEvents).filter(start_date__lte=now, end_date__gte=now)
     pastEvents = applyFilters(request, pastEvents).filter(end_date__lt=now)
@@ -65,9 +74,7 @@ def events(request):
     unApprovedEvents = UnApprovedEvents.objects.all().values_list('event_id', flat=True)
 
 
-    if not user.is_staff:
-        #events = events.exclude(id__in=unApprovedEvents)
-        events = events.filter(approved=True)
+
 
     return TemplateResponse(request, 'events.html', {
         'q': query,
