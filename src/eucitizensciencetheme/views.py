@@ -169,14 +169,16 @@ def get_projects_webmapp(request,type=None):
             projectType = 'Attività'
             projectExtension = ['locale','Comunale','Provinciale']
         case _:
-            projectType = 'Progetto'
+            projectType = None
             projectExtension = None
 
     #print("type", type)
     #keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     #projects = Project.objects.filter(approved=True).exclude(keywords__id=keyword.id).prefetch_related('projectCountry')
-    projects = Project.objects.filter(approved=True).filter(type=projectType)
+    projects = Project.objects.filter(approved=True).filter(bsw__isnull=True)
 
+    if projectType is not None:
+        projects = projects.filter(type=projectType)
     if projectExtension is not None:
         projects = projects.filter(geographicextend__geographicextend__in=projectExtension)
 

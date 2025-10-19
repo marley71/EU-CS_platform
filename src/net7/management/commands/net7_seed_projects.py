@@ -115,6 +115,7 @@ class Command(BaseCommand):
                     url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
+                    moderated=True,
                     creator_id=user_id,  # id superadmin
                     mainOrganisation=organisation,
                     # country=country.country,
@@ -222,6 +223,7 @@ class Command(BaseCommand):
                     url=row['Sito web di riferimento'],
                     status_id=status.id,
                     approved=True,
+                    moderated=True,
                     creator_id=user_id,  # id superadmin
                     mainOrganisation=organisation,
                     # country=country.country,
