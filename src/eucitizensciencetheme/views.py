@@ -89,13 +89,36 @@ def get_projects(request):
         #         }
         #         markers.append(marker)
 
+
+
         if project.latitude and project.longitude:
+
+            geographicextend = ""
+            first = True
+            for geo in project.geographicextend.all():
+                if first:
+                    geographicextend += geo.geographicextend
+                    first = False
+                else:
+                    geographicextend += ' - ' + geo.geographicextend
+
+            if project.image1:
+                image1 = project.image1.url
+                html_string_image = str(image1)
+            else:
+                html_string_image = false
+
+
             marker = {
                 'latitude': project.latitude,
                 'longitude': project.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
-                'project_id': project.id
+                'project_id': project.id,
+                'geographicextend': geographicextend,
+                'projectlocality': project.projectlocality,
+                'image' : html_string_image,
+                'type'  : project.type,
             }
             markers.append(marker)
 
@@ -120,12 +143,31 @@ def get_projects(request):
         #         markers.append(marker)
 
         if project.latitude and project.longitude:
+            geographicextend = ""
+            first = True
+            for geo in project.geographicextend.all():
+                if first:
+                    geographicextend += geo.geographicextend
+                    first = False
+                else:
+                    geographicextend += ' - ' + geo.geographicextend
+
+            if project.image1:
+                image1 = project.image1.url
+                html_string_image = str(image1)
+            else:
+                html_string_image = false
+
             marker = {
                 'latitude': project.latitude,
                 'longitude': project.longitude,
                 'name': project.name,
                 'project_url': f'/project/{project.id}',
-                'project_id': project.id
+                'project_id': project.id,
+                'geographicextend': geographicextend,
+                'projectlocality': project.projectlocality,
+                'image': html_string_image,
+                'type': project.type,
             }
             markers_bio.append(marker)
 

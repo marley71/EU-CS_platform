@@ -20,7 +20,7 @@
             left: 0;
             width: 100%;
             /*height: 100%;*/
-            height: 70vh;
+            height: 80vh;
             /*margin-top: 146px;*/
 
             @media (max-width: 768px) {
@@ -76,8 +76,28 @@
             background: white;
             padding: 10px;
             height: 230px;
-            width:80%;
+            width: 80%;
             margin: auto;
+        }
+
+        .custom-display-project {
+            padding-left: 10px;
+            padding: 10px;
+            width: 310px;
+            font-size: 0.8em;
+        }
+
+        .custom-display-project .project-block {
+            margin-top: 8px;
+        }
+
+        .custom-display-project .project-header {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .custom-display-project .project-data {
+            text-align: right;
         }
 
         .layer-option {
@@ -88,65 +108,73 @@
 <body>
 
 <div class="d-flex flex-column flex-lg-row">
-    <div class="custom-layer-control-mobile d-block d-lg-none rounded-4 p-4">
-        <div class="h6">Mostra</div>
-        <div class="layer-option">
-            <input type="checkbox" name="layer" id="project" disabled checked value="projects"
-                   class="me-1 map-checkbox"
-            >
-            <label for="project_bio">
-                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+    <div class="d-flex flex-column">
+        <div class="custom-layer-control-mobile d-block d-lg-none rounded-4 p-4">
+            <div class="h6">Mostra</div>
+            <div class="layer-option">
+                <input type="checkbox" name="layer" id="project" disabled checked value="projects"
+                       class="me-1 map-checkbox"
+                >
+                <label for="project_bio">
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+                    </svg>
+                    Biodiv. sampling week
+
+                </label>
+            </div>
+
+            <hr/>
+            <div class="h6 mt-2">Legenda</div>
+            <div class="layer-option">
+                <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
                 </svg>
-                Biodiv. sampling week
-
-            </label>
-        </div>
-
-        <hr/>
-        <div class="h6 mt-2">Legenda</div>
-        <div class="layer-option">
-            <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-            </svg>
-            &le; 9 elementi
-        </div>
-        <div class="layer-option">
-            <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-            </svg>
-            &ge; 10 elementi
-        </div>
-    </div>
-    <div class="custom-layer-control-desktop d-none d-lg-block rounded-4 p-4">
-        <div class="h6">Mostra</div>
-        <div class="layer-option">
-            <input type="checkbox" name="layer" id="project" disabled checked value="projects"
-                   class="me-1 map-checkbox"
-            >
-            <label for="project_bio">
-                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+                &le; 9 elementi
+            </div>
+            <div class="layer-option">
+                <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
                 </svg>
-                Biodiv. sampling week
-
-            </label>
+                &ge; 10 elementi
+            </div>
         </div>
+        <div class="custom-layer-control-desktop d-none d-lg-block rounded-4 p-4">
+            <div class="h6">Mostra</div>
+            <div class="layer-option">
+                <input type="checkbox" name="layer" id="project" disabled checked value="projects"
+                       class="me-1 map-checkbox"
+                >
+                <label for="project_bio">
+                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+                    </svg>
+                    Biodiv. sampling week
 
+                </label>
+            </div>
+
+            <hr/>
+            <div class="h6 mt-2">Legenda</div>
+            <div class="layer-option">
+                <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+                </svg>
+                &le; 9 elementi
+            </div>
+            <div class="layer-option">
+                <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+                </svg>
+                &ge; 10 elementi
+            </div>
+        </div>
         <hr/>
-        <div class="h6 mt-2">Legenda</div>
-        <div class="layer-option">
-            <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-            </svg>
-            &le; 9 elementi
+        <div class="custom-display-project d-none">
+
+
         </div>
-        <div class="layer-option">
-            <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-            </svg>
-            &ge; 10 elementi
-        </div>
+
     </div>
     <div id="map"></div>
 </div>
@@ -159,6 +187,49 @@
 <script src="//unpkg.com/leaflet-gesture-handling"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        var markersData = {}
+        var markersDataObjects = {}
+
+        function displayProject(projectId) {
+            var project = markersData[projectId];
+            var dpEl = jQuery('.custom-display-project').removeClass('d-none');
+            console.log("PROGETTO: ", project);
+            var html = "";
+
+            html += '<h6>' + (project.type === 'project' ? 'Progetto' : 'Attività') + '</h6>';
+            html += '<div class="project-block-data d-flex justify-content-start">' +
+                '   <div class="">' + project.name + '</div>' +
+                ' </div>';
+
+            if (project.image) {
+
+                html += '<div class="rounded-4 text-center border mb-2 mt-2"' +
+                    'style="height:100px; background-image: url(\'' + project.image + '\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">' +
+                    '</div>'
+
+            }
+
+
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Estensione geografica:</div>' +
+                '   <div class="project-data">' + project.geographicextend + '</div>' +
+                ' </div>';
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Luogo di svolgimento:</div>' +
+                '   <div class="project-data">' + project.projectlocality + '</div>' +
+                ' </div>';
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Maggiori dettagli:</div>' +
+                '   <div class="project-data"><a target="_blank" href="' + project.project_url + '">' +
+                project.project_url +
+                '</a></div>' +
+                ' </div>';
+
+
+            dpEl.html(html);
+        }
+
 
         var map = L.map('map', {center: [42, 13], zoom: 6});
         /*
@@ -181,7 +252,11 @@
 
 
 
-        #}
+
+
+
+
+        {#        #}
 
                 //'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
                 {
@@ -271,14 +346,15 @@
                         projectId: markersData[i].project_id,
                         name: markersData[i].name,
                     });
+                    markersDataObjects[markersData[i].project_id] = markersData[i];
                     marker.bindPopup('<div>' +
                         '<a href="' + markersData[i].project_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +
                         '</div>');
                     // Add the properties to the marker as a GeoJSON feature
                     marker.feature = {properties: {name: markersData[i].name}};
                     // Add the marker to the feature group
-                    marker.addTo(projects_bio).on('click',function () {
-                        alert('here');
+                    marker.addTo(projects_bio).on('click', function (e) {
+                        displayProject(e.target.options.projectId)
                     });
                 }
 
@@ -316,6 +392,7 @@
         };
         L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
          */
+
         document.querySelectorAll('input[name="layer"]').forEach(function (input) {
             input.addEventListener('change', function () {
                 console.debug(this.value, this.checked);
