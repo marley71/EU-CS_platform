@@ -584,7 +584,7 @@
                     console.debug(lat, lon)
                     // Crea la mappa e imposta il punto centrale
                     var zonesData = JSON.parse({{aree_json|safe}});
-                    var map = L.map('map').setView([lat, lon], 6); // 13 è il livello di zoom
+                    var map = L.map('map').setView([lat, lon], 5); // 13 è il livello di zoom
 
                     // Aggiungi una mappa di base (OpenStreetMap)
                     /*
