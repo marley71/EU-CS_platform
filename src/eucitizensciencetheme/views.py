@@ -67,123 +67,104 @@ def final_event(request):
 def final_launch(request):
     return TemplateResponse(request, 'final_launch.html',{})
 
+def get_project_marker_data(project):
+
+        geographicextend = ""
+        first = True
+        for geo in project.geographicextend.all():
+            if first:
+                geographicextend += geo.geographicextend
+                first = False
+            else:
+                geographicextend += ' - ' + geo.geographicextend
+
+        if project.image1:
+            image1 = project.image1.url
+            html_string_image = str(image1)
+        else:
+            html_string_image = false
+
+        marker = {
+            'latitude': project.latitude,
+            'longitude': project.longitude,
+            'name': project.name,
+            'project_url': f'/project/{project.id}',
+            'project_id': project.id,
+            'geographicextend': geographicextend,
+            'projectlocality': project.projectlocality,
+            'image': html_string_image,
+            'type': project.type,
+        }
+
+        return marker
+
 def get_projects(request):
     # Filter approved projects with non-null mainOrganisation
     #projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
     keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
     projects = Project.objects.filter(approved=True).exclude(keywords__id = keyword.id).prefetch_related('projectCountry')
     projects_bio = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
+
+    #6 LAYERS IN BASE A TIPO E ESTENSIONE GEOGRAFICA
+
+    projectsStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Progetto').prefetch_related('projectCountry')
+    activitiesStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Attività').prefetch_related('projectCountry')
+
+    projectsNazionali = projectsStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale'])
+    projectsRegionali = projectsStandard.filter(geographicextend__geographicextend__in=['regionale','Regionale'])
+    projectsLocali = projectsStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale'])
+
+    activitiesNazionali = activitiesStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale'])
+    activitiesRegionali = activitiesStandard.filter(geographicextend__geographicextend__in=['regionale','Regionale'])
+    activitiesLocali = activitiesStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale'])
+
+
     markers = []
     markers_bio = []
-    zones = [];
+
+    markers_projectsNazionali = []
+    markers_projectsRegionali = []
+    markers_projectsLocali = []
+    markers_activitiesNazionali = []
+    markers_activitiesRegionali = []
+    markers_activitiesLocali = []
+
+    zones = []
+
     for project in projects:
-        # Check if the project has projectCountry related
-        # if project.projectCountry.exists():
-        #     for country in project.projectCountry.all():
-        #         marker = {
-        #             'latitude': country.latitude,
-        #             'longitude': country.longitude,
-        #             'name': project.name,
-        #             'project_url': f'/project/{project.id}',
-        #             'project_id': project.id
-        #         }
-        #         markers.append(marker)
-
-
-
         if project.latitude and project.longitude:
-
-            geographicextend = ""
-            first = True
-            for geo in project.geographicextend.all():
-                if first:
-                    geographicextend += geo.geographicextend
-                    first = False
-                else:
-                    geographicextend += ' - ' + geo.geographicextend
-
-            if project.image1:
-                image1 = project.image1.url
-                html_string_image = str(image1)
-            else:
-                html_string_image = false
-
-
-            marker = {
-                'latitude': project.latitude,
-                'longitude': project.longitude,
-                'name': project.name,
-                'project_url': f'/project/{project.id}',
-                'project_id': project.id,
-                'geographicextend': geographicextend,
-                'projectlocality': project.projectlocality,
-                'image' : html_string_image,
-                'type'  : project.type,
-            }
-            markers.append(marker)
-
-        # if project.aree:
-        #     zones.append({
-        #         'id': project.id,
-        #         'nome': project.name,
-        #         'location': project.aree
-        #     })
+            markers.append(get_project_marker_data(project))
 
     for project in projects_bio:
-        # Check if the project has projectCountry related
-        # if project.projectCountry.exists():
-        #     for country in project.projectCountry.all():
-        #         marker = {
-        #             'latitude': country.latitude,
-        #             'longitude': country.longitude,
-        #             'name': project.name,
-        #             'project_url': f'/project/{project.id}',
-        #             'project_id': project.id
-        #         }
-        #         markers.append(marker)
-
         if project.latitude and project.longitude:
-            geographicextend = ""
-            first = True
-            for geo in project.geographicextend.all():
-                if first:
-                    geographicextend += geo.geographicextend
-                    first = False
-                else:
-                    geographicextend += ' - ' + geo.geographicextend
+            markers_bio.append(get_project_marker_data(project))
 
-            if project.image1:
-                image1 = project.image1.url
-                html_string_image = str(image1)
-            else:
-                html_string_image = false
-
-            marker = {
-                'latitude': project.latitude,
-                'longitude': project.longitude,
-                'name': project.name,
-                'project_url': f'/project/{project.id}',
-                'project_id': project.id,
-                'geographicextend': geographicextend,
-                'projectlocality': project.projectlocality,
-                'image': html_string_image,
-                'type': project.type,
-            }
-            markers_bio.append(marker)
-
-        # if project.aree:
-        #     zones.append({
-        #         'id': project.id,
-        #         'nome': project.name,
-        #         'location': project.aree
-        #     })
-
-
+    for project in projectsNazionali:
+        if project.latitude and project.longitude:
+            markers_projectsNazionali.append(get_project_marker_data(project))
+    for project in projectsRegionali:
+        if project.latitude and project.longitude:
+            markers_projectsRegionali.append(get_project_marker_data(project))
+    for project in projectsLocali:
+        if project.latitude and project.longitude:
+            markers_projectsLocali.append(get_project_marker_data(project))
+    for project in activitiesNazionali:
+        if project.latitude and project.longitude:
+            markers_activitiesNazionali.append(get_project_marker_data(project))
+    for project in activitiesRegionali:
+        if project.latitude and project.longitude:
+            markers_activitiesRegionali.append(get_project_marker_data(project))
+    for project in activitiesLocali:
+        if project.latitude and project.longitude:
+            markers_activitiesLocali.append(get_project_marker_data(project))
 
     #progettiZone = Project.objects.filter(approved=True).exclude(projectGeographicLocation__isnull=True)
     #zones = [{'id': p.id, 'nome': p.name, 'location': p.projectGeographicLocation.geojson} for p in progettiZone]
     #zones = []
-    return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio})
+    return JsonResponse({'markers': markers, 'zones': zones,'markers_bio': markers_bio,'markers_projectsNazionali': markers_projectsNazionali,    'markers_projectsRegionali': markers_projectsRegionali,    'markers_projectsLocali': markers_projectsLocali,
+    'markers_activitiesNazionali': markers_activitiesNazionali,
+    'markers_activitiesRegionali': markers_activitiesRegionali,
+    'markers_activitiesLocali': markers_activitiesLocali})
 
 def get_projects_webmapp(request,type=None):
     geojson = {
