@@ -27,7 +27,7 @@
                 height: 50vh;
             }
             @media (min-width: 769px) and (max-width: 992px) {
-                height: 60vh;
+                height: 80vh;
             }
 
         }
@@ -75,7 +75,7 @@
         .custom-layer-control-mobile {
             background: white;
             padding: 10px;
-            height: 230px;
+            {#height: 200px;#}
             width: 80%;
             margin: auto;
         }
@@ -85,6 +85,20 @@
             padding: 10px;
             width: 310px;
             font-size: 0.8em;
+        }
+
+        .custom-display-project-mobile {
+            padding: 10px;
+            width: 80%;
+            margin:auto;
+            font-size: 0.8em;
+
+            @media (min-width: 451px) {
+                width: 70%;
+            }
+            @media (min-width: 576px) {
+                width: 50%;
+            }
         }
 
         .custom-display-project .project-block {
@@ -99,6 +113,21 @@
         .custom-display-project .project-data {
             text-align: right;
         }
+        .custom-display-project-mobile .project-image {
+            height: 100px;
+
+            @media (min-width: 451px) {
+                height: 130px;
+            }
+            @media (min-width: 576px) {
+                height: 160px;
+            }
+        }
+
+        .custom-display-project .project-image {
+            height: 120px;
+        }
+
 
         .layer-option {
             margin: 5px;
@@ -107,9 +136,41 @@
 </head>
 <body>
 
-<div class="d-flex flex-column flex-lg-row">
+<div class="d-flex flex-column flex-md-row">
     <div class="d-flex flex-column">
-        <div class="custom-layer-control-mobile d-block d-lg-none rounded-4 p-4">
+        <div class="d-flex flex-column flex-md-row d-md-none">
+            <div class="custom-layer-control-mobile d-block d-md-none rounded-4 p-4 pb-2">
+                <div class="h6">Mostra</div>
+                <div class="layer-option">
+                    <input type="checkbox" name="layer" id="project" disabled checked value="projects"
+                           class="me-1 map-checkbox"
+                    >
+                    <label for="project_bio">
+                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+                        </svg>
+                        Biodiv. sampling week
+
+                    </label>
+                </div>
+
+                <hr/>
+                <div class="h6 mt-2">Legenda</div>
+                <div class="layer-option">
+                    <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+                    </svg>
+                    &le; 9 elementi
+                </div>
+                <div class="layer-option">
+                    <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+                    </svg>
+                    &ge; 10 elementi
+                </div>
+            </div>
+        </div>
+        <div class="custom-layer-control-desktop d-none d-md-block rounded-4 p-2">
             <div class="h6">Mostra</div>
             <div class="layer-option">
                 <input type="checkbox" name="layer" id="project" disabled checked value="projects"
@@ -139,44 +200,18 @@
                 &ge; 10 elementi
             </div>
         </div>
-        <div class="custom-layer-control-desktop d-none d-lg-block rounded-4 p-4">
-            <div class="h6">Mostra</div>
-            <div class="layer-option">
-                <input type="checkbox" name="layer" id="project" disabled checked value="projects"
-                       class="me-1 map-checkbox"
-                >
-                <label for="project_bio">
-                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
-                    </svg>
-                    Biodiv. sampling week
-
-                </label>
-            </div>
-
-            <hr/>
-            <div class="h6 mt-2">Legenda</div>
-            <div class="layer-option">
-                <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-                </svg>
-                &le; 9 elementi
-            </div>
-            <div class="layer-option">
-                <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
-                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
-                </svg>
-                &ge; 10 elementi
-            </div>
-        </div>
-        <hr/>
-        <div class="custom-display-project d-none">
+        <div class="custom-display-project d-none d-md-block">
 
 
         </div>
 
     </div>
     <div id="map"></div>
+    <div class="d-flex flex-column justify-content-center custom-display-project custom-display-project-mobile d-md-none">
+
+
+    </div>
+
 </div>
 
 
@@ -193,19 +228,19 @@
 
         function displayProject(projectId) {
             var project = markersData[projectId];
-            var dpEl = jQuery('.custom-display-project').removeClass('d-none');
+            var dpEl = jQuery('.custom-display-project');//.removeClass('d-none');
             console.log("PROGETTO: ", project);
             var html = "";
 
-            html += '<h6>' + (project.type === 'project' ? 'Progetto' : 'Attività') + '</h6>';
+            html += '<h6>' + (project.type === 'project' ? 'Progetto selezionato' : 'Attività selezionata') + '</h6>';
             html += '<div class="project-block-data d-flex justify-content-start">' +
-                '   <div class="">' + project.name + '</div>' +
+                '   <div class="fw-bold text-primary">' + project.name + '</div>' +
                 ' </div>';
 
             if (project.image) {
 
-                html += '<div class="rounded-4 text-center border mb-2 mt-2"' +
-                    'style="height:100px; background-image: url(\'' + project.image + '\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">' +
+                html += '<div class="rounded-4 text-center border mb-2 mt-2 project-image"' +
+                    'style="background-image: url(\'' + project.image + '\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">' +
                     '</div>'
 
             }
@@ -249,6 +284,7 @@
         /*
                     L.tileLayer(
                         'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+
 
 
 
