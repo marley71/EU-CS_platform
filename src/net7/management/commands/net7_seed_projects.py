@@ -215,6 +215,18 @@ class Command(BaseCommand):
                 organisation = self.getOrganisations(row,latitude,longitude)
                 user_id = self.getUserId(row)
                 self.stdout.write(' utente ' + str(user_id))
+                tipoPubblico = str(row['Tipo di pubblico']).split(';')
+                tipoPubblico = [s.strip().lower() for s in tipoPubblico]
+
+                match row['Livello difficoltà']:
+                    case "Facile":
+                        livelloDifficolta = 2
+                    case "Medio":
+                        livelloDifficolta = 3
+                    case "Difficile":
+                        livelloDifficolta = 4
+                    case _:
+                        livelloDifficolta = 1
 
                 project = Project.objects.create(
                     type=row['Tipo'],
