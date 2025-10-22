@@ -61,6 +61,9 @@
                                                 Un'<strong>attività</strong> è un'azione specifica o un insieme di compiti concreti svolti all'interno di un progetto di citizen science con una durata specifica limitata nel tempo                                            </li>
                                         </ul>
                                     </div>
+                                    <div id="parent-project">
+                                        {{ form.parent|as_crispy_field }}
+                                    </div>
                                     {{ form.project_name|as_crispy_field }}
                                     {{ form.url|as_crispy_field }}
                                     {{ form.status|as_crispy_field }}
@@ -568,6 +571,12 @@
     <!-- ALERT IF BACK BUTTON IS PRESSED -->
     <script>
         $(document).ready(function () {
+            console.debug('{{ form.type.value }}')
+            if ('{{ form.type.value }}' == 'Progetto') {
+                $('#parent-project').addClass('d-none');
+            } else {
+                $('#parent-project').removeClass('d-none');
+            }
 
             if (window.history && window.history.pushState) {
 
@@ -647,6 +656,13 @@
             }
              */
             //alert(value);
+        }
+        function typeChange(value) {
+            if (value == 'Progetto') {
+                $('#parent-project').addClass('d-none');
+            } else {
+                $('#parent-project').removeClass('d-none');
+            }
         }
     </script>
 

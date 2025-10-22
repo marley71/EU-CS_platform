@@ -4123,6 +4123,11 @@ msgstr "Inserisci il Cognome (massimo 20 caratteri)"
 msgid "Renter Password"
 msgstr "Ripeti la password di sopra per verifica"
 
+msgid "Main Project"
+msgstr "Progetto associato"
+
+msgid "Please, select the main project"
+msgstr "Perfavore, se l'attività ha un progetto associato, selezionalo qui"
 
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"

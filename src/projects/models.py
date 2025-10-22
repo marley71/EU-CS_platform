@@ -142,7 +142,7 @@ class Project(models.Model):
     dateCreated = models.DateTimeField('Created date', auto_now_add=True)
     dateUpdated = models.DateTimeField(
         'Updated date', auto_now=False, null=True)
-
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='children')
     # Main information
 
     name = models.CharField(max_length=200, null=True, blank=True)

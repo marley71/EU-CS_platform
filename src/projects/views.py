@@ -237,7 +237,9 @@ def editProject(request, pk):
         'type' : project.type,
         'funding_program' : project.fundingProgram,
         'aree' : project.aree,
+        'parent' : int(project.parent_id) if project.parent_id else None,
     }
+    
 
     translation_fields=['description','aim', 'howToParticipate','equipment']
     for field in translation_fields:
