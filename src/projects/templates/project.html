@@ -299,6 +299,9 @@
                         {% if project.author_email %}
                             <h4 class="mt-5">{% trans "Contact" %}</h4>
                             <div>
+                                {% if project.author %}
+                                    <h6>{{ project.author }}</h6>
+                                {% endif %}
                                 <a class=""
                                    href="mailto:{{ project.author_email }}">
                                     <svg class="bi mb-1" width="14" height="14" fill="currentColor">
@@ -310,7 +313,7 @@
                         {% endif %}
                     </div>
 
-                {% if parentProject %}
+                    {% if parentProject %}
 
                         <h4 class="mt-5">Progetto associato</h4>
                         <div class="row">
