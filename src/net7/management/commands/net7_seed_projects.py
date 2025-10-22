@@ -127,6 +127,9 @@ class Command(BaseCommand):
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
+                    author=row['Punto di contatto pubblico'],
+                    author_email=row['Email utente'],
+
                     tipo_pubblico=";".join(tipoPubblico),
                     howToParticipate=row['Come partecipare'],
                     equipment=row['Cosa portare'],
@@ -212,6 +215,18 @@ class Command(BaseCommand):
                 organisation = self.getOrganisations(row,latitude,longitude)
                 user_id = self.getUserId(row)
                 self.stdout.write(' utente ' + str(user_id))
+                tipoPubblico = str(row['Tipo di pubblico']).split(';')
+                tipoPubblico = [s.strip().lower() for s in tipoPubblico]
+
+                match row['Livello di difficoltà']:
+                    case "Facile":
+                        livelloDifficolta = 2
+                    case "Medio":
+                        livelloDifficolta = 3
+                    case "Difficile":
+                        livelloDifficolta = 4
+                    case _:
+                        livelloDifficolta = 1
 
                 project = Project.objects.create(
                     type=row['Tipo'],
@@ -233,13 +248,19 @@ class Command(BaseCommand):
                     #localita_id=localita.id,
                     #provincia_id=provincia.id,
                     localita_id=1,
-                    #author=row['Contatti'],
-                    #author_email=email,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
                     author=row['Punto di contatto pubblico'],
                     author_email=row['Email utente'],
+
+                    tipo_pubblico=";".join(tipoPubblico),
+                    howToParticipate=row['Come partecipare'],
+                    equipment=row['Cosa portare'],
+                    howToParticipate_it=row['Come partecipare'],
+                    equipment_it=row['Cosa portare'],
+                    difficultyLevel_id=livelloDifficolta,
+
                     bsw = "2025",
                     # keyword=keyword.keyword,
                     # organisation=organisation
