@@ -127,6 +127,9 @@ class Command(BaseCommand):
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
+                    author=row['Punto di contatto pubblico'],
+                    author_email=row['Email utente'],
+
                     tipo_pubblico=";".join(tipoPubblico),
                     howToParticipate=row['Come partecipare'],
                     equipment=row['Cosa portare'],
@@ -233,13 +236,19 @@ class Command(BaseCommand):
                     #localita_id=localita.id,
                     #provincia_id=provincia.id,
                     localita_id=1,
-                    #author=row['Contatti'],
-                    #author_email=email,
                     projectlocality=row['Luogo di svolgimento del progetto (città, provincia)'],
                     longitude=longitude,
                     latitude=latitude,
                     author=row['Punto di contatto pubblico'],
                     author_email=row['Email utente'],
+
+                    tipo_pubblico=";".join(tipoPubblico),
+                    howToParticipate=row['Come partecipare'],
+                    equipment=row['Cosa portare'],
+                    howToParticipate_it=row['Come partecipare'],
+                    equipment_it=row['Cosa portare'],
+                    difficultyLevel_id=livelloDifficolta,
+
                     bsw = "2025",
                     # keyword=keyword.keyword,
                     # organisation=organisation
