@@ -215,7 +215,7 @@ class ProjectForm(forms.Form):
         help_text=_('Please, select the status of your project.'))
 
     parent = forms.ModelChoiceField(
-        queryset=Project.objects.filter(type='Progetto'),
+        queryset=Project.objects.filter(type='Progetto').order_by('name'),
         label=_("Main Project"),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         required=False,
