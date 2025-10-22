@@ -745,9 +745,21 @@ def project(request, pk):
         user_id=user.id, project_id=pk).exists()
     approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
 
+    # SE TYPE == Attività MI SERVE IL PARENT
+    # SE TYPE == Progetto MI SERVONO LE ATTIVITA' collegate
+
+    parentProject = None
+    relatedActivities = []
+    if project.type == 'Progetto':
+        relatedActivities = Project.objects.filter(parent_id=pk, approved=1).all()
+    else:
+        parentProject = project.parent if (project.parent and project.parent.approved == 1) else None
+
 
     return TemplateResponse(request, 'project.html', {
         'project': project,
+        'parentProject': parentProject,
+        'relatedActivities': relatedActivities,
         'liked': liked,
         'followed': followed,
         'hasTranslation': hasTranslation,

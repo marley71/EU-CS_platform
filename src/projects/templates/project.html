@@ -63,6 +63,16 @@
         </div>
     {% endif %}
 
+    <section>
+        {{ parentProject }}
+    <hr/>
+        {% for activity in relatedActivities %}
+            <div class="col-12 col-md-6 d-flex align-items-center mb-4">
+                    {% include "includes/card_main.html" with project=activity %}
+                </div>
+        {%  endfor %}
+    </section>
+
     <section class="bg-plum-100 pt-5">
 
         <div class="container mt-5">
