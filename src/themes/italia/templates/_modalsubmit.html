@@ -17,7 +17,8 @@
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
                         </svg>
                         {% trans "Project Activity" %}</a></h5>
-                    Inserisci un progetto o una attività di Citizen Science<br/>
+                    Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine.<br/>
+                    L'<strong>attività</strong> è un'azione specifica o un insieme di compiti svolti all'interno di un progetto di citizen science con una durata limitata nel tempo.<br/>
                     <hr>
                 </div>
                 <div class="mt-4">
@@ -26,7 +27,7 @@
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#buildings"/>
                         </svg>
                         {% trans "Organisation" %}</a></h5>
-                    Crea il profilo di una organizzazione<br/>
+                    Crea il profilo di una organizzazione attiva nella citizen science<br/>
                     <hr>
                 </div>
                 {% if user.is_staff %}
@@ -36,7 +37,7 @@
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
                             </svg>
                             Evento</a></h5>
-                        Crea un Evento<br/>
+                        L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it<br/>
                     </div>
                     <hr>
                 {% endif %}
@@ -45,8 +46,8 @@
                         <svg class="bi mb-1" width="24" height="24" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
                         </svg>
-                        Notizia</a></h5>
-                    Crea una notizia<br/>
+                        News</a></h5>
+                    La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto.<br/>
                 </div>
             </div>
         </div>
