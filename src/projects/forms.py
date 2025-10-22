@@ -13,6 +13,7 @@ from organisations.models import Organisation
 from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
+from django.db.models.functions import Lower
 import json
 import os
 
@@ -54,7 +55,7 @@ class ProjectForm(forms.Form):
         super(ProjectForm, self).__init__(*args, **kwargs)
         for lang_code in settings.MODELTRANSLATION_LANGUAGES:
             self.fields[f'description_{lang_code}'] = forms.CharField(
-                max_length=3000,
+                max_length=5000,
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please provide a description of your project here (max 3000 characters).'),
                 label=lang_code,
@@ -62,21 +63,21 @@ class ProjectForm(forms.Form):
             )
 
             self.fields[f'aim_{lang_code}'] = forms.CharField(
-                max_length=3000,
+                max_length=5000,
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please provide the aim of your project here (max 3000 characters).'),
                 label=lang_code,
                 required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE
             )
             self.fields[f'how_to_participate_{lang_code}'] = forms.CharField(
-                max_length=3000,
+                max_length=5000,
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please describe how people can get involved in the project (max 3000 characters).'),
                 label=lang_code,
                 required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE,
             )
             self.fields[f'equipment_{lang_code}'] = forms.CharField(
-                max_length=3000,
+                max_length=5000,
                 widget=CKEditorWidget(config_name='frontpage'),
                 help_text=_('Please indicate any required or suggested equipment to be used in the project (max 3000 characters).'),
                 label=lang_code,
@@ -85,6 +86,11 @@ class ProjectForm(forms.Form):
         self.fields['tipo_pubblico'].widget.attrs.update({
             'onchange': 'tipo_pubblicoChange(this.value)'
         })
+        self.fields['type'].widget.attrs.update({
+            'onchange': 'typeChange(this.value)'
+        })
+
+
         # if hasattr(self.instance, 'tipo_pubblico') and self.instance.tipo_pubblico:
         #     # ottieni il valore del campo, es. "a;b;c;"
         #     val_str = self.instance.tipo_pubblico or ''
@@ -142,7 +148,7 @@ class ProjectForm(forms.Form):
 
     type = forms.ChoiceField(
         choices=settings.TIPO_PROGETTO,
-        initial='attivita',
+        initial='Attività',
         label=_('Project-type'),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         help_text=_('Please provide the type of the project.'))
@@ -209,6 +215,12 @@ class ProjectForm(forms.Form):
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         help_text=_('Please, select the status of your project.'))
 
+    parent = forms.ModelChoiceField(
+        queryset=Project.objects.filter(type='Progetto').annotate(nome_lower=Lower('name')).order_by('nome_lower'),
+        label=_("Main Project"),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        required=False,
+        help_text=_('Please, select the main project'))
     # localita = forms.ModelChoiceField(
     #     queryset=Localita.objects.all(),
     #     label=_("Località"),
@@ -446,10 +458,10 @@ class ProjectForm(forms.Form):
     height2 = forms.FloatField(widget=forms.HiddenInput(), required=False)
     withImage2 = forms.BooleanField(
         widget=forms.HiddenInput(), required=False, initial=False)
-    image_credit2 = forms.CharField(
-        max_length=300,
-        required=False,
-        label=_("Logo credit, if applicable"))
+    # image_credit2 = forms.CharField(
+    #     max_length=300,
+    #     required=False,
+    #     label=_("Logo credit, if applicable"))
 
     image3 = forms.ImageField(
         required=False,
@@ -462,10 +474,10 @@ class ProjectForm(forms.Form):
     height3 = forms.FloatField(widget=forms.HiddenInput(), required=False)
     withImage3 = forms.BooleanField(
         widget=forms.HiddenInput(), required=False, initial=False)
-    image_credit3 = forms.CharField(
-        max_length=300,
-        required=False,
-        label=_("Heading image credit, if applicable"))
+    # image_credit3 = forms.CharField(
+    #     max_length=300,
+    #     required=False,
+    #     label=_("Heading image credit, if applicable"))
 
     logo = forms.ImageField(
         required=False,
@@ -502,8 +514,8 @@ class ProjectForm(forms.Form):
 
     def save(self, args, images, cFields, mainOrganisationFixed):
         pk = self.data.get('projectID', '')
-        print('tipo pubblico')
-        print(self.data.getlist('tipo_pubblico'))
+        #print('tipo pubblico')
+        #print(self.data.getlist('tipo_pubblico'))
 
         start_dateData = self.data['start_date']
         end_dateData = self.data['end_date']
@@ -554,6 +566,12 @@ class ProjectForm(forms.Form):
                 projectlocality,
                 args)
 
+        if self.data['type'] == 'Progetto':
+            project.parent = None
+        else:
+            project.parent_id =  self.data['parent']# Project.objects.get(pk=self.data['parent'])
+ #           if parent:
+                # project.parent = parent
         if start_dateData:
             project.start_date = start_dateData
         if end_dateData:
@@ -600,6 +618,7 @@ class ProjectForm(forms.Form):
         #print('tassonomie ids ' + self.data.get('tassonomie_ids'))
         if self.data['tassonomie_ids']:
             topicIds = self.data['tassonomie_ids'].split(',')
+            print('topicIds', topicIds,project.id)
             project.topic.set(topicIds)
 
         provinciaId = next(iter(self.data.getlist('provincia')), None)
@@ -654,7 +673,7 @@ class ProjectForm(forms.Form):
             mainOrganisation,
             projectLocality,
             args):
-        return Project(
+        return Project.objects.create(
             localita_id = 1,
             creator=args.user,
             name=self.data.get('project_name', ''),
@@ -667,9 +686,12 @@ class ProjectForm(forms.Form):
             status=status,
             difficultyLevel=difficultyLevel,
             imageCredit1=self.data['image_credit1'],
-            imageCredit2=self.data['image_credit2'],
-            imageCredit3=self.data['image_credit3'],
+            imageCredit2=None,
+            imageCredit3=None,
+            #imageCredit2=self.data['image_credit2'],
+            #imageCredit3=self.data['image_credit3'],
             logoCredit = self.data['logo_credit'],
+            parent = None,
             fundingProgram=self.data['funding_program'],
             participatingInaContest=participatingInaContest,
             projectGeographicLocation=projectGeographicLocation,
@@ -692,8 +714,8 @@ class ProjectForm(forms.Form):
         project.status = status
         project.difficultyLevel = difficultyLevel
         project.imageCredit1 = self.data['image_credit1']
-        project.imageCredit2 = self.data['image_credit2']
-        project.imageCredit3 = self.data['image_credit3']
+        #project.imageCredit2 = self.data['image_credit2']
+        #project.imageCredit3 = self.data['image_credit3']
         project.logoCredit = self.data['logo_credit']
         try :
             #provincia = Provincia.objects.get(id=self.data['provincia'])
