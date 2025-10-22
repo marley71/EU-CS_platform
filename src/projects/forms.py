@@ -13,6 +13,7 @@ from organisations.models import Organisation
 from localita.models import Localita
 from django.utils import timezone
 from django.conf import settings
+from django.db.models.functions import Lower
 import json
 import os
 
@@ -215,7 +216,7 @@ class ProjectForm(forms.Form):
         help_text=_('Please, select the status of your project.'))
 
     parent = forms.ModelChoiceField(
-        queryset=Project.objects.filter(type='Progetto').order_by('name'),
+        queryset=Project.objects.filter(type='Progetto').annotate(nome_lower=Lower('name')).order_by('nome_lower'),
         label=_("Main Project"),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         required=False,
