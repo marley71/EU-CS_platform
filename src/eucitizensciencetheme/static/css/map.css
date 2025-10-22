@@ -1,0 +1,127 @@
+
+html, body {
+    height: 100%;
+    /*margin-top: -46px;*/
+    padding: 0;
+
+}
+
+#map {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /*height: 100%;*/
+    height: 80vh;
+    /*margin-top: 146px;*/
+
+    @media (max-width: 768px) {
+        height: 50vh;
+    }
+    @media (min-width: 769px) and (max-width: 992px) {
+        height: 80vh;
+    }
+
+}
+
+.marker-cluster-small {
+    background-color: #FFDA6A;
+    border: 2px solid #f3dfa5;
+}
+
+.marker-cluster-small div {
+    background-color: #FFDA6A;
+    padding-right: 4px;
+    padding-bottom: 2px;
+}
+
+.marker-cluster-medium {
+    background-color: #984C0C;
+    border: 2px solid rgba(196, 135, 84, 0.5);
+}
+
+.marker-cluster-medium div {
+    background-color: #984C0C;
+    color: white;
+    padding-right: 4px;
+    padding-bottom: 2px;
+
+}
+
+.marker-cluster-large {
+    background-color: rgba(82, 13, 194, 0.50);
+    border-color: rgba(172, 232, 192, 0.5);
+}
+
+.map-checkbox {
+    accent-color: black;
+}
+
+
+.custom-layer-control-desktop {
+    background: white;
+    padding: 10px;
+    width: 310px;
+}
+
+.custom-layer-control-mobile {
+    background: white;
+    padding: 10px;
+    /*height: 200px;*/
+    width: 80%;
+    margin: auto;
+}
+
+.custom-display-project {
+    padding-left: 10px;
+    padding: 10px;
+    width: 310px;
+    font-size: 0.8em;
+}
+
+.custom-display-project-mobile {
+    padding: 10px;
+    width: 80%;
+    margin: auto;
+    font-size: 0.8em;
+
+    @media (min-width: 451px) {
+        width: 70%;
+    }
+    @media (min-width: 576px) {
+        width: 50%;
+    }
+}
+
+.custom-display-project .project-block {
+    margin-top: 8px;
+}
+
+.custom-display-project .project-header {
+    text-align: left;
+    font-weight: bold;
+}
+
+.custom-display-project .project-data {
+    text-align: right;
+}
+
+.custom-display-project-mobile .project-image {
+    height: 100px;
+
+    @media (min-width: 451px) {
+        height: 130px;
+    }
+    @media (min-width: 576px) {
+        height: 160px;
+    }
+}
+
+.custom-display-project .project-image {
+    height: 120px;
+}
+
+
+.layer-option {
+    margin: 5px;
+}

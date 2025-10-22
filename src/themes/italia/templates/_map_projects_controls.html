@@ -1,0 +1,100 @@
+{% load static %}
+
+<div class="h6">Mostra</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="projectsNazionali{{ screenType }}" checked value="projectsNazionali"
+           class="me-1 map-checkbox"
+    >
+    <label for="projectsNazionali{{ screenType }}">
+        <span class="p-0 me-1 bg-olive-700 border text-white ps-1" style="border-color:#ACE8C07F">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Progetti nazionali
+
+    </label>
+</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="projectsRegionali{{ screenType }}" checked value="projectsRegionali"
+           class="me-1 map-checkbox"
+    >
+        <span class="p-0 me-1 bg-olive-500 border text-white ps-1" style="border-color:#ACE8C07F">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Progetti regionali
+
+    </label>
+</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="projectsLocali{{ screenType }}" checked value="projectsLocali"
+           class="me-1 map-checkbox"
+    >
+    <label for="projectsLocali{{ screenType }}">
+        <span class="p-0 me-1 bg-olive-200 border text-white ps-1" style="border-color:#506C597F">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+        </svg>
+        </span>
+        Progetti locali
+
+    </label>
+</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="activitiesNazionali{{ screenType }}" checked value="activitiesNazionali"
+           class="me-1 map-checkbox"
+    >
+    <label for="activitiesNazionali{{ screenType }}">
+        <span class="p-0 me-1 bg-plum-800 border text-white ps-1" style="border-color:#5F5FC6FF">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Attività nazionali
+
+    </label>
+</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="activitiesRegionali{{ screenType }}" checked value="activitiesRegionali"
+           class="me-1 map-checkbox"
+    >
+    <label for="activitiesRegionali{{ screenType }}">
+        <span class="p-0 me-1 bg-plum-600 border text-white ps-1" style="border-color:#3D3D7EFF">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Attività regionali
+
+    </label>
+</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="activitiesLocali{{ screenType }}" checked value="activitiesLocali"
+           class="me-1 map-checkbox"
+    >
+    <label for="activitiesLocali{{ screenType }}">
+        <span class="p-0 me-1 bg-plum-300 border text-white ps-1" style="border-color:#24244CFF">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Attività locali
+
+    </label>
+    <hr/>
+    <div class="h6 mt-2">Legenda</div>
+    <div class="layer-option">
+        <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+        </svg>
+        &le; 9 elementi
+    </div>
+    <div class="layer-option">
+        <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+        </svg>
+        &ge; 10 elementi
+    </div>
+</div>
