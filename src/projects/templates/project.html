@@ -63,16 +63,6 @@
         </div>
     {% endif %}
 
-    <section>
-        {{ parentProject }}
-    <hr/>
-        {% for activity in relatedActivities %}
-            <div class="col-12 col-md-6 d-flex align-items-center mb-4">
-                    {% include "includes/card_main.html" with project=activity %}
-                </div>
-        {%  endfor %}
-    </section>
-
     <section class="bg-plum-100 pt-5">
 
         <div class="container mt-5">
@@ -96,17 +86,17 @@
                             {{ project.status|capfirst }}
                         </div>
                         <p class="text-smaller col-auto">
-                        {% if project.start_date and project.end_date and project.end_date != project.start_date %}
+                            {% if project.start_date and project.end_date and project.end_date != project.start_date %}
                                 {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
 
                                 {% trans "until" %} {{ project.end_date | date:"d/m/Y" }}
-                        {%  elif project.start_date and project.end_date == project.start_date %}
+                            {% elif project.start_date and project.end_date == project.start_date %}
                                 {{ project.start_date | date:"d/m/Y" }}
-                        {%  else %}
-                            {% if project.start_date %}
-                                {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
+                            {% else %}
+                                {% if project.start_date %}
+                                    {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
                         </p>
                     </div>
                 </div>
@@ -320,6 +310,27 @@
                         {% endif %}
                     </div>
 
+                {% if parentProject %}
+
+                        <h4 class="mt-5">Progetto associato</h4>
+                        <div class="row">
+
+                            <div class="col-12 col-lg-12 d-flex align-items-center mb-4">
+                                {% include "includes/card_main.html" with project=parentProject %}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    {% for activity in relatedActivities %}
+                        <h4 class="mt-5">Attività correlate</h4>
+                        <div class="row">
+
+                            <div class="col-12 col-lg-6 d-flex align-items-center mb-4">
+                                {% include "includes/card_ridotta.html" with project=activity %}
+                            </div>
+                        </div>
+                    {% endfor %}
 
                 </div>
                 <div class="col-xl-4 offset-xxl-1 offset-xl-0 col-md-5 offset-md-1 col-12">
@@ -361,9 +372,9 @@
                     {% if project.tipo_pubblico_calc %}
                         <h5 class="mt-5">Tipo di pubblico</h5>
                         <div>
-                        {%  for tp in project.tipo_pubblico_calc %}
-                            <div>{{ tp|capfirst }}</div>
-                        {%  endfor %}
+                            {% for tp in project.tipo_pubblico_calc %}
+                                <div>{{ tp|capfirst }}</div>
+                            {% endfor %}
                         </div>
                     {% endif %}
 
