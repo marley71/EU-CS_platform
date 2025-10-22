@@ -35,8 +35,6 @@
 <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
       type="text/css">
 <script src="//unpkg.com/leaflet-gesture-handling"></script>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -67,7 +65,6 @@
         /*
                     L.tileLayer(
                         'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
-
 
 
 
@@ -139,6 +136,7 @@
             }
             */
         });
+
         var projectsRegionali = L.markerClusterGroup({
             spiderfyOnMaxZoom: true,
             showCoverageOnHover: false,
@@ -174,20 +172,6 @@
         {#    spiderfyOnMaxZoom: true,#}
         {#    showCoverageOnHover: false,#}
         {#    zoomToBoundsOnClick: true,#}
-        {#    /*#}
-        {#    iconCreateFunction: function(cluster) {#}
-        {#        var childCount = cluster.getChildCount();#}
-        {#         var c = ' marker-cluster-';#}
-        {#         if (childCount < 10) {#}
-        {#           c += 'small';#}
-        {#         }#}
-        {#         else {#}
-        {#           c += 'medium';#}
-        {#         }#}
-        {##}
-        {#        return L.divIcon({ className: "marker-cluster "+c});#}
-        {#    }#}
-        {#    */#}
         {# });#}
         // Perform AJAX request to get the
         var xhr1 = new XMLHttpRequest();
