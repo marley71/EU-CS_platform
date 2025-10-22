@@ -218,7 +218,7 @@ class Command(BaseCommand):
                 tipoPubblico = str(row['Tipo di pubblico']).split(';')
                 tipoPubblico = [s.strip().lower() for s in tipoPubblico]
 
-                match row['Livello difficoltà']:
+                match row['Livello di difficoltà']:
                     case "Facile":
                         livelloDifficolta = 2
                     case "Medio":
