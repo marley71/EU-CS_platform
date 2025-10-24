@@ -928,7 +928,7 @@ msgstr ""
 #: projects/forms.py:94
 msgid "Please select the project provincia(s) or field(s) of science."
 msgstr ""
-"Seleziona la provincia o province del progetto/attività. Questo campo sarà il punto principale visualizzato sulla mappa ma sarà possibile fornire dettagli più precisi sull'estensione geografica effettiva nei campi sottostanti."
+"Seleziona la provincia principale. Questo sarà il punto di riferimento mostrato sulla mappa.<br/>Puoi comunque specificare meglio l’area geografica del progetto compilando gli altri campi disponibili in questa sezione.<br/>Se il tuo progetto ha una portata nazionale, indica come provincia quella in cui si trova l’organizzazione che lo coordina."
 
 
 # label stato progetto
