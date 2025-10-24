@@ -55,7 +55,7 @@
                 marker.feature = {properties: {name: mkD[i].name}};
                 // Add the marker to the feature group
                 marker.addTo(ly).on('click', function (e) {
-                    map.setView(e.latlng, 10);
+                    map.setView(e.latlng, 9);
                     displayProject(e.target.options.projectId,mkDO)
                 });
             }
