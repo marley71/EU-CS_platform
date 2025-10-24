@@ -1,0 +1,80 @@
+{% load static %}
+<script>
+       function displayProject(projectId, markersDataObjects) {
+            var project = markersDataObjects[projectId];
+            var dpEl = jQuery('.custom-display-project');//.removeClass('d-none');
+            console.log("PROGETTO: ", project);
+            var html = "";
+
+            html += '<h6>' + (project.type === 'Progetto' ? 'Progetto selezionato' : 'Attività selezionata') + '</h6>';
+            html += '<div class="project-block-data d-flex justify-content-start">' +
+                '   <div class="fw-bold text-primary">' + project.name + '</div>' +
+                ' </div>';
+
+            if (project.image) {
+
+                html += '<div class="rounded-4 text-center border mb-2 mt-2 project-image"' +
+                    'style="background-image: url(\'' + project.image + '\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">' +
+                    '</div>'
+
+            }
+
+
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Estensione geografica:</div>' +
+                '   <div class="project-data">' + project.geographicextend + '</div>' +
+                ' </div>';
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Luogo di svolgimento:</div>' +
+                '   <div class="project-data">' + project.projectlocality + '</div>' +
+                ' </div>';
+            html += '<div class="project-block-data d-flex justify-content-between">' +
+                '      <div class="project-header">Maggiori dettagli:</div>' +
+                '   <div class="project-data"><a target="_blank" href="' + project.project_url + '">' +
+                project.project_url +
+                '</a></div>' +
+                ' </div>';
+
+
+            dpEl.html(html);
+        }
+
+
+        function addMarkers(mkD, mkDO, ly, icon, map) {
+            for (var i = 0; i < mkD.length; i++) {
+                var marker = L.marker([mkD[i].latitude, mkD[i].longitude], {
+                    icon: icon,
+                    projectId: mkD[i].project_id,
+                    name: mkD[i].name,
+                });
+                mkDO[mkD[i].project_id] = mkD[i];
+                marker.bindPopup('<div>' +
+                    '<a target="_blank" href="' + mkD[i].project_url + '" style="text-decoration: none;">' + mkD[i].name + '</a>' +
+                    '</div>');
+                // Add the properties to the marker as a GeoJSON feature
+                marker.feature = {properties: {name: mkD[i].name}};
+                // Add the marker to the feature group
+                marker.addTo(ly).on('click', function (e) {
+                    map.setView(e.latlng, 10);
+                    displayProject(e.target.options.projectId,mkDO)
+                });
+            }
+        }
+
+        function createIcon(L,bgColor, borderColor, icon) {
+            return L.divIcon({
+                className: 'individual-icon',
+                /* binoculars icon in red */
+                /*html: '<h5><i class="bi bi-bank2"></i><span>P</span></h5>',*/
+                html: '<div class="py-1 border ' + bgColor +
+                    ' rounded-circle border-2" style="font-size: 0;' +
+                    ' border-color: ' + borderColor + ' !important;">' +
+                    '<svg class="bi" style="margin-top 0 !important;margin-left: 6px !important" width="14" height="14" fill="white">' +
+                    '<use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#' + icon + '"/></svg>' +
+                    '</div>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+        }
+
+</script>
