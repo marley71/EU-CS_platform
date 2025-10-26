@@ -74,7 +74,7 @@ class Command(BaseCommand):
         )
         Site.objects.create(
             id=1,
-            domain="citizenscience.netseven.work",
+            domain="piattaforma.citizenscience.it",
             name="citizenscience",
         )
 
