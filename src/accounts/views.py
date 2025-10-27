@@ -62,7 +62,7 @@ class SignUpView(
     model = User
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("home")
-    form_valid_message = "You're signed up!"
+    form_valid_message = "Adesso sei registrato!"
 
     @method_decorator(ratelimit(key='ip', rate='5/h', method='POST', block=False))
     def dispatch(self, request, *args, **kwargs):
