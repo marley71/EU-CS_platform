@@ -88,7 +88,7 @@ class SignUpView(
         profile.profileType = form.cleaned_data.get('profileType')
         profile.save()
 
-        mail_subject = 'Activate your account.'
+        mail_subject = 'Attiva il tuo account.'
         message = render_to_string('emails/acc_active_email.html', {
             'user': user,
             'domain': settings.HOST,
