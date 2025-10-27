@@ -68,7 +68,7 @@ def new_organisation(request):
             message = render_to_string('emails/new_organisation.html', {'submitter': user, 'organisationName': saved_organisation.name})
             to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
             to.append(request.user.email)
-            from_email = 'help@eu-cs-platform.dev.it' #settings.EMAIL_FROM_CONTENTS
+            from_email = 'admin@citizenscience.it' #settings.EMAIL_FROM_CONTENTS
             email = EmailMessage(subject=subject, body=message, from_email=from_email, to=to)
             email.content_subtype = "html"
             email.send()
