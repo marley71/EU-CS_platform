@@ -295,11 +295,17 @@ def organisations(request):
     trainingResourcesCounter = len(trainingResources)
 
     #For projects count
-    projects = Project.objects.all()
-    projects = projects.filter(~Q(hidden=True))
-    projects = applyFilters(request, projects)
-    projects = projects.distinct()
-    projectsCounter = len(projects)
+    projectsP = Project.objects.all()
+    projectsP = projectsP.filter(~Q(hidden=True)).filter(type='Progetto')
+    projectsP = applyFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsCounter = len(projectsP)
+
+    projectsA = Project.objects.all()
+    projectsA = projectsA.filter(~Q(hidden=True)).filter(type='Attività')
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+    attivitaCounter = len(projectsA)
 
 
     #For platforms count
@@ -344,6 +350,7 @@ def organisations(request):
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'projectsCounter': projectsCounter,
+        'attivitaCounter': attivitaCounter,
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
         'filters': filters,

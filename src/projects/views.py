@@ -282,24 +282,25 @@ def projects(request):
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    projects = projectsBase.filter(type='Progetto')
+    projectsP = projectsBase.filter(type='Progetto')
     projectsA = projectsBase.filter(type='Attività')
 
-    totalProjects = len(projects)
+    totalProjects = len(projectsP)
     totalAttivita = len(projectsA)
+
 #     len(projects.filter(approved=True))
 
     homeSearchCategories = request.GET.get('homeSearchCategories')
-    countriesWithContent1 = projects.values_list(
+    countriesWithContent1 = projectsP.values_list(
         'mainOrganisation__country', flat=True).distinct()
-    countriesWithContent2 = projects.values_list(
+    countriesWithContent2 = projectsP.values_list(
         'organisation__country', flat=True).distinct()
-    countriesWithContent3 = projects.values_list(
+    countriesWithContent3 = projectsP.values_list(
         'country', flat=True).distinct()
     # regioni = projects.values_list(
     #     'projectCountry__country_name', flat=True).distinct()
 
-    localitaids = projects.values_list(
+    localitaids = projectsP.values_list(
         'localita_id', flat=True).distinct()
     localita = Localita.objects.filter(id__in=localitaids)
 
@@ -318,11 +319,14 @@ def projects(request):
         'featured': '',
         'hasTag': ''}
 
-    projects = applyFilters(request, projects)
-    projects = projects.distinct()
+    projectsP = applyFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+
 #     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
-    projects = projects.filter(~Q(hidden=True))
+    projectsP = projectsP.filter(~Q(hidden=True))
     if user.is_authenticated:
         likes = Likes.objects.filter(user=user)
         likes = likes.values_list('project', flat=True)
@@ -338,25 +342,25 @@ def projects(request):
     if request.GET.get('orderby'):
         orderBy = request.GET.get('orderby')
         if ("featured" in orderBy):
-            projectsTop = projects.filter(featured=True)
+            projectsTop = projectsP.filter(featured=True)
             projectsTopIds = list(projectsTop.values_list('id', flat=True))
-            projects = projects.exclude(id__in=projectsTopIds)
-            projects = list(projectsTop) + list(projects)
+            projectsP = projectsP.exclude(id__in=projectsTopIds)
+            projectsP = list(projectsTop) + list(projectsP)
 
         if ("name" in orderBy):
-            projects = projects.order_by('name')
+            projectsP = projectsP.order_by('name')
 
         if ("created" in orderBy):
-            projects = projects.order_by('-dateCreated')
+            projectsP = projectsP.order_by('-dateCreated')
 
         if ("totalAccesses" in orderBy):
-            projects = projects.order_by('-totalAccesses')
+            projectsP = projectsP.order_by('-totalAccesses')
         
         if ("totalLikes" in orderBy):
-            projects = projects.order_by('-totalLikes')
+            projectsP = projectsP.order_by('-totalLikes')
 
     else:
-        projects = projects.order_by('-dateUpdated')
+        projectsP = projectsP.order_by('-dateUpdated')
 
     localita_selected = None
     if request.GET.get('localita_id'):
@@ -369,13 +373,14 @@ def projects(request):
     topic_selected = None
     if request.GET.get('topic'):
         topic_selected = ', '.join(request.GET.getlist('topic'))
-    counter = len(projects)
 
-    paginator = Paginator(projects, 18)
+
+
+    paginator = Paginator(projectsP, 18)
     page = request.GET.get('page')
-    projects = paginator.get_page(page)
+    projectsP = paginator.get_page(page)
     # To only show some topics and keywords
-    for project in projects:
+    for project in projectsP:
         combined = list(project.topic.all()) + list(project.keywords.all())
         if len(combined) > 3:
             project.display_items = combined[:3]
@@ -410,11 +415,15 @@ def projects(request):
     users = applyFilters(request, users)
     users = users.distinct()
     usersCounter = len(users)
-    for project in projects:
-        print(project.topic.all())
+
+    totalAttivita = len(projectsA)
+    totalProjects = len(projectsP)
+    print('totalProjectssss', totalProjects, 'attivitaaa', totalAttivita)
+    # for project in projectsP:
+    #     print(project.topic.all())
 
     return TemplateResponse(request, 'projects.html', {
-        'projects': projects,
+        'projects': projectsP,
         'likes': likes,
         'follows': follows,
         'topics': topics,
@@ -424,10 +433,9 @@ def projects(request):
         'hasTag': hasTag,
         'difficultyLevel': difficultyLevel,
         'participationTask': participationTask,
-        'counter': counter,
         'totalProjects': totalProjects,
-        'projectsCounter': counter,
-        'attivitaCounter' : totalAttivita,
+        'projectsCounter': totalProjects,
+        'attivitaCounter': totalAttivita,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisationsCounter': organisationsCounter,
@@ -449,23 +457,24 @@ def attivita(request):
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    projects = projectsBase.filter(type='Attività')
+    projectsA = projectsBase.filter(type='Attività')
     projectsP = projectsBase.filter(type='Progetto')
     totalProjects = len(projectsP)
-    print('totalProjects', totalProjects)
+    totalAttivita = len(projectsA)
+    print('totalProjects', len(projectsP),'attivita',len(projectsA))
     #     len(projects.filter(approved=True))
 
     homeSearchCategories = request.GET.get('homeSearchCategories')
-    countriesWithContent1 = projects.values_list(
+    countriesWithContent1 = projectsA.values_list(
         'mainOrganisation__country', flat=True).distinct()
-    countriesWithContent2 = projects.values_list(
+    countriesWithContent2 = projectsA.values_list(
         'organisation__country', flat=True).distinct()
-    countriesWithContent3 = projects.values_list(
+    countriesWithContent3 = projectsA.values_list(
         'country', flat=True).distinct()
     # regioni = projects.values_list(
     #     'projectCountry__country_name', flat=True).distinct()
 
-    localitaids = projects.values_list(
+    localitaids = projectsA.values_list(
         'localita_id', flat=True).distinct()
     localita = Localita.objects.filter(id__in=localitaids)
 
@@ -484,11 +493,14 @@ def attivita(request):
         'featured': '',
         'hasTag': ''}
 
-    projects = applyFilters(request, projects)
-    projects = projects.distinct()
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+    projectsP = applyFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+
     #     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
-    projects = projects.filter(~Q(hidden=True))
+    projectsA = projectsA.filter(~Q(hidden=True))
     if user.is_authenticated:
         likes = Likes.objects.filter(user=user)
         likes = likes.values_list('project', flat=True)
@@ -503,25 +515,25 @@ def attivita(request):
     if request.GET.get('orderby'):
         orderBy = request.GET.get('orderby')
         if ("featured" in orderBy):
-            projectsTop = projects.filter(featured=True)
+            projectsTop = projectsA.filter(featured=True)
             projectsTopIds = list(projectsTop.values_list('id', flat=True))
-            projects = projects.exclude(id__in=projectsTopIds)
-            projects = list(projectsTop) + list(projects)
+            projectsA = projectsA.exclude(id__in=projectsTopIds)
+            projectsA = list(projectsTop) + list(projectsA)
 
         if ("name" in orderBy):
-            projects = projects.order_by('name')
+            projectsA = projectsA.order_by('name')
 
         if ("created" in orderBy):
-            projects = projects.order_by('-dateCreated')
+            projectsA = projectsA.order_by('-dateCreated')
 
         if ("totalAccesses" in orderBy):
-            projects = projects.order_by('-totalAccesses')
+            projectsA = projectsA.order_by('-totalAccesses')
 
         if ("totalLikes" in orderBy):
-            projects = projects.order_by('-totalLikes')
+            projectsA = projectsA.order_by('-totalLikes')
 
     else:
-        projects = projects.order_by('-dateUpdated')
+        projectsA = projectsA.order_by('-dateUpdated')
 
     localita_selected = None
     if request.GET.get('localita_id'):
@@ -534,13 +546,14 @@ def attivita(request):
     topic_selected = None
     if request.GET.get('topic'):
         topic_selected = ', '.join(request.GET.getlist('topic'))
-    counter = len(projects)
 
-    paginator = Paginator(projects, 18)
+
+
+    paginator = Paginator(projectsA, 18)
     page = request.GET.get('page')
-    projects = paginator.get_page(page)
+    projectsA = paginator.get_page(page)
     # To only show some topics and keywords
-    for project in projects:
+    for project in projectsA:
         combined = list(project.topic.all()) + list(project.keywords.all())
         if len(combined) > 3:
             project.display_items = combined[:3]
@@ -575,11 +588,14 @@ def attivita(request):
     users = applyFilters(request, users)
     users = users.distinct()
     usersCounter = len(users)
-    for project in projects:
-        print(project.topic.all())
+    totalAttivita = len(projectsA)
+    totalProjects = len(projectsP)
+    print('len attivita', totalAttivita, 'len projecgt',totalProjects)
+    # for project in projects:
+    #     print(project.topic.all())
 
     return TemplateResponse(request, 'attivita.html', {
-        'projects': projects,
+        'projects': projectsA,
         'likes': likes,
         'follows': follows,
         'topics': topics,
@@ -589,9 +605,8 @@ def attivita(request):
         'hasTag': hasTag,
         'difficultyLevel': difficultyLevel,
         'participationTask': participationTask,
-        'counter': counter,
         'projectsCounter': totalProjects,
-        'attivitaCounter': counter,
+        'attivitaCounter': totalAttivita,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisationsCounter': organisationsCounter,
