@@ -62,7 +62,7 @@ class SignUpView(
     model = User
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("home")
-    form_valid_message = "You're signed up!"
+    form_valid_message = "Adesso sei registrato!"
 
     @method_decorator(ratelimit(key='ip', rate='5/h', method='POST', block=False))
     def dispatch(self, request, *args, **kwargs):
@@ -88,7 +88,7 @@ class SignUpView(
         profile.profileType = form.cleaned_data.get('profileType')
         profile.save()
 
-        mail_subject = 'Activate your account.'
+        mail_subject = 'Attiva il tuo account.'
         message = render_to_string('emails/acc_active_email.html', {
             'user': user,
             'domain': settings.HOST,
@@ -102,7 +102,7 @@ class SignUpView(
             'token': account_activation_token.make_token(user),
         })
         to_email = form.cleaned_data.get('email')
-        send_mail(mail_subject, message, 'eu-citizen.science@ibercivis.es', [to_email], html_message=html_message)
+        send_mail(mail_subject, message, 'admin@citizenscience.it', [to_email], html_message=html_message)
 
         return render(self.request, 'accounts/confirm-email.html', {})
 

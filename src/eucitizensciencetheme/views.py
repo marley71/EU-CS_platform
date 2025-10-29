@@ -82,7 +82,7 @@ def get_project_marker_data(project):
             image1 = project.image1.url
             html_string_image = str(image1)
         else:
-            html_string_image = false
+            html_string_image = False
 
         marker = {
             'latitude': project.latitude,

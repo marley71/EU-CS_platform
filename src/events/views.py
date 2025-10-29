@@ -282,7 +282,7 @@ def sendEventEmail(pk, user):
     #to.append(user.email)
     bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
     #print(f"Lista BCC: {bcc}")
-    from_email = 'help@eu-cs-platform.dev.it'#settings.EMAIL_FROM_CONTENTS
+    from_email = 'admin@citizenscience.it'#settings.EMAIL_FROM_CONTENTS
     email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
     email.content_subtype = "html"
     email.send()
