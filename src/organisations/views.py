@@ -254,9 +254,6 @@ def organisations(request):
     orgTypes = OrganisationType.objects.all()
     totalCount = len(organisations)
 
-    homeSearchCategories = request.GET.get('homeSearchCategories')
-    #return HttpResponse(homeSearchCategories)
-
     filters = {'keywords': '', 'orgTypes': '', 'country': '', 'orderby': ''}
     """
     if request.GET.get('keywords'):
@@ -357,7 +354,7 @@ def organisations(request):
         'countriesWithContent': countriesWithContent,
         'orgTypes': orgTypes,
         'isSearchPage': True,
-        'homeSearchCategories': homeSearchCategories,
+        'homeSearchCategories': 'organisations',
         'localita': localita,
         'localita_selected': localita_selected,
         'show_search_bar': False})
