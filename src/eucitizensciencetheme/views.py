@@ -110,13 +110,13 @@ def get_projects(request):
     projectsStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Progetto').prefetch_related('projectCountry')
     activitiesStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Attività').prefetch_related('projectCountry')
 
-    projectsNazionali = projectsStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale'])
+    projectsNazionali = projectsStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale','Internazionale'])
     projectsRegionali = projectsStandard.filter(geographicextend__geographicextend__in=['regionale','Regionale'])
-    projectsLocali = projectsStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale'])
+    projectsLocali = projectsStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale','locale','comunale','provinciale'])
 
-    activitiesNazionali = activitiesStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale'])
+    activitiesNazionali = activitiesStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale','Internazionale'])
     activitiesRegionali = activitiesStandard.filter(geographicextend__geographicextend__in=['regionale','Regionale'])
-    activitiesLocali = activitiesStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale'])
+    activitiesLocali = activitiesStandard.filter(geographicextend__geographicextend__in=['Locale','Comunale','Provinciale','locale','comunale','provinciale'])
 
 
     markers = []
