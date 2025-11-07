@@ -82,7 +82,8 @@ def get_project_marker_data(project):
             image1 = project.image1.url
             html_string_image = str(image1)
         else:
-            html_string_image = False
+            html_string_image = '/media/cards/bg_card_ridotta.png'
+
 
         marker = {
             'latitude': project.latitude,
@@ -108,7 +109,7 @@ def get_projects(request):
     #6 LAYERS IN BASE A TIPO E ESTENSIONE GEOGRAFICA
 
     projectsStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Progetto').prefetch_related('projectCountry')
-    activitiesStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Attività').prefetch_related('projectCountry')
+    activitiesStandard = Project.objects.filter(approved=True).filter(bsw__isnull=True).filter(type='Attivita').prefetch_related('projectCountry')
 
     projectsNazionali = projectsStandard.filter(geographicextend__geographicextend__in=['nazionale','Nazionale','internazionale','Internazionale'])
     projectsRegionali = projectsStandard.filter(geographicextend__geographicextend__in=['regionale','Regionale'])
@@ -235,7 +236,10 @@ def get_projects_webmapp(request,type=None):
             with open(html_file_image, 'r', encoding='utf-8') as f:
                 html_string_image = f.read()
             image1 = request.get_host()  + project.image1.url
-            html_string_image = html_string_image.replace("{{image1}}", 'https://' + str(image1))
+        else:
+            image1 = request.get_host()  + '/media/cards/bg_card_ridotta.png'
+
+        html_string_image = html_string_image.replace("{{image1}}", 'https://' + str(image1))
 
         url = 'https://' + request.get_host() + '/project/' + str(project.id);
 
