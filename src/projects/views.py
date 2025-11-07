@@ -1107,7 +1107,7 @@ def setProjectApproved(id, approved):
         aProject.moderated = True
         aProject.save()
         # sendEmail
-        subject = 'Your project has been approved'
+        subject = 'Il tuo contenuto è stato approvato'
         context = {"name": aProject.name, "id": id, "domain": settings.HOST}
         message = render_to_string('emails/approved_project.html', context)
         to = copy.copy(settings.EMAIL_RECIPIENT_LIST)

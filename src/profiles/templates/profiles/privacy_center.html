@@ -22,23 +22,27 @@
                            id="profileVisible"
                            {% if show_user.profile.profileVisible %}checked{% endif %}>
 
-                    <label class="custom-control-label" for="profileVisible">Your profile is public and visible (your
-                        email address will not be shared in any case)</label>
+                    <label class="custom-control-label" for="profileVisible">
+                        Il tuo profilo è pubblico e visibile a tutti (il tuo indirizzo e-mail però non è comunque condiviso)
+                    </label>
                 </div>
                 <div class="custom-control custom-switch">
                     <input type="checkbox"
                            class="custom-control-input myradio"
                            id="contentVisible"
                            {% if show_user.profile.contentVisible %}checked{% endif %}>
-                    <label class="custom-control-label" for="contentVisible">The list of content you uploaded is public
-                        and visible</label>
+                    <label class="custom-control-label" for="contentVisible">
+                        La lista dei contributi che hai caricato è pubblica e visibile a tutti
+                    </label>
                 </div>
                 <div class="custom-control custom-switch">
                     <input type="checkbox"
                            class="custom-control-input myradio"
                            id="subscribedtoDigest"
                            {% if show_user.profile.digest %}checked{% endif %}>
-                    <label class="custom-control-label" for="subscribedtoDigest">Subscribed to monthly digest</label>
+                    <label class="custom-control-label" for="subscribedtoDigest">
+                        Sottoscrizione alle pubblicazioni mensili
+                    </label>
                 </div>
 
             </div>
@@ -60,17 +64,17 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Event</th>
-                <th>When</th>
+                <th>Evento</th>
+                <th>Successo il:</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Profile created on</td>
+                <td>Creazione profilo</td>
                 <td>{{ show_user.date_joined }}</td>
             </tr>
             <tr>
-                <td>Last seen on</td>
+                <td>Ultima visita</td>
                 <td>{{ show_user.last_login }}</td>
             </tr>
 

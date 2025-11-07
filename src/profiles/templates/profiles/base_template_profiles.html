@@ -109,14 +109,14 @@
                         <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#trash"/>
                             </svg>
-                        Delete account
+                        Cancella account
                     </a>
                 </div>
             {% endif %}
         </div>
     </section>
     {% url 'accounts:delete' as delete_url %}
-    {% include "_modal_danger.html" with modal_id="deleteAccountModal" modal_title="Delete Account" modal_message="Are you sure? This action cannot be undone." form_action=delete_url confirm_button_text="Delete" %}
+    {% include "_modal_danger.html" with modal_id="deleteAccountModal" modal_title="Cancella Account" modal_message="Sei sicuro? Questa azione non è recuperabile." form_action=delete_url confirm_button_text="Cancella Account"%}
 {% endblock list_of_items %}
 {% block scripts %}
 {% endblock scripts %}
