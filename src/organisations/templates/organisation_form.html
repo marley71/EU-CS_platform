@@ -98,11 +98,13 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <a id="aimageResultlogo" href="#"> <img
+{#                                <a id="aimageResultlogo" href="#"></a>#}
+
+                                <img
                                                   class="img-fluid img-zoom"
                                                   id="imageResultlogo"
                                                   src="{% thumbnail organisation.logo|default:'void_600.png' 600x400 crop%}">
-                                </a>
+
 
                                 {{ form.logo|as_crispy_field }}
                                 {{ form.x_logo|as_crispy_field }}
@@ -121,11 +123,12 @@
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <a id="aimageResult1" href="#"> <img
+{#                                <a id="aimageResult1" href="#"></a> #}
+                                <img
                                                   class="img-fluid img-zoom"
                                                   id="imageResult1"
                                                   src="{% thumbnail organisation.image1|default:'void_600.png' 600x400 crop%}">
-                                </a>
+
 
                                 {{ form.image1|as_crispy_field }}
                                 {{ form.x_1|as_crispy_field }}
@@ -197,8 +200,9 @@
           var reader = new FileReader();
           reader.onload = function (e) {
             changed = true;
-            $("#image").attr("src", e.target.result);
-            $("#modalCrop").modal("show");
+            $('#imageResultlogo').attr('src', e.target.result);
+            //$("#image").attr("src", e.target.result);
+            //$("#modalCrop").modal("show");
           }
           reader.readAsDataURL(this.files[0]);
         }
@@ -212,14 +216,15 @@
           var reader = new FileReader();
           reader.onload = function (e) {
             changed = true;
-            $("#image").attr("src", e.target.result);
-            $("#modalCrop").modal("show");
+            $('#imageResult1').attr("src", e.target.result);
+            //$("#image").attr("src", e.target.result);
+            //$("#modalCrop").modal("show");
           }
           reader.readAsDataURL(this.files[0]);
         }
       });
 
-
+        /*
       $("#aimageResultlogo").click(function () {
           console.debug('#imageResultlogo click',changed)
         if(!changed)
@@ -237,7 +242,7 @@
           $("#modalCrop").modal("show");
         }
       });
-
+*/
       /* SCRIPTS TO HANDLE THE CROPPER BOX */
       var $image = $("#image");
       var cropBoxData;
