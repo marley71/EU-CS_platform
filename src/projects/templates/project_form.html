@@ -443,8 +443,9 @@
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $("#image").attr("src", e.target.result);
-                        $("#modalCrop").modal("show");
+                        $("#imageResult1").attr('src', e.target.result);
+                        //$("#image").attr("src", e.target.result);
+                        ///$("#modalCrop").modal("show");
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
@@ -476,12 +477,15 @@
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $("#image").attr("src", e.target.result);
-                        $("#modalCrop").modal("show");
+                        $("#imageResultlogo").attr('src', e.target.result);
+
+                        {#$("#image").attr("src", e.target.result);#}
+                        {#$("#modalCrop").modal("show");#}
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
             });
+            /*
             $("#imageResult1").click(function () {
                 $("#modalCrop").modal("show");
             });
@@ -494,6 +498,7 @@
             $("#imageResultlogo").click(function () {
                 $("#modalCrop").modal("show");
             });
+            */
             /* SCRIPTS TO HANDLE THE CROPPER BOX */
             var $image = $("#image");
             var cropBoxData;
