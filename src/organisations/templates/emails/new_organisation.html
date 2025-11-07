@@ -11,18 +11,18 @@
         <div style="background-color: #fff; width: 70%; border-radius: 6px; margin-top: 50px; font-family: roboto; padding-left: 24px; padding-right: 24px;">
             <br><br>
             <!-- Cabecera con logo -->
-            <img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ytimg.com/vi/PLqfOXK_TRg/maxresdefault.jpg" alt="EU-citizen.science logo" width="160" height="90" />
+            <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ domain }}/static/img/ita-citizen-science-2025.png" alt="CitizenScience.it" width="140" />
             <!-- MESSAGE BODY -->
             
-            <p style="font-size: 22px; margin-top: 24px;">{% trans "Hello," %} <a style='color: lightBlue;'>{{submitter.get_full_name}}</a> </p>
-            <p style="font-size: 14px;">{% trans "Thank you for submitting your organisation profile of "%}<b>{{organisationName}}</b>.</p>
-            <p style="font-size: 14px;">{% trans "This profile will now be visible on the platform, and you can make updates or changes to this resource profile at any time, by going to the "%}<a href='https://eu-citizen.science/users/me/submissions'> {% trans "Submissions section in your Personal Area" %} </a> {% trans "(see the top-right of the platform menu)."%}</p>
+            <p style="font-size: 22px; margin-top: 24px;">{% trans "Ciao," %} <a style='color: lightBlue;'>{{submitter.get_full_name}}</a> </p>
+            <p style="font-size: 14px;">{% trans "Grazie per averci inviato il profilo della tua organizzazione "%}<b>{{organisationName}}</b>.</p>
+            <p style="font-size: 14px;">{% trans "L'organizzazione è adesso visibile nella piattaforma. Puoi aggiornare o modificare in qualsiasi momento il profilo di questa organizzazione, accedendo alla sezione "%}<a href='{{ domain }}/users/me/submissions'> {% trans "<strong>I miei contributi</strong> della tua Area Personale" %}</a> {% trans " (in alto a destra nel menu della piattaforma, una volta loggato/a)."%}</p>
             
             <!-- END OF THE MESSAGE BODY -->
             <br>
-            <p style="font-size: 12px;"><b><em>{% trans "The EU-CITIZEN.SCIENCE Team" %}</b></em></p>
+            <p style="font-size: 12px;"><b><em>{% trans "Il Team di Citizen Science.it" %}</b></em></p>
             <hr style="color: lightBlue; width: 80%;">
-            <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Thanks!" %}</p>
+            <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Grazie!" %}</p>
             
         </div>
             <br><br>
