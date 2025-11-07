@@ -4129,6 +4129,18 @@ msgstr "Progetto associato"
 msgid "Please, select the main project"
 msgstr "Perfavore, se l'attività ha un progetto associato, selezionalo qui"
 
+msgid "Are you sure you want to delete this post?"
+msgstr "Sei sicuro di voler cancellare questo post?"
+
+msgid "Are you sure you want to delete this project?"
+msgstr "Sei sicuro di voler cancellare questo progetto?"
+
+msgid "Are you sure you want to delete this event?"
+msgstr "Sei sicuro di voler cancellare questo evento?"
+
+msgid "Are you sure you want to delete this organisation?"
+msgstr "Sei sicuro di voler cancellare questa organizzazione?"
+
 #~ msgid "Title of the event"
 #~ msgstr "Titolo dell'evento"
 

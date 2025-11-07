@@ -184,3 +184,13 @@ def sendBlogEmail(pk, user):
     email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
     email.content_subtype = "html"
     email.send()
+
+def deleteBlog(request, pk):
+    obj = get_object_or_404(Post, id=pk)
+    if request.user == obj.author or request.user.is_staff: # or request.user.id in getCooperators(pk):
+        obj.delete()
+        # reviews = Review.objects.filter(
+        #     content_type=ContentType.objects.get(model="project"), object_pk=pk)
+        # for r in reviews:
+        #     r.delete()
+    return redirect('blog')

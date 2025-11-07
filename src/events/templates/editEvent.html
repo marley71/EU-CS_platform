@@ -105,7 +105,12 @@
                     
                                 <button type="submit" class="my-5 btn btn-outline-success submit"  onclick="return validateMap();">
                                     <i class="fas fa-share-square"></i> {% trans "Save" %}
-                                                    </button>
+                                </button>
+                                {% if user.id == event.creator_id %}
+                                    <a  class="btn btn-outline-danger" onclick="deleteEvent({{ event.id }})">
+                                        <i class="fas fa-times"></i> {% trans "Cancella" %}
+                                    </a>
+                                {% endif %}
                                                     
                                                 </div>
                                             </div>
@@ -125,7 +130,14 @@
 <script src="{% static 'site/js/leaflet-geosearch_2_7.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
-
+<script>
+    function deleteEvent(eventId) {
+        let risposta = window.confirm('{% trans "Are you sure you want to delete this event?" %}');
+        if (risposta) {
+            window.location.href = '/deleteEvent/{{ event.id }}';
+        }
+    }
+</script>
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function(event) {
     var userAgent = "{{ user_agent }}";
