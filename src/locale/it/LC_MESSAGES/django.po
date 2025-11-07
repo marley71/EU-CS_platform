@@ -715,7 +715,7 @@ msgstr "Altre Organizzazioni"
 
 #: profiles/models.py:23
 msgid "Surname"
-msgstr "Congnome"
+msgstr "Cognome"
 
 #: profiles/models.py:34
 msgid "Profile picture"

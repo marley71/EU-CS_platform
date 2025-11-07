@@ -31,22 +31,22 @@
 
 </span>
 <ul class="dropdown-menu">
-    <li>
-        <a href="https://twitter.com/intent/tweet?text=I found this %23citizenscience project {{ request.scheme }}://{{ request.get_host }}/project/{{ project.id }}  @euCitSciProject"
-           class="text-muted dropdown-item" target="_blank">
-            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
-                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#twitter"/>
-            </svg>
-            Share on Twitter
-        </a>
-    </li>
+{#    <li>#}
+{#        <a href="https://twitter.com/intent/tweet?text=I found this %23citizenscience project {{ request.scheme }}://{{ request.get_host }}/project/{{ project.id }}  @euCitSciProject"#}
+{#           class="text-muted dropdown-item" target="_blank">#}
+{#            <svg class="bi mb-1" width="16" height="16" fill="currentColor">#}
+{#                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#twitter"/>#}
+{#            </svg>#}
+{#            Share on Twitter#}
+{#        </a>#}
+{#    </li>#}
     <li>
         <a href="#" url="{{ request.scheme }}://{{ request.get_host }}/project/{{ project.id }}"
            class="copyLink text-muted dropdown-item">
             <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#copy"/>
             </svg>
-            Copy the link
+            Copia link
         </a>
     </li>
 </ul>
