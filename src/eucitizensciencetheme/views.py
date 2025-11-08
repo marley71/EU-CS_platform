@@ -355,9 +355,13 @@ def home(request):
         likes = likes.values_list('project', flat=True)
         follows = Follows.objects.filter(user=request.user)
         follows = follows.values_list('project', flat=True)
+        accediLink = '/users/me'
+        accediLinkText = 'Il tuo profilo'
     else:
         likes = None
         follows = None
+        accediLink = '/login'
+        accediLinkText = 'Accedi'
 
     # Resources
     resources = Resource.objects.all().filter(~Q(isTrainingResource=True)).filter(approved=True).order_by('-dateCreated')
@@ -437,6 +441,8 @@ def home(request):
         'usersCounter': usersCounter,
         'events': events,
         'sections': sections,
+        'accediLink': accediLink,
+        'accediLinkText': accediLinkText,
         'filters': filters,
         'isSearchPage': True})
 
