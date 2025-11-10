@@ -56,7 +56,7 @@
                                 {{ form.name|as_crispy_field }}
                                 {{ form.url|as_crispy_field }}
                                 {{ form.orgType|as_crispy_field }}
-                                {{ form.localita|as_crispy_field }}
+
                                 <label class="control-label">{% trans "Description" %}</label>
                                 <!-- Project description -->
                                 <ul class="nav nav-tabs" id="languageDescriptionTabs" role="tablist">
@@ -143,11 +143,23 @@
                 <div class="row">
                     <div class="col-2"></div>
                     <div class="col-8">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-11">
+                                {{ form.localita|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-2"></div>
+                    <div class="col-8">
                         <h3 class="leftborder mt-5">{% trans "Location" %}</h3>
                         <div class="row">
                             <div class="col-1"></div>
                             <div class="col-11">
-                                <p style="font-size:12px">{% trans "This is a required parameter" %}<sup>*</sup></p>
+                                <p style="font-size:12px">{% trans "Se vuoi inserire le coordinate piu' precise per l'organizzazione seleziona un punto sulla mappa, in caso contrario, il sistema posizionerà l'organizzazione alle coordinate della località scelta." %}<sup></sup></p>
                                 {% leaflet_map "map" callback="window.map_init_basic" %}
                                 {{ form.latitude|as_crispy_field }}
                                 {{ form.longitude|as_crispy_field }}
@@ -330,6 +342,9 @@
 
   function map_init_basic (leafmap, options) {
     map = leafmap;
+    {#map.panTo([55.12, 11.7]);#}
+    {#map.setZoom(4);#}
+    map.setView([42.10, 11.7], 5);
     var obj = { latlng: {
       lat: parseFloat($("#id_latitude").val()),
       lng: parseFloat($("#id_longitude").val()) }

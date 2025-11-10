@@ -86,8 +86,10 @@ class OrganisationForm(forms.Form):
         widget=forms.TextInput(),
         label=_('Contact point email'))
     latitude = forms.DecimalField(
+        required=False,
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     longitude = forms.DecimalField(
+        required=False,
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     localita = forms.ModelChoiceField(
         queryset=Localita.objects.all(),
@@ -100,7 +102,13 @@ class OrganisationForm(forms.Form):
         print("In save")
         pk = self.data.get('organisationID', '')
         orgType = get_object_or_404(OrganisationType, id=self.data['orgType'])
-        #localita = get_object_or_404(Localita, id=self.data['localita'])
+        localita = get_object_or_404(Localita, id=self.data['localita'])
+        latitude = self.data.get('latitude', None)
+        longitude = self.data.get('longitude', None)
+        if (not self.data['latitude'] or not self.data['longitude']):
+            latitude = localita.latitude
+            longitude = localita.longitude
+
         if (pk):
             organisation = get_object_or_404(Organisation, id=pk)
             organisation.name = self.data['name']
@@ -109,8 +117,8 @@ class OrganisationForm(forms.Form):
             organisation.contactPoint = self.data['contact_point']
             organisation.contactPointEmail = self.data['contact_point_email']
             organisation.logoCredit = self.data['logo_credit']
-            organisation.latitude = self.data['latitude']
-            organisation.longitude = self.data['longitude']
+            organisation.latitude = latitude
+            organisation.longitude = longitude
             organisation.localita_id = self.data['localita']
             organisation.image1Credit = self.data['image1Credit']
         else:
@@ -118,8 +126,8 @@ class OrganisationForm(forms.Form):
                 name=self.data['name'],
                 url=self.data['url'],
                 creator=args.user,
-                latitude=self.data['latitude'],
-                longitude=self.data['longitude'],
+                latitude=latitude,
+                longitude=longitude,
                 logoCredit=self.data['logo_credit'],
                 image1Credit=self.data['image1Credit'],
                 orgType=orgType,
