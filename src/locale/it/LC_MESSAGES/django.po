@@ -321,7 +321,7 @@ msgstr "Selezionare uno."
 
 #: organisations/forms.py:34
 msgid "Please upload the logo of your organisation (.jpg or .png)."
-msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px."
+msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px (ad es. 400 x 300 pixel)."
 
 #: organisations/forms.py:42
 msgid "Please name the contact person or contact point for the organisation."
@@ -1090,7 +1090,7 @@ msgstr "Immagine principale"
 
 #: projects/forms.py:218
 msgid "It will be resized to 600x400 pixels"
-msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px."
+msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px (ad es. 1200 x 400 pixel)."
 
 #: projects/forms.py:229
 msgid "Thumbnail credit, if applicable"
@@ -1102,7 +1102,7 @@ msgstr "Logo del progetto/attività"
 
 #: projects/forms.py:234
 msgid "It will be resized to 600x400 pixels)"
-msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px."
+msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px (ad es. 1200 x 400 pixel)."
 
 #: projects/forms.py:248
 msgid "Image for the profile heading"
@@ -1110,7 +1110,7 @@ msgstr "Immagine per l'intestazione del profilo"
 
 #: projects/forms.py:249
 msgid "It will be resized to 1100x400 pixels"
-msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px."
+msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px (ad es. 400 x 300 pixel)."
 
 #: projects/forms.py:259
 msgid "Heading image credit, if applicable"
@@ -4073,7 +4073,7 @@ msgid "Heading logo credit, if applicable"
 msgstr "Crediti del logo, se applicabile"
 
 msgid "Please upload the image of your organisation (.jpg or .png)."
-msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px."
+msgstr "Preferibilmente, caricare un immagine con rapporto 3:1 con altezza minima di 400px (ad es. 1200 x 400 pixel)."
 
 msgid "Organisation image"
 msgstr "Immagine organizzazione"
