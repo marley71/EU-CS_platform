@@ -165,9 +165,14 @@
                                 {{ form.longitude|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="row mt-5 mb-5">
+                        <div class="row mt-5 mb-5 pt-5">
                             <div class="col-11">
                                 <button type="submit" class="btn btn-outline-success"><i class="fas fa-share-square"></i> {% trans "Save" %}</button>
+                                {% if user.id == organisation.creator_id %}
+                                    <a  class="btn btn-outline-danger" onclick="deleteOrganisation({{ organisation.id }})">
+                                        <i class="fas fa-times"></i> {% trans "Cancella" %}
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -185,6 +190,14 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
 <script src="{% static 'site/js/leaflet-geosearch_2_7.min.js' %}"></script>
+<script>
+    function deleteOrganisation(organisation_id) {
+        let risposta = window.confirm('{% trans "Are you sure you want to delete this organisation?" %}');
+        if (risposta) {
+            window.location.href = '/delete_organisation/{{ organisation.id }}';
+        }
+    }
+</script>
 <script>
   //$(document).ready(function () {
     $(function () {

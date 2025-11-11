@@ -165,17 +165,16 @@
             <div>
                 <div class="small">
                     <span class"subnavbarCounter-text">
+
                     {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
-                        <strong>{{ counter }}</strong> progetti selezionati su <strong>{{ totalProjects }}</strong>
+                        <strong>{%  if isProject %} {{ projectsCounter }} {% else %} {{ attivitaCounter }} {% endif %}</strong>
+                        {%  if isProject %} progetti selezionati su <strong>{{ totalProjects  }}</strong> {% else %} attività selezionate su <strong>
+                            {{ totalAttivita }}</strong> {% endif %}
                         totali
                     {% else %}
-                        <strong>{{ totalProjects }}</strong> progetti
+                        {%  if isProject %} <strong>{{totalProjects}}</strong> progetti {% else %} <strong>{{ totalAttivita }}</strong> attività {% endif %}
+
                     {% endif %}
-                    {#                        {% if counter != 1 %}#}
-                    {#                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
-                    {#                        {% else %}#}
-                    {#                            {% trans "project found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
-                    {#                        {% endif %}#}
                     </strong>
                 </div>
             </div>
@@ -210,7 +209,7 @@
         </div>
     </form>
 </div>
-{% if counter <= 0 or totalProjects <= 0 %}
+{% if projectsCounter <= 0 or totalProjects <= 0 %}
 <div class="row">
 
     <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">

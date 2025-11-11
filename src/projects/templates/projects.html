@@ -37,8 +37,11 @@
     <section>
 
         <div class="container">
-
-            {% include "_finder_projects.html" with formUrl="projects" %}
+            {%  if isProject %}
+                {% include "_finder_projects.html" with formUrl="projects" %}
+            {% else %}
+                {% include "_finder_projects.html" with formUrl="attivita" %}
+            {% endif %}
             <div class="row mt-5 mb-5">
                 {% for project in projects %}
 

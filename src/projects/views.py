@@ -290,7 +290,6 @@ def projects(request):
 
 #     len(projects.filter(approved=True))
 
-    homeSearchCategories = request.GET.get('homeSearchCategories')
     countriesWithContent1 = projectsP.values_list(
         'mainOrganisation__country', flat=True).distinct()
     countriesWithContent2 = projectsP.values_list(
@@ -376,6 +375,9 @@ def projects(request):
 
 
 
+    projectsCounter = len(projectsP)
+    print('totalProjectssss', totalProjects, 'attivitaaa', totalAttivita,'projectsCounter', projectsCounter)
+
     paginator = Paginator(projectsP, 18)
     page = request.GET.get('page')
     projectsP = paginator.get_page(page)
@@ -416,13 +418,12 @@ def projects(request):
     users = users.distinct()
     usersCounter = len(users)
 
-    totalAttivita = len(projectsA)
-    totalProjects = len(projectsP)
-    print('totalProjectssss', totalProjects, 'attivitaaa', totalAttivita)
+
     # for project in projectsP:
     #     print(project.topic.all())
 
     return TemplateResponse(request, 'projects.html', {
+        'isProject': 1,
         'projects': projectsP,
         'likes': likes,
         'follows': follows,
@@ -434,7 +435,7 @@ def projects(request):
         'difficultyLevel': difficultyLevel,
         'participationTask': participationTask,
         'totalProjects': totalProjects,
-        'projectsCounter': totalProjects,
+        'projectsCounter': projectsCounter,
         'attivitaCounter': totalAttivita,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
@@ -442,7 +443,7 @@ def projects(request):
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
         'isSearchPage': True,
-        'homeSearchCategories' : homeSearchCategories,
+        'homeSearchCategories' : 'projects',
         'localita' : localita,
         'localita_selected' : localita_selected,
         'topic_selected' : topic_selected,
@@ -461,10 +462,9 @@ def attivita(request):
     projectsP = projectsBase.filter(type='Progetto')
     totalProjects = len(projectsP)
     totalAttivita = len(projectsA)
-    print('totalProjects', len(projectsP),'attivita',len(projectsA))
+    print('totalProjects globale ', len(projectsP),'attivita',len(projectsA))
     #     len(projects.filter(approved=True))
 
-    homeSearchCategories = request.GET.get('homeSearchCategories')
     countriesWithContent1 = projectsA.values_list(
         'mainOrganisation__country', flat=True).distinct()
     countriesWithContent2 = projectsA.values_list(
@@ -493,10 +493,18 @@ def attivita(request):
         'featured': '',
         'hasTag': ''}
 
+    projectsA = applySearchFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+
+    projectsP = applySearchFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsCounter = len(projectsP)
+    print('projects Counter',projectsCounter)
+
     projectsA = applyFilters(request, projectsA)
     projectsA = projectsA.distinct()
-    projectsP = applyFilters(request, projectsP)
-    projectsP = projectsP.distinct()
+    # projectsP = applyFilters(request, projectsP)
+    # projectsP = projectsP.distinct()
 
     #     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
@@ -548,6 +556,7 @@ def attivita(request):
         topic_selected = ', '.join(request.GET.getlist('topic'))
 
 
+    attivitaCounter = len(projectsA)
 
     paginator = Paginator(projectsA, 18)
     page = request.GET.get('page')
@@ -573,28 +582,27 @@ def attivita(request):
 
     # For organisations count
     organisations = Organisation.objects.all()
-    filteredOrganisations = applyFilters(request, organisations).distinct()
+    filteredOrganisations = applySearchFilters(request, organisations).distinct()
     organisations = organisations.distinct()
     organisationsCounter = len(filteredOrganisations)
 
     # For platforms count
     platforms = Platform.objects.all()
-    platforms = applyFilters(request, platforms)
+    platforms = applySearchFilters(request, platforms)
     platforms = platforms.distinct()
     platformsCounter = len(platforms)
 
     # For users count
     users = Profile.objects.all().filter(profileVisible=True).filter(user__is_active=True)
-    users = applyFilters(request, users)
+    users = applySearchFilters(request, users)
     users = users.distinct()
     usersCounter = len(users)
-    totalAttivita = len(projectsA)
-    totalProjects = len(projectsP)
-    print('len attivita', totalAttivita, 'len projecgt',totalProjects)
+
     # for project in projects:
     #     print(project.topic.all())
-
+    print('len attivita', totalAttivita, 'len projecgt', totalProjects, 'attivitaCounter', attivitaCounter,'projectsCounter',projectsCounter)
     return TemplateResponse(request, 'attivita.html', {
+        'isAttivita' : 1,
         'projects': projectsA,
         'likes': likes,
         'follows': follows,
@@ -605,15 +613,17 @@ def attivita(request):
         'hasTag': hasTag,
         'difficultyLevel': difficultyLevel,
         'participationTask': participationTask,
-        'projectsCounter': totalProjects,
-        'attivitaCounter': totalAttivita,
+        'totalProjects': totalProjects,
+        'projectsCounter' : projectsCounter,
+        'totalAttivita': totalAttivita,
+        'attivitaCounter': attivitaCounter,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisationsCounter': organisationsCounter,
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
         'isSearchPage': True,
-        'homeSearchCategories': homeSearchCategories,
+        'homeSearchCategories': 'attivita',
         'localita': localita,
         'localita_selected': localita_selected,
         'topic_selected': topic_selected,
@@ -934,9 +944,8 @@ def preFilteredProjects(request):
     projects = Project.objects.get_queryset().order_by('id')
     return applyFilters(request, projects)
 
-
-def applyFilters(request, projects):
-    # approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+#filtri di ricerca globale
+def applySearchFilters(request,projects):
     if projects.model == Resource:
         if request.GET.get('keywords'):
             projects = projects.filter(
@@ -955,7 +964,7 @@ def applyFilters(request, projects):
     if projects.model == Platform:
         if request.GET.get('keywords'):
             keywords = request.GET.get('keywords')
-            projects = projects.filter(name__icontains=keywords)  
+            projects = projects.filter(name__icontains=keywords)
 
     if projects.model == Profile:
         if request.GET.get('keywords'):
@@ -963,7 +972,21 @@ def applyFilters(request, projects):
             projects = projects.filter(
                 Q(user__name__icontains=keywords) |
                 Q(interestAreas__interestArea__icontains=keywords) |
-                Q(bio__icontains=keywords)).distinct()               
+                Q(bio__icontains=keywords)).distinct()
+
+    if projects.model == Project:
+        if request.GET.get('keywords'):
+            projects = projects.filter(
+                Q(name__icontains=request.GET['keywords']) |
+                Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
+
+    return projects
+
+
+#filtri dellta tab specifica
+def applyFilters(request, projects):
+    # approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+
                     
     # Specific filters only apply if projects is a Project instance    
     if projects.model == Project:
