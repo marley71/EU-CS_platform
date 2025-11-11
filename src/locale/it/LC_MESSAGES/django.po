@@ -321,7 +321,7 @@ msgstr "Selezionare uno."
 
 #: organisations/forms.py:34
 msgid "Please upload the logo of your organisation (.jpg or .png)."
-msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px (ad es. 400 x 300 pixel)."
+msgstr "Preferibilmente, caricare un immagine con rapporto 3:2 con altezza minima di 300px (ad es. 450 x 300 pixel)."
 
 #: organisations/forms.py:42
 msgid "Please name the contact person or contact point for the organisation."
@@ -1110,7 +1110,7 @@ msgstr "Immagine per l'intestazione del profilo"
 
 #: projects/forms.py:249
 msgid "It will be resized to 1100x400 pixels"
-msgstr "Preferibilmente, caricare un immagine con rapporto 4:3 con altezza minima di 300px (ad es. 400 x 300 pixel)."
+msgstr "Preferibilmente, caricare un immagine con rapporto 3:2 con altezza minima di 300px (ad es. 450 x 300 pixel)."
 
 #: projects/forms.py:259
 msgid "Heading image credit, if applicable"
