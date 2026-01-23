@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http import Http404
@@ -49,7 +50,8 @@ class LearningResourceTypeViewSet(viewsets.ModelViewSet):
 class ResourceList(APIView):
 
     def applyFilters(self, request, resources):
-        resources = resources.filter(approved=True)
+        if not request.user.is_staff and not settings.DEBUG:
+            resources = resources.filter(approved=True)
 
         keywords = request.query_params.get('keywords', None)
         if keywords is not None:
@@ -150,7 +152,8 @@ class ResourceDetail(APIView):
 class TrainingResourceList(APIView):
 
     def applyFilters(self, request, resources):
-        resources = resources.filter(approved=True)
+        if not request.user.is_staff and not settings.DEBUG:
+            resources = resources.filter(approved=True)
 
         keywords = request.query_params.get('keywords', None)
         if keywords is not None:
