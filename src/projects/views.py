@@ -119,7 +119,7 @@ def sendProjectEmail(pk, user):
             subject=subject_staff,
             body=message_staff,
             from_email=from_email,
-            to=from_email,
+            to=[from_email],
             bcc=moderators_to,
         )
         moderators_email.content_subtype = "html"
