@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls import url
 
 from . import views
@@ -32,4 +32,5 @@ urlpatterns = [
         name="password-reset-confirm",
     ),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    url(r'^api/', include('accounts.api.urls')),
 ]

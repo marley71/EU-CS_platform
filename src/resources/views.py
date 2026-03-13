@@ -65,7 +65,9 @@ def resources(request, isTrainingResource=False):
     filters = {'keywords': '', 'inLanguage': ''}
 
     resources = applyFilters(request, resources).distinct()
-    if not user.is_staff:
+    # In local/debug environments we want to see everything, even if not approved yet.
+    # In production keep the approval gate unless the user is staff.
+    if not user.is_staff and not settings.DEBUG:
         resources = resources.filter(approved=True)
 
     # Contadores optimizados con .count()
@@ -601,7 +603,7 @@ def applyFilters(request, resources):
                 resources = resources.filter(approved=False).filter(moderated=True)
             if request.GET['approved'] == 'notYetModerated':
                 resources = resources.filter(moderated=False)
-        else:
+        elif not request.user.is_staff and not settings.DEBUG:
             resources = resources.filter(approved=True)
 
     return resources

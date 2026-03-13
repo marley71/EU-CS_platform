@@ -100,7 +100,30 @@ def sendProjectEmail(pk, user):
     email.content_subtype = "html"
     email.send()
 
-
+    subject_staff = 'CitizenScience.it Il progetto/attività "%s" attende di essere approvato!' % project.name
+    message_staff = render_to_string('emails/new_project_staff.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'projectname': project.name,
+        'projectid': pk})
+    staff_emails = list(
+        User.objects.filter(is_staff=True, is_active=True)
+        .exclude(email__isnull=True)
+        .exclude(email__exact="")
+        .values_list('email', flat=True)
+    )
+    configured_emails = list(getattr(settings, 'EMAIL_RECIPIENT_LIST', []) or [])
+    moderators_to = sorted(set(staff_emails + configured_emails) - {user.email} if user.email else set(staff_emails + configured_emails))
+    if moderators_to:
+        moderators_email = EmailMessage(
+            subject=subject_staff,
+            body=message_staff,
+            from_email=from_email,
+            to=[from_email],
+            bcc=moderators_to,
+        )
+        moderators_email.content_subtype = "html"
+        moderators_email.send()
 
 def updateKeywords(dictio):
     keywords = dictio.pop('keywords', None)
