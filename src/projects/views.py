@@ -481,7 +481,7 @@ def attivita(request):
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    projectsA = projectsBase.filter(type='Attività')
+    projectsA = projectsBase.filter(Q(type='Attività') | Q(type='Attivita'))
     projectsP = projectsBase.filter(type='Progetto')
     totalProjects = len(projectsP)
     totalAttivita = len(projectsA)
