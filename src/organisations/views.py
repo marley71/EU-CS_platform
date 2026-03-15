@@ -29,6 +29,7 @@ from .models import HelpText, Organisation, OrganisationPermission, Organisation
 from localita.models import Localita
 
 from events.models import Event
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
 
@@ -294,12 +295,14 @@ def organisations(request):
 
     #For projects count
     projectsP = Project.objects.all()
+    projectsP = applyProjectsGlobalFilters(request, projectsP)
     projectsP = projectsP.filter(~Q(hidden=True)).filter(type='Progetto')
     projectsP = applyFilters(request, projectsP)
     projectsP = projectsP.distinct()
     projectsCounter = len(projectsP)
 
     projectsA = Project.objects.all()
+    projectsA = applyProjectsGlobalFilters(request, projectsA)
     projectsA = projectsA.filter(~Q(hidden=True)).filter(type='Attività')
     projectsA = applyFilters(request, projectsA)
     projectsA = projectsA.distinct()

@@ -42,6 +42,7 @@ from profiles.models import Profile
 from events.models import Event
 
 from resources.views import applyFilters as applyFiltersResources
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
 
@@ -300,6 +301,8 @@ def translateProject(request, pk):
 def projects(request):
     user = request.user
     projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
+
     topics = Topic.objects.all()
     status = Status.objects.all()
     hasTag = HasTag.objects.all()
@@ -348,7 +351,7 @@ def projects(request):
 
 #     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
-    projectsP = projectsP.filter(~Q(hidden=True))
+    
     if user.is_authenticated:
         likes = Likes.objects.filter(user=user)
         likes = likes.values_list('project', flat=True)
@@ -476,12 +479,13 @@ def projects(request):
 def attivita(request):
     user = request.user
     projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
     topics = Topic.objects.all()
     status = Status.objects.all()
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    projectsA = projectsBase.filter(Q(type='Attività') | Q(type='Attivita'))
+    projectsA = projectsBase.filter(type='Attività')
     projectsP = projectsBase.filter(type='Progetto')
     totalProjects = len(projectsP)
     totalAttivita = len(projectsA)
@@ -1005,7 +1009,6 @@ def applySearchFilters(request,projects):
 
     return projects
 
-
 #filtri dellta tab specifica
 def applyFilters(request, projects):
     # approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
@@ -1053,17 +1056,7 @@ def applyFilters(request, projects):
             projects = projects.filter(
                 Q(mainOrganisation__country=request.GET['country']) | Q(country=request.GET['country']) | Q(organisation__country=request.GET['country'])).distinct()
 
-        # Approved filters
-        if request.GET.get('approved'):
-            if request.GET['approved'] == 'approved':
-                projects = projects.filter(approved=True)
-            elif request.GET['approved'] == 'notApproved':
-                projects = projects.filter(approved=False).filter(moderated=True)
-            elif request.GET['approved'] == 'notYetModerated':
-                projects = projects.filter(moderated=False)
-        else:
-            if not request.user.is_staff:
-                projects = projects.filter(approved=True)
+        
 
         
 
