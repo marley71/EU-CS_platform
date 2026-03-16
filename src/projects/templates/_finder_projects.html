@@ -77,13 +77,14 @@
 
                 <label for="status">Stato progetto</label>
                 <select id="status" name="status" class="custom-select form-select">
-                    <option value="">{% trans "Seleziona" %}
-                    <option>
-                        {% for s in status %}
-                            <option {% if s.status == filters.status %} selected {% endif %} value="{{ s.status }}">
-                                {{ s.status|capfirst }}
-                            </option>
-                        {% endfor %}
+                    <option value="">{% trans "Seleziona" %}</option>
+                    {% for s in status %}
+                        {% if s.id %}
+                        <option {% if s.status == filters.status %} selected {% endif %} value="{{ s.status }}">
+                            {{ s.status|capfirst }}
+                        </option>
+                        {% endif %}
+                    {% endfor %}
                 </select>
             </div>
 

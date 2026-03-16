@@ -271,7 +271,7 @@ TIPO_PUBBLICO = (
 )
 
 TIPO_PROGETTO = (
-    ('Attivita' , "Attività"),
+    ('Attività' , "Attività"),
     ('Progetto' , "Progetto"),
 )
 

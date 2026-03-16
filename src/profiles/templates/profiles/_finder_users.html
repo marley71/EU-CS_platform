@@ -14,7 +14,7 @@
 {##}
 {##}
 {#                <select id="country" name="country" class="custom-select form-select">#}
-{#                    <option value="">{% trans "Seleziona" %}#}
+{#                    <option value="">{% trans "Seleziona" %}#}</option>
 {#                    <option>#}
 {#                        {% for country in countries %}{% for cwc in countriesWithContent %}#}
 {#                            {% if country.code == cwc %}#}
@@ -33,7 +33,7 @@
                 <select id="interestAreas" name="interestAreas" class="custom-select form-select">
                     <option value="">
                     {% trans "Interest Area" %}
-                    <option>
+                    </option>
                         {% for t in interestAreas %}
                             <option {% if t ==  filters.interestAreas %} selected {% endif %} value="{{ t }}">
                                 {{ t|capfirst }}
@@ -51,7 +51,7 @@
                 <select id="organisation" name="organisation" class="custom-select form-control">
                     <option value="">
                     {% trans "Organisation" %}
-                    <option>
+                    </option>
                         {% for organisation in organisations %}
                             <option {% if organisation.name ==  filters.organisation %} selected {% endif %}
                                                                                         value="{{ organisation.name }}">
