@@ -42,54 +42,12 @@
         var markersDataObjects = {}
 
         var map = L.map('map', {center: [42, 13], zoom: 6});
-        /*
-                    var OpenStreetMap_BZH = L.tileLayer('https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
-                        //bounds: [[46.2, -5.5], [50, 0.7]]
-                    });
-        */
-        /*
-                    var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey={apikey}', {
-                            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                            apikey: 'pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
-                            maxZoom: 22
-                        });
-        */
-        /*
-                    L.tileLayer(
-                        'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
-
-
-
-
-
-
-
-
-        {#        #}
-
-                //'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
-                {
-                tileSize: 512,
-                zoomOffset: -1,
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-            }).addTo(map);
-*/
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        //L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
-        //    maxZoom: 19,
-        //    attribution: '&copy; <a href="http://api.webmapp.it/copyright">Webmapp</a>'
-        //}).addTo(map);
-
-        //L.tileLayer(Thunderforest_Neighbourhood).addTo(map);
-        //L.tileLayer(OpenStreetMap_BZH).addTo(map);
         L.control.scale().addTo(map);
 
         var projectBioIcon = createIcon(L,'bg-olive-800','#ACE8C07F','clipboard2-data-fill')
@@ -136,7 +94,7 @@
         });
         // Perform AJAX request to get the
         var xhr1 = new XMLHttpRequest();
-        xhr1.open('GET', '/get_projects/', true);
+        xhr1.open('GET', '/get_projects_bdsweek/{{anno}}/', true);
         xhr1.onreadystatechange = function () {
             if (xhr1.readyState === 4 && xhr1.status === 200) {
                 // Create markers on the map based on the data received
