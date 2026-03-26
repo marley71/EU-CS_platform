@@ -7,7 +7,7 @@ from django_summernote.widgets import SummernoteWidget
 from django.utils.translation import ugettext_lazy as _
 from geopy.geocoders import Nominatim, options
 from geopy.exc import GeocoderServiceError
-from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry
+from .models import Project, Topic, Status, Keyword, FundingBody, ProjectCountry, BDSWeek
 from .models import ParticipationTask, GeographicExtend, HasTag, DifficultyLevel, TranslatedProject, Provincia
 from organisations.models import Organisation
 from localita.models import Localita
@@ -152,6 +152,13 @@ class ProjectForm(forms.Form):
         label=_('Project-type'),
         widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
         help_text=_('Please provide the type of the project.'))
+    is_bdsweek = forms.ChoiceField(
+        choices=(('no', 'No'), ('yes', 'Sì')),
+        initial='no',
+        label=_('Fa parte della BioDiversity Sampling Week?'),
+        widget=forms.RadioSelect,
+        required=False,
+    )
 
     inaturalist = forms.CharField(
         max_length=200,
@@ -611,6 +618,13 @@ class ProjectForm(forms.Form):
 
 #         project.stato = self.data['stato']
         project.type = self.data['type']
+        current_year = timezone.now().year
+        has_current_bdsweek = BDSWeek.objects.filter(anno=current_year).exists()
+        is_bdsweek = self.data.get('is_bdsweek') == 'yes'
+        if project.type == 'Attività' and has_current_bdsweek and is_bdsweek:
+            project.bsw = str(current_year)
+        else:
+            project.bsw = None
         project.risultati = self.data['risultati']
         project.inaturalist = self.data['inaturalist']
 #         print(self.data.getlist('topic'))

@@ -61,6 +61,11 @@
                                                 L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita.</li>
                                         </ul>
                                     </div>
+                                    {% if has_current_bdsweek %}
+                                        <div id="bdsweek-field">
+                                            {{ form.is_bdsweek|as_crispy_field }}
+                                        </div>
+                                    {% endif %}
                                     <div id="parent-project">
                                         {{ form.parent|as_crispy_field }}
                                     </div>
@@ -583,6 +588,7 @@
             } else {
                 $('#parent-project').removeClass('d-none');
             }
+            updateBdsweekField('{{ form.type.value }}');
 
             if (window.history && window.history.pushState) {
 
@@ -668,6 +674,18 @@
                 $('#parent-project').addClass('d-none');
             } else {
                 $('#parent-project').removeClass('d-none');
+            }
+            updateBdsweekField(value);
+        }
+        function updateBdsweekField(typeValue) {
+            if ($('#bdsweek-field').length === 0) {
+                return;
+            }
+            if (typeValue == 'Attività') {
+                $('#bdsweek-field').removeClass('d-none');
+            } else {
+                $('#bdsweek-field').addClass('d-none');
+                $('#id_is_bdsweek_0').prop('checked', true);
             }
         }
     </script>
