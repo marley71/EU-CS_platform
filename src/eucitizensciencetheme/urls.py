@@ -28,6 +28,7 @@ urlpatterns = [
     path("privacy/", views.privacy, name="privacy"),
     path("map/", views.projects_map, name="map"),
     path("bdsweek_map/", views.bdsweek_projects_map, name="bdsweek_map"),
+    path("bdsweek_map/<int:anno>/", views.bdsweek_projects_map, name="bdsweek_map_year"),
     path("subscribe/", views.subscribe, name="subscribe"),
     path("terms/", views.terms, name="terms"),
     path("translations/", views.translations, name="translations"),

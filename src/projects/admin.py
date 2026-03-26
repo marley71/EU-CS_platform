@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Project, Topic, Status, ApprovedProjects, FollowedProjects,
-                     Provincia, HasTag, DifficultyLevel, ParticipationTask, HelpText, ProjectCountry)
+                     Provincia, HasTag, DifficultyLevel, ParticipationTask, HelpText, ProjectCountry, BDSWeek)
 from .forms import STATO_TYPE_CHOICES
 from django import forms
 from django.db import models
@@ -101,4 +101,5 @@ admin.site.register(HelpText, HelpTextAdmin)
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(ApprovedProjects)
 admin.site.register(FollowedProjects)
+admin.site.register(BDSWeek)
 

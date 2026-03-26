@@ -120,6 +120,19 @@ class HelpText(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+class BDSWeek(models.Model):
+    anno = models.IntegerField()
+    data_inizio = models.DateField()
+    data_fine = models.DateField()
+    descrizione = models.TextField(null=True, blank=True)
+    logo = models.ImageField(upload_to='images/', max_length=300, null=True, blank=True)
+
+    class Meta:
+        db_table = 'projects_bdsweeks'
+
+    def __str__(self):
+        return str(self.anno)
+
 # For translation
 
 class TranslatedProject(models.Model):

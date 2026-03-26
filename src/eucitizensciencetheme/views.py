@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from projects.models import Project, Likes, Follows, Keyword, Provincia
+from projects.models import Project, Likes, Follows, Keyword, Provincia, BDSWeek
 from resources.models import Resource
 from blog.models import Post
 from organisations.models import Organisation
@@ -467,7 +467,7 @@ def privacy(request):
 def projects_map(request):
     return TemplateResponse(request, 'pages/map.html', {})
 
-def bdsweek_projects_map(request):
+def bdsweek_projects_map(request, anno=None):
 
     # user = request.user
     # keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
@@ -485,7 +485,17 @@ def bdsweek_projects_map(request):
 
 
     keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
-    projects = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
+    projects = Project.objects.filter(approved=True, keywords__id=keyword.id).prefetch_related('projectCountry')
+    selected_anno = anno
+
+    if selected_anno is None:
+        latest_bdsweek = BDSWeek.objects.order_by("-anno").first()
+        if latest_bdsweek:
+            selected_anno = latest_bdsweek.anno
+
+    if selected_anno is not None:
+        projects = projects.filter(bsw__icontains=str(selected_anno))
+
     projectsCounter = len(projects)
     # To only show some topics and keywords
     for project in projects:
@@ -500,6 +510,7 @@ def bdsweek_projects_map(request):
     return TemplateResponse(request, 'pages/bdsweek_map.html', {
         'projects': projects,
         'projectsCounter': projectsCounter,
+        'selected_anno': selected_anno,
         })
 
 def subscribe(request):
