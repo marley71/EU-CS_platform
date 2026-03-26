@@ -153,7 +153,7 @@
                                 {% trans "My bookmarks" %}</a></li>
                             <li><a class="dropdown-item" href="{% url 'profiles:privacyCenter' %}">
                                 {% trans "My privacy center" %}</a></li>
-                            {% if user.is_staff %}
+                            {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
                                 <li><a class="dropdown-item" href="{% url 'admin:projects_bdsweek_changelist' %}">{% trans "BDS Weeks" %}</a></li>
                             {% endif %}
