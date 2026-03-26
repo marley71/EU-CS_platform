@@ -485,6 +485,7 @@ def privacy(request):
 def projects_map(request):
     return TemplateResponse(request, 'pages/map.html', {})
 
+
 def bdsweek_projects_map(request, anno=None):
     if anno is None:
         # scegli tu il default, es. anno corrente
@@ -505,33 +506,12 @@ def bdsweek_projects_map(request, anno=None):
     #         project.more_count = 0
 
 
-    keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
-    projects = Project.objects.filter(approved=True, keywords__id=keyword.id).prefetch_related('projectCountry')
     selected_anno = anno
-
-    if selected_anno is None:
-        latest_bdsweek = BDSWeek.objects.order_by("-anno").first()
-        if latest_bdsweek:
-            selected_anno = latest_bdsweek.anno
-
-    if selected_anno is not None:
-        projects = projects.filter(bsw__icontains=str(selected_anno))
-
-    projectsCounter = len(projects)
-    # To only show some topics and keywords
-    for project in projects:
-        combined = list(project.topic.all()) + list(project.keywords.all())
-        if len(combined) > 3:
-            project.display_items = combined[:3]
-            project.more_count = len(combined) - 3
-        else:
-            project.display_items = combined
-            project.more_count = 0
+    bdsweek_selected = BDSWeek.objects.filter(anno=selected_anno).first()
 
     return TemplateResponse(request, 'pages/bdsweek_map.html', {
-        'projects': projects,
-        'projectsCounter': projectsCounter,
         'selected_anno': selected_anno,
+        'bdsweek_selected': bdsweek_selected,
         })
 
 def subscribe(request):

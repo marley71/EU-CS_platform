@@ -19,7 +19,17 @@
                     >
                 </div>
                 <div class="h1 text-center">
-                    Biodiversity Sampling Week<br/>12-18 Maggio 2025
+                    Biodiversity Sampling Week
+                    {% if bdsweek_selected %}
+                        <br/>
+                        {% with start=bdsweek_selected.data_inizio end=bdsweek_selected.data_fine %}
+                            {% if start|date:"F Y" == end|date:"F Y" %}
+                                {{ start|date:"j" }}-{{ end|date:"j" }} {{ start|date:"F Y" }}
+                            {% else %}
+                                {{ start|date:"j F Y" }} - {{ end|date:"j F Y" }}
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
                 </div>
                 <div class="text-center">
                     In collaborazione con: <br/>

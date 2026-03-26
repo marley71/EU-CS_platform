@@ -109,7 +109,7 @@
                                 <ul class="dropdown-menu" >
                                     {% for anno in bdsweek_years %}
                                         <li class="dropdown-item">
-                                            <a href="{% url 'bdsweek_map_year' anno=anno %}">{{ anno }}</a>
+                                            <a class="nav-link" href="{% url 'bdsweek_map_year' anno=anno %}">BSW {{ anno }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>

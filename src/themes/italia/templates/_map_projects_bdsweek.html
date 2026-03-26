@@ -94,7 +94,7 @@
         });
         // Perform AJAX request to get the
         var xhr1 = new XMLHttpRequest();
-        xhr1.open('GET', '/get_projects_bdsweek/{{anno}}/', true);
+        xhr1.open('GET', '/get_projects_bdsweek/{{ selected_anno }}/', true);
         xhr1.onreadystatechange = function () {
             if (xhr1.readyState === 4 && xhr1.status === 200) {
                 // Create markers on the map based on the data received
