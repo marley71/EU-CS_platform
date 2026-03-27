@@ -26,6 +26,7 @@ if env_file.exists():
     environ.Env.read_env(str(env_file))
 
 
+SECURE_REFERRER_POLICY = "origin-when-cross-origin"
 
 # Build paths inside the project like this: BASE_DIR / "directory"
 BASE_DIR = Path(__file__).resolve().parent.parent.parent

@@ -1,5 +1,6 @@
 from .models import Footer, Main, TopBar
 from django.template.response import TemplateResponse
+from projects.models import BDSWeek
 import logging
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,9 @@ class TopBarMiddleware:
             print(TopBar.objects.all())
             response.context_data['topbar_items'] = TopBar.objects.all()
             response.context_data['platform_name'] = Main.objects.first().platform_name
+            response.context_data['bdsweek_years'] = (
+                BDSWeek.objects.order_by('-anno').values_list('anno', flat=True).distinct()
+            )
         return response
 
 class FooterMiddleware:

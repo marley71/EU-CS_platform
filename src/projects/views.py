@@ -27,7 +27,7 @@ from itertools import chain
 from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm, getTassonomieJson
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
     FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
-    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek
 from localita.models import Localita
 from organisations.models import Organisation
 import copy
@@ -52,10 +52,14 @@ def newProject(request):
     user = request.user
     form = ProjectForm()
     text = get_object_or_404(HelpText, slug='new-project')
+    current_year = datetime.now().year
+    has_current_bdsweek = BDSWeek.objects.filter(anno=current_year).exists()
     return TemplateResponse(request, 'project_form.html', {
         'form': form,
         'user': user,
         'text': text,
+        'has_current_bdsweek': has_current_bdsweek,
+        'current_bdsweek_year': current_year,
         'tassonomieJson' : getTassonomieJson(),
         'modeltranlationlanguages': settings.MODELTRANSLATION_LANGUAGES})
 
@@ -262,6 +266,7 @@ def editProject(request, pk):
         'funding_program' : project.fundingProgram,
         'aree' : project.aree,
         'parent' : int(project.parent_id) if project.parent_id else None,
+        'is_bdsweek': 'yes' if project.bsw else 'no',
     }
     
 
@@ -278,10 +283,14 @@ def editProject(request, pk):
 
     form = ProjectForm(initial=initial_data)
 
+    current_year = datetime.now().year
+    has_current_bdsweek = BDSWeek.objects.filter(anno=current_year).exists()
     return TemplateResponse(request, 'project_form.html', {
         'form': form,
         'project': project,
         'user': user,
+        'has_current_bdsweek': has_current_bdsweek,
+        'current_bdsweek_year': current_year,
         'tassonomieJson': getTassonomieJson(),
         'permissionForm': permissionForm})
 

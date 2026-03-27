@@ -90,13 +90,21 @@
                     <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
                         {% for item in topbar_items %}
                             {% if not item.parent %} 
-                                <li class="nav-item me-3 {% if item.is_parent %}dropdown{% endif %}">
-                                    <a class="nav-link {% if item.is_parent %}dropdown-toggle{% endif %}"
-                                    {% if not item.is_parent %}href="{{ item.slug }}"{% endif %}
-                                    {% if item.is_parent %}data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                                <li class="nav-item me-3 {% if item.is_parent or 'bdsweek_map' in item.slug %}dropdown{% endif %}">
+                                    <a class="nav-link {% if item.is_parent or 'bdsweek_map' in item.slug %}dropdown-toggle{% endif %}"
+                                    {% if not item.is_parent and 'bdsweek_map' not in item.slug %}href="{{ item.slug }}"{% endif %}
+                                    {% if item.is_parent or 'bdsweek_map' in item.slug %}data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% endif %}>
                                         {{ item.name }}
                                     </a>
-                                    {% if item.is_parent %}
+                                    {% if 'bdsweek_map' in item.slug and bdsweek_years %}
+                                        <ul class="dropdown-menu">
+                                            {% for anno in bdsweek_years %}
+                                                <li class="dropdown-item">
+                                                    <a href="{% url 'bdsweek_map_year' anno=anno %}">{{ anno }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% elif item.is_parent %}
                                         <ul class="dropdown-menu">
                                             {% include '_sub_menu.html' with items=item.get_children %}
                                         </ul>
@@ -154,6 +162,7 @@
                                 {% trans "My privacy center" %}</a></li>
                             {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'admin:projects_bdsweek_changelist' %}">{% trans "BDS Weeks" %}</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">{% trans "Logout" %}</a>
                             </li>

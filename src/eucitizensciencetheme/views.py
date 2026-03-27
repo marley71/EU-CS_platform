@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from projects.models import Project, Likes, Follows, Keyword, Provincia
+from projects.models import Project, Likes, Follows, Keyword, Provincia, BDSWeek
 from resources.models import Resource
 from blog.models import Post
 from organisations.models import Organisation
@@ -166,6 +166,24 @@ def get_projects(request):
     'markers_activitiesNazionali': markers_activitiesNazionali,
     'markers_activitiesRegionali': markers_activitiesRegionali,
     'markers_activitiesLocali': markers_activitiesLocali})
+
+def get_projects_bdsweek(request, anno):
+    # Filter approved projects with non-null mainOrganisation
+    #projects = Project.objects.filter(approved=True).prefetch_related('projectCountry')
+    projects_bio = Project.objects.filter(approved=True,bsw=anno).prefetch_related('projectCountry')
+
+
+
+    markers_bio = []
+
+    zones = []
+
+    for project in projects_bio:
+        if project.latitude and project.longitude:
+            markers_bio.append(get_project_marker_data(project))
+
+    return JsonResponse({'zones': zones,
+    'markers_bio': markers_bio})
 
 def get_projects_webmapp(request,type=None):
     geojson = {
@@ -467,7 +485,11 @@ def privacy(request):
 def projects_map(request):
     return TemplateResponse(request, 'pages/map.html', {})
 
-def bdsweek_projects_map(request):
+
+def bdsweek_projects_map(request, anno=None):
+    if anno is None:
+        # scegli tu il default, es. anno corrente
+        anno = datetime.now().year
 
     # user = request.user
     # keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
@@ -484,22 +506,12 @@ def bdsweek_projects_map(request):
     #         project.more_count = 0
 
 
-    keyword = Keyword.objects.filter(keyword="biodiversity sampling week").first()
-    projects = Project.objects.filter(approved=True,keywords__id=keyword.id).prefetch_related('projectCountry')
-    projectsCounter = len(projects)
-    # To only show some topics and keywords
-    for project in projects:
-        combined = list(project.topic.all()) + list(project.keywords.all())
-        if len(combined) > 3:
-            project.display_items = combined[:3]
-            project.more_count = len(combined) - 3
-        else:
-            project.display_items = combined
-            project.more_count = 0
+    selected_anno = anno
+    bdsweek_selected = BDSWeek.objects.filter(anno=selected_anno).first()
 
     return TemplateResponse(request, 'pages/bdsweek_map.html', {
-        'projects': projects,
-        'projectsCounter': projectsCounter,
+        'selected_anno': selected_anno,
+        'bdsweek_selected': bdsweek_selected,
         })
 
 def subscribe(request):
