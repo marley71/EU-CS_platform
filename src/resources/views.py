@@ -521,6 +521,57 @@ def saveImage(request, form, element, ref):
     image_path = ''
     filepath = request.FILES.get(element, False)
     withImage = form.cleaned_data.get('withImage' + ref)
+    #print('ref ' + ref + 'withImage' + ref + ' withImage ' + str(withImage)  + ' filepath ' + str(filepath))
+    if (filepath):
+        x = form.cleaned_data.get('x' + ref) if form.cleaned_data.get('x_' + ref) else 0
+        y = form.cleaned_data.get('y' + ref) if form.cleaned_data.get('y_' + ref) else 0
+        w = form.cleaned_data.get('width' + ref) if form.cleaned_data.get('width_' + ref) else 600
+        h = form.cleaned_data.get('height' + ref) if form.cleaned_data.get('height_' + ref) else 400
+        #print(element)
+        photo = request.FILES[element]
+        image = Image.open(photo)
+
+        resized_image = image
+        # cropped_image = image.crop((x, y, w+x, h+y))
+        # if (ref == '3'):
+        #     finalSize = (1100, 400)
+        # else:
+        #     finalSize = (600, 400)
+        #
+        # resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
+
+        # if (cropped_image.width > image.width):
+        #     size = (abs(int(
+        #         (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = ((finalSize[0] - whitebackground.width), 0)
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
+        # if (cropped_image.height > image.height):
+        #     size = (finalSize[0], abs(
+        #         int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = (0, (finalSize[1] - whitebackground.height))
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
+
+        image_path = saveImageWithPath(resized_image, photo.name)
+    elif withImage:
+        image_path = '/'
+    else:
+        image_path = ''
+
+    return image_path
+    
+    
+
+    image_path = ''
+    filepath = request.FILES.get(element, False)
+    withImage = form.cleaned_data.get('withImage' + ref)
     if (filepath):
         x = form.cleaned_data.get('x' + ref)
         y = form.cleaned_data.get('y' + ref)
