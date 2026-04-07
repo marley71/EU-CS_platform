@@ -4,10 +4,10 @@
 {% get_language_info_list for LANGUAGES as languages %}
 <div class="accordion acordion-flush mb-3" id="accordion-filters">
     <div class="">
-        <div class="accordion-header" id="flush-headingOne">
+        <!-- <div class="accordion-header" id="flush-headingOne">
             <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
+        </div> -->
+        <div id="flush-collapseOne" class="accordion-collapse  mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
 
 <div class="row">
     <form class=""
@@ -15,8 +15,28 @@
           action="{% if isTrainingResource %} {% url 'training_resources' %} {% else %}{% url 'resources' %} {% endif %}">
         <input type="hidden" name="keywords" value="{{filters.keywords}}" />
         <div class="col-12">
-            {{filters.orderby}}
-        
+            <div class="input-group input-group-sm mb-4">
+                <div class="input-group-text">
+                    {% if filters.orderby %}
+                    {{filters.orderby}}
+                    {% else %}
+                    Ordinate per ultimo aggiornamento
+                    {% endif %}
+                </div>
+                <div class="input-group-text flex-grow-1">
+                    
+                </div>
+                <div class="input-group-text">
+                    {% if request.get_full_path != "/resources" %}
+                        {% if request.get_full_path != "/training_resources" %}
+                            <a class="badge rounded-pill bg-danger"
+                            href="{% if isTrainingResource %} {% url 'training_resources' %} {% else %}{% url 'resources' %} {% endif %}">
+                                <i class="fas fa-times"></i> {% trans "Clear current search query and filters" %}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
             <div class="input-group input-group-sm">
                 <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
                 <select id="orderby" name="orderby" class="custom-select form-control float-right">
@@ -39,12 +59,14 @@
                     {% endfor %}
                     {% endfor %}
                 </select>
+                {% comment %}
                 <select id="theme" name="theme" class="custom-select form-control">
                     <option value="">{% trans "All themes" %}</option>
                     {% for theme in themes %}
                     <option {% if theme.theme == filters.theme %} selected {% endif %} value="{{theme.theme}}">{{theme.theme}}</option>
                     {% endfor %}
                 </select>
+                {% endcomment %}
                 <select id="category" name="category" class="custom-select form-control">
                     <option value="">{% trans "Category" %}</option>
                     <option value=""></option>
@@ -112,14 +134,7 @@
             </a>
             {% endif %}
 
-            {% if request.get_full_path != "/resources" %}
-                {% if request.get_full_path != "/training_resources" %}
-                    <a class="badge rounded-pill bg-danger"
-                    href="{% if isTrainingResource %} {% url 'training_resources' %} {% else %}{% url 'resources' %} {% endif %}">
-                        <i class="fas fa-times"></i> {% trans "Clear current search query and filters" %}
-                    </a>
-                {% endif %}
-            {% endif %}
+            
             {% if filters.keywords != "" %}
             <div class="small mt-3">
                 <span class"subnavbarCounter-text">

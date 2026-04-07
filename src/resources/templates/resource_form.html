@@ -50,7 +50,9 @@
                                 {{ form.categorySelected|as_crispy_field }}
                                 <div id="id_sub_categories" class="mb-3"></div>
                                 {{ form.audience|as_crispy_field }}
-                                {{ form.theme|as_crispy_field }}
+                                <div class="d-none">
+                                    {{ form.theme|as_crispy_field }}
+                                </div>
                             <label class="control-label">{% trans "Abstract" %}</label>
                             <ul class="nav nav-tabs" id="languageAbstractTabs" role="tablist">
                                 {% for field in form.get_abstract_fields %}

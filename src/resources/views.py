@@ -30,6 +30,7 @@ import copy
 import csv
 import random
 from rest_framework import status
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
 
@@ -63,20 +64,32 @@ def resources(request, isTrainingResource=False):
     categories = Category.objects.all()
     audiencies = Audience.objects.all()
     filters = {'keywords': '', 'inLanguage': ''}
-
+    filters['theme'] = request.GET.get('theme')
+    filters['category'] = request.GET.get('category')
+    filters['audience'] = request.GET.get('audience')
+    filters['approved'] = request.GET.get('approved')
+    filters['orderby'] = request.GET.get('orderby')
+    filters['inLanguage'] = request.GET.get('inLanguage')
+    filters['license'] = request.GET.get('license')
+    filters['keywords'] = request.GET.get('keywords')
     resources = applyFilters(request, resources).distinct()
     # In local/debug environments we want to see everything, even if not approved yet.
     # In production keep the approval gate unless the user is staff.
     if not user.is_staff and not settings.DEBUG:
         resources = resources.filter(approved=True)
 
+    projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
+
     # Contadores optimizados con .count()
     resourcesCounter = all_resources.filter(~Q(isTrainingResource=True)).count()
     trainingResourcesCounter = all_resources.filter(isTrainingResource=True).count()
-    projectsCounter = Project.objects.filter(approved=True, hidden=False).count()
+    projectsCounter = projectsBase.filter(type='Progetto').count()
     organisationsCounter = Organisation.objects.distinct().count()
     platformsCounter = Platform.objects.distinct().count()
     usersCounter = Profile.objects.filter(profileVisible=True, user__is_active=True).count()
+    attivitaCounter = projectsBase.filter(type='Attività').count()
+    progettiCounter = projectsBase.filter(type='Progetto').count()
 
     # Debugging
     print(f"Resources count: {resourcesCounter}")
@@ -85,7 +98,7 @@ def resources(request, isTrainingResource=False):
     print(f"Organisations count: {organisationsCounter}")
     print(f"Platforms count: {platformsCounter}")
     print(f"Users count: {usersCounter}")
-
+    print(f"Filters: {filters}")
     # Ordenamiento
     orderBy = request.GET.get('orderby')
     if orderBy:
@@ -118,6 +131,8 @@ def resources(request, isTrainingResource=False):
         'organisationsCounter': organisationsCounter,
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
+        'attivitaCounter': attivitaCounter,
+        'progettiCounter': progettiCounter,
         'filters': filters,
         'settings': settings,
         'languagesWithContent': languagesWithContent,
@@ -127,7 +142,8 @@ def resources(request, isTrainingResource=False):
         'isTrainingResource': isTrainingResource,
         'endPoint': endPoint,
         'isSearchPage': True,
-        'show_search_bar': False
+        'show_search_bar': False,
+        'homeSearchCategories' : 'resources',
     })
 
 
@@ -140,11 +156,11 @@ def newTrainingResource(request):
 def newResource(request, isTrainingResource=False):
     form = ResourceForm()
     user = request.user
-    if isTrainingResource:
-        text = get_object_or_404(HelpText, slug='new-training-resource')
-    else:
-        text = get_object_or_404(HelpText, slug='new-resource')
-
+    # if isTrainingResource:
+    #     text = get_object_or_404(HelpText, slug='new-training-resource')
+    # else:
+    #     text = get_object_or_404(HelpText, slug='new-resource')
+    text = "Nuova risorsa"
     # TODO: This in forms.py 
     if request.method == 'POST':
         form = ResourceForm(request.POST, request.FILES)

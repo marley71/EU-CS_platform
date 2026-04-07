@@ -27,6 +27,10 @@ class ResourceForm(forms.Form):
                 label=lang_code,
                 required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE
             )       
+        default_theme_ids = Theme.objects.filter(theme__iexact='Altro').values_list('pk', flat=True)
+        self.fields['theme'].initial = list(default_theme_ids)
+        #default_publishing_organisation_ids = Organisation.objects.filter(name__iexact='Altro').values_list('pk', flat=True)
+        #self.fields['publishing_organisation'].initial = list(default_publishing_organisation_ids)
 
     def get_abstract_fields(self):
         for field_name in self.fields:

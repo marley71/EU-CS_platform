@@ -10,10 +10,34 @@
 {% include "modal_resources.html" %}
 <div class="container">
     <div class="row">
-        <div class="col-12 mt-4">
-            {% include "_subnavbarNew.html" %}
+        {% comment %}
+         <div class="col-12 mt-4">
+                {% include "_subnavbarNew.html" %}
+                {% include "_finder_resources.html" %}
+            </div>
+        {% endcomment %}
+        <section class="bg-plum-100">
+
+            <div class="container pt-5">
+                <div clas="row">
+                    <div class="col-12 mt-4 pb-3">
+                        <h1 class="h1 text-center">Cerca nella piattaforma</h1>
+                    </div>
+    
+                    {% include "_subnavbarNew.html" %}
+                </div>
+            </div>
+        </section>
+    
+        <section class="bg-plum-100 border-bottom pt-3">
+            <div class="container">
+    
+                {% include "_subnavbarTabs.html" %}
+            </div>
+        </section>
+        <section>
             {% include "_finder_resources.html" %}
-        </div>
+        </section>
     </div>
     <div class="row">
         {% include "resources_cards.html" %}
