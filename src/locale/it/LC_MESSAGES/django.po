@@ -2067,6 +2067,42 @@ msgstr "Livello di istruzione"
 msgid "Learning Resource Type"
 msgstr "Tipo di risorsa di apprendimento"
 
+#: resources/templates/resource.html
+msgid "Bookmark"
+msgstr "Segnalibro"
+
+#: resources/templates/resource.html
+msgid "Authors:"
+msgstr "Autori:"
+
+#: resources/templates/resource.html
+msgid "Publisher:"
+msgstr "Editore:"
+
+#: resources/templates/resource.html
+msgid "Year of publication:"
+msgstr "Anno di pubblicazione:"
+
+#: resources/templates/resource.html
+msgid "License:"
+msgstr "Licenza:"
+
+#: resources/templates/resource.html
+msgid "DOI:"
+msgstr "DOI:"
+
+#: resources/templates/resource.html
+msgid "hours"
+msgstr "ore"
+
+#: resources/templates/resource.html
+msgid "Links with organisations"
+msgstr "Collegamenti con organizzazioni"
+
+#: resources/templates/resource.html
+msgid "Links with projects"
+msgstr "Collegamenti con progetti"
+
 #: resources/templates/resource_form.html:68
 #, fuzzy
 #| msgid "Please indicate the language you want to translate to"
