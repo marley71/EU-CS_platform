@@ -40,7 +40,12 @@
         </section>
     </div>
     <div class="row">
-        {% include "resources_cards.html" %}
+        {% for resource in resources %}
+
+                    <div class="col-12 col-lg-6 d-flex align-items-center mb-4">
+                        {% include "includes/card_main_res.html" with resource=resource %}
+                    </div>
+                {% endfor %}
     </div>
 </div>
 {% endblock list_of_items %}

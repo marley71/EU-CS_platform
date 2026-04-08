@@ -2067,6 +2067,18 @@ msgstr "Livello di istruzione"
 msgid "Learning Resource Type"
 msgstr "Tipo di risorsa di apprendimento"
 
+msgid "Select"
+msgstr "Seleziona"
+
+msgid "Order by:"
+msgstr "Ordina per:"
+
+msgid "Apply filters"
+msgstr "Applica i filtri"
+
+msgid "Linked resources"
+msgstr "Risorse collegate"
+
 #: resources/templates/resource.html
 msgid "Bookmark"
 msgstr "Segnalibro"
