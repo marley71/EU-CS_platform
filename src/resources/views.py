@@ -426,15 +426,46 @@ def setImages(request, form):
 def sendResourceEmail(pk, user):
     resource = get_object_or_404(Resource, id=pk)
     subject = '[EU-CITIZEN.SCIENCE] Your resource "%s" has been submitted' % resource.name
-    message = render_to_string('emails/new_resource.html', {'resourceName': resource.name, 'username': user.get_full_name, "domain": settings.HOST})
+    message = render_to_string('emails/new_resource.html', {
+        'resourceName': resource.name,
+        'username': user.get_full_name(),
+        'domain': settings.HOST
+    })
     # to = [user.email]
     to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
     to.append(user.email)
     bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
-    email = EmailMessage(subject, message, to=to, bcc=bcc)
+    from_email = 'admin@citizenscience.it'
+    email = EmailMessage(subject, message, from_email=from_email, to=to, bcc=bcc)
     email.content_subtype = "html"
     email.send()
- 
+
+    subject_staff = 'CitizenScience.it La risorsa "%s" attende di essere approvata!' % resource.name
+    message_staff = render_to_string('emails/new_resource_staff.html', {
+        'username': user.get_full_name(),
+        'domain': settings.HOST,
+        'resourcename': resource.name,
+        'resourceid': pk
+    })
+    staff_emails = list(
+        User.objects.filter(is_staff=True, is_active=True)
+        .exclude(email__isnull=True)
+        .exclude(email__exact="")
+        .values_list('email', flat=True)
+    )
+    configured_emails = list(getattr(settings, 'EMAIL_RECIPIENT_LIST', []) or [])
+    moderators_to = sorted(set(staff_emails + configured_emails) - {user.email} if user.email else set(staff_emails + configured_emails))
+    if moderators_to:
+        moderators_email = EmailMessage(
+            subject=subject_staff,
+            body=message_staff,
+            from_email=from_email,
+            to=[from_email],
+            bcc=moderators_to,
+        )
+        moderators_email.content_subtype = "html"
+        moderators_email.send()
+
 
 
 def deleteResource(request, pk, isTrainingResource):
