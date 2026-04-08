@@ -85,6 +85,18 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                    {% with linked_resources=organisation.resource_set.all %}
+                        {% if linked_resources %}
+                            <h4 class="mt-5">{% trans "Linked resources" %}</h4>
+                            <div class="row">
+                                {% for resource in linked_resources %}
+                                    <div class="col-6">
+                                        {% include 'includes/card_ridotta_res.html' with resource=resource %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
 
                     {% if members.all %}
                         <h4 class="mt-5">Personale</h4>
