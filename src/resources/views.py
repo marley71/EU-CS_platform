@@ -425,7 +425,7 @@ def setImages(request, form):
 
 def sendResourceEmail(pk, user):
     resource = get_object_or_404(Resource, id=pk)
-    subject = '[EU-CITIZEN.SCIENCE] Your resource "%s" has been submitted' % resource.name
+    subject = 'CitizenScience.it la tua risorsa "%s" è stata inviata ai moderatori' % resource.name
     message = render_to_string('emails/new_resource.html', {
         'resourceName': resource.name,
         'username': user.get_full_name(),
