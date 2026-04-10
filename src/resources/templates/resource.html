@@ -227,7 +227,7 @@
                 {% for language in languages %}
                 {% if language.code == resource.inLanguage %}
                 <a class="project-topic" href="{{endPoint}}?inLanguage={{resource.inLanguage}}">
-                    <span class="badge rounded-pill badge-card-main">{{ language.name | title }}</span>
+                    <span class="badge rounded-pill badge-card-main">{{ language.name_translated }}</span>
                 </a>
                 {% endif %}
                 {% endfor %}

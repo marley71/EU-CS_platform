@@ -88,10 +88,10 @@
                                     {% trans "Please indicate the (main) language that the resource is made available in" %}<span class="asteriskField">*</span>
                                 </label>
                                 <select name="language" class="form-control mb-4">
-                                    {% for language in languages|dictsort:"name" %}
+                                    {% for language in languages|dictsort:"name_translated" %}
                                     {% if language.code in settings.LANGUAGE_CODES %}
                                     <option value="{{ language.code }}" {% if language.code == resource.inLanguage %}selected {% endif %}>
-                                    {{ language.name }}
+                                    {{ language.name_translated }}
                                     </option>
                                     {% endif %}
                                     {% endfor %}

@@ -8,17 +8,37 @@ from .models import Resource, Keyword, Category, Audience, Theme, ResourceGroup
 from .models import ResourcesGrouped, EducationLevel, LearningResourceType
 from authors.models import Author
 from datetime import datetime
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language_info, ugettext_lazy as _
 from organisations.models import Organisation
 from projects.models import Project
-from django.conf import settings 
+from django.conf import settings
+
+
+def resource_language_choices():
+    """Same rule as resource_form.html: settings.LANGUAGES ∩ LANGUAGE_CODES."""
+    allowed = getattr(settings, 'LANGUAGE_CODES', None)
+    if not allowed:
+        codes = [code for code, _ in settings.LANGUAGES]
+    else:
+        allowed_set = set(allowed)
+        codes = [code for code, _ in settings.LANGUAGES if code in allowed_set]
+    choices = [
+        (code, get_language_info(code)['name_translated'])
+        for code in codes
+    ]
+    choices.sort(key=lambda item: str(item[1]).casefold())
+    return choices
 
 
 class ResourceForm(forms.Form):
     # Main information
+    language = forms.ChoiceField(
+            label=_('Please indicate the (main) language that the resource is made available in'))
 
     def __init__(self, *args, **kwargs):
         super(ResourceForm, self).__init__(*args, **kwargs)
+        self.fields['language'].choices = resource_language_choices()
+
         for lang_code in settings.MODELTRANSLATION_LANGUAGES:
             self.fields[f'abstract_{lang_code}'] = forms.CharField(
                 widget=CKEditorWidget(config_name='frontpage'),
@@ -26,7 +46,8 @@ class ResourceForm(forms.Form):
                 max_length=3000,
                 label=lang_code,
                 required=lang_code == settings.MODELTRANSLATION_DEFAULT_LANGUAGE
-            )       
+            )   
+            # per ora metto tutti i temi di default altro e nascondo la select    
         default_theme_ids = Theme.objects.filter(theme__iexact='Altro').values_list('pk', flat=True)
         self.fields['theme'].initial = list(default_theme_ids)
         #default_publishing_organisation_ids = Organisation.objects.filter(name__iexact='Altro').values_list('pk', flat=True)
@@ -63,13 +84,14 @@ class ResourceForm(forms.Form):
     description_citizen_science_aspects = forms.CharField(
             widget=CKEditorWidget(config_name='frontpage'),
             help_text=_(
-                'Please describe the link between citizen science and the resource you are uploading '
-                '– for guidance see the <a href="https://zenodo.org/communities/citscicharacteristics" target="_blank"> '
-                'ECSA Characteristics of Citizen Science</a> as well as the'
-                '<a href="https://zenodo.org/record/5127534#.YV8J0dpBxPa" target="_blank"> '
-                'ECSA 10 Principles of Citizen Science</a>. What you introduce in this text field will not '
-                'appear on the platform; it is just for moderation purposes and for the administrators of '
-                'the platform to see (max 2000 characters).'),
+                'Please describe the link between citizen science and the resource you are '
+                'uploading – for guidance see the <a href="https://zenodo.org/communities/'
+                'citscicharacteristics" target="_blank"> ECSA Characteristics of Citizen '
+                'Science</a> as well as the<a href="https://zenodo.org/record/5127534#.'
+                'YV8J0dpBxPa" target="_blank"> ECSA 10 Principles of Citizen Science</a>. '
+                'What you introduce in this text field will not appear on the platform; it is '
+                'just for moderation purposes and for the administrators of the platform to '
+                'see (max 2000 characters).'),
             max_length=2000,
             label=_('Description of Citizen Science Aspects'))
 

@@ -312,6 +312,7 @@ def editResource(request, pk):
         # Links
         'project': resource.project.all,
         'organisation': resource.organisation.all,
+        'language': resource.inLanguage,
         # Images
         'image_credit1': resource.imageCredit1,
         'image_credit2': resource.imageCredit2,

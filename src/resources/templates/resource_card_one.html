@@ -22,7 +22,7 @@
             {% if language.code == resource.inLanguage %}
             <a class="badge rounded-pill bg-dark text-decoration-none" 
                 href="/training_resources?inLanguage={{resource.inLanguage}}">
-                {{language.name}}
+                {{ language.name_translated }}
             </a>
             {% endif %}
             {% endfor %}
