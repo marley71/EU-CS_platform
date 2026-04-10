@@ -8,7 +8,7 @@ from .models import Resource, Keyword, Category, Audience, Theme, ResourceGroup
 from .models import ResourcesGrouped, EducationLevel, LearningResourceType
 from authors.models import Author
 from datetime import datetime
-from django.utils.translation import get_language_info, ugettext_lazy as _
+from django.utils.translation import get_language, get_language_info, ugettext_lazy as _
 from organisations.models import Organisation
 from projects.models import Project
 from django.conf import settings
@@ -38,6 +38,13 @@ class ResourceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ResourceForm, self).__init__(*args, **kwargs)
         self.fields['language'].choices = resource_language_choices()
+        saved_lang = (self.initial or {}).get('language')
+        if not saved_lang:
+            raw = get_language() or settings.LANGUAGE_CODE or ''
+            lang_code = raw.split('-')[0]
+            valid = {code for code, _ in self.fields['language'].choices}
+            if lang_code in valid:
+                self.fields['language'].initial = lang_code
 
         for lang_code in settings.MODELTRANSLATION_LANGUAGES:
             self.fields[f'abstract_{lang_code}'] = forms.CharField(

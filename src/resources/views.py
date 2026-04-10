@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.utils import formats
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 
@@ -33,6 +33,40 @@ from rest_framework import status
 from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
+
+
+def filter_resources_for_display(queryset, user):
+    """Resources shown like the public catalogue: approved only, except staff and collaborators."""
+    if getattr(user, 'is_staff', False):
+        return queryset
+    if user.is_authenticated:
+        return queryset.filter(
+            Q(approved=True) | Q(creator=user) | Q(resourcepermission__user=user)
+        ).distinct()
+    return queryset.filter(approved=True)
+
+
+def _resource_form_selected_language(request, resource=None):
+    """Value for the resource language <select> (re-post, saved field, or active UI language)."""
+    if request.method == 'POST':
+        posted = request.POST.get('language')
+        if posted:
+            return posted
+    if resource is not None and getattr(resource, 'inLanguage', None):
+        return resource.inLanguage
+    raw = get_language() or settings.LANGUAGE_CODE or ''
+    code = raw.split('-')[0]
+    allowed_list = getattr(settings, 'LANGUAGE_CODES', None)
+    allowed = set(allowed_list) if allowed_list is not None else {c for c, _ in settings.LANGUAGES}
+    if code in allowed:
+        return code
+    fb = (settings.LANGUAGE_CODE or 'en').split('-')[0]
+    if fb in allowed:
+        return fb
+    for c, _ in settings.LANGUAGES:
+        if c in allowed:
+            return c
+    return 'en'
 
 
 def training_resources(request):
@@ -73,17 +107,16 @@ def resources(request, isTrainingResource=False):
     filters['license'] = request.GET.get('license')
     filters['keywords'] = request.GET.get('keywords')
     resources = applyFilters(request, resources).distinct()
-    # In local/debug environments we want to see everything, even if not approved yet.
-    # In production keep the approval gate unless the user is staff.
-    if not user.is_staff and not settings.DEBUG:
+    if not user.is_staff:
         resources = resources.filter(approved=True)
 
     projectsBase = Project.objects.get_queryset()
     projectsBase = applyProjectsGlobalFilters(request, projectsBase)
 
     # Contadores optimizados con .count()
-    resourcesCounter = all_resources.filter(~Q(isTrainingResource=True)).count()
-    trainingResourcesCounter = all_resources.filter(isTrainingResource=True).count()
+    resourcesCounter = resources.filter(~Q(isTrainingResource=True)).count()
+    trainingResourcesCounter = resources.filter(isTrainingResource=True).count()
+
     projectsCounter = projectsBase.filter(type='Progetto').count()
     organisationsCounter = Organisation.objects.distinct().count()
     platformsCounter = Platform.objects.distinct().count()
@@ -195,7 +228,9 @@ def newResource(request, isTrainingResource=False):
         'form': form,
         'settings': settings,
         'text': text,
-        'isTrainingResource': isTrainingResource})
+        'isTrainingResource': isTrainingResource,
+        'resource_lang_selected': _resource_form_selected_language(request),
+    })
 
 
 def training_resource(request, pk):
@@ -334,7 +369,9 @@ def editResource(request, pk):
         'curatedGroups': curatedGroups,
         'user': user,
         'settings': settings,
-        'isTrainingResource': isTrainingResource})
+        'isTrainingResource': isTrainingResource,
+        'resource_lang_selected': _resource_form_selected_language(request, resource),
+    })
 
 
 def saveResourceAjax(request):
@@ -702,7 +739,7 @@ def applyFilters(request, resources):
                 resources = resources.filter(approved=False).filter(moderated=True)
             if request.GET['approved'] == 'notYetModerated':
                 resources = resources.filter(moderated=False)
-        elif not request.user.is_staff and not settings.DEBUG:
+        elif not request.user.is_staff:
             resources = resources.filter(approved=True)
 
     return resources

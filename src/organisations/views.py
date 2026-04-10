@@ -30,6 +30,7 @@ from localita.models import Localita
 
 from events.models import Event
 from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
+from resources.views import filter_resources_for_display
 
 User = get_user_model()
 
@@ -160,8 +161,10 @@ def organisation(request, pk):
     associatedProjects = Project.objects.all().filter(organisation__id=pk)
     associatedProjects |= mainProjects
     associatedProjects = associatedProjects.distinct()
-    associatedResources = Resource.objects.all().filter(organisation__id=pk).filter(isTrainingResource=False)
-    associatedTrainingResources = Resource.objects.all().filter(organisation__id=pk).filter(isTrainingResource=True)
+    linked_resources = filter_resources_for_display(
+        Resource.objects.filter(organisation__id=pk),
+        user,
+    )
     associatedPlatforms = Platform.objects.all().filter(organisation__id=pk)
     members = Profile.objects.all().filter(profileVisible=True).filter(organisation__id=pk)
     users = getOtherUsers(organisation.creator, members)
@@ -173,8 +176,7 @@ def organisation(request, pk):
         'organisation': organisation,
         'associatedProjects': associatedProjects,
         'cooperators': cooperatorsPK,
-        'associatedResources': associatedResources,
-        'associatedTrainingResources': associatedTrainingResources,
+        'linked_resources': linked_resources,
         'associatedPlatforms': associatedPlatforms,
         'members': members,
         'permissionForm': permissionForm,
@@ -285,7 +287,9 @@ def organisations(request):
 
     #To Count
     #For resources count
-    allResources = Resource.objects.all().filter(approved=True)
+    allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFilters(request, allResources)
     allResources = allResources.distinct()
     resources2 = allResources.filter(~Q(isTrainingResource=True))
@@ -478,7 +482,8 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(
                 Q(name__icontains=request.GET['keywords']) |
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
-            queryset = queryset.filter(approved=True)
+            if not request.user.is_staff:
+                queryset = queryset.filter(approved=True)
 
     if queryset.model == Platform:
         if request.GET.get('keywords'):

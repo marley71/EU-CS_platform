@@ -84,14 +84,14 @@
                                 {{ form.resource_DOI|as_crispy_field }}
                                 {% get_language_info_list for LANGUAGES as languages %}
                                 {% if settings.USE_I18N and languages|length > 1 %}
-                                <label for="language" class="control-label  requiredField">
+                                <label for="id_resource_in_language" class="control-label  requiredField">
                                     {% trans "Please indicate the (main) language that the resource is made available in" %}<span class="asteriskField">*</span>
                                 </label>
-                                <select name="language" class="form-control mb-4">
-                                    {% for language in languages|dictsort:"name_translated" %}
-                                    {% if language.code in settings.LANGUAGE_CODES %}
-                                    <option value="{{ language.code }}" {% if language.code == resource.inLanguage %}selected {% endif %}>
-                                    {{ language.name_translated }}
+                                <select name="language" id="id_resource_in_language" class="form-control mb-4">
+                                    {% for langinfo in languages|dictsort:"name_translated" %}
+                                    {% if langinfo.code in settings.LANGUAGE_CODES %}
+                                    <option value="{{ langinfo.code }}" {% if langinfo.code == resource_lang_selected %}selected{% endif %}>
+                                    {{ langinfo.name_translated }}
                                     </option>
                                     {% endif %}
                                     {% endfor %}

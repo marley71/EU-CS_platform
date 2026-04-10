@@ -266,8 +266,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    {% with linked_resources=project.resource_set.all %}
-                        {% if linked_resources %}
+                    {% if linked_resources %}
                             <h4 class="mt-5">{% trans "Linked resources" %}</h4>
                             <div class="row">
                                 {% for resource in linked_resources %}
@@ -276,8 +275,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                        {% endif %}
-                    {% endwith %}
+                    {% endif %}
 
 
                     {% if project.fundingBody.all %}

@@ -41,7 +41,7 @@ from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event
 
-from resources.views import applyFilters as applyFiltersResources
+from resources.views import applyFilters as applyFiltersResources, filter_resources_for_display
 from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
@@ -428,6 +428,8 @@ def projects(request):
 
     #For resources count
     allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFiltersResources(request, allResources)
     allResources = allResources.distinct()
     resources = allResources.filter(~Q(isTrainingResource=True))
@@ -609,6 +611,8 @@ def attivita(request):
 
     # For resources count
     allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFiltersResources(request, allResources)
     allResources = allResources.distinct()
     resources = allResources.filter(~Q(isTrainingResource=True))
@@ -816,11 +820,13 @@ def project(request, pk):
     else:
         parentProject = project.parent if (project.parent and project.parent.approved == 1) else None
 
+    linked_resources = filter_resources_for_display(project.resource_set.all(), user)
 
     return TemplateResponse(request, 'project.html', {
         'project': project,
         'parentProject': parentProject,
         'relatedActivities': relatedActivities,
+        'linked_resources': linked_resources,
         'liked': liked,
         'followed': followed,
         'hasTranslation': hasTranslation,
