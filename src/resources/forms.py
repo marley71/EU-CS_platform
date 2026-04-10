@@ -158,7 +158,8 @@ class ResourceForm(forms.Form):
             widget=forms.TextInput(attrs={'autocomplete': 'nope'}),
             help_text=_('Please indicate the resource license, such as Creative Commons CC-BY. '
                         'Enter a URL link to the license if available.'),
-            required=False)
+            required=False,
+            label=_('License'))
 
     # Linking
     organisation = forms.ModelMultipleChoiceField(
