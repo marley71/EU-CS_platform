@@ -27,7 +27,7 @@ from itertools import chain
 from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm, getTassonomieJson
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
     FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
-    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek, Provincia
 from localita.models import Localita
 from organisations.models import Organisation
 import copy
@@ -336,8 +336,8 @@ def projects(request):
 
     localitaids = projectsP.values_list(
         'localita_id', flat=True).distinct()
-    localita = Localita.objects.filter(id__in=localitaids)
-
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -514,8 +514,9 @@ def attivita(request):
 
     localitaids = projectsA.values_list(
         'localita_id', flat=True).distinct()
-    localita = Localita.objects.filter(id__in=localitaids)
-
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
+    
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -1065,7 +1066,13 @@ def applyFilters(request, projects):
             #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
             #projects = projects.filter(projectCountry=projectCountry)
             localita_ids = request.GET.getlist('localita_id')
-            projects = projects.filter(localita_id__in=localita_ids)
+            localita_names = Localita.objects.filter(
+                id__in=localita_ids
+            ).values_list('name', flat=True)
+            provincia_ids = Provincia.objects.filter(
+                regione__in=localita_names
+            ).values_list('id', flat=True)
+            projects = projects.filter(provincia__id__in=provincia_ids).distinct()
 
         if request.GET.get('country'):
             projects = projects.filter(
