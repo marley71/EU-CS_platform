@@ -3,10 +3,10 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    path('resources', views.resources, name='resources'),
+    path('resources/', views.resources, name='resources'),
     path('resource/<int:pk>', views.resource, name='resource'),
     path('clearfilters_resources', views.clearFilters, name='clearfilters_resources'),
-    path('newResource', views.newResource, name='newResource'),
+    path('newResource/', views.newResource, name='newResource'),
     path('editResource/<int:pk>', views.editResource, name='editResource'),
     path('saveResourceAjax', views.saveResourceAjax, name='saveResourceAjax'),
     path('approveResource/', views.approveResource, name='approveResource'),

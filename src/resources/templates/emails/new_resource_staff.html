@@ -2,6 +2,7 @@
 
 
 {% block html_body  %}
+
 <body style="background-color: #d3d3d3">
     <style>
         @import url('https://fonts.googleapis.com/css/css?family=Roboto');
@@ -14,16 +15,16 @@
             <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ domain }}/static/img/ita-citizen-science-2025.png" alt="CitizenScience.it" width="140" />
             
             <!-- MESSAGE BODY -->
-        
-            <p style="font-size: 14px;">{% trans "Siamo lieti di informarti che la tua risorsa "%}<a href='{{domain}}/resource/{{id}}'>{{name}}</a>{% trans " è stata moderata e approvata. Ora è visibile nei risultati pubblici di ricerca della piattaforma ed è contrassegnata come moderata."%}</p>
-            
-            <p style="font-size: 14px;">{% trans "Puoi aggiornare o modificare in qualsiasi momento il contenuto di questa risorsa, accedendo alla sezione "%}<a href='{{ domain }}/users/me/submissions'> {% trans "<strong>I miei contributi</strong> della tua Area Personale" %}</a> {% trans " (in alto a destra nel menu della piattaforma, una volta loggato/a)."%}</p>
-            
-            
+
+            <p style="font-size: 22px; margin-top: 24px;">{% trans "Gentile staff," %} </p>
+            <p style="font-size: 14px;">{% trans "nella piattaforma è stata aggiunta una nuova risorsa che attende di essere moderata. "%}<br/>
+                {% trans "La risorsa si chiama " %}
+                <a href='{{domain}}/resource/{{resourceid}}'><b>{{resourcename}}</b></a> {% trans " e cliccando sul nome la puoi approvare per renderla visibile a tutti gli utenti della piattaforma oppure la puoi rifiutare chiedendo modifiche o informazioni al creatore della risorsa." %}
+            </p>
             
             <!-- END OF THE MESSAGE BODY -->
             <br>
-            <p style="font-size: 12px;"><b><em>{% trans "Il Team di Citizen Science.it" %}</b></em></p>
+            <p style="font-size: 12px;"><b><em>{% trans "Il Team di Citizen Science.it" %}</em></b></p>
             <hr style="color: lightBlue; width: 80%;">
             <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Grazie!" %}</p>
             
@@ -37,4 +38,5 @@
     </center>
     <br>
 </body>
+
 {% endblock html_body %}

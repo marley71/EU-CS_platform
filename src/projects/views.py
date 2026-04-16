@@ -27,7 +27,7 @@ from itertools import chain
 from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm, getTassonomieJson
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
     FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
-    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek, Provincia
 from localita.models import Localita
 from organisations.models import Organisation
 import copy
@@ -41,7 +41,7 @@ from platforms.models import Platform
 from profiles.models import Profile
 from events.models import Event
 
-from resources.views import applyFilters as applyFiltersResources
+from resources.views import applyFilters as applyFiltersResources, filter_resources_for_display
 from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
@@ -336,8 +336,8 @@ def projects(request):
 
     localitaids = projectsP.values_list(
         'localita_id', flat=True).distinct()
-    localita = Localita.objects.filter(id__in=localitaids)
-
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -428,6 +428,8 @@ def projects(request):
 
     #For resources count
     allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFiltersResources(request, allResources)
     allResources = allResources.distinct()
     resources = allResources.filter(~Q(isTrainingResource=True))
@@ -512,8 +514,9 @@ def attivita(request):
 
     localitaids = projectsA.values_list(
         'localita_id', flat=True).distinct()
-    localita = Localita.objects.filter(id__in=localitaids)
-
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
+    
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -609,6 +612,8 @@ def attivita(request):
 
     # For resources count
     allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFiltersResources(request, allResources)
     allResources = allResources.distinct()
     resources = allResources.filter(~Q(isTrainingResource=True))
@@ -816,11 +821,13 @@ def project(request, pk):
     else:
         parentProject = project.parent if (project.parent and project.parent.approved == 1) else None
 
+    linked_resources = filter_resources_for_display(project.resource_set.all(), user)
 
     return TemplateResponse(request, 'project.html', {
         'project': project,
         'parentProject': parentProject,
         'relatedActivities': relatedActivities,
+        'linked_resources': linked_resources,
         'liked': liked,
         'followed': followed,
         'hasTranslation': hasTranslation,
@@ -1059,7 +1066,13 @@ def applyFilters(request, projects):
             #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
             #projects = projects.filter(projectCountry=projectCountry)
             localita_ids = request.GET.getlist('localita_id')
-            projects = projects.filter(localita_id__in=localita_ids)
+            localita_names = Localita.objects.filter(
+                id__in=localita_ids
+            ).values_list('name', flat=True)
+            provincia_ids = Provincia.objects.filter(
+                regione__in=localita_names
+            ).values_list('id', flat=True)
+            projects = projects.filter(provincia__id__in=provincia_ids).distinct()
 
         if request.GET.get('country'):
             projects = projects.filter(

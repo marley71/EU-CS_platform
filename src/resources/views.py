@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.utils import formats
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 
@@ -30,8 +30,43 @@ import copy
 import csv
 import random
 from rest_framework import status
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
+
+
+def filter_resources_for_display(queryset, user):
+    """Resources shown like the public catalogue: approved only, except staff and collaborators."""
+    if getattr(user, 'is_staff', False):
+        return queryset
+    if user.is_authenticated:
+        return queryset.filter(
+            Q(approved=True) | Q(creator=user) | Q(resourcepermission__user=user)
+        ).distinct()
+    return queryset.filter(approved=True)
+
+
+def _resource_form_selected_language(request, resource=None):
+    """Value for the resource language <select> (re-post, saved field, or active UI language)."""
+    if request.method == 'POST':
+        posted = request.POST.get('language')
+        if posted:
+            return posted
+    if resource is not None and getattr(resource, 'inLanguage', None):
+        return resource.inLanguage
+    raw = get_language() or settings.LANGUAGE_CODE or ''
+    code = raw.split('-')[0]
+    allowed_list = getattr(settings, 'LANGUAGE_CODES', None)
+    allowed = set(allowed_list) if allowed_list is not None else {c for c, _ in settings.LANGUAGES}
+    if code in allowed:
+        return code
+    fb = (settings.LANGUAGE_CODE or 'en').split('-')[0]
+    if fb in allowed:
+        return fb
+    for c, _ in settings.LANGUAGES:
+        if c in allowed:
+            return c
+    return 'en'
 
 
 def training_resources(request):
@@ -63,20 +98,31 @@ def resources(request, isTrainingResource=False):
     categories = Category.objects.all()
     audiencies = Audience.objects.all()
     filters = {'keywords': '', 'inLanguage': ''}
-
+    filters['theme'] = request.GET.get('theme')
+    filters['category'] = request.GET.get('category')
+    filters['audience'] = request.GET.get('audience')
+    filters['approved'] = request.GET.get('approved')
+    filters['orderby'] = request.GET.get('orderby')
+    filters['inLanguage'] = request.GET.get('inLanguage')
+    filters['license'] = request.GET.get('license')
+    filters['keywords'] = request.GET.get('keywords')
     resources = applyFilters(request, resources).distinct()
-    # In local/debug environments we want to see everything, even if not approved yet.
-    # In production keep the approval gate unless the user is staff.
-    if not user.is_staff and not settings.DEBUG:
+    if not user.is_staff:
         resources = resources.filter(approved=True)
 
+    projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
+
     # Contadores optimizados con .count()
-    resourcesCounter = all_resources.filter(~Q(isTrainingResource=True)).count()
-    trainingResourcesCounter = all_resources.filter(isTrainingResource=True).count()
-    projectsCounter = Project.objects.filter(approved=True, hidden=False).count()
+    resourcesCounter = resources.filter(~Q(isTrainingResource=True)).count()
+    trainingResourcesCounter = resources.filter(isTrainingResource=True).count()
+
+    projectsCounter = projectsBase.filter(type='Progetto').count()
     organisationsCounter = Organisation.objects.distinct().count()
     platformsCounter = Platform.objects.distinct().count()
     usersCounter = Profile.objects.filter(profileVisible=True, user__is_active=True).count()
+    attivitaCounter = projectsBase.filter(type='Attività').count()
+    progettiCounter = projectsBase.filter(type='Progetto').count()
 
     # Debugging
     print(f"Resources count: {resourcesCounter}")
@@ -85,7 +131,7 @@ def resources(request, isTrainingResource=False):
     print(f"Organisations count: {organisationsCounter}")
     print(f"Platforms count: {platformsCounter}")
     print(f"Users count: {usersCounter}")
-
+    print(f"Filters: {filters}")
     # Ordenamiento
     orderBy = request.GET.get('orderby')
     if orderBy:
@@ -118,6 +164,8 @@ def resources(request, isTrainingResource=False):
         'organisationsCounter': organisationsCounter,
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
+        'attivitaCounter': attivitaCounter,
+        'progettiCounter': progettiCounter,
         'filters': filters,
         'settings': settings,
         'languagesWithContent': languagesWithContent,
@@ -127,7 +175,8 @@ def resources(request, isTrainingResource=False):
         'isTrainingResource': isTrainingResource,
         'endPoint': endPoint,
         'isSearchPage': True,
-        'show_search_bar': False
+        'show_search_bar': False,
+        'homeSearchCategories' : 'resources',
     })
 
 
@@ -140,11 +189,11 @@ def newTrainingResource(request):
 def newResource(request, isTrainingResource=False):
     form = ResourceForm()
     user = request.user
-    if isTrainingResource:
-        text = get_object_or_404(HelpText, slug='new-training-resource')
-    else:
-        text = get_object_or_404(HelpText, slug='new-resource')
-
+    # if isTrainingResource:
+    #     text = get_object_or_404(HelpText, slug='new-training-resource')
+    # else:
+    #     text = get_object_or_404(HelpText, slug='new-resource')
+    text = "Nuova risorsa"
     # TODO: This in forms.py 
     if request.method == 'POST':
         form = ResourceForm(request.POST, request.FILES)
@@ -179,7 +228,9 @@ def newResource(request, isTrainingResource=False):
         'form': form,
         'settings': settings,
         'text': text,
-        'isTrainingResource': isTrainingResource})
+        'isTrainingResource': isTrainingResource,
+        'resource_lang_selected': _resource_form_selected_language(request),
+    })
 
 
 def training_resource(request, pk):
@@ -296,6 +347,7 @@ def editResource(request, pk):
         # Links
         'project': resource.project.all,
         'organisation': resource.organisation.all,
+        'language': resource.inLanguage,
         # Images
         'image_credit1': resource.imageCredit1,
         'image_credit2': resource.imageCredit2,
@@ -317,7 +369,9 @@ def editResource(request, pk):
         'curatedGroups': curatedGroups,
         'user': user,
         'settings': settings,
-        'isTrainingResource': isTrainingResource})
+        'isTrainingResource': isTrainingResource,
+        'resource_lang_selected': _resource_form_selected_language(request, resource),
+    })
 
 
 def saveResourceAjax(request):
@@ -409,16 +463,47 @@ def setImages(request, form):
 
 def sendResourceEmail(pk, user):
     resource = get_object_or_404(Resource, id=pk)
-    subject = '[EU-CITIZEN.SCIENCE] Your resource "%s" has been submitted' % resource.name
-    message = render_to_string('emails/new_resource.html', {'resourceName': resource.name, 'username': user.get_full_name, "domain": settings.HOST})
+    subject = 'CitizenScience.it la tua risorsa "%s" è stata inviata ai moderatori' % resource.name
+    message = render_to_string('emails/new_resource.html', {
+        'resourceName': resource.name,
+        'username': user.get_full_name(),
+        'domain': settings.HOST
+    })
     # to = [user.email]
     to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
     to.append(user.email)
     bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
-    email = EmailMessage(subject, message, to=to, bcc=bcc)
+    from_email = 'admin@citizenscience.it'
+    email = EmailMessage(subject, message, from_email=from_email, to=to, bcc=bcc)
     email.content_subtype = "html"
     email.send()
- 
+
+    subject_staff = 'CitizenScience.it La risorsa "%s" attende di essere approvata!' % resource.name
+    message_staff = render_to_string('emails/new_resource_staff.html', {
+        'username': user.get_full_name(),
+        'domain': settings.HOST,
+        'resourcename': resource.name,
+        'resourceid': pk
+    })
+    staff_emails = list(
+        User.objects.filter(is_staff=True, is_active=True)
+        .exclude(email__isnull=True)
+        .exclude(email__exact="")
+        .values_list('email', flat=True)
+    )
+    configured_emails = list(getattr(settings, 'EMAIL_RECIPIENT_LIST', []) or [])
+    moderators_to = sorted(set(staff_emails + configured_emails) - {user.email} if user.email else set(staff_emails + configured_emails))
+    if moderators_to:
+        moderators_email = EmailMessage(
+            subject=subject_staff,
+            body=message_staff,
+            from_email=from_email,
+            to=[from_email],
+            bcc=moderators_to,
+        )
+        moderators_email.content_subtype = "html"
+        moderators_email.send()
+
 
 
 def deleteResource(request, pk, isTrainingResource):
@@ -502,6 +587,57 @@ def clearFilters(request):
 
 
 def saveImage(request, form, element, ref):
+    image_path = ''
+    filepath = request.FILES.get(element, False)
+    withImage = form.cleaned_data.get('withImage' + ref)
+    #print('ref ' + ref + 'withImage' + ref + ' withImage ' + str(withImage)  + ' filepath ' + str(filepath))
+    if (filepath):
+        x = form.cleaned_data.get('x' + ref) if form.cleaned_data.get('x_' + ref) else 0
+        y = form.cleaned_data.get('y' + ref) if form.cleaned_data.get('y_' + ref) else 0
+        w = form.cleaned_data.get('width' + ref) if form.cleaned_data.get('width_' + ref) else 600
+        h = form.cleaned_data.get('height' + ref) if form.cleaned_data.get('height_' + ref) else 400
+        #print(element)
+        photo = request.FILES[element]
+        image = Image.open(photo)
+
+        resized_image = image
+        # cropped_image = image.crop((x, y, w+x, h+y))
+        # if (ref == '3'):
+        #     finalSize = (1100, 400)
+        # else:
+        #     finalSize = (600, 400)
+        #
+        # resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
+
+        # if (cropped_image.width > image.width):
+        #     size = (abs(int(
+        #         (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = ((finalSize[0] - whitebackground.width), 0)
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
+        # if (cropped_image.height > image.height):
+        #     size = (finalSize[0], abs(
+        #         int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = (0, (finalSize[1] - whitebackground.height))
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
+
+        image_path = saveImageWithPath(resized_image, photo.name)
+    elif withImage:
+        image_path = '/'
+    else:
+        image_path = ''
+
+    return image_path
+    
+    
+
     image_path = ''
     filepath = request.FILES.get(element, False)
     withImage = form.cleaned_data.get('withImage' + ref)
@@ -603,7 +739,7 @@ def applyFilters(request, resources):
                 resources = resources.filter(approved=False).filter(moderated=True)
             if request.GET['approved'] == 'notYetModerated':
                 resources = resources.filter(moderated=False)
-        elif not request.user.is_staff and not settings.DEBUG:
+        elif not request.user.is_staff:
             resources = resources.filter(approved=True)
 
     return resources

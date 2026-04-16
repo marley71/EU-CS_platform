@@ -2,139 +2,100 @@
 {% load i18n %}
 {% load l10n %}
 {% get_language_info_list for LANGUAGES as languages %}
-<div class="accordion acordion-flush mb-3" id="accordion-filters">
-    <div class="">
-        <div class="accordion-header" id="flush-headingOne">
-            <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
+<div>
+    <form id="searchResources"
+          action="{% if isTrainingResource %}{% url 'training_resources' %}{% else %}{% url 'resources' %}{% endif %}">
+        <input type="hidden" name="keywords" value="{{ filters.keywords }}"/>
 
-<div class="row">
-    <form class=""
-          id="searchResources"
-          action="{% if isTrainingResource %} {% url 'training_resources' %} {% else %}{% url 'resources' %} {% endif %}">
-        <input type="hidden" name="keywords" value="{{filters.keywords}}" />
-        <div class="col-12">
-            {{filters.orderby}}
-        
-            <div class="input-group input-group-sm">
-                <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
-                <select id="orderby" name="orderby" class="custom-select form-control float-right">
-                    <option value="" {% if filters.orderby == "" %} selected {% endif %}>{% trans "Most Recent Updated" %}</option>
-                    <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>{% trans "A-Z" %}</option>
-                    <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>{% trans "Most Recent Created" %}</option>
-                    <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>{% trans "Featured" %}</option>
-                </select>
-                <div class="input-group-text"><i class="fas fa-filter"></i></div>
-                <select id="inLanguage" name="inLanguage" class="custom-select form-control">
-                    <option value="">{% trans "All languages" %}<option>
-                    {% for language in languages %}
-                    {% for lwc in languagesWithContent %}
-                    {% if language.code == lwc %}
-                    <option value="{{ language.code }}"
-                            {% if language.code ==  filters.inLanguage %} selected {% endif %}>
-                    {{ language.name }}
-                    </option>
-                    {% endif %}
-                    {% endfor %}
-                    {% endfor %}
-                </select>
-                <select id="theme" name="theme" class="custom-select form-control">
-                    <option value="">{% trans "All themes" %}</option>
-                    {% for theme in themes %}
-                    <option {% if theme.theme == filters.theme %} selected {% endif %} value="{{theme.theme}}">{{theme.theme}}</option>
-                    {% endfor %}
-                </select>
-                <select id="category" name="category" class="custom-select form-control">
-                    <option value="">{% trans "Category" %}</option>
-                    <option value=""></option>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+                <label for="category">{% trans "Category" %}</label>
+                <select id="category" name="category" class="custom-select form-select">
+                    <option value="">{% trans "Select" %}</option>
                     {% for category in categories %}
-                    <option {% if category.text == filters.category %} selected {% endif %} value="{{category.text}}">{{category}}</option>
+                        <option {% if category.text == filters.category %} selected {% endif %}
+                                value="{{ category.text }}">{{ category }}</option>
                     {% endfor %}
                 </select>
+            </div>
 
-                <select id="audience" name="audience" class="custom-select form-control">
-                    <option value="">{% trans "Audience" %}</option>
-                    <option value=""></option>
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+                <label for="audience">{% trans "Audience" %}</label>
+                <select id="audience" name="audience" class="custom-select form-select">
+                    <option value="">{% trans "Select" %}</option>
                     {% for audience in audiencies %}
-                    <option {% if audience.audience == filters.audience %} selected {% endif %} value="{{audience.audience}}">
-                    {{audience.audience}}
-                    </option>
+                        <option {% if audience.audience == filters.audience %} selected {% endif %}
+                                value="{{ audience.audience }}">{{ audience.audience }}</option>
                     {% endfor %}
                 </select>
+            </div>
 
-                {% if user.is_staff %}
-                <select id="approved" name="approved" class="custom-select form-control">
-                    <option value="approved" {% if filters.approved == "approved" %} selected {% endif %}>{% trans "Approved" %}</option>
-                    <option value="notApproved" {% if filters.approved == "notApproved" %} selected {% endif %}>{% trans "Not approved" %}</option>
-                    <option value="notYetModerated" {% if filters.approved == "notYetModerated" %} selected {% endif %}>{% trans "Not yet moderated" %}</option>
-                </select>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2 flex-wrap">
+                {% if filters.keywords or filters.category or filters.audience %}
+                    <span>{% trans "Active filters:" %}</span>
                 {% endif %}
+                {% if filters.keywords %}
+                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=False %}
+                {% endif %}
+                {% if filters.category %}
+                    {% include 'includes/tag.html' with text='Categoria: '|add:filters.category hasClose=False %}
+                {% endif %}
+                {% if filters.audience %}
+                    {% include 'includes/tag.html' with text='Pubblico: '|add:filters.audience hasClose=False %}
+                {% endif %}
+            </div>
+
+            <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-2">
+                {% if filters.keywords or filters.category or filters.audience %}
+                    <div>
+                        <a class="text-red-700 text-sm"
+                           href="{% if isTrainingResource %}{% url 'training_resources' %}{% else %}{% url 'resources' %}{% endif %}">
+                            {% trans "Clear current search query and filters" %}
+                        </a>
+                    </div>
+                    <div class="text-card-border">|</div>
+                {% endif %}
+                <div>
+                    <button class="text-sm p-0" style="background-color:transparent;border: none;" type="submit">
+                        {% trans "Apply filters" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-top d-flex justify-content-between align-items-center">
+            <div class="small">
+                {% if filters.keywords %}
+                    {% if isTrainingResource %}
+                        {{ counter }} {% if counter != 1 %}{% trans "training resources found for " %}{% else %}{% trans "training resource found for " %}{% endif %}
+                        "{{ filters.keywords }}" {% trans "of" %} {{ totalCount }}
+                    {% else %}
+                        {{ counter }} {% if counter != 1 %}{% trans "resources found for " %}{% else %}{% trans "resource found for " %}{% endif %}
+                        "{{ filters.keywords }}" {% trans "of" %} {{ totalCount }}
+                    {% endif %}
+                {% else %}
+                    {% if isTrainingResource %}
+                        <strong>{{ totalCount }}</strong> {% trans "training resources" %}
+                    {% else %}
+                        <strong>{{ totalCount }}</strong> {% trans "resources" %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-2">
+                <div>{% trans "Order by:" %}</div>
+                <div>
+                    <select id="orderby" name="orderby" class="custom-select status-select form-select">
+                        <option value="" {% if filters.orderby == "" %} selected {% endif %}>{% trans "Most Recent Updated" %}</option>
+                        <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>{% trans "A-Z" %}</option>
+                        <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>{% trans "Most Recent Created" %}</option>
+                        <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>{% trans "Featured" %}</option>
+                    </select>
+                </div>
             </div>
         </div>
     </form>
-    <div class=" row">
-        <div class="col-12 mb-4 mt-2">
-            {% if filters.keywords %}
-            <a href="#" class="badge rounded-pill bg-my-darkGreen search-filter">
-                <i class="fas fa-times"></i> {{filters.keywords}}
-            </a>
-            {% endif %}
-
-            {% if filters.inLanguage %}
-            <a href="#" class="badge rounded-pill bg-dark" id="pill-inLanguage">
-                <i class="fas fa-times"></i>
-                {% trans "language:" %}
-                {% for language in languages %}
-                {% if language.code ==  filters.inLanguage %} {{ language.name }}{% endif %}
-                {% endfor %}
-            </a>
-            {% endif %}
-
-            {% if filters.theme %}
-            <a href="#" class="badge rounded-pill bg-my-wood" id="pill-theme">
-                <i class="fas fa-times"></i>
-                {% trans "theme:" %} {{filters.theme}}
-            </a>
-            {% endif %}
-
-            {% if filters.category %}
-            <a href="#" class="badge rounded-pill bg-my-darkBlue" id="pill-category">
-                <i class="fas fa-times"></i>
-                {% trans "category:" %} {{filters.category}}
-            </a>
-            {% endif %}
-
-            {% if filters.audience %}
-            <a href="#" class="badge rounded-pill bg-my-lightGreen" id="pill-audience">
-                <i class="fas fa-times"></i>
-                {% trans "audience:" %} {{filters.audience}}
-            </a>
-            {% endif %}
-
-            {% if request.get_full_path != "/resources" %}
-                {% if request.get_full_path != "/training_resources" %}
-                    <a class="badge rounded-pill bg-danger"
-                    href="{% if isTrainingResource %} {% url 'training_resources' %} {% else %}{% url 'resources' %} {% endif %}">
-                        <i class="fas fa-times"></i> {% trans "Clear current search query and filters" %}
-                    </a>
-                {% endif %}
-            {% endif %}
-            {% if filters.keywords != "" %}
-            <div class="small mt-3">
-                <span class"subnavbarCounter-text">
-                {% if isTrainingResource %}
-                    {{ counter }} {% if counter != 1 %} {% trans "training resources found for " %} "{{filters.keywords}}" of {{totalCount}} {% else %}{% trans "training resource found for " %} "{{filters.keywords}}" of {{totalCount}} {% endif %}
-
-                    {% else %}
-                    {{ counter }} {% if counter != 1 %} {% trans "resources found for " %} "{{filters.keywords}}" of {{totalCount}} {% else %}{% trans "resource found for " %} "{{filters.keywords}}" of {{totalCount}} {% endif %}
-                    {% endif %}
-                </span>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-</div>
 </div>
 

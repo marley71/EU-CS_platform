@@ -237,7 +237,9 @@ def userSearch(request):
 
     #To count
     #For resources count
-    allResources = Resource.objects.all().filter(approved=True)
+    allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFilters(request, allResources)
     allResources = allResources.distinct()
     resources2 = allResources.filter(~Q(isTrainingResource=True))
@@ -459,7 +461,8 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(
                 Q(name__icontains=request.GET['keywords']) |
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
-            queryset = queryset.filter(approved=True)
+            if not request.user.is_staff:
+                queryset = queryset.filter(approved=True)
             
     if queryset.model == Organisation:
         if request.GET.get('keywords'):

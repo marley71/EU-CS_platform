@@ -266,6 +266,16 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    {% if linked_resources %}
+                            <h4 class="mt-5">{% trans "Linked resources" %}</h4>
+                            <div class="row">
+                                {% for resource in linked_resources %}
+                                    <div class="col-xl-6 col-12">
+                                        {% include 'includes/card_ridotta_res.html' with resource=resource %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                    {% endif %}
 
 
                     {% if project.fundingBody.all %}

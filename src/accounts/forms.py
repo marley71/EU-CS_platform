@@ -80,7 +80,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
     surname = forms.CharField(
         required=True,
         max_length=20,
-        label=_(""),
+        label=_(" "),
         widget=forms.TextInput(attrs={})
     )
     profileVisible = forms.BooleanField(

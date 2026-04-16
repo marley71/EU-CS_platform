@@ -45,6 +45,15 @@
                          {% trans "Users" %} ({{ usersCounter }})
                     </a>
                 </li>
+                <li class="nav-item subnavbar-item">
+                    <a class="nav-link ps-4  {% active_link 'resources' %} nav-tab-search"
+                       href="/resources/{% if request.GET.keywords %}?keywords={{ request.GET.keywords }}{% endif %}">
+                        <svg class="bi mb-1" width="18" height="18" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#file-earmark"/>
+                        </svg>
+                         {% trans "Resources" %} ({{ resourcesCounter }})
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

@@ -56,6 +56,29 @@
         </div>
 
     {% endif %}
+
+    <h3 class="col-12 p-0 mt-4">Risorse pubblicate</h3>
+    {% if resources_submitted.count > 0 %}
+        <div class="col-12 row mt-4">
+            {% for resource in resources_submitted %}
+                <div class="col-12 col-lg-6 mb-3">
+                    {% include 'includes/card_ridotta_res.html' with resource=resource %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="col-12 p-0 d-flex flex-column justify-content-start align-content-center mt-5 gap-3">
+            <div class="d-flex justify-content-start align-items-center gap-2">
+
+                <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+
+                <div>
+                    L'utente non ha ancora pubblicato risorse.
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
     </div>
 
 {% endblock %}

@@ -22,6 +22,7 @@ import pages.urls
 import blog.urls
 import eucitizensciencetheme.urls
 import contatti.urls
+
 #import ecsa_integration.urls
 import ckeditor_uploader.views
 from . import views
