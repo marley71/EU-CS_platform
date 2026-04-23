@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: EU-CS Platform\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-22 00:00+0000\n"
+"PO-Revision-Date: 2026-04-22 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Scopri la piattaforma"
+msgstr "Discover the platform"
+
+msgid "La piattaforma italiana della Citizen Science"
+msgstr "The Italian Citizen Science platform"
+
+msgid "Citizen Science Italia"
+msgstr "Italian Citizen Science"
+
+msgid "testo_home"
+msgstr "Whether you're a curious enthusiast wanting to discover Citizen Science activities in your area or field of interest, a teacher looking for ideas for your class, a journalist seeking stories and insights on the role of citizens in scientific research, or a researcher who wants to give visibility to your project… you're in the right place!<br>"
+        "Here you can not only <strong>find projects, initiatives and Citizen Science events</strong>, but also publish and share your own: tell your story, promote your activity and engage new participants in the production of open, collaborative scientific knowledge."
+
+msgid "Cerca Progetti, Attività, Organizzazioni, Utenti"
+msgstr "Search Projects, Activities, Organizations, Users"
+
+msgid "Cerca"
+msgstr "Search"
+
+msgid "Cosa puoi fare qui"
+msgstr "What you can do here"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "card_accedi"
+msgstr "Contribute to CitizenScience.it with your content. Log in with your credentials or create your profile."
+
+msgid "Il tuo profilo"
+msgstr "Your profile"
+
+msgid "Crea"
+msgstr "Create"
+
+msgid "card_crea"
+msgstr "Insert a  <a class='text-olive-200' href='/newProject'>project</a>, a single <a class='text-olive-200' href='/newProject'>activity</a>, a <a class='text-olive-200' "
+        "href='/new_blog'>news</a> or an  <a class='text-olive-200' href='/new_event'>event</a>. Share it with the CitizenScience.it community"
+
+msgid "Esplora"
+msgstr "Explore"
+
+msgid "card_esplora"
+msgstr "Discover the projects, activities, organizations, and users featured on the portal."
+
+msgid "Cerca progetti"
+msgstr "Search projects"
+
+msgid "Gli ultimi progetti"
+msgstr "Last projects"
+
+msgid "Eventi"
+msgstr "Events"
+
+msgid "Approvato" 
+msgstr "Approved"
+
+msgid "Non Approvato"
+msgstr "Not Approved"
+
+msgid "Continua a leggere"
+msgstr "Continue"

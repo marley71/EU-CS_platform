@@ -17,23 +17,28 @@
                 <div class="pe-5 me-5">
 
                     <div class="h1  mb-4">
-                        La piattaforma italiana della Citizen Science
+                        {% trans "La piattaforma italiana della Citizen Science" %}
                     </div>
                     <p>
+                        {% trans "testo_home" %}
+                        <!--
                         Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!
-                        <br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa.
+                        <br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa.-->
                     </p>
                 </div>
                 <img class="img-fluid" style="max-width:550px;" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
             </div>
             <div class="d-block d-xl-none align-items-center justify-content-between mb-7">
                 <div class="h1 mb-4 text-center pt-6">
-                        La piattaforma italiana della Citizen Science
+                    {% trans "La piattaforma italiana della Citizen Science" %}
                 </div>
-                <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
+                <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt='{% trans "Citizen Science Italia" %}'>
                 <div>
+                    {% trans "testo_home" %}
+                    <!--
                         Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!
                         <br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa.
+                -->
                 </div>
             </div>
         </div>
@@ -55,7 +60,7 @@
                         <div class="card-body text-center">
 
                             <div class="h3">
-                                Scopri la piattaforma
+                                {% trans "Scopri la piattaforma" %}
                             </div>
                             {% include "_subnavbarNew.html" %}
                         </div>
@@ -82,16 +87,24 @@
 
 
                 <div class="h2">
-                    Cosa puoi fare qui
+                    {% trans "Cosa puoi fare qui" %}
                 </div>
                 <div class="w-25">
-                    {% include 'includes/card_info.html' with cardTitle="Accedi" bgimage="img/cards/bg_card_progetti.png" cardDescription="Contribuisci a Citizen Science.it  con i tuoi contenuti. Accedi con le tue credenziali oppure crea il tuo profilo." cardActionLink=accediLink cardActionLinkText=accediLinkText %}
+                    {% trans "Accedi" as accedi %}
+                    {% trans "card_accedi" as card_description_accedi %}
+                    {% trans "Il tuo profilo" as il_tuo_profilo %}
+                    {% include 'includes/card_info.html' with cardTitle=accedi bgimage="img/cards/bg_card_progetti.png" cardDescription=card_description_accedi cardActionLink=accediLink cardActionLinkText=il_tuo_profilo %}
                 </div>
                 <div class="w-25">
-                    {% include 'includes/card_info.html' with cardTitle="Crea" bgimage="img/cards/bg_card_organizzazioni.png" cardDescription="Inserisci un <a class='text-olive-200' href='/newProject'>progetto</a> una singola <a class='text-olive-200' href='/newProject'>attività</a>, una <a class='text-olive-200' href='/new_blog'>news</a> o un <a class='text-olive-200' href='/new_event'>evento</a>. Condividilo con la community di Citizen Science.it" %}
+                    {% trans "Crea" as crea %}
+                    {% trans "card_crea" as card_description_crea %}
+                    {% include 'includes/card_info.html' with cardTitle=crea bgimage="img/cards/bg_card_organizzazioni.png" cardDescription=card_description_crea %}
                 </div>
                 <div class="w-25">
-                    {% include 'includes/card_info.html' with cardTitle="Esplora" bgimage="img/cards/bg_card_utenti.png" cardDescription="Scopri quali sono i progetti, le attività, le organizzazioni e gli utenti presenti sul portale." cardActionLink="/projects" cardActionLinkText="Cerca progetti" %}
+                    {% trans "Esplora" as esplora %}
+                    {% trans "card_esplora" as card_description_esplora %}
+                    {% trans "Cerca progetti" as cerca_progetti %}
+                    {% include 'includes/card_info.html' with cardTitle=esplora bgimage="img/cards/bg_card_utenti.png" cardDescription=card_description_esplora cardActionLink="/projects" cardActionLinkText=cerca_progetti %}
                 </div>
             </div>
 
@@ -99,16 +112,16 @@
 
 
                 <div class="h2">
-                    Cosa puoi fare qui
+                    {% trans "Cosa puoi fare qui" %}
                 </div>
                 <div class="w-75">
-                    {% include 'includes/card_info.html' with cardTitle="Accedi" bgimage="img/cards/bg_card_progetti.png" cardDescription="Contribuisci a Citizen Science.it  con i tuoi contenuti. Accedi con le tue credenziali oppure crea il tuo profilo." cardActionLink=accediLink cardActionLinkText=accediLinkText %}
+                    {% include 'includes/card_info.html' with cardTitle=accedi bgimage="img/cards/bg_card_progetti.png" cardDescription=card_description_accedi cardActionLink=accediLink cardActionLinkText=il_tuo_profilo %}
                 </div>
                 <div class="w-75">
-                    {% include 'includes/card_info.html' with cardTitle="Crea" bgimage="img/cards/bg_card_organizzazioni.png" cardDescription="Inserisci un <a class='text-olive-200' href='/newProject'>progetto</a> una singola <a class='text-olive-200' href='/newProject'>attività</a>, una <a class='text-olive-200' href='/new_blog'>news</a> o un <a class='text-olive-200' href='/new_event'>evento</a>.<br/>Condividilo con la community di Citizen Science.it" %}
+                    {% include 'includes/card_info.html' with cardTitle=crea bgimage="img/cards/bg_card_organizzazioni.png" cardDescription=card_description_crea %}
                 </div>
                 <div class="w-75">
-                    {% include 'includes/card_info.html' with cardTitle="Esplora" bgimage="img/cards/bg_card_utenti.png" cardDescription="Scopri quali sono i progetti, le attività, le organizzazioni e gli utenti presenti sul portale." cardActionLink="/projects" cardActionLinkText="Cerca progetti" %}
+                    {% include 'includes/card_info.html' with cardTitle=esplora bgimage="img/cards/bg_card_utenti.png" cardDescription=card_description_esplora cardActionLink="/projects" cardActionLinkText=cerca_progetti %}
                 </div>
             </div>
 

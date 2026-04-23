@@ -241,18 +241,18 @@ FORMS_LANGUAGES = (
 )
 
 TRANSLATED_LANGUAGES = (
-    ('nl', 'Dutch'),
+    # ('nl', 'Dutch'),
     ('en', 'English'),
-    ('et', 'Estonian'),
-    ('fr', 'Français'),
-    ('de', 'German'),
-    ('el', 'Greek'),
-    ('hu', 'Hungarian'),
+    # ('et', 'Estonian'),
+    # ('fr', 'Français'),
+    # ('de', 'German'),
+    # ('el', 'Greek'),
+    # ('hu', 'Hungarian'),
     ('it', 'Italian'),
-    ('lt', 'Lituanian'),
-    ('pt', 'Portuguese'),
-    ('es', 'Spanish'),
-    ('sv', 'Swedish'),
+    # ('lt', 'Lituanian'),
+    # ('pt', 'Portuguese'),
+    # ('es', 'Spanish'),
+    # ('sv', 'Swedish'),
 )
 
 TRANSLATED_LANGUAGES_KEY = {

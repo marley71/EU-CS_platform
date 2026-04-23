@@ -6263,3 +6263,56 @@ msgstr "Editore"
 
 #~ msgid "Teaser video"
 #~ msgstr "Video promozionale"
+
+msgid "testo_home"
+msgstr "Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!"
+        "<br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa."
+
+msgid "Cerca Progetti, Attività, Organizzazioni, Utenti"
+msgstr "Cerca Progetti, Attività, Organizzazioni, Utenti"
+
+msgid "Cerca"
+msgstr "Cerca"
+
+msgid "Cosa puoi fare qui"
+msgstr "Cosa puoi fare qui"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "card_accedi"
+msgstr "Contribuisci a Citizen Science.it  con i tuoi contenuti. Accedi con le tue credenziali oppure crea il tuo profilo."
+
+msgid "Il tuo profilo"
+msgstr "Il tuo profilo"
+
+msgid "Crea"
+msgstr "Crea"
+
+msgid "card_crea"
+msgstr "Inserisci un <a class='text-olive-200' href='/newProject'>progetto</a> una singola <a class='text-olive-200' href='/newProject'>attività</a>, una <a class='text-olive-200' "
+        "href='/new_blog'>news</a> o un <a class='text-olive-200' href='/new_event'>evento</a>. Condividilo con la community di Citizen Science.it"
+
+msgid "Esplora"
+msgstr "Esplora"
+
+msgid "card_esplora"
+msgstr "Scopri quali sono i progetti, le attività, le organizzazioni e gli utenti presenti sul portale."
+
+msgid "Cerca progetti"
+msgstr "Cerca progetti"
+
+msgid "Gli ultimi progetti"
+msgstr "Gli ultimi progetti"
+
+msgid "Eventi"
+msgstr "Eventi"
+
+msgid "Approvato" 
+msgstr "Approvato" 
+
+msgid "Non Approvato"
+msgstr "Non Approvato"
+
+msgid "Continua a leggere"
+msgstr "Continua a leggere"
