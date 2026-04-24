@@ -6475,3 +6475,9 @@ msgstr "Non Approvata"
 
 msgid "Continua a leggere"
 msgstr "Continua a leggere"
+
+msgid "La piattaforma italiana della Citizen Science"
+msgstr "La piattaforma italiana della Citizen Science"
+
+msgid "Scopri la piattaforma"
+msgstr "Scopri la piattaforma"

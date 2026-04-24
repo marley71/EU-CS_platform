@@ -3,6 +3,7 @@ from django.conf import settings
 from projects.models import Project
 from organisations.models import Organisation
 from django.utils import timezone
+from django.utils.translation import get_language
 from datetime import datetime, timedelta
 import pytz
 
@@ -76,15 +77,21 @@ class Event(models.Model):
 
     @property
     def place_calc(self):
-        match self.event_type:
-            case "online":
-                return "On-line"
-            case "face-to-face":
-                return self.place
-            case "hybrid":
-                return self.place + " (Ev. ibrido)"
-            case _:
-                return ""
+        current_language = (get_language() or settings.LANGUAGE_CODE or "en").lower()
+        is_italian = current_language.startswith("it")
+
+        online_label = "On-line" if is_italian else "Online"
+        hybrid_suffix = " (Ev. ibrido)" if is_italian else " (Hybrid event)"
+        presenza_label = "In presenza" if is_italian else "In presence"
+        if self.event_type == "online":
+            return online_label
+        # if self.event_type == "face-to-face":
+        #     return self.place
+        if self.event_type == "face-to-face":
+            return f"{presenza_label}"
+        if self.event_type == "hybrid":
+            return f"{self.place}{hybrid_suffix}"
+        return ""
 
     class Meta:
         ordering = ['start_date']

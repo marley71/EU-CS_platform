@@ -97,30 +97,28 @@
             <!-- Navigation Menu Items -->
             <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0 list-unstyled">
                 <li class="nav-item dropdown">
+                    {% get_current_language as LANGUAGE_CODE %}
                     <!-- <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false" href="#">
-                        {% get_current_language as LANGUAGE_CODE %}{{LANGUAGE_CODE}}
+                        {{LANGUAGE_CODE}}
                     </a> -->
-
-                    <div class="d-flex flex-row" style="width: 200px;" aria-labelledby="dropdownLanguage">
-                        
-                            <form action="/i18n/setlang/" method="post" style="display: inline;" name="languageForm">
-                                {% csrf_token %}
-                                
-                                    <input id="language" name="language" type="hidden" value="en">
-                                    {% for lang in TRANSLATED_LANGUAGES %}
+                    <form action="/i18n/setlang/" method="post" style="display: inline;" name="languageForm">
+                        {% csrf_token %}  
+                        <input id="language" name="language" type="hidden" value="en">
+                        <div class="d-flex flex-row gap-2" aria-labelledby="dropdownLanguage">   
+                            {% for lang in TRANSLATED_LANGUAGES %}
+                                {% if lang.0 == LANGUAGE_CODE %}
+                                    <img src="{% static 'img/flags/'|add:lang.0|add:'.png' %}" alt="{{ lang.1 }}" width="32" >
+                                {% else %}
                                     <a class="dropdown-item" style="cursor: pointer;"
-                                            onclick="javascript:document.getElementById('language').value='{{ lang.0 }}';languageForm.submit()">
-                                            {{ lang.1 }}
-                                            <img src="{% static 'img/flags/'|add:lang.0|add:'.png' %}" alt="{{ lang.1 }}" width="20" height="20">
-                                        </a>
-                                    
-                                    {% endfor %}
-                                
-                            </form>
-                       
-                        
-                    </div>
+                                        onclick="javascript:document.getElementById('language').value='{{ lang.0 }}';languageForm.submit()">
+                                        <!--{{ lang.1 }}-->
+                                        <img src="{% static 'img/flags/'|add:lang.0|add:'.png' %}" alt="{{ lang.1 }}" width="20" >
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </form>
                 </li>
                 {% for item in topbar_items %}
                     {% if not item.parent %}
