@@ -110,7 +110,7 @@
                                     <button type="button" class="btn btn-primary">
                                         <a href="{{ event.url }}">
 
-                                            Vai alla pagina dell'evento
+                                            {% trans "Vai alla pagina dell'evento" %}
                                             <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
                                             </svg>
@@ -135,7 +135,7 @@
                     <a class="btn btn-outline-secondary"
                        href="{% if 'http' not in event.url %}//{% endif %}{{ event.url }}"
                        target="_blank">
-                        Vai alla pagina dell'evento
+                        {% trans "Vai alla pagina dell'evento" %}
                         <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
                         </svg>

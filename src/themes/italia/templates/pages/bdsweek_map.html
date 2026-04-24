@@ -32,7 +32,7 @@
                     {% endif %}
                 </div>
                 <div class="text-center">
-                    In collaborazione con: <br/>
+                    {% trans "In collaborazione con" %}: <br/>
 
                     <a target="_blank" href="https://citizenscience.it">
                         <img src="{% static 'img/logo_CSI.jpg' %}"
@@ -42,27 +42,11 @@
                     </a>
                 </div>
             </div>
-
-
-{#            <div class="mt-6">#}
-{#                <p>#}
-{##}
-{#                    Una settimana per esplorare e proteggere la biodiversità italiana#}
-{#                </p>#}
-{##}
-{#                <p>#}
-{#                    Dal 12 al 18 maggio 2025, NBFC promuove la Biodiversity Sampling Week (BSW), un evento#}
-{#                    speciale dedicato al monitoraggio della biodiversità su tutto il territorio nazionale. Ricercatori e#}
-{#                    ricercatrici saranno impegnati insieme ai cittadini in attività di raccolta dati, unendo le forze#}
-{#                    per#}
-{#                    mappare la ricchezza naturale italiana e valutarne lo stato di salute.#}
-{#                </p>#}
-{#            </div>#}
             <div class="mt-6">
 
-                <div class="h3 text-center">Mappa delle attività di citizen science</div>
+                <div class="h3 text-center">{% trans "Mappa delle attività di citizen science" %}</div>
                 <p>
-Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare.
+                    {% trans "Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare." %}
                 </p>
             </div>
         </div>

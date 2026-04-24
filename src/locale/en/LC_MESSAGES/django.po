@@ -65,11 +65,176 @@ msgstr "Last projects"
 msgid "Eventi"
 msgstr "Events"
 
+msgid "Scopri tutti gli eventi"
+msgstr "Discover all events"
+
+msgid "Vai alla pagina dell'evento"
+msgstr "Go to the event page"
+
+msgid "Notizie"
+msgstr "News"
+
+msgid "Scopri tutte le notizie"
+msgstr "Discover all news"
+
+msgid "La citizen science, o scienza partecipativa, è il coinvolgimento attivo dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici. Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé la complessità di entrambe, acquisendo forme anche molto diverse. Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza basata su evidenze scientifiche”."
+msgstr "Citizen science, or participatory science, is the active involvement of citizens in collecting, analyzing, and interpreting data for scientific purposes. At the interface between science and society, Citizen Science encompasses the complexity of both, taking on very different forms. One of the most common definitions describes it as: \"the involvement of volunteers and scientists in collaborative research activities to generate new knowledge based on scientific evidence.\""
+
+msgid "Vai a Citizen Science Italia"
+msgstr "Go to Citizen Science Italia"
+
+msgid "Scopri di più"
+msgstr "Learn more"
+
+msgid "Contatti"
+msgstr "Contacts"
+
+msgid "Cerca nella piattaforma"
+msgstr "Search the platform"
+
+msgid "Argomento scientifico"
+msgstr "Scientific topic"
+
+msgid "Regione"
+msgstr "Region"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "organizzazioni selezionate su"
+msgstr "organizations selected out of"
+
+msgid "Totali"
+msgstr "Total"
+
+msgid "organizzazioni"
+msgstr "organizations"
+
+msgid "Nessun risultato"
+msgstr "No results"
+
+msgid "progetti selezionati su"
+msgstr "projects selected out of"
+
+msgid "attività selezionate su"
+msgstr "activities selected out of"
+
+msgid "progetti"
+msgstr "projects"
+
+msgid "attività"
+msgstr "activities"
+
+msgid "Mostra"
+msgstr "Show"
+
+msgid "Progetti nazionali"
+msgstr "National projects"
+
+msgid "Progetti regionali"
+msgstr "Regional projects"
+
+msgid "Progetti locali"
+msgstr "Local projects"
+
+msgid "Attività nazionali"
+msgstr "National activities"
+
+msgid "Attività regionali"
+msgstr "Regional activities"
+
+msgid "Attività locali"
+msgstr "Local activities"
+
+msgid "Legenda"
+msgstr "Legend"
+
+msgid "elementi"
+msgstr "items"
+
+msgid "Esplora la mappa"
+msgstr "Explore the map"
+
+msgid "Mappa delle attività di citizen science"
+msgstr "Map of citizen science activities"
+
+msgid "Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare."
+msgstr "Select the area of interest by zooming the map and click on the icons to view activity details and learn how to participate."
+
+msgid "In collaborazione con"
+msgstr "In collaboration with"
+
+msgid "Nuovo contenuto"
+msgstr "New content"
+
+msgid "Come puoi contribuire"
+msgstr "How can you contribute"
+
+msgid "Evento"
+msgstr "Event"
+
+msgid "Risorsa"
+msgstr "Resource"
+
+msgid "Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine."
+msgstr "A <strong>project</strong> is a structured and planned initiative with a long-term duration."
+
+msgid "L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita."
+msgstr "An <strong>activity</strong> is a concrete action or a data collection initiative that includes one or more tasks with a clearly defined duration."
+
+msgid "Crea il profilo di una organizzazione attiva nella citizen science"
+msgstr "Create the profile of an organization active in citizen science"
+
+msgid "L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it"
+msgstr "An <strong>event</strong> is calendar-based content that provides precise information on the date, place, and theme of an occurrence related to Citizen Science.it."
+
+msgid "La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema."
+msgstr "A <strong>Resource</strong> is a document shared with system users."
+
+msgid "La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto."
+msgstr "A <strong>news</strong> item is an in-depth insight or a specific narrative around a topic or an event that has already taken place."
+
+msgid "Attività di partecipazione"
+msgstr "Participation activity"
+
+msgid "Stato progetto"
+msgstr "Project status"
+
+msgid "Filtri attivi"
+msgstr "Active filters"
+
+msgid "Cancella tutti i filtri"
+msgstr "Clear all filters"
+
+msgid "Applica i filtri"
+msgstr "Apply filters"
+
+msgid "Ordina per"
+msgstr "Sort by"
+
+msgid "Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di contenuti."
+msgstr "No results found. Try changing the search criteria or look in other content categories."
+
+msgid "Che cos'è la Citizen Science?"
+msgstr "What is Citizen Science?"
+
 msgid "Approvato" 
+msgstr "Approved"
+
+msgid "Approvata"
 msgstr "Approved"
 
 msgid "Non Approvato"
 msgstr "Not Approved"
 
+msgid "Non Approvata"
+msgstr "Not Approved"
+
 msgid "Continua a leggere"
 msgstr "Continue"
+
+msgid "Attività"
+msgstr "Activities"
+
+msgid "Regioni"
+msgstr "Regions"

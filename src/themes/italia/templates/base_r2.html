@@ -97,26 +97,30 @@
             <!-- Navigation Menu Items -->
             <ul class="navbar-nav ms-5 me-auto mb-2 mb-lg-0 list-unstyled">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                    <!-- <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         {% get_current_language as LANGUAGE_CODE %}{{LANGUAGE_CODE}}
-                    </a>
+                    </a> -->
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownLanguage">
-                        <form action="/i18n/setlang/" method="post" style="display: inline;" name="languageForm">
-                            {% csrf_token %}
-                            <div style="display: inline;">
-                                <input id="language" name="language" type="hidden" value="en">
-                                {% for lang in TRANSLATED_LANGUAGES %}
-                                <li><a class="dropdown-item" style="cursor: pointer;"
-                                        onclick="javascript:document.getElementById('language').value='{{ lang.0 }}';languageForm.submit()">
-                                        {{ lang.1 }}
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            </div>
-                        </form>
-                    </ul>
+                    <div class="d-flex flex-row" style="width: 200px;" aria-labelledby="dropdownLanguage">
+                        
+                            <form action="/i18n/setlang/" method="post" style="display: inline;" name="languageForm">
+                                {% csrf_token %}
+                                
+                                    <input id="language" name="language" type="hidden" value="en">
+                                    {% for lang in TRANSLATED_LANGUAGES %}
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                            onclick="javascript:document.getElementById('language').value='{{ lang.0 }}';languageForm.submit()">
+                                            {{ lang.1 }}
+                                            <img src="{% static 'img/flags/'|add:lang.0|add:'.png' %}" alt="{{ lang.1 }}" width="20" height="20">
+                                        </a>
+                                    
+                                    {% endfor %}
+                                
+                            </form>
+                       
+                        
+                    </div>
                 </li>
                 {% for item in topbar_items %}
                     {% if not item.parent %}
@@ -191,7 +195,7 @@
                     &nbsp;&nbsp;<svg class="bi" width="20" height="20" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#send"/>
                             </svg>
-                            &nbsp;Nuovo contenuto
+                            &nbsp;{% trans "Nuovo contenuto" %}
                 </button>
 
             {% endif %}
