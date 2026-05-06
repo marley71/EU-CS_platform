@@ -77,4 +77,4 @@ venv
 venv2
 .idea
 
-resources/tassonomie.json
+#resources/tassonomie.json

@@ -238,3 +238,66 @@ msgstr "Activities"
 
 msgid "Regioni"
 msgstr "Regions"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Do you have questions about the platform or suggestions? Write to us here!"
+msgstr "Do you have questions about the platform or suggestions? Write to us here!"
+
+msgid "Message sent successfully!"
+msgstr "Message sent successfully!"
+
+msgid "Progetto selezionato"
+msgstr "Selected project"
+
+msgid "Attività selezionata"
+msgstr "Selected activity"
+
+msgid "Estensione geografica"
+msgstr "Geographical scope"
+
+msgid "Luogo di svolgimento"
+msgstr "Location"
+
+msgid "Maggiori dettagli"
+msgstr "More details"
+
+msgid "project_not_moderated_yet"
+msgstr "This content has not been moderated yet"
+
+msgid "project_description"
+msgstr "Project description"
+
+msgid "project_coordinator"
+msgstr "Coordinator"
+
+msgid "project_associated_project"
+msgstr "Associated project"
+
+msgid "project_related_activities"
+msgstr "Related activities"
+
+msgid "project_audience_type"
+msgstr "Audience type"
+
+msgid "project_geographical_scope"
+msgstr "Geographical scope"
+
+msgid "project_location"
+msgstr "Location"
+
+msgid "project_results_link"
+msgstr "Link to project results"
+
+msgid "project_inaturalist_data_link"
+msgstr "Link to iNaturalist data"
+
+msgid "project_viewed_count %(total_accesses)s"
+msgstr "Viewed %(total_accesses)s times"
+
+msgid "Condividi"
+msgstr "Share"
+
+msgid "Copia link"
+msgstr "Copy link"

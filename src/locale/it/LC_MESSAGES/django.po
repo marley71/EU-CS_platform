@@ -6481,3 +6481,66 @@ msgstr "La piattaforma italiana della Citizen Science"
 
 msgid "Scopri la piattaforma"
 msgstr "Scopri la piattaforma"
+
+msgid "Contacts"
+msgstr "Contatti"
+
+msgid "Do you have questions about the platform or suggestions? Write to us here!"
+msgstr "Hai domande sulla piattaforma o hai dei suggerimenti? Scrivici qui!"
+
+msgid "Message sent successfully!"
+msgstr "Messaggio inviato con successo!"
+
+msgid "Progetto selezionato"
+msgstr "Progetto selezionato"
+
+msgid "Attività selezionata"
+msgstr "Attività selezionata"
+
+msgid "Estensione geografica"
+msgstr "Estensione geografica"
+
+msgid "Luogo di svolgimento"
+msgstr "Luogo di svolgimento"
+
+msgid "Maggiori dettagli"
+msgstr "Maggiori dettagli"
+
+msgid "project_not_moderated_yet"
+msgstr "Questo contenuto non è ancora stato moderato"
+
+msgid "project_description"
+msgstr "Descrizione del progetto"
+
+msgid "project_coordinator"
+msgstr "Coordinatore"
+
+msgid "project_associated_project"
+msgstr "Progetto associato"
+
+msgid "project_related_activities"
+msgstr "Attività correlate"
+
+msgid "project_audience_type"
+msgstr "Tipo di pubblico"
+
+msgid "project_geographical_scope"
+msgstr "Estensione geografica"
+
+msgid "project_location"
+msgstr "Luogo di svolgimento"
+
+msgid "project_results_link"
+msgstr "Link ai risultati del progetto"
+
+msgid "project_inaturalist_data_link"
+msgstr "Link ai dati su iNaturalist"
+
+msgid "project_viewed_count %(total_accesses)s"
+msgstr "Visualizzato %(total_accesses)s volte"
+
+msgid "Condividi"
+msgstr "Condividi"
+
+msgid "Copia link"
+msgstr "Copia link"

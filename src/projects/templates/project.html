@@ -159,7 +159,7 @@
                                         </a>
                                     </div>
                                     {% else %}<!-- This project is not yet moderated -->
-                                    <div>Questo contenuto non è ancora stato moderato</div>
+                                    <div>{% trans "project_not_moderated_yet" %}</div>
                                     <a class="btn btn-outline-success w-100"
                                        onclick="setApproved({{ project.id }}, true)">
                                         <svg class="bi mb-1" width="16" height="16" fill="currentColor">
@@ -228,7 +228,7 @@
 
                     {% else %}
                         {% if project.description %}
-                            <h4 class="mt-2 h4">Descrizione del progetto</h4>
+                            <h4 class="mt-2 h4">{% trans "project_description" %}</h4>
                             <p class="mt-3 mb-3 gray7-color">{{ project.description | safe }}</p>
                         {% endif %}
 
@@ -249,7 +249,7 @@
                     {% endif %}
 
                     {% if project.mainOrganisation %}
-                        <h4 class="mt-5">Coordinatore</h4>
+                        <h4 class="mt-5">{% trans "project_coordinator" %}</h4>
                         <div class="row">
                             <div class="col-xl-6 col-12">
                                 {% include 'includes/card_ridotta_org.html' with organisation=project.mainOrganisation %}
@@ -325,7 +325,7 @@
 
                     {% if parentProject %}
 
-                        <h4 class="mt-5">Progetto associato</h4>
+                        <h4 class="mt-5">{% trans "project_associated_project" %}</h4>
                         <div class="row">
 
                             <div class="col-12 col-lg-12 d-flex align-items-center mb-4">
@@ -336,7 +336,7 @@
                     {% endif %}
 
                     {%  if relatedActivities %}
-                    <h4 class="mt-5">Attività correlate</h4>
+                    <h4 class="mt-5">{% trans "project_related_activities" %}</h4>
                     <div class="row">
 
                         {% for activity in relatedActivities %}
@@ -388,7 +388,7 @@
                         </div>
                     {% endif %}
                     {% if project.tipo_pubblico_calc %}
-                        <h5 class="mt-5">Tipo di pubblico</h5>
+                        <h5 class="mt-5">{% trans "project_audience_type" %}</h5>
                         <div>
                             {% for tp in project.tipo_pubblico_calc %}
                                 <div>{{ tp|capfirst }}</div>
@@ -432,7 +432,7 @@
 
 
                     {% if project.geographicextend %}
-                        <h5 class="mt-5">Estensione geografica</h5>
+                        <h5 class="mt-5">{% trans "project_geographical_scope" %}</h5>
                         <div>
                             {% for geographicextend in project.geographicextend.all %}
                                 {{ geographicextend | capfirst }}
@@ -441,7 +441,7 @@
                         </div>
                     {% endif %}
                     {% if project.projectlocality %}
-                        <h5 class="mt-5">Luogo di svolgimento</h5>
+                        <h5 class="mt-5">{% trans "project_location" %}</h5>
                         <div>
                             {#                            <a class="project-topic" href="#">#}
                             {{ project.projectlocality }}
@@ -471,13 +471,13 @@
                     {% endif %}
 
                     {% if project.risultati %}
-                        <h5 class="mt-5">Link ai risultati del progetto</h5>
+                        <h5 class="mt-5">{% trans "project_results_link" %}</h5>
                         <div>
                             <a class="project-topic" href="{{ project.risultati }}">{{ project.risultati }}</a>
                         </div>
                     {% endif %}
                     {% if project.inaturalist %}
-                        <h5 class="mt-5">Link ai dati su iNaturalist</h5>
+                        <h5 class="mt-5">{% trans "project_inaturalist_data_link" %}</h5>
                         <div>
                             <a class="project-topic" href="{{ project.inaturalist }}">{{ project.inaturalist }}</a>
                         </div>
@@ -579,7 +579,7 @@
                         <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#heart-fill"/>
                         </svg>
-                        Visualizzato {{ project.totalAccesses }} volte
+                        {% blocktrans with total_accesses=project.totalAccesses %}project_viewed_count {{ total_accesses }}{% endblocktrans %}
                     </div>
 
                     {#                    {% for resource in project.resource.all %}#}
