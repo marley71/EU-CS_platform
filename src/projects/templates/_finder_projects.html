@@ -11,7 +11,7 @@
 
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="topic">Argomento scientifico</label>
+                <label for="topic">{% trans "Argomento scientifico" %}</label>
 
                 <select class="custom-select form-select django-select2" id="topic" name="topic" multiple>
 {#                    <option value="" {% if not filters.topic %} selected {% endif %}>{% trans "Tutti gli argomenti" %}</option>#}
@@ -25,7 +25,7 @@
             </div>
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="localita_id">Regione</label>
+                <label for="localita_id">{% trans "Regione" %}</label>
                 
 {#                <select id="regione" name="regione" class="custom-select form-select">#}
 {#                    <option value="">{% trans "Seleziona" %}#}
@@ -61,7 +61,7 @@
 
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="participationTask">Attività di partecipazione</label>
+                <label for="participationTask">{% trans "Attività di partecipazione" %}</label>
                 <select id="participationTask" name="participationTask"
                         class="custom-select form-select">
                     <option value="">{% trans "Participation Task" %}</option>
@@ -76,7 +76,7 @@
             </div>
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="status">Stato progetto</label>
+                <label for="status">{% trans "Stato progetto" %}</label>
                 <select id="status" name="status" class="custom-select form-select">
                     <option value="">{% trans "Seleziona" %}</option>
                     {% for s in status %}
@@ -109,7 +109,7 @@
         <div class="row">
             <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
                 {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
-                    <span>Filtri attivi: </span>
+                    <span>{% trans "Filtri attivi" %}: </span>
                 {% endif %}
                 {% if filters.keywords %}
                     {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=False %}
@@ -118,7 +118,8 @@
 {#                    {% include 'includes/tag.html' with text='Regione: '|add:filters.localita_id hasClose=True %}#}
 {#                {% endif %}#}
                 {% if filters.localita_id %}
-                    {% include 'includes/tag.html' with text='Regioni: '|add:localita_selected hasClose=False %}
+                    {% trans "Regioni" as regioni %}: 
+                    {% include 'includes/tag.html' with text=regioni|add:': '|add:localita_selected hasClose=False %}
                 {% endif %}
                 {% if filters.status %}
                     {% include 'includes/tag.html' with text='Stato progetto: '|add:filters.status hasClose=False %}
@@ -148,7 +149,7 @@
                     <div>
 
                         <a class="text-red-700 text-sm" href="/{{ formUrl }}">
-                            Cancella tutti i filtri
+                            {% trans "Cancella tutti i filtri" %}
                         </a>
                     </div>
                     <div class="text-card-border">
@@ -157,7 +158,7 @@
                 {% endif %}
                 <div>
                     <button class="text-sm p-0 " style="background-color:transparent;border: none;" type="submit">
-                        Applica i filtri
+                        {% trans "Applica i filtri" %}
                     </button>
                 </div>
             </div>
@@ -170,11 +171,11 @@
 
                     {% if filters.keywords or filters.localita_id or filters.status or filters.topic or filters.participationTask %}
                         <strong>{%  if isProject %} {{ projectsCounter }} {% else %} {{ attivitaCounter }} {% endif %}</strong>
-                        {%  if isProject %} progetti selezionati su <strong>{{ totalProjects  }}</strong> {% else %} attività selezionate su <strong>
+                        {%  if isProject %} {% trans "progetti selezionati su" %} <strong>{{ totalProjects  }}</strong> {% else %} {% trans "attività selezionate su" %} <strong>
                             {{ totalAttivita }}</strong> {% endif %}
-                        totali
+                        {% trans "Totali" %}
                     {% else %}
-                        {%  if isProject %} <strong>{{totalProjects}}</strong> progetti {% else %} <strong>{{ totalAttivita }}</strong> attività {% endif %}
+                        {%  if isProject %} <strong>{{totalProjects}}</strong> {% trans "progetti" %} {% else %} <strong>{{ totalAttivita }}</strong> {% trans "attività" %} {% endif %}
 
                     {% endif %}
                     </strong>
@@ -182,7 +183,7 @@
             </div>
             <div class="d-flex align-items-center justify-content-end gap-2">
 
-                <div>Ordina per:</div>
+                <div>{% trans "Ordina per" %}:</div>
                 <div>
 
                     <select id="orderby" name="orderby" class="custom-select status-select form-select">
@@ -217,13 +218,15 @@
     <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">
         <div class="d-flex justify-content-center">
 
-            <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+            <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="{% trans 'Nessun risultato' %}">
         </div>
         <div class="d-flex justify-content-center">
 
             <p class="text-center">
-                Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
-                contenuti.
+                {% blocktrans trimmed %}
+                    Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
+                    contenuti.
+                {% endblocktrans %}
             </p>
         </div>
     </div>

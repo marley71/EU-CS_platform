@@ -8,7 +8,7 @@
         <div class="row mt-5">
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="country">Regione</label>
+                <label for="country">{% trans "Regione" %}</label>
 
 
 {#                <select id="country" name="country" class="custom-select form-select">#}
@@ -33,7 +33,7 @@
 
             <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
 
-                <label for="orgTypes">Tipo</label>
+                <label for="orgTypes">{% trans "Tipo" %}</label>
 
 
                 <select id="orgTypes" name="orgTypes" class="custom-select form-select">
@@ -50,13 +50,14 @@
         <div class="row">
             <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
                 {% if filters.keywords or filters.localita_id or filters.orgTypes %}
-                    <span>Filtri attivi: </span>
+                    <span>{% trans "Filtri attivi" %}: </span>
                 {% endif %}
                 {% if filters.keywords %}
                     {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
                 {% endif %}
-                {% if filters.localita_id %}
-                    {% include 'includes/tag.html' with text='Regioni: '|add:localita_selected hasClose=True %}
+                {% if filters.localita_id %}    
+                    {% trans "Regioni" as regioni %}: 
+                    {% include 'includes/tag.html' with text=regioni|add:': '|add:localita_selected hasClose=True %}
                 {% endif %}
                 {% if filters.orgTypes %}
                     {% include 'includes/tag.html' with text='Tipo: '|add:filters.orgTypes hasClose=True %}
@@ -68,7 +69,7 @@
                     <div>
 
                         <a class="text-red-700 text-sm" href="/organisations">
-                            Cancella tutti i filtri
+                            {% trans "Cancella tutti i filtri" %}
                         </a>
                     </div>
                     <div class="text-card-border">
@@ -77,7 +78,7 @@
                 {% endif %}
                 <div>
                     <button class="text-sm p-0 " style="background-color:transparent;border: none;" type="submit">
-                        Applica i filtri
+                        {% trans "Applica i filtri" %}
                     </button>
                 </div>
             </div>
@@ -89,10 +90,10 @@
                     <span class"subnavbarCounter-text">
 {#                    {% if filters.keywords != "" or filters.country != "" or filters.orgTypes != "" %}#}
                     {% if counter != totalCount %}
-                        <strong>{{ counter }}</strong> organizzazioni selezionate su <strong>{{ totalCount }}</strong>
-                        totali
+                        <strong>{{ counter }}</strong> {% trans "organizzazioni selezionate su" %} <strong>{{ totalCount }}</strong>
+                        {% trans "Totali" %}
                     {% else %}
-                        <strong>{{ totalCount }} organizzazioni</strong>
+                        <strong>{{ totalCount }} {% trans "organizzazioni" %}</strong>
                     {% endif %}
                     {#                        {% if counter != 1 %}#}
                     {#                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
@@ -104,7 +105,7 @@
             </div>
             <div class="d-flex align-items-center justify-content-end gap-2">
 
-                <div>Ordina per:</div>
+                <div>{% trans "Ordina per" %}:</div>
                 <div>
 
                     <select id="orderby" name="orderby" class="custom-select status-select form-select">
@@ -139,13 +140,15 @@
         <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">
             <div class="d-flex justify-content-center">
 
-                <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="Nessun risultato">
+                <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="{% trans 'Nessun risultato' %}">
             </div>
             <div class="d-flex justify-content-center">
 
                 <p class="text-center">
-                    Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
-                    contenuti.
+                    {% blocktrans trimmed %}
+                        Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
+                        contenuti.
+                    {% endblocktrans %}
                 </p>
             </div>
         </div>

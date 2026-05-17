@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <script>
        function displayProject(projectId, markersDataObjects) {
             var project = markersDataObjects[projectId];
@@ -6,7 +7,7 @@
             console.log("PROGETTO: ", project);
             var html = "";
 
-            html += '<h6>' + (project.type === 'Progetto' ? 'Progetto selezionato' : 'Attività selezionata') + '</h6>';
+            html += '<h6>' + (project.type === 'Progetto' ? '{% trans "Progetto selezionato" %}' : '{% trans "Attività selezionata" %}') + '</h6>';
             html += '<div class="project-block-data d-flex justify-content-start">' +
                 '   <div class="fw-bold text-primary">' + project.name + '</div>' +
                 ' </div>';
@@ -21,15 +22,15 @@
 
 
             html += '<div class="project-block-data d-flex justify-content-between">' +
-                '      <div class="project-header">Estensione geografica:</div>' +
+                '      <div class="project-header">{% trans "Estensione geografica" %}:</div>' +
                 '   <div class="project-data">' + project.geographicextend + '</div>' +
                 ' </div>';
             html += '<div class="project-block-data d-flex justify-content-between">' +
-                '      <div class="project-header">Luogo di svolgimento:</div>' +
+                '      <div class="project-header">{% trans "Luogo di svolgimento" %}:</div>' +
                 '   <div class="project-data">' + project.projectlocality + '</div>' +
                 ' </div>';
             html += '<div class="project-block-data d-flex justify-content-between">' +
-                '      <div class="project-header">Maggiori dettagli:</div>' +
+                '      <div class="project-header">{% trans "Maggiori dettagli" %}:</div>' +
                 '   <div class="project-data"><a target="_blank" href="' + project.project_url + '">' +
                 project.project_url +
                 '</a></div>' +

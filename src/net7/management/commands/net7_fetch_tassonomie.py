@@ -46,6 +46,17 @@ class Command(BaseCommand):
 
         # Verifica se la risposta ha avuto successo
         if not response.ok:
+            print('Status:', response.status_code)
+            print('Reason:', response.reason)
+            print('URL:', response.url)
+            print('Headers:')
+            for k, v in response.headers.items():
+                print(f'  {k}: {v}')
+            print('Cookies:', response.cookies.get_dict())
+            print('History:', [h.status_code for h in response.history])
+            print('Encoding:', response.encoding)
+            print('Content (bytes):', response.content)        # attenzione: carica tutto in memoria
+            print('Text (str):', response.text)       
             raise Exception(f"SPARQL error: {response.status_code}")
 
         # Restituisce il contenuto JSON della risposta

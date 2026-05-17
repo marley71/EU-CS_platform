@@ -10,27 +10,29 @@
             <img class="img-fluid" src="{% static 'img/home-what-is-cs.png' %}" alt="Citizen Science">
             <div class="d-flex flex-column gap-3 mb-6 mb-lg-0 mt-lg-6 pt-xl-0">
                 <div class="h3">
-                    Che cos'è la Citizen Science?
+                    {% trans "Che cos'è la Citizen Science?" %}
                 </div>
 
                 <div>
                     <p>
-                        La citizen science, o scienza partecipativa, è il coinvolgimento attivo
-                        dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici.
-                        Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé
-                        la complessità di entrambe, acquisendo forme anche molto diverse.
-                        Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari
-                        e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza
-                        basata su evidenze scientifiche”.
+                        {% blocktrans trimmed %}
+                            La citizen science, o scienza partecipativa, è il coinvolgimento attivo
+                            dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici.
+                            Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé
+                            la complessità di entrambe, acquisendo forme anche molto diverse.
+                            Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari
+                            e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza
+                            basata su evidenze scientifiche”.
+                        {% endblocktrans %}
                     </p>
                 </div>
 
                 <div class="d-flex justify-content-start gap-3 pb-6 mb-lg-0">
-                    <a href="/p/about" class="btn btn-outline-secondary">Scopri di più</a>
+                    <a href="/p/about" class="btn btn-outline-secondary">{% trans "Scopri di più" %}</a>
 {#                    {% if not user.is_authenticated %}#}
 {#                    <a href="/signup" class="btn btn-primary">Registrati ora</a>#}
 {#                    {%  endif %}#}
-                    <a target="_blank" href="https://citizenscience.it" class="btn btn-primary">Vai a Citizen Science Italia
+                    <a target="_blank" href="https://citizenscience.it" class="btn btn-primary">{% trans "Vai a Citizen Science Italia" %}
                                 <svg class="bi mb-1" width="20" height="20" fill="currentColor">
                                     <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
                                 </svg>

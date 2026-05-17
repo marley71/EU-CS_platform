@@ -6263,3 +6263,284 @@ msgstr "Editore"
 
 #~ msgid "Teaser video"
 #~ msgstr "Video promozionale"
+
+msgid "testo_home"
+msgstr "Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!"
+        "<br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa."
+
+msgid "Cerca Progetti, Attività, Organizzazioni, Utenti"
+msgstr "Cerca Progetti, Attività, Organizzazioni, Utenti"
+
+msgid "Cerca"
+msgstr "Cerca"
+
+msgid "Cosa puoi fare qui"
+msgstr "Cosa puoi fare qui"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "card_accedi"
+msgstr "Contribuisci a Citizen Science.it  con i tuoi contenuti. Accedi con le tue credenziali oppure crea il tuo profilo."
+
+msgid "Il tuo profilo"
+msgstr "Il tuo profilo"
+
+msgid "Crea"
+msgstr "Crea"
+
+msgid "card_crea"
+msgstr "Inserisci un <a class='text-olive-200' href='/newProject'>progetto</a> una singola <a class='text-olive-200' href='/newProject'>attività</a>, una <a class='text-olive-200' "
+        "href='/new_blog'>news</a> o un <a class='text-olive-200' href='/new_event'>evento</a>. Condividilo con la community di Citizen Science.it"
+
+msgid "Esplora"
+msgstr "Esplora"
+
+msgid "card_esplora"
+msgstr "Scopri quali sono i progetti, le attività, le organizzazioni e gli utenti presenti sul portale."
+
+msgid "Cerca progetti"
+msgstr "Cerca progetti"
+
+msgid "Gli ultimi progetti"
+msgstr "Gli ultimi progetti"
+
+msgid "Eventi"
+msgstr "Eventi"
+
+msgid "Scopri tutti gli eventi"
+msgstr "Scopri tutti gli eventi"
+
+msgid "Vai alla pagina dell'evento"
+msgstr "Vai alla pagina dell'evento"
+
+msgid "Notizie"
+msgstr "Notizie"
+
+msgid "Scopri tutte le notizie"
+msgstr "Scopri tutte le notizie"
+
+msgid "La citizen science, o scienza partecipativa, è il coinvolgimento attivo dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici. Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé la complessità di entrambe, acquisendo forme anche molto diverse. Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza basata su evidenze scientifiche”."
+msgstr "La citizen science, o scienza partecipativa, è il coinvolgimento attivo dei cittadini nella raccolta, analisi e interpretazione di dati a fini scientifici. Ponendosi all’interfaccia tra scienza e società, la Citizen Science racchiude in sé la complessità di entrambe, acquisendo forme anche molto diverse. Una delle definizioni più comuni la descrive come: “il coinvolgimento di volontari e scienziati in attività di ricerca collaborativa, per generare nuova conoscenza basata su evidenze scientifiche”."
+
+msgid "Vai a Citizen Science Italia"
+msgstr "Vai a Citizen Science Italia"
+
+msgid "Scopri di più"
+msgstr "Scopri di più"
+
+msgid "Contatti"
+msgstr "Contatti"
+
+msgid "Cerca nella piattaforma"
+msgstr "Cerca nella piattaforma"
+
+msgid "Argomento scientifico"
+msgstr "Argomento scientifico"
+
+msgid "Regione"
+msgstr "Regione"
+
+msgid "Tipo"
+msgstr "Tipo"
+
+msgid "organizzazioni selezionate su"
+msgstr "organizzazioni selezionate su"
+
+msgid "Totali"
+msgstr "Totali"
+
+msgid "organizzazioni"
+msgstr "organizzazioni"
+
+msgid "Nessun risultato"
+msgstr "Nessun risultato"
+
+msgid "progetti selezionati su"
+msgstr "progetti selezionati su"
+
+msgid "attività selezionate su"
+msgstr "attività selezionate su"
+
+msgid "progetti"
+msgstr "progetti"
+
+msgid "attività"
+msgstr "attività"
+
+msgid "Mostra"
+msgstr "Mostra"
+
+msgid "Progetti nazionali"
+msgstr "Progetti nazionali"
+
+msgid "Progetti regionali"
+msgstr "Progetti regionali"
+
+msgid "Progetti locali"
+msgstr "Progetti locali"
+
+msgid "Attività nazionali"
+msgstr "Attività nazionali"
+
+msgid "Attività regionali"
+msgstr "Attività regionali"
+
+msgid "Attività locali"
+msgstr "Attività locali"
+
+msgid "Legenda"
+msgstr "Legenda"
+
+msgid "elementi"
+msgstr "elementi"
+
+msgid "Esplora la mappa"
+msgstr "Esplora la mappa"
+
+msgid "Mappa delle attività di citizen science"
+msgstr "Mappa delle attività di citizen science"
+
+msgid "Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare."
+msgstr "Seleziona l'area interessata tramite lo zoom della mappa e clicca sulle icone per accedere ai dettagli delle attività e sapere come partecipare."
+
+msgid "In collaborazione con"
+msgstr "In collaborazione con"
+
+msgid "Nuovo contenuto"
+msgstr "Nuovo contenuto"
+
+msgid "Come puoi contribuire"
+msgstr "Come puoi contribuire"
+
+msgid "Evento"
+msgstr "Evento"
+
+msgid "Risorsa"
+msgstr "Risorsa"
+
+msgid "Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine."
+msgstr "Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine."
+
+msgid "L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita."
+msgstr "L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita."
+
+msgid "Crea il profilo di una organizzazione attiva nella citizen science"
+msgstr "Crea il profilo di una organizzazione attiva nella citizen science"
+
+msgid "L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it"
+msgstr "L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it"
+
+msgid "La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema."
+msgstr "La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema."
+
+msgid "La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto."
+msgstr "La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto."
+
+msgid "Attività di partecipazione"
+msgstr "Attività di partecipazione"
+
+msgid "Stato progetto"
+msgstr "Stato progetto"
+
+msgid "Filtri attivi"
+msgstr "Filtri attivi"
+
+msgid "Cancella tutti i filtri"
+msgstr "Cancella tutti i filtri"
+
+msgid "Applica i filtri"
+msgstr "Applica i filtri"
+
+msgid "Ordina per"
+msgstr "Ordina per"
+
+msgid "Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di contenuti."
+msgstr "Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di contenuti."
+
+msgid "Che cos'è la Citizen Science?"
+msgstr "Che cos'è la Citizen Science?"
+
+msgid "Approvato" 
+msgstr "Approvato" 
+
+msgid "Approvata"
+msgstr "Approvata"
+
+msgid "Non Approvato"
+msgstr "Non Approvato"
+
+msgid "Non Approvata"
+msgstr "Non Approvata"
+
+msgid "Continua a leggere"
+msgstr "Continua a leggere"
+
+msgid "La piattaforma italiana della Citizen Science"
+msgstr "La piattaforma italiana della Citizen Science"
+
+msgid "Scopri la piattaforma"
+msgstr "Scopri la piattaforma"
+
+msgid "Contacts"
+msgstr "Contatti"
+
+msgid "Do you have questions about the platform or suggestions? Write to us here!"
+msgstr "Hai domande sulla piattaforma o hai dei suggerimenti? Scrivici qui!"
+
+msgid "Message sent successfully!"
+msgstr "Messaggio inviato con successo!"
+
+msgid "Progetto selezionato"
+msgstr "Progetto selezionato"
+
+msgid "Attività selezionata"
+msgstr "Attività selezionata"
+
+msgid "Estensione geografica"
+msgstr "Estensione geografica"
+
+msgid "Luogo di svolgimento"
+msgstr "Luogo di svolgimento"
+
+msgid "Maggiori dettagli"
+msgstr "Maggiori dettagli"
+
+msgid "project_not_moderated_yet"
+msgstr "Questo contenuto non è ancora stato moderato"
+
+msgid "project_description"
+msgstr "Descrizione del progetto"
+
+msgid "project_coordinator"
+msgstr "Coordinatore"
+
+msgid "project_associated_project"
+msgstr "Progetto associato"
+
+msgid "project_related_activities"
+msgstr "Attività correlate"
+
+msgid "project_audience_type"
+msgstr "Tipo di pubblico"
+
+msgid "project_geographical_scope"
+msgstr "Estensione geografica"
+
+msgid "project_location"
+msgstr "Luogo di svolgimento"
+
+msgid "project_results_link"
+msgstr "Link ai risultati del progetto"
+
+msgid "project_inaturalist_data_link"
+msgstr "Link ai dati su iNaturalist"
+
+msgid "project_viewed_count %(total_accesses)s"
+msgstr "Visualizzato %(total_accesses)s volte"
+
+msgid "Condividi"
+msgstr "Condividi"
+
+msgid "Copia link"
+msgstr "Copia link"

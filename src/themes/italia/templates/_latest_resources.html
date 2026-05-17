@@ -4,7 +4,7 @@
 <section class="bg-plum-100 py-4">
 
 <div class="container">
-    <div class="h2 mb-3 text-left">Notizie</div>
+    <div class="h2 mb-3 text-left">{% trans "Notizie" %}</div>
     <div class="row">
         {% for post in posts %}
 
@@ -23,7 +23,7 @@
     </div>
     <div class="text-end">
         <a href="/blog" class="btn btn-link">
-            Scopri tutte le notizie
+            {% trans "Scopri tutte le notizie" %}
             <svg class="bi mb-1" width="14" height="14" fill="currentColor">
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-right"/>
             </svg>

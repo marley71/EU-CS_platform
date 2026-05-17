@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">
-                    Come puoi contribuire?
+                    {% trans "Come puoi contribuire" %}?
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
@@ -17,8 +17,8 @@
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
                         </svg>
                         {% trans "Project Activity" %}</a></h5>
-                    Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine.<br/>
-                    L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita.<br/>
+                    {% blocktrans trimmed %}Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine.{% endblocktrans %}<br/>
+                    {% blocktrans trimmed %}L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita.{% endblocktrans %}<br/>
                     <hr>
                 </div>
                 <div class="mt-4">
@@ -27,7 +27,7 @@
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#buildings"/>
                         </svg>
                         {% trans "Organisation" %}</a></h5>
-                    Crea il profilo di una organizzazione attiva nella citizen science<br/>
+                    {% trans "Crea il profilo di una organizzazione attiva nella citizen science" %}<br/>
                     <hr>
                 </div>
                 {% if user.is_staff %}
@@ -36,8 +36,8 @@
                             <svg class="bi mb-1" width="24" height="24" fill="currentColor">
                                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
                             </svg>
-                            Evento</a></h5>
-                        L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it<br/>
+                            {% trans "Evento" %}</a></h5>
+                        {% blocktrans trimmed %}L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it{% endblocktrans %}<br/>
                     </div>
                     <hr>
                 {% endif %}
@@ -46,16 +46,16 @@
                         <svg class="bi mb-1" width="24" height="24" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
                         </svg>
-                        News</a></h5>
-                    La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto.<br/>
+                        {% trans "Notizie" %}</a></h5>
+                    {% blocktrans trimmed %}La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto.{% endblocktrans %}<br/>
                 </div>
                 <div class="mt-4 mb-4">
                     <h5><a href="/newResource" class="my-link">
                         <svg class="bi mb-1" width="24" height="24" fill="currentColor">
                             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#file-earmark"/>
                         </svg>
-                        Risorsa</a></h5>
-                    La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema.<br/>
+                        {% trans "Risorsa" %}</a></h5>
+                    {% blocktrans trimmed %}La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema.{% endblocktrans %}<br/>
                 </div>
             </div>
         </div>

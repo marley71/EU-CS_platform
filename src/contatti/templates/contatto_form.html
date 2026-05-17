@@ -14,7 +14,7 @@
 
 {% endblock head %}
 
-    Contatti
+    {% trans "Contacts" %}
 
 {% block navbar-left %}
     {% include "_navbar.html" with active_link="projects" %}
@@ -28,13 +28,13 @@
     <div class="container mt-5">
                     <div class="row mt-5 pb-3 border-bottom mb-4">
                         <div class="col-12 text-center">
-                            <h1>{% block title %} Contatti {% endblock title %}</h1>
+                            <h1>{% block title %}{% trans "Contacts" %}{% endblock title %}</h1>
                         </div>
                     </div>
             <div class="row pb-5">
                 <div class="col-12 col-md-8 offset-md-2 text-center">
                 <h5>
-                    Hai domande sulla piattaforma o hai dei suggerimenti? Scrivici qui!
+                    {% blocktrans %}Do you have questions about the platform or suggestions? Write to us here!{% endblocktrans %}
                 </h5>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                             {% if inviato %}
                                 <div class="row">
                                     <div class="col-12 text-success  text-center p-3">
-                                        Messaggio inviato con successo!
+                                        {% trans "Message sent successfully!" %}
                                     </div>
                                 </div>
                             {% endif %}

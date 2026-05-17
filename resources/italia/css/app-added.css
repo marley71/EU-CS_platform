@@ -16,3 +16,7 @@ h3.page-h3 {
 .link-none {
     text-decoration: none !important;
 }
+
+.dropdown-item.language-item {
+    width: fit-content;
+}

@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 
-<div class="h6">Mostra</div>
+<div class="h6">{% trans "Mostra" %}</div>
 <div class="layer-option">
     <input type="checkbox" name="layer" id="projectsNazionali{{ screenType }}" checked value="projectsNazionali"
            class="me-1 map-checkbox"
@@ -11,7 +12,7 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
         </span>
-        Progetti nazionali
+        {% trans "Progetti nazionali" %}
 
     </label>
 </div>
@@ -24,7 +25,7 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
         </span>
-        Progetti regionali
+        {% trans "Progetti regionali" %}
 
     </label>
 </div>
@@ -38,7 +39,7 @@
             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
         </svg>
         </span>
-        Progetti locali
+        {% trans "Progetti locali" %}
 
     </label>
 </div>
@@ -52,7 +53,7 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
         </span>
-        Attività nazionali
+        {% trans "Attività nazionali" %}
 
     </label>
 </div>
@@ -66,7 +67,7 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
         </span>
-        Attività regionali
+        {% trans "Attività regionali" %}
 
     </label>
 </div>
@@ -80,21 +81,21 @@
                 <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
             </svg>
         </span>
-        Attività locali
+        {% trans "Attività locali" %}
 
     </label>
     <hr/>
-    <div class="h6 mt-2">Legenda</div>
+    <div class="h6 mt-2">{% trans "Legenda" %}</div>
     <div class="layer-option">
         <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
         </svg>
-        &le; 9 elementi
+        &le; 9 {% trans "elementi" %}
     </div>
     <div class="layer-option">
         <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
             <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
         </svg>
-        &ge; 10 elementi
+        &ge; 10 {% trans "elementi" %}
     </div>
 </div>

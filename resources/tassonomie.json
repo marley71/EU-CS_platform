@@ -1,0 +1,1916 @@
+[
+  {
+    "id": 1,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/12c980a5-034f-4cd5-8ce7-fcfe109c675c",
+    "nome": "scienze sociali",
+    "title": "scienze sociali",
+    "children": [
+      {
+        "id": 12,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/f8714203-d97f-4852-b051-3b63b2795faa",
+        "nome": "scienze politiche",
+        "title": "scienze politiche",
+        "children": [
+          {
+            "id": 121,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/034233ce-1065-4da8-b501-54f951afd7ab",
+            "nome": "comunicazione politica",
+            "title": "comunicazione politica"
+          },
+          {
+            "id": 122,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b525048b-4d08-420b-b2ac-5cccaaa26d91",
+            "nome": "transizioni politiche",
+            "title": "transizioni politiche"
+          },
+          {
+            "id": 123,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c4128628-2048-41ab-b3a8-e0c45a3be10d",
+            "nome": "politiche",
+            "title": "politiche"
+          },
+          {
+            "id": 124,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/149f7cd2-b593-4307-bf6f-77fbfd3ee961",
+            "nome": "sistemi di governo",
+            "title": "sistemi di governo"
+          },
+          {
+            "id": 125,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/562f2b97-7578-4fbc-a53c-b9603aad1db9",
+            "nome": "pubblica amministrazione",
+            "title": "pubblica amministrazione"
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/734e0a2e-5a5f-4bee-aff1-39389370e524",
+        "nome": "scienze dell'educazione",
+        "title": "scienze dell'educazione",
+        "children": [
+          {
+            "id": 141,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4715fd38-1233-4283-8247-32eda72784c8",
+            "nome": "pedagogia",
+            "title": "pedagogia"
+          },
+          {
+            "id": 217,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/46b4c7fc-fae5-4925-a2f9-6ecbdfec5109",
+            "nome": "istruzione inclusiva",
+            "title": "istruzione inclusiva"
+          },
+          {
+            "id": 218,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4ad75c3c-205c-420e-b9cd-18ee54258c43",
+            "nome": "didattica",
+            "title": "didattica"
+          },
+          {
+            "id": 219,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b61af0db-fa53-40bf-99ca-14af26f6b08a",
+            "nome": "istruzione speciale",
+            "title": "istruzione speciale"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/052bc92d-760c-43ab-958e-2330c72a4212",
+        "nome": "economia e commercio",
+        "title": "economia e commercio",
+        "children": [
+          {
+            "id": 145,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/37412f1c-d90a-43cf-86fb-d29e9fc29c6f",
+            "nome": "economia e gestione aziendale",
+            "title": "economia e gestione aziendale"
+          },
+          {
+            "id": 146,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e27cd9b6-055c-480d-8d63-e2d366ca94d7",
+            "nome": "scienze economiche",
+            "title": "scienze economiche"
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/8d3657d8-563a-47fb-a5c2-5592b08365b5",
+        "nome": "media e comunicazione",
+        "title": "media e comunicazione",
+        "children": [
+          {
+            "id": 173,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0b3acff8-05e8-448e-ba5e-db6fee0e6d32",
+            "nome": "giornalismo",
+            "title": "giornalismo"
+          },
+          {
+            "id": 174,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/65ae294f-010f-4735-9e8e-aa522a33bbbe",
+            "nome": "progettazione grafica",
+            "title": "progettazione grafica"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/0bf709d0-834b-4448-a89c-7fb04cece64a",
+        "nome": "altre scienze sociali",
+        "title": "altre scienze sociali",
+        "children": [
+          {
+            "id": 302,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c35a5815-ee59-4223-88d0-1973837a6b58",
+            "nome": "studi sullo sviluppo",
+            "title": "studi sullo sviluppo"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/5c66325e-b247-4e52-92ec-544ae4d061cc",
+        "nome": "psicologia",
+        "title": "psicologia",
+        "children": [
+          {
+            "id": 207,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0f7327f0-f241-40a5-9728-5ed61a7ef5d3",
+            "nome": "psicolinguistica",
+            "title": "psicolinguistica"
+          },
+          {
+            "id": 208,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/189bf165-64c4-423e-bab1-eac6a2db721d",
+            "nome": "psicologia comportamentale",
+            "title": "psicologia comportamentale"
+          },
+          {
+            "id": 209,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/85d38bff-6c87-4717-81d9-f249ee6a7f64",
+            "nome": "psicologia cognitiva",
+            "title": "psicologia cognitiva"
+          },
+          {
+            "id": 210,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/83e22162-07bd-48eb-a6ae-d003d6910aff",
+            "nome": "psicoterapia",
+            "title": "psicoterapia"
+          },
+          {
+            "id": 211,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5734c649-766d-4880-8891-daee21d64bb4",
+            "nome": "psicologia sociale",
+            "title": "psicologia sociale"
+          },
+          {
+            "id": 212,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/6ec4c796-f249-4113-bcc4-2b026afaaed4",
+            "nome": "psicologia dello sviluppo",
+            "title": "psicologia dello sviluppo"
+          },
+          {
+            "id": 213,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a5f238d6-be16-4968-8a0b-61384f7b6e1a",
+            "nome": "ergonomia",
+            "title": "ergonomia"
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/77030c6f-37d5-46d0-961c-b2a053ecb8d7",
+        "nome": "legge",
+        "title": "legge",
+        "children": [
+          {
+            "id": 220,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/31f7d054-da72-42f1-bde9-b44f4cbf58d9",
+            "nome": "scienza penale",
+            "title": "scienza penale"
+          },
+          {
+            "id": 221,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/40cbd681-c84f-4af3-887a-beb6d9857f0f",
+            "nome": "diritto internazionale",
+            "title": "diritto internazionale"
+          },
+          {
+            "id": 222,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/55ef58a8-cd43-4d3a-8f4f-57d3671d3db5",
+            "nome": "diritto costituzionale",
+            "title": "diritto costituzionale"
+          },
+          {
+            "id": 223,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/6cdfa437-5876-4fe0-9e66-d7ba81001787",
+            "nome": "criminologia",
+            "title": "criminologia"
+          },
+          {
+            "id": 224,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7d7dcbeb-e9ca-427e-9817-7594e56a81bc",
+            "nome": "forze dell’ordine",
+            "title": "forze dell’ordine"
+          },
+          {
+            "id": 225,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ca0b52b4-4d64-4b75-a231-06ea45752be6",
+            "nome": "diritti umani",
+            "title": "diritti umani"
+          },
+          {
+            "id": 226,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f22f962e-29bd-49af-ad01-adc27b8d8922",
+            "nome": "diritto della navigazione",
+            "title": "diritto della navigazione"
+          },
+          {
+            "id": 304,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e60d2b6c-d516-498d-b4eb-005f183b4eec",
+            "nome": "diritto ambientale",
+            "title": "diritto ambientale"
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/839b7158-09d9-4799-aacc-bb07d00c1668",
+        "nome": "sociologia",
+        "title": "sociologia",
+        "children": [
+          {
+            "id": 205,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bc439c68-e0c9-4af7-ac71-891e3b60761d",
+            "nome": "governance",
+            "title": "governance"
+          },
+          {
+            "id": 216,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/cf97c48c-d28c-4928-b6d0-d7cad57be273",
+            "nome": "demografia",
+            "title": "demografia"
+          },
+          {
+            "id": 227,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/65672057-bb45-47a9-9b2d-5dd7c15dae10",
+            "nome": "antropologia",
+            "title": "antropologia"
+          },
+          {
+            "id": 228,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/76144833-3f5b-4f6e-8568-f3511da61f95",
+            "nome": "questioni sociali",
+            "title": "questioni sociali"
+          },
+          {
+            "id": 229,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/6bab1ac0-71ae-46aa-a7fa-26531ebf5b11",
+            "nome": "studi sulla famiglia",
+            "title": "studi sulla famiglia"
+          },
+          {
+            "id": 230,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/989f7a0a-1ab0-4896-b0e1-338eb7b25f9b",
+            "nome": "ideologie",
+            "title": "ideologie"
+          },
+          {
+            "id": 231,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/abd12e91-2d1b-4b99-9b4d-6ed39420bb10",
+            "nome": "studi di genere",
+            "title": "studi di genere"
+          },
+          {
+            "id": 232,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bcf62221-aa96-4628-bf0e-3274da49032a",
+            "nome": "lavoro sociale",
+            "title": "lavoro sociale"
+          },
+          {
+            "id": 233,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ea0a553e-d35a-43ca-9bc2-a75f32da5c79",
+            "nome": "relazioni industriali",
+            "title": "relazioni industriali"
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/8614801c-e2ae-4e99-93b0-cfecb09c4f35",
+        "nome": "geografia sociale",
+        "title": "geografia sociale",
+        "children": [
+          {
+            "id": 234,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e56eb495-973e-46c1-b2b2-a446852952f4",
+            "nome": "trasporti",
+            "title": "trasporti"
+          },
+          {
+            "id": 235,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9193c76f-0e67-47d6-819b-19c3122a535e",
+            "nome": "geografia culturale ed economica",
+            "title": "geografia culturale ed economica"
+          },
+          {
+            "id": 236,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bb471542-b763-46c5-babd-c5669b5bca86",
+            "nome": "urbanistica",
+            "title": "urbanistica"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/64605fff-1946-4fd4-b021-e2e83b71dcac",
+    "nome": "ingegneria e tecnologia",
+    "title": "ingegneria e tecnologia",
+    "children": [
+      {
+        "id": 13,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/10352c4c-328e-4dac-a89c-44b6be1420e9",
+        "nome": "ingegneria chimica",
+        "title": "ingegneria chimica",
+        "children": [
+          {
+            "id": 126,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/03b527bb-d9bd-4191-a424-775f6af730f0",
+            "nome": "ingegneria dei processi chimici",
+            "title": "ingegneria dei processi chimici"
+          },
+          {
+            "id": 127,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0e362272-f233-4787-bfb1-1917f4c7c43a",
+            "nome": "ingegneria biochimica",
+            "title": "ingegneria biochimica"
+          },
+          {
+            "id": 128,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4d3e0b8f-ce04-475e-933f-a82f26f1086f",
+            "nome": "tecnologie di separazione",
+            "title": "tecnologie di separazione"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/531bd18a-eedd-4345-8b2f-5464f96615f8",
+        "nome": "ingegneria ambientale",
+        "title": "ingegneria ambientale",
+        "children": [
+          {
+            "id": 130,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0432df49-4127-42da-9eae-d07d8061f62d",
+            "nome": "energia e carburanti",
+            "title": "energia e carburanti"
+          },
+          {
+            "id": 131,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/060a0080-34de-404c-b235-ee69daa67ada",
+            "nome": "attività mineraria e trasformazione dei minerali",
+            "title": "attività mineraria e trasformazione dei minerali"
+          },
+          {
+            "id": 132,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/195984de-c722-4aa8-b43f-0a3365cecae6",
+            "nome": "processi di trattamento delle acque",
+            "title": "processi di trattamento delle acque"
+          },
+          {
+            "id": 133,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3118146b-5f40-4d76-b18a-01d28b9995b6",
+            "nome": "ingegneria dell’inquinamento atmosferico",
+            "title": "ingegneria dell’inquinamento atmosferico"
+          },
+          {
+            "id": 134,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4a174a1e-bab0-4d76-988c-9712b5703e35",
+            "nome": "ingegneria di cattura del carbonio",
+            "title": "ingegneria di cattura del carbonio"
+          },
+          {
+            "id": 135,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/62d2a84e-3f7d-4164-890a-bac80360105b",
+            "nome": "gestione dei rifiuti",
+            "title": "gestione dei rifiuti"
+          },
+          {
+            "id": 136,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8f5a6a53-4d7c-471d-8af2-3f4b57e4655e",
+            "nome": "gestione delle risorse naturali",
+            "title": "gestione delle risorse naturali"
+          },
+          {
+            "id": 137,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/969ab3ad-46f6-4637-a09b-92670ed60152",
+            "nome": "geotecnica",
+            "title": "geotecnica"
+          },
+          {
+            "id": 138,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/acfa84a9-7d59-42ba-8028-92bdad6272d1",
+            "nome": "telerilevamento",
+            "title": "telerilevamento"
+          },
+          {
+            "id": 139,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e9b542e3-aca9-4ff3-b906-72b6cd838a29",
+            "nome": "ingegneria geologica",
+            "title": "ingegneria geologica"
+          },
+          {
+            "id": 301,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a8ec011b-2e01-4088-8f7c-28fa848ade2d",
+            "nome": "gestione basata sugli ecosistemi",
+            "title": "gestione basata sugli ecosistemi"
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/742439ad-5d62-4e2d-bd77-0eb7caaa75f4",
+        "nome": "ingegneria medica",
+        "title": "ingegneria medica",
+        "children": [
+          {
+            "id": 142,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/045d8dc4-1d48-4d18-b8ad-47e9df29100e",
+            "nome": "diagnostica per immagini",
+            "title": "diagnostica per immagini"
+          },
+          {
+            "id": 143,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/fa9934c6-3223-4927-a17b-0095b3e73ae7",
+            "nome": "tecnologia di laboratorio medico",
+            "title": "tecnologia di laboratorio medico"
+          },
+          {
+            "id": 144,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ca1e1ea1-e379-4260-9eba-deb9094ca8ce",
+            "nome": "tecnologia medica indossabile",
+            "title": "tecnologia medica indossabile"
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/26770c2b-64ce-4611-896f-cdefb4893317",
+        "nome": "ingegneria civile",
+        "title": "ingegneria civile",
+        "children": [
+          {
+            "id": 160,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/53d318ec-2f1b-41e4-8317-24b35f9a9120",
+            "nome": "ingegneria strutturale",
+            "title": "ingegneria strutturale"
+          },
+          {
+            "id": 191,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0bccc6b0-7563-4056-aff7-5436488dc37e",
+            "nome": "ingegneria idraulica",
+            "title": "ingegneria idraulica"
+          },
+          {
+            "id": 192,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/38ee72d6-1158-4d1f-a6c8-e60f7b913c33",
+            "nome": "ingegneria edile",
+            "title": "ingegneria edile"
+          },
+          {
+            "id": 193,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5e784778-9a21-483e-8435-37d7af93c92d",
+            "nome": "ingegneria edile",
+            "title": "ingegneria edile"
+          },
+          {
+            "id": 194,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ca74d281-1a02-4330-bb9d-c37be452d597",
+            "nome": "ingegneria dei trasporti",
+            "title": "ingegneria dei trasporti"
+          },
+          {
+            "id": 195,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d2a63922-c4ee-42a3-bef3-77eb49ebfb03",
+            "nome": "ingegneria urbana",
+            "title": "ingegneria urbana"
+          }
+        ]
+      },
+      {
+        "id": 28,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/dc9a4100-9eb3-4956-8fd8-b67ea07a70ad",
+        "nome": "ingegneria dei materiali",
+        "title": "ingegneria dei materiali",
+        "children": [
+          {
+            "id": 175,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0b5b841c-e4a3-4179-9c06-166041fd4254",
+            "nome": "coloranti",
+            "title": "coloranti"
+          },
+          {
+            "id": 176,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c835a32d-04c8-493b-9644-203414287c92",
+            "nome": "compositi",
+            "title": "compositi"
+          },
+          {
+            "id": 177,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/2fba9c5c-193c-47ec-81f5-518020bff496",
+            "nome": "ceramica",
+            "title": "ceramica"
+          },
+          {
+            "id": 178,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4215b6cb-66f0-4ace-a270-8ae68bdd1a76",
+            "nome": "nanocompositi",
+            "title": "nanocompositi"
+          },
+          {
+            "id": 179,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5f29c33d-99e2-40f8-82f8-30b71a5e7b79",
+            "nome": "tessuti",
+            "title": "tessuti"
+          },
+          {
+            "id": 180,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/61a310a8-87ce-448c-b5e5-28feab37defe",
+            "nome": "cristalli",
+            "title": "cristalli"
+          },
+          {
+            "id": 181,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/678ba79d-add4-4a4c-89df-9bf13d8de22b",
+            "nome": "colori",
+            "title": "colori"
+          },
+          {
+            "id": 182,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7a868b71-b645-4d74-9c49-8e9ced9e8c1b",
+            "nome": "rivestimenti e pellicole",
+            "title": "rivestimenti e pellicole"
+          },
+          {
+            "id": 183,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b235ad52-5fbd-4bad-b83f-60b1b43757f3",
+            "nome": "metallurgia",
+            "title": "metallurgia"
+          },
+          {
+            "id": 184,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c570a89b-766b-4a16-9443-533d33d9b0ea",
+            "nome": "cristalli liquidi",
+            "title": "cristalli liquidi"
+          },
+          {
+            "id": 185,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c790f6e2-c1e0-44c1-a413-7f60e950f09d",
+            "nome": "fibre",
+            "title": "fibre"
+          },
+          {
+            "id": 186,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ce6666e1-e816-4f32-8094-2634e44630d3",
+            "nome": "lavorazione del legno",
+            "title": "lavorazione del legno"
+          },
+          {
+            "id": 303,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/950e524e-2e57-4026-9624-0f308a042961",
+            "nome": "solidi amorfi",
+            "title": "solidi amorfi"
+          }
+        ]
+      },
+      {
+        "id": 32,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/325a846e-9c47-4aca-9358-5c8facd2e812",
+        "nome": "ingegneria elettrica, ingegneria elettronica, ingegneria informatica",
+        "title": "ingegneria elettrica, ingegneria elettronica, ingegneria informatica",
+        "children": [
+          {
+            "id": 169,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/380ec7da-dd0e-49e8-9914-ca5c72a5c2de",
+            "nome": "ingegneria elettronica",
+            "title": "ingegneria elettronica"
+          },
+          {
+            "id": 170,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8f88c01b-6255-42c7-af87-1dda2ae9af1a",
+            "nome": "ingegneria informatica",
+            "title": "ingegneria informatica"
+          },
+          {
+            "id": 242,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5d08280c-4bca-41ff-9034-81d4210a7b6b",
+            "nome": "ingegneria elettrotecnica",
+            "title": "ingegneria elettrotecnica"
+          }
+        ]
+      },
+      {
+        "id": 33,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/739766f0-539e-4fba-8144-9249bb38719a",
+        "nome": "nanotecnologia",
+        "title": "nanotecnologia",
+        "children": [
+          {
+            "id": 197,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0d082a10-ed95-4992-9df1-b4f4b301edfa",
+            "nome": "nanoelettronica",
+            "title": "nanoelettronica"
+          },
+          {
+            "id": 198,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/46414b4c-ea2c-4a35-b8ba-8f110dd8eb13",
+            "nome": "sistemi nano-elettromeccanici",
+            "title": "sistemi nano-elettromeccanici"
+          },
+          {
+            "id": 199,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/80ac9c16-fb4f-4fb0-a9b8-af068f3e0e3f",
+            "nome": "nanoprocessi",
+            "title": "nanoprocessi"
+          },
+          {
+            "id": 200,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9f2d4860-d6ab-446c-bad7-a6e7e4801cf1",
+            "nome": "nanomateriali",
+            "title": "nanomateriali"
+          },
+          {
+            "id": 201,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c3a86a9d-749f-4873-8060-1d3957c02bf8",
+            "nome": "nanofotonica",
+            "title": "nanofotonica"
+          }
+        ]
+      },
+      {
+        "id": 34,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/14e75836-6f05-46f9-9c82-ca12468b0452",
+        "nome": "altre ingegnerie e tecnologie",
+        "title": "altre ingegnerie e tecnologie",
+        "children": [
+          {
+            "id": 202,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0d3c1001-9a67-4245-bc15-2aef8b239df1",
+            "nome": "ingegneria nucleare",
+            "title": "ingegneria nucleare"
+          },
+          {
+            "id": 203,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/22f80759-3d33-4ae9-9489-a5aefedc54c3",
+            "nome": "microtecnologia",
+            "title": "microtecnologia"
+          },
+          {
+            "id": 204,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e4062af9-fc49-4826-9bdb-e549f3f0f191",
+            "nome": "tecnologia alimentare",
+            "title": "tecnologia alimentare"
+          }
+        ]
+      },
+      {
+        "id": 35,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/12df4518-adab-4191-a79f-74eb18ad1688",
+        "nome": "biotecnologia industriale",
+        "title": "biotecnologia industriale",
+        "children": [
+          {
+            "id": 237,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3c7d4f8a-c885-4c6d-a41b-b3ff1cb3669c",
+            "nome": "biomateriale",
+            "title": "biomateriale"
+          },
+          {
+            "id": 238,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/432182f0-ede2-4b63-8b2c-fd36f487fb53",
+            "nome": "tecnologie della biotrasformazione",
+            "title": "tecnologie della biotrasformazione"
+          },
+          {
+            "id": 239,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e0e6ab19-9e03-4033-bc70-d0d1affa0ce1",
+            "nome": "ingegneria metabolica",
+            "title": "ingegneria metabolica"
+          }
+        ]
+      },
+      {
+        "id": 36,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/ea994073-d367-4ed7-9df3-4477a9c6cf6f",
+        "nome": "ingegneria meccanica",
+        "title": "ingegneria meccanica",
+        "children": [
+          {
+            "id": 50,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/aa18770d-daaf-4ef7-8229-d371b933adab",
+            "nome": "ingegneria dei veicoli",
+            "title": "ingegneria dei veicoli"
+          },
+          {
+            "id": 287,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/34c57135-1b8a-4263-a942-68b658a1d663",
+            "nome": "meccanica applicata",
+            "title": "meccanica applicata"
+          },
+          {
+            "id": 288,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3e3b69cb-7cab-41d8-bd6c-6945f9c982ad",
+            "nome": "ingegnerizzazione dei prodotti",
+            "title": "ingegnerizzazione dei prodotti"
+          },
+          {
+            "id": 289,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8de72c5d-c07e-4665-9d31-5aa4e1aa44f8",
+            "nome": "tribologia",
+            "title": "tribologia"
+          },
+          {
+            "id": 290,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/54157b12-04fe-4eb2-b707-6a46f992fdce",
+            "nome": "ingegneria termodinamica",
+            "title": "ingegneria termodinamica"
+          },
+          {
+            "id": 291,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/6e37f121-a5d4-4054-b685-fec1c2d5e6c8",
+            "nome": "meccatronica",
+            "title": "meccatronica"
+          }
+        ]
+      },
+      {
+        "id": 37,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/776bf529-b4bb-458b-ad4f-50b327a822ce",
+        "nome": "biotecnologia ambientale",
+        "title": "biotecnologia ambientale",
+        "children": [
+          {
+            "id": 296,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f5bf3404-60d3-43a9-a12c-ad98d9168abe",
+            "nome": "biorisanamento",
+            "title": "biorisanamento"
+          },
+          {
+            "id": 300,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/946d8857-22c1-4073-af96-a721c13878fd",
+            "nome": "biorilevamento",
+            "title": "biorilevamento"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/7a2dcf7b-2c20-468a-a81c-76d67c14de31",
+    "nome": "scienze umanistiche",
+    "title": "scienze umanistiche",
+    "children": [
+      {
+        "id": 26,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/e2120c91-f57d-4f96-8992-59c109634f1c",
+        "nome": "altre scienze umanistiche",
+        "title": "altre scienze umanistiche",
+        "children": [
+          {
+            "id": 161,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/2dbfd0d0-fc0e-4426-986e-ad00a7ea7810",
+            "nome": "biblioteconomia",
+            "title": "biblioteconomia"
+          }
+        ]
+      },
+      {
+        "id": 27,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/a55114ca-1ad7-4c52-a261-d753fbeb3529",
+        "nome": "arte",
+        "title": "arte",
+        "children": [
+          {
+            "id": 163,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/07313c54-6fb7-493e-90ce-d40c14615f6c",
+            "nome": "arti dello spettacolo",
+            "title": "arti dello spettacolo"
+          },
+          {
+            "id": 164,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/403e6b96-4460-4e8a-9500-a854d8f25b57",
+            "nome": "arte moderna e contemporanea",
+            "title": "arte moderna e contemporanea"
+          },
+          {
+            "id": 165,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/47eb9d78-a29d-4759-8c86-d7d4a8065997",
+            "nome": "musicologia",
+            "title": "musicologia"
+          },
+          {
+            "id": 166,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/62e0b84b-ccbb-4cd9-a8b3-9fafb942904e",
+            "nome": "arti visive",
+            "title": "arti visive"
+          },
+          {
+            "id": 167,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9f06ae95-d41a-4621-9152-8a6e1eb46334",
+            "nome": "storia dell’arte",
+            "title": "storia dell’arte"
+          },
+          {
+            "id": 168,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/afe0f21c-5863-4628-a909-829d12618497",
+            "nome": "progettazione architettonica",
+            "title": "progettazione architettonica"
+          }
+        ]
+      },
+      {
+        "id": 29,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/de62b610-a9d3-430b-92ff-366f28f7b1c7",
+        "nome": "storia e archeologia",
+        "title": "storia e archeologia",
+        "children": [
+          {
+            "id": 187,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/76da466d-e78f-44b0-990a-db42f87b9454",
+            "nome": "archeologia",
+            "title": "archeologia"
+          },
+          {
+            "id": 246,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/192cfa59-26ab-465e-9338-2b957e3d79ba",
+            "nome": "storia",
+            "title": "storia"
+          }
+        ]
+      },
+      {
+        "id": 40,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/866c484a-44d8-4fde-b54f-3b1d9f8ca612",
+        "nome": "filosofia, etica e religione",
+        "title": "filosofia, etica e religione",
+        "children": [
+          {
+            "id": 245,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/20e77e46-571d-42a4-b3f1-8eb284bc4034",
+            "nome": "filosofia",
+            "title": "filosofia"
+          },
+          {
+            "id": 250,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/61735be0-41d4-4c93-a7a0-9fdca27e92c1",
+            "nome": "religioni",
+            "title": "religioni"
+          },
+          {
+            "id": 259,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/50df14de-3934-4dc8-a6e1-c0008963aa0e",
+            "nome": "etica",
+            "title": "etica"
+          }
+        ]
+      },
+      {
+        "id": 41,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/1ad04442-4f97-4a5e-aba8-4fc2889faeca",
+        "nome": "lingue e letteratura",
+        "title": "lingue e letteratura",
+        "children": [
+          {
+            "id": 247,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3eaeff93-c40a-4806-b3a3-74e6c69cc9ef",
+            "nome": "studi linguistici generali",
+            "title": "studi linguistici generali"
+          },
+          {
+            "id": 248,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/46bb355e-acf6-4eb1-8c29-18efb51f0ec0",
+            "nome": "studi letterari",
+            "title": "studi letterari"
+          },
+          {
+            "id": 249,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/61bab820-648f-4f84-9f2d-71b5f80c5835",
+            "nome": "linguistica",
+            "title": "linguistica"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/9b9abbee-82f5-4766-bd4d-feb73cf06573",
+    "nome": "scienze agricole",
+    "title": "scienze agricole",
+    "children": [
+      {
+        "id": 30,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/4df60e5a-a143-45d2-b1a6-c2dcb31d977a",
+        "nome": "agricoltura, silvicoltura e pesca",
+        "title": "agricoltura, silvicoltura e pesca",
+        "children": [
+          {
+            "id": 188,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0b94b07d-b3bc-4b89-9d2a-5815d4fadb83",
+            "nome": "pesca",
+            "title": "pesca"
+          },
+          {
+            "id": 189,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/91dbf78e-ec96-4fc8-9ba3-706d26b85a15",
+            "nome": "agricoltura",
+            "title": "agricoltura"
+          },
+          {
+            "id": 190,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d5486acf-7f05-4e9d-80ce-f035987b41bc",
+            "nome": "silvicoltura",
+            "title": "silvicoltura"
+          }
+        ]
+      },
+      {
+        "id": 42,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/1d8b779c-f72c-40fe-a8b9-22608c4e9df4",
+        "nome": "biotecnologia agricola",
+        "title": "biotecnologia agricola",
+        "children": [
+          {
+            "id": 252,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/51375078-2b2e-438e-afa1-49bed3b06349",
+            "nome": "selezione assistita da marcatori",
+            "title": "selezione assistita da marcatori"
+          },
+          {
+            "id": 253,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7aaec0f1-299a-4440-af7f-400f5bf6f785",
+            "nome": "biomassa",
+            "title": "biomassa"
+          },
+          {
+            "id": 254,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a4440832-246b-4287-9e41-3ee3fa79f944",
+            "nome": "genetica agraria",
+            "title": "genetica agraria"
+          }
+        ]
+      },
+      {
+        "id": 43,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/b33c5338-c5bb-4026-8b86-7e2ff7cd2e3c",
+        "nome": "scienze veterinarie e della produzione lattiero-casearia",
+        "title": "scienze veterinarie e della produzione lattiero-casearia",
+        "children": [
+          {
+            "id": 297,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4e2d5d05-e6af-41fa-abc0-5ef8a0d09661",
+            "nome": "apicoltura",
+            "title": "apicoltura"
+          },
+          {
+            "id": 298,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ed1f12b1-12f0-4109-b592-d86f4a5c7b30",
+            "nome": "animali domestici",
+            "title": "animali domestici"
+          },
+          {
+            "id": 299,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ae3cfca8-a6b6-453b-baad-1a470c4ff238",
+            "nome": "latticini",
+            "title": "latticini"
+          }
+        ]
+      },
+      {
+        "id": 44,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/55e533c2-cad7-45bc-a66f-e813cda04e70",
+        "nome": "medicina veterinaria",
+        "title": "medicina veterinaria"
+      },
+      {
+        "id": 45,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/fba9976f-0a7e-410c-8fce-3a6cef46f5e1",
+        "nome": "altre scienze agricole",
+        "title": "altre scienze agricole"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/9e8e1abb-1a14-40ef-9658-782092fa5cf6",
+    "nome": "scienze mediche e della salute",
+    "title": "scienze mediche e della salute",
+    "children": [
+      {
+        "id": 8,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/a348fcd2-3bdd-46f9-aa2c-a91301f1e12e",
+        "nome": "medicina clinica",
+        "title": "medicina clinica",
+        "children": [
+          {
+            "id": 51,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3961e9d2-ab3b-451b-b246-20fc0ec3b0c4",
+            "nome": "nefrologia",
+            "title": "nefrologia"
+          },
+          {
+            "id": 53,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/00a5c4f4-b7ee-41a4-bcdf-3a02e6be1660",
+            "nome": "neurologia clinica",
+            "title": "neurologia clinica"
+          },
+          {
+            "id": 54,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3de50dee-da1c-4791-a386-56bca24a5fed",
+            "nome": "psichiatria",
+            "title": "psichiatria"
+          },
+          {
+            "id": 55,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0d45044a-74d5-4bd7-b920-b92af3388576",
+            "nome": "medicina interna",
+            "title": "medicina interna"
+          },
+          {
+            "id": 56,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/134581fe-5bce-4d8a-9279-bbb69c824ea3",
+            "nome": "microbiologia clinica",
+            "title": "microbiologia clinica"
+          },
+          {
+            "id": 57,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5784b7f1-c7ce-49d9-9f38-aebcda0ff41d",
+            "nome": "oncologia",
+            "title": "oncologia"
+          },
+          {
+            "id": 58,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/432746d6-998b-431f-b22f-d3abe0e8aada",
+            "nome": "chirurgia",
+            "title": "chirurgia"
+          },
+          {
+            "id": 59,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5754a839-d714-4849-9789-e831eb4af6f1",
+            "nome": "odontologia",
+            "title": "odontologia"
+          },
+          {
+            "id": 60,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/284ca20c-beb4-4abe-99fa-ef4513358bad",
+            "nome": "ostetricia",
+            "title": "ostetricia"
+          },
+          {
+            "id": 61,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/27c456a1-051a-42f6-b52a-3beff0487da7",
+            "nome": "epatologia",
+            "title": "epatologia"
+          },
+          {
+            "id": 62,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f6e18c52-6087-4662-904c-5c4b8174e40e",
+            "nome": "pneumologia",
+            "title": "pneumologia"
+          },
+          {
+            "id": 63,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5e1591e2-d02b-436c-8216-6b8912eee467",
+            "nome": "medicina d’emergenza-urgenza",
+            "title": "medicina d’emergenza-urgenza"
+          },
+          {
+            "id": 64,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/af65e2bf-afc5-45e8-a0fc-364dfb48f0a4",
+            "nome": "allergologia",
+            "title": "allergologia"
+          },
+          {
+            "id": 65,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a3898340-a42d-4f5e-a822-1de204a9a867",
+            "nome": "gastroenterologia",
+            "title": "gastroenterologia"
+          },
+          {
+            "id": 66,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d1dd1bac-5313-4ab3-837f-4acd3ec521a7",
+            "nome": "endocrinologia",
+            "title": "endocrinologia"
+          },
+          {
+            "id": 67,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/38e57437-b2cc-4d26-a46e-c5b639c01e5f",
+            "nome": "fisioterapia",
+            "title": "fisioterapia"
+          },
+          {
+            "id": 68,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4455c187-2f2f-4cd1-a4dd-449f59d73b39",
+            "nome": "cardiologia",
+            "title": "cardiologia"
+          },
+          {
+            "id": 69,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4ae9faed-32ab-4b7c-adb1-90f54d10c540",
+            "nome": "angiologia",
+            "title": "angiologia"
+          },
+          {
+            "id": 70,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4b9f8efb-68dd-45a1-b04c-d23d457d6898",
+            "nome": "medicina generale",
+            "title": "medicina generale"
+          },
+          {
+            "id": 71,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5375c411-6db9-40ed-a854-6554102a587b",
+            "nome": "dermatologia",
+            "title": "dermatologia"
+          },
+          {
+            "id": 72,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/621ef1ce-2ebd-43d9-a6c7-ecd962d27269",
+            "nome": "oftalmologia",
+            "title": "oftalmologia"
+          },
+          {
+            "id": 73,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/71137b04-547d-4329-8db3-251df3e84589",
+            "nome": "trapianto",
+            "title": "trapianto"
+          },
+          {
+            "id": 74,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7341b8bd-fcb0-44c1-9ca9-8752b542ed59",
+            "nome": "andrologia",
+            "title": "andrologia"
+          },
+          {
+            "id": 75,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7de64596-5b0d-4977-8f98-b982ff2ec17d",
+            "nome": "ginecologia",
+            "title": "ginecologia"
+          },
+          {
+            "id": 76,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9239f328-78c9-40a5-a0b9-8e66fd9b6245",
+            "nome": "ematologia",
+            "title": "ematologia"
+          },
+          {
+            "id": 77,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9c3a57c5-68bd-4ee7-a9cc-aa8ba07bde94",
+            "nome": "otorinolaringoiatria",
+            "title": "otorinolaringoiatria"
+          },
+          {
+            "id": 78,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b469121d-9e7d-478a-890c-56c73607a917",
+            "nome": "radiologia",
+            "title": "radiologia"
+          },
+          {
+            "id": 79,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bf8aaaac-ddee-41cd-bb8a-c5a63de3fcbd",
+            "nome": "pediatria",
+            "title": "pediatria"
+          },
+          {
+            "id": 80,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bfb0bafd-7894-45ba-84fc-ddab5fd6c537",
+            "nome": "reumatologia",
+            "title": "reumatologia"
+          },
+          {
+            "id": 81,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c3c03909-fc4b-4082-9de2-3a105efcb1aa",
+            "nome": "medicina complementare e integrativa",
+            "title": "medicina complementare e integrativa"
+          },
+          {
+            "id": 82,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c42fc6ec-b216-4a24-9e9d-f5e781c175a0",
+            "nome": "arteriopatia periferica",
+            "title": "arteriopatia periferica"
+          },
+          {
+            "id": 83,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c4538836-ae58-4941-b544-50f53e979e20",
+            "nome": "ortopedia",
+            "title": "ortopedia"
+          },
+          {
+            "id": 84,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/cb061cc1-dd52-46a4-a8fe-065838d5b44a",
+            "nome": "malattie sessualmente trasmissibili",
+            "title": "malattie sessualmente trasmissibili"
+          },
+          {
+            "id": 85,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ce3293cb-700b-4b49-a91b-56ddfc97181f",
+            "nome": "embriologia",
+            "title": "embriologia"
+          },
+          {
+            "id": 86,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d37e4d8c-a978-40c7-ba4f-eee841851073",
+            "nome": "gerontologia",
+            "title": "gerontologia"
+          },
+          {
+            "id": 87,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d90d8dbf-c4b3-46c0-bf2c-55a4a3d9ba8b",
+            "nome": "urologia",
+            "title": "urologia"
+          },
+          {
+            "id": 88,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e7e1c80b-2874-482d-bd67-ce672af5cfb4",
+            "nome": "rianimazione",
+            "title": "rianimazione"
+          },
+          {
+            "id": 89,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e92e8adc-8256-4a4c-a052-b3cad420db7d",
+            "nome": "anestesiologia",
+            "title": "anestesiologia"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/5c631d7c-2a8c-40b4-9ba9-71121e2d5e63",
+        "nome": "medicina di base",
+        "title": "medicina di base",
+        "children": [
+          {
+            "id": 98,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/7a3cf568-46ba-4840-be8f-f22fc030139f",
+            "nome": "immunologia",
+            "title": "immunologia"
+          },
+          {
+            "id": 92,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/01fc32f3-a4fb-4c1b-8340-888f2fca1a90",
+            "nome": "patologia",
+            "title": "patologia"
+          },
+          {
+            "id": 93,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c4793dfe-e80e-49dd-9fcc-a1a742de1b25",
+            "nome": "neurologia",
+            "title": "neurologia"
+          },
+          {
+            "id": 94,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e2a7fab2-7027-40e8-b189-f401a23818c8",
+            "nome": "farmacologia e farmacia",
+            "title": "farmacologia e farmacia"
+          },
+          {
+            "id": 95,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/24811189-bac9-436c-b2ee-5c59ed383169",
+            "nome": "tossicologia",
+            "title": "tossicologia"
+          },
+          {
+            "id": 96,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/38089427-13ee-4c1a-a7cf-4cd6c4802e33",
+            "nome": "anatomia e morfologia",
+            "title": "anatomia e morfologia"
+          },
+          {
+            "id": 97,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4f3b304b-f7cc-4fd0-bcc6-a27183089456",
+            "nome": "chimica farmaceutica",
+            "title": "chimica farmaceutica"
+          },
+          {
+            "id": 99,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8e2d297f-5880-4d7a-969d-79026aa0779c",
+            "nome": "genetica medica",
+            "title": "genetica medica"
+          },
+          {
+            "id": 100,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a2f16477-c745-46f0-b832-586b1c0e468b",
+            "nome": "fisiologia",
+            "title": "fisiologia"
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/495b214f-06c8-45b9-a5d2-64e2df5dc2e3",
+        "nome": "biotecnologia medica",
+        "title": "biotecnologia medica",
+        "children": [
+          {
+            "id": 196,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/582a0b32-79e8-4b30-abf9-c7b6a6708683",
+            "nome": "ingegneria dei tessuti",
+            "title": "ingegneria dei tessuti"
+          },
+          {
+            "id": 292,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/3aa7fb7c-2eba-4211-a8f4-8d1ccaddc7e2",
+            "nome": "tecnologie cellulari",
+            "title": "tecnologie cellulari"
+          },
+          {
+            "id": 293,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8a8f7c98-1ab7-4280-b763-b87de70cea7c",
+            "nome": "nanomedicina",
+            "title": "nanomedicina"
+          },
+          {
+            "id": 294,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/be9c7e2f-d88d-4e49-9116-ef752aeca290",
+            "nome": "ingegneria genetica",
+            "title": "ingegneria genetica"
+          },
+          {
+            "id": 295,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ee1d85aa-6280-4a27-9580-f5245768c72a",
+            "nome": "impianti",
+            "title": "impianti"
+          }
+        ]
+      },
+      {
+        "id": 39,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/a357cf4d-48e6-4d5d-b8bf-3e39cbbbe713",
+        "nome": "altre scienze mediche",
+        "title": "altre scienze mediche",
+        "children": [
+          {
+            "id": 243,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/163e8940-1568-42a7-a52d-b66b18db16e0",
+            "nome": "storia della medicina",
+            "title": "storia della medicina"
+          },
+          {
+            "id": 244,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/fafbe5ea-68fc-490c-8920-c1c6b5c8006e",
+            "nome": "scienze forensi",
+            "title": "scienze forensi"
+          }
+        ]
+      },
+      {
+        "id": 47,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/34b9c059-9e6c-4ec1-8a96-845c95c1a978",
+        "nome": "scienze della salute",
+        "title": "scienze della salute",
+        "children": [
+          {
+            "id": 129,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/fa2ceeab-3b2f-45e9-9243-e5a8005b98de",
+            "nome": "malattie infettive",
+            "title": "malattie infettive"
+          },
+          {
+            "id": 272,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/42d645e0-f58d-40ed-9917-5b227ff41a92",
+            "nome": "abuso di sostanze",
+            "title": "abuso di sostanze"
+          },
+          {
+            "id": 273,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4825264c-ff40-46ee-b7a9-dc5093003929",
+            "nome": "parassitologia",
+            "title": "parassitologia"
+          },
+          {
+            "id": 274,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4cec15e9-0570-49e3-91d7-cebe00d0fadf",
+            "nome": "medicina tropicale",
+            "title": "medicina tropicale"
+          },
+          {
+            "id": 275,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/678cdc97-e688-4736-a884-8b6bb5b9b68d",
+            "nome": "scienze biomediche sociali",
+            "title": "scienze biomediche sociali"
+          },
+          {
+            "id": 276,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/71cd7e43-dbf6-420f-8338-b444439e4e41",
+            "nome": "nutrizione",
+            "title": "nutrizione"
+          },
+          {
+            "id": 277,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/79c581d5-f4f7-47b5-b582-ee6e88ee1815",
+            "nome": "infermieristica",
+            "title": "infermieristica"
+          },
+          {
+            "id": 278,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8190a2e4-d944-4a7e-bb2f-adb488442622",
+            "nome": "dietetica",
+            "title": "dietetica"
+          },
+          {
+            "id": 279,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8beec404-182b-4d02-a005-3d30761e3b0c",
+            "nome": "scienze dell'assistenza sanitaria",
+            "title": "scienze dell'assistenza sanitaria"
+          },
+          {
+            "id": 280,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9285d0c4-93e0-4cd7-bc24-4cb0b0b9a06e",
+            "nome": "patologia della parola",
+            "title": "patologia della parola"
+          },
+          {
+            "id": 281,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/99e6da50-737b-41fa-9ad3-50f4152e79f6",
+            "nome": "servizi di assistenza sanitaria",
+            "title": "servizi di assistenza sanitaria"
+          },
+          {
+            "id": 282,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b533acc2-aff1-4c65-80ca-5d5bee865ba9",
+            "nome": "salute pubblica",
+            "title": "salute pubblica"
+          },
+          {
+            "id": 283,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c513670f-f553-4a89-8bfd-d021f267d078",
+            "nome": "medicina personalizzata",
+            "title": "medicina personalizzata"
+          },
+          {
+            "id": 284,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/cbb6f86d-b5c6-4649-9b06-3712653ca459",
+            "nome": "etica medica",
+            "title": "etica medica"
+          },
+          {
+            "id": 285,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f0844378-9f30-4873-b19b-5bff8c184a36",
+            "nome": "malattie infiammatorie",
+            "title": "malattie infiammatorie"
+          },
+          {
+            "id": 286,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/ff9e9276-586f-44d1-a309-368cbd77bdcb",
+            "nome": "scienze motorie",
+            "title": "scienze motorie"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "concept": "http://data.europa.eu/8mn/euroscivoc/3d76a7f4-5a16-411e-ae44-7b712d5222ee",
+    "nome": "scienze naturali",
+    "title": "scienze naturali",
+    "children": [
+      {
+        "id": 7,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/e437ed99-4a4e-4fb3-af7e-fae6a2c2a800",
+        "nome": "informatica e scienze dell'informazione",
+        "title": "informatica e scienze dell'informazione",
+        "children": [
+          {
+            "id": 49,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/1f6c74df-a512-462e-99aa-8dcbaa98972a",
+            "nome": "basi di dati",
+            "title": "basi di dati"
+          },
+          {
+            "id": 91,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b078d965-cd9f-438b-888e-a86a2137ca10",
+            "nome": "scienza dei dati",
+            "title": "scienza dei dati"
+          },
+          {
+            "id": 206,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4c8f4b46-6f5c-41d9-9079-7de85c16431d",
+            "nome": "intelligenza artificiale",
+            "title": "intelligenza artificiale"
+          },
+          {
+            "id": 215,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b05801b2-037a-454e-b0d7-3f3cb7a63cfb",
+            "nome": "ingegneria della conoscenza",
+            "title": "ingegneria della conoscenza"
+          },
+          {
+            "id": 255,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/46889256-2431-4fb0-bee0-184f2c8a24c4",
+            "nome": "sicurezza informatica",
+            "title": "sicurezza informatica"
+          },
+          {
+            "id": 256,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/e2c0aa46-c26e-468a-8800-45e85e038ec2",
+            "nome": "internet",
+            "title": "internet"
+          },
+          {
+            "id": 257,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/dd6b64d9-afef-4d5e-8a93-6c251d2565cf",
+            "nome": "scienze computazionali",
+            "title": "scienze computazionali"
+          },
+          {
+            "id": 258,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/aafff649-e02a-496e-b436-284ce76044c4",
+            "nome": "software",
+            "title": "software"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/d3b09b78-ac5c-4fc3-b58a-9573daf0e304",
+        "nome": "scienze fisiche",
+        "title": "scienze fisiche",
+        "children": [
+          {
+            "id": 52,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/41d8a14d-6def-402e-b6e5-09d1cd8d3fc4",
+            "nome": "astronomia",
+            "title": "astronomia"
+          },
+          {
+            "id": 147,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/05cb3438-9392-4a86-b945-2ff240183683",
+            "nome": "elettromagnetismo ed elettronica",
+            "title": "elettromagnetismo ed elettronica"
+          },
+          {
+            "id": 148,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/c61cf6c6-8b52-4fbb-9b30-b09659e476cf",
+            "nome": "fisica della materia condensata",
+            "title": "fisica della materia condensata"
+          },
+          {
+            "id": 149,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f3cb3d46-1a4f-4c29-9e80-46a854f53382",
+            "nome": "ottica",
+            "title": "ottica"
+          },
+          {
+            "id": 150,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0fce4b31-70e0-42f1-b844-5f7f0ce74914",
+            "nome": "termodinamica",
+            "title": "termodinamica"
+          },
+          {
+            "id": 151,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/31b37bab-06b5-46e0-a76e-d18c04ddb2b4",
+            "nome": "acustica",
+            "title": "acustica"
+          },
+          {
+            "id": 152,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/546f93d1-4503-4a57-90d9-8ec927ab112e",
+            "nome": "meccanica classica",
+            "title": "meccanica classica"
+          },
+          {
+            "id": 153,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5f6d0ee3-74d2-4fba-829b-24ef3fdf33fa",
+            "nome": "fisica teoretica",
+            "title": "fisica teoretica"
+          },
+          {
+            "id": 154,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bc599515-b5e0-4b5b-9c0a-1f794d197ed3",
+            "nome": "fisica nucleare",
+            "title": "fisica nucleare"
+          },
+          {
+            "id": 155,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a87e992b-13ab-47e9-bc25-1dc24d69d1f2",
+            "nome": "fisica atomica",
+            "title": "fisica atomica"
+          },
+          {
+            "id": 156,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bfd5c444-49dd-4da9-9ad8-d242f724f036",
+            "nome": "fisica quantistica",
+            "title": "fisica quantistica"
+          },
+          {
+            "id": 157,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/da85f15b-d00c-4b04-a525-e9406e1f81ea",
+            "nome": "fisica del plasma",
+            "title": "fisica del plasma"
+          },
+          {
+            "id": 158,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/dccbb79d-0f5e-4efd-853f-826e04e32f5d",
+            "nome": "meccanica relativistica",
+            "title": "meccanica relativistica"
+          },
+          {
+            "id": 159,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/f904fbe4-cff9-4f2c-9e7e-7b964cb2318f",
+            "nome": "fisica chimica e molecolare",
+            "title": "fisica chimica e molecolare"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/803cff73-504b-41ae-9873-1836c76c15d1",
+        "nome": "scienze biologiche",
+        "title": "scienze biologiche",
+        "children": [
+          {
+            "id": 90,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/763cdd4c-3c18-4fa5-91be-fc6c8754d116",
+            "nome": "zoologia",
+            "title": "zoologia"
+          },
+          {
+            "id": 101,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/021bf00b-fbb1-487a-b79c-feacbb17b814",
+            "nome": "neurobiologia",
+            "title": "neurobiologia"
+          },
+          {
+            "id": 102,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a9aa37ce-d8d5-4d68-9123-ffbced0aed12",
+            "nome": "biologia cellulare",
+            "title": "biologia cellulare"
+          },
+          {
+            "id": 103,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/0adb1597-9fb5-43ec-81ba-09af6670352d",
+            "nome": "conservazione della biodiversità",
+            "title": "conservazione della biodiversità"
+          },
+          {
+            "id": 104,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/1d61ac8a-6360-432d-9729-f180ba76f24b",
+            "nome": "biologia molecolare",
+            "title": "biologia molecolare"
+          },
+          {
+            "id": 105,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/36734fd7-bed0-4ac6-9445-a35869e83091",
+            "nome": "ecologia",
+            "title": "ecologia"
+          },
+          {
+            "id": 106,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d8bca3d6-cd94-4597-8d72-39fd31699728",
+            "nome": "microbiologia",
+            "title": "microbiologia"
+          },
+          {
+            "id": 107,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bf927f14-c975-45e6-bedd-a383152aa7d3",
+            "nome": "genetica",
+            "title": "genetica"
+          },
+          {
+            "id": 108,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/288627c1-4e51-42b3-b773-f68b39c3b0a9",
+            "nome": "biologia marina",
+            "title": "biologia marina"
+          },
+          {
+            "id": 109,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/32983fb5-b823-4830-a924-773611dc4e25",
+            "nome": "morfologia biochimica",
+            "title": "morfologia biochimica"
+          },
+          {
+            "id": 110,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/33f31d80-b8e4-44b3-832f-02b975a9b549",
+            "nome": "biologia evoluzionistica",
+            "title": "biologia evoluzionistica"
+          },
+          {
+            "id": 111,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/dde8eea3-9315-4c49-8464-f26a2deb949f",
+            "nome": "biochimica",
+            "title": "biochimica"
+          },
+          {
+            "id": 112,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/584d9d66-018f-4bb9-812c-7fafd5b1abd4",
+            "nome": "biologia dello sviluppo",
+            "title": "biologia dello sviluppo"
+          },
+          {
+            "id": 113,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5b85e891-a025-4270-9b5d-df61c39b79f2",
+            "nome": "biologia del comportamento",
+            "title": "biologia del comportamento"
+          },
+          {
+            "id": 114,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/93205ae1-235c-4259-a94d-ca9453a2ce17",
+            "nome": "botanica",
+            "title": "botanica"
+          },
+          {
+            "id": 115,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/749ae797-df54-47c9-9298-60812c03e3e5",
+            "nome": "biologia riproduttiva",
+            "title": "biologia riproduttiva"
+          },
+          {
+            "id": 116,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/838f3474-df6f-4654-958e-38b8d7e4b0c9",
+            "nome": "istologia",
+            "title": "istologia"
+          },
+          {
+            "id": 117,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9cfaafe4-7fee-41fc-ba8d-cf23a2a176e6",
+            "nome": "biofisica",
+            "title": "biofisica"
+          },
+          {
+            "id": 118,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a74ddb9f-5ad3-4cf4-942d-9dd83fcc041b",
+            "nome": "biologia sintetica",
+            "title": "biologia sintetica"
+          },
+          {
+            "id": 119,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/bd0efc6b-d9bf-4519-b8e5-7f319401526e",
+            "nome": "altri argomenti biologici",
+            "title": "altri argomenti biologici"
+          },
+          {
+            "id": 120,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/d65148fb-16db-4577-809d-e6c9c4aadead",
+            "nome": "biologia delle acque dolci",
+            "title": "biologia delle acque dolci"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/4a8788fc-4172-461c-ae94-40be4f39043f",
+        "nome": "scienze della terra e scienze ambientali connesse",
+        "title": "scienze della terra e scienze ambientali connesse",
+        "children": [
+          {
+            "id": 140,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/a90b6f46-eb48-46d0-81c2-37cf667fd4a5",
+            "nome": "idrologia",
+            "title": "idrologia"
+          },
+          {
+            "id": 162,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/65f1cb53-0694-477b-9900-61ac8ad78c67",
+            "nome": "geologia",
+            "title": "geologia"
+          },
+          {
+            "id": 171,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/2660be39-041b-4cee-9bfc-32b28b884bd7",
+            "nome": "scienze dell'atmosfera",
+            "title": "scienze dell'atmosfera"
+          },
+          {
+            "id": 172,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8a64da82-b46e-4940-b896-bfc79ad3f6f8",
+            "nome": "paleontologia",
+            "title": "paleontologia"
+          },
+          {
+            "id": 241,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4fc54e32-5c0e-4f9f-aec1-18bb20609eba",
+            "nome": "geochimica",
+            "title": "geochimica"
+          },
+          {
+            "id": 251,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b0edf9eb-127a-41bc-b0cf-eb3ed9039f0c",
+            "nome": "oceanografia",
+            "title": "oceanografia"
+          },
+          {
+            "id": 263,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/fca43b97-3619-4883-8fc8-15630cf240d9",
+            "nome": "geografia fisica",
+            "title": "geografia fisica"
+          },
+          {
+            "id": 264,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/8e469a25-b5fd-4bf3-8cc1-d14800e650e0",
+            "nome": "scienze ambientali",
+            "title": "scienze ambientali"
+          },
+          {
+            "id": 265,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/84a41eb4-356e-40a4-bc70-216beaf3d33d",
+            "nome": "geofisica",
+            "title": "geofisica"
+          },
+          {
+            "id": 266,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b486d48d-b7d5-46d8-9c7a-3e921eebe3d5",
+            "nome": "scienze del suolo",
+            "title": "scienze del suolo"
+          }
+        ]
+      },
+      {
+        "id": 38,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/bce870dd-43f3-4656-8866-d76b0d71f5b8",
+        "nome": "scienze chimiche",
+        "title": "scienze chimiche",
+        "children": [
+          {
+            "id": 214,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/45e374e6-da15-44da-9995-9ddd9b01fea9",
+            "nome": "chimica inorganica",
+            "title": "chimica inorganica"
+          },
+          {
+            "id": 260,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/dc1b3723-476f-453c-a596-c7ccfde9b4b1",
+            "nome": "chimica analitica",
+            "title": "chimica analitica"
+          },
+          {
+            "id": 261,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4e705211-8770-4a2a-8596-dbc25b41c83b",
+            "nome": "elettrochimica",
+            "title": "elettrochimica"
+          },
+          {
+            "id": 262,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/9db99312-b7aa-4a85-ba0e-b2dd05135539",
+            "nome": "scienze dei polimeri",
+            "title": "scienze dei polimeri"
+          },
+          {
+            "id": 268,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/2d07f15f-2b3a-45d7-a246-411d3a061f15",
+            "nome": "chimica organica",
+            "title": "chimica organica"
+          },
+          {
+            "id": 269,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/57ae94b9-b0e2-4066-b910-3b58c015c17e",
+            "nome": "chimica fisica",
+            "title": "chimica fisica"
+          },
+          {
+            "id": 270,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/4940967c-1739-49c6-8474-6bb8ad7ff588",
+            "nome": "chimica nucleare",
+            "title": "chimica nucleare"
+          },
+          {
+            "id": 271,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/b3f4a4bc-41a0-4bd8-abff-f182893550c6",
+            "nome": "catalisi",
+            "title": "catalisi"
+          }
+        ]
+      },
+      {
+        "id": 46,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/5ac3ab8e-7d50-4091-94e2-0eec71c915db",
+        "nome": "matematica",
+        "title": "matematica",
+        "children": [
+          {
+            "id": 240,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/5294e080-9aee-4eb6-99c6-c77afc5dc846",
+            "nome": "matematica pura",
+            "title": "matematica pura"
+          },
+          {
+            "id": 267,
+            "concept": "http://data.europa.eu/8mn/euroscivoc/96c3e7e8-7584-4f61-a90d-39652b83f41e",
+            "nome": "matematica applicata",
+            "title": "matematica applicata"
+          }
+        ]
+      },
+      {
+        "id": 48,
+        "concept": "http://data.europa.eu/8mn/euroscivoc/e5178751-bb89-45c6-802b-2d2374b3ecc3",
+        "nome": "altre scienze naturali",
+        "title": "altre scienze naturali"
+      }
+    ]
+  }
+]
