@@ -388,19 +388,37 @@ SUMMERNOTE_CONFIG = {
     # 'disable_attachment': True,
 }
 
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = env("HOST_EMAIL")
+#EMAIL_HOST_USER = env("FROM_EMAIL")
+#EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+##EMAIL_PORT = '587'
+#EMAIL_PORT = env('EMAIL_PORT')
+##EMAIL_USE_TLS = True
+
+##EMAIL_BACKEND = 'django_ses.SESBackend'
+#DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
+#EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
+#EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")
+#EMAIL_ECSA_ADMIN = env("EMAIL_ECSA_ADMIN", default="").split(",")
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env("HOST_EMAIL")
-EMAIL_HOST_USER = env("FROM_EMAIL")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 #EMAIL_PORT = '587'
 EMAIL_PORT = env('EMAIL_PORT')
-#EMAIL_USE_TLS = True
-
+EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = True
 #EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_BACKEND = "eucs_platform.mail_backends.Py312SMTPBackend"
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
 EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
 EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")
 EMAIL_ECSA_ADMIN = env("EMAIL_ECSA_ADMIN", default="").split(",")
+
+
 # These are optional -- if they're set as environment variables they won't
 # need to be set here as well
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', default="")
