@@ -405,14 +405,14 @@ SUMMERNOTE_CONFIG = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env("HOST_EMAIL")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 #EMAIL_PORT = '587'
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = True
 #EMAIL_USE_SSL = True
-#EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_BACKEND = "eucs_platform.mail_backends.Py312SMTPBackend"
+EMAIL_BACKEND = 'django_ses.SESBackend'
+#EMAIL_BACKEND = "eucs_platform.mail_backends.Py312SMTPBackend"
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
 EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
 EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")
