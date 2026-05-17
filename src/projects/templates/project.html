@@ -107,7 +107,7 @@
                             <a target="_blank"
                                href="{% if 'http' not in project.url %}//{% endif %}{{ project.url }}"
                                class="btn btn-primary w-100">
-                                Vai al sito del progetto
+                               {% trans "Vai al sito del progetto" %}
                                 <svg class="bi mb-1" width="16" height="16" fill="currentColor">
                                     <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
                                 </svg>
