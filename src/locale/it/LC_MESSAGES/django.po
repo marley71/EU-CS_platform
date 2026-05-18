@@ -6544,3 +6544,10 @@ msgstr "Condividi"
 
 msgid "Copia link"
 msgstr "Copia link"
+
+#: projects/project_form.html:141
+msgid "Argomenti scientifici" 
+msgstr "Argomenti scientifici"
+
+msgid "Seleziona uno o più argomenti scientifici"
+msgstr "Seleziona uno o più argomenti scientifici"
