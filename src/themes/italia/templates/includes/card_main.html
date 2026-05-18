@@ -1,0 +1,102 @@
+{% load static %}
+{% load thumbnail %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+{% with project.status.split|join:"-" as statusH %}
+    <div class="card rounded-4 px-0 py-0 w-100 shadow" style="height:250px;">
+        <a href="/project/{{ project.id }}" class="card-main link-none">
+            <div class="row">
+                <div class="col-md-5 col-4">
+                    {#            <img src="{% static image|default:'img/cards/card-main-placeholder.png' %}" class="img-fluid rounded-start" alt="{{ cardTitle|default:'Citizen Science italia' }}">#}
+
+                    <div class="rounded-start-4"
+                         style="height:248px; background-image: url('/media/{{ project.image1|default:"card_projects_ph_big.png" | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+                        {% if project.status %}
+                            <div class="" style="position: absolute; top: 16px; left: 28px;">
+                                <span class="badge rounded-pill badge-status-{{ project.status.status_code }} ">{{ project.status|capfirst }}</span>
+                            </div>
+                        {% endif %}
+{#                        {% if not project.approved %}#}
+{#                            <div class="" style="position: absolute; top: 56px; left: 28px;">#}
+{#                                <span class="badge rounded-pill badge-status-non-approvato ">Non approvato</span>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+                    </div>
+                </div>
+                <div class="col-md-7 col-8">
+                    <div class="card-body d-flex flex-column justify-content-between h-100">
+                        <div class="flex-fill">
+
+                            <h5 class="card-title">
+                                {{ project.name|safe|truncatechars:60 | default:'Citizen Science italia' }}
+                            </h5>
+                            <h6 class="card-subtitle mt-2">
+                                {{ project.mainOrganisation.name|default:"Nessuna organizzazione" | truncatechars:75 }}
+                            </h6>
+
+                            <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
+                                                        {% if not project.approved and not project.moderated %}
+                                                            <span class="badge rounded-pill badge-status-non-approvato ">Non moderato</span>
+                                                        {% elif not project.approved %}
+                                                            <span class="badge rounded-pill badge-status-non-approvato ">Non approvato</span>
+                                                        {% endif %}
+
+                                {% for item in project.display_items %}
+                                    <span class="badge rounded-pill badge-card-main ">{{ item|capfirst }}</span>
+                                {% endfor %}
+                                {% if project.more_count > 3 %}
+                                    <span class="badge rounded-pill badge-card-main ">+{{ project.more_count|add:"-3" }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+
+                            {% if project.provincia %}
+                                <div class="d-flex gap-1 justify-content-start align-items-center">
+                                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                                    </svg>
+                                    <span class="">{{ project.provincia.nome }}
+{#                                        {{ project.localita.name }}#}
+                                    </span>
+                                </div>
+                            {% else %}
+                                <div> &nbsp;</div>
+                            {% endif %}
+
+                            {% if project.start_date %}
+                                <div class="d-flex justify-content-end align-items-center">
+
+                                    <svg class="bi me-2" width="14" height="14" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar"/>
+                                    </svg>
+                                    {% if project.start_date %}
+                                        {{ project.start_date | date:"d/m/Y" }}
+                                    {% endif %}
+                                    {% if project.end_date and project.start_date != project.end_date %}
+                                        - {{ project.end_date | date:"d/m/Y" }}
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div> &nbsp;</div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+{% endwith %}

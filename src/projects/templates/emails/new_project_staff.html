@@ -1,0 +1,42 @@
+{% load i18n %}
+
+
+{% block html_body  %}
+
+<body style="background-color: #d3d3d3">
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+    <br><br>
+    <center>
+        <div style="background-color: #fff; width: 70%; border-radius: 6px; margin-top: 50px; font-family: roboto; padding-left: 24px; padding-right: 24px;">
+            <br><br>
+            <!-- Cabecera con logo -->
+            <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ domain }}/static/img/ita-citizen-science-2025.png" alt="CitizenScience.it" width="140" />
+            
+            <!-- MESSAGE BODY -->
+
+            <p style="font-size: 22px; margin-top: 24px;">{% trans "Gentile staff," %} </p>
+            <p style="font-size: 14px;">{% trans "nella piattaforma è stato aggiunto un nuovoprogetto/attività che attende di essere moderato. "%}<br/>
+                {% trans "Il progetto/attività si chiama " %}
+                <a href='{{domain}}/project/{{projectid}}'><b>{{projectname}}</b></a> {% trans " e cliccando sul nome lo puoi approvare per renderlo visibile a tutti gli utenti della piattaforma o lo puoi rifiutare chiedendo delle modifiche o informazioni al creatore del progetto/attività." %}
+            </p>
+            
+            <!-- END OF THE MESSAGE BODY -->
+            <br>
+            <p style="font-size: 12px;"><b><em>{% trans "Il Team di Citizen Science.it" %}</em></b></p>
+            <hr style="color: lightBlue; width: 80%;">
+            <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Grazie!" %}</p>
+            
+        </div>
+            <br><br>
+        
+            <div style="margin-top: 40px;">
+                <p style="font-size: 11px;">{% trans "Questo è un messaggio automatico generato dalla piattaforma Citizen Science.it. Ti preghiamo di non rispondere a questa email." %}</p>
+            </div>
+       
+    </center>
+    <br>
+</body>
+
+{% endblock html_body %}

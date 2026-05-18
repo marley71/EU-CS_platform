@@ -1,0 +1,220 @@
+{% extends theme|add:"base_r2.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block head %}
+    {{ block.super }}
+    <meta name="Description" content="Citizen Science in Europe, projects, resources, events">
+{% endblock %}
+
+
+{% block splash %}
+    <section class="bg-plum-800">
+
+
+        <div class="container m-auto">
+            <div class="d-none d-xl-flex align-items-center justify-content-between">
+                <div class="pe-5 me-5">
+
+                    <div class="h1  mb-4">
+                        {% trans "La piattaforma italiana della Citizen Science" %}
+                    </div>
+                    <p>
+                        {% trans "testo_home" %}
+                        <!--
+                        Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!
+                        <br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa.-->
+                    </p>
+                </div>
+                <img class="img-fluid" style="max-width:550px;" src="{% static 'img/hero-home-italia.png' %}" alt="Citizen Science Italia">
+            </div>
+            <div class="d-block d-xl-none align-items-center justify-content-between mb-7">
+                <div class="h1 mb-4 text-center pt-6">
+                    {% trans "La piattaforma italiana della Citizen Science" %}
+                </div>
+                <img class="img-fluid" src="{% static 'img/hero-home-italia.png' %}" alt='{% trans "Citizen Science Italia" %}'>
+                <div>
+                    {% trans "testo_home" %}
+                    <!--
+                        Che tu sia un/a appassionato/a curioso/a di scoprire le attività di Citizen Science nella tua zona o nel tuo ambito di interesse, un/a docente in cerca di proposte per la tua classe, un/a giornalista in cerca di storie e spunti sul ruolo dei cittadini nella ricerca scientifica, oppure un/a ricercatore/trice che desidera dare visibilità al proprio progetto… sei nel posto giusto!
+                        <br/>Qui non solo puoi <strong>trovare progetti, iniziative ed eventi di Citizen Science</strong>, ma anche <strong>pubblicare e condividere i tuoi</strong>: racconta la tua esperienza, promuovi la tua attività e coinvolgi nuovi partecipanti nella produzione di conoscenza scientifica aperta e collaborativa.
+                -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-plum-800" style="margin-top: -70px;">
+
+
+        <div class="container"
+             style="background-image: url('{% static 'img/hero-home-bottom.png' %}');
+                     background-repeat: no-repeat;
+                     background-position: bottom left;
+                     "
+
+        >
+            <div class="row pt-5 pb-6 ps-lg-6 pe-lg-6">
+                <div class="col-12 col-lg-10 offset-lg-1 mb-5">
+                    <div class="card rounded-4 mb-1">
+                        <div class="card-body text-center">
+
+                            <div class="h3">
+                                {% trans "Scopri la piattaforma" %}
+                            </div>
+                            {% include "_subnavbarNew.html" %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    {#    {% include '_content_section.html' %}#}
+
+{% endblock splash %}
+
+{% block list_of_items %}
+
+    <section class="bg-white rounded-top-5 pt-5" style="margin-top: -30px;">
+
+        <div class="container">
+            <div class="d-none d-xl-flex align-items-center pb-5 gap-3">
+
+
+                <div class="h2">
+                    {% trans "Cosa puoi fare qui" %}
+                </div>
+                <div class="w-25">
+                    {% trans "Accedi" as accedi %}
+                    {% trans "card_accedi" as card_description_accedi %}
+                    {% trans "Il tuo profilo" as il_tuo_profilo %}
+                    {% include 'includes/card_info.html' with cardTitle=accedi bgimage="img/cards/bg_card_progetti.png" cardDescription=card_description_accedi cardActionLink=accediLink cardActionLinkText=il_tuo_profilo %}
+                </div>
+                <div class="w-25">
+                    {% trans "Crea" as crea %}
+                    {% trans "card_crea" as card_description_crea %}
+                    {% include 'includes/card_info.html' with cardTitle=crea bgimage="img/cards/bg_card_organizzazioni.png" cardDescription=card_description_crea %}
+                </div>
+                <div class="w-25">
+                    {% trans "Esplora" as esplora %}
+                    {% trans "card_esplora" as card_description_esplora %}
+                    {% trans "Cerca progetti" as cerca_progetti %}
+                    {% include 'includes/card_info.html' with cardTitle=esplora bgimage="img/cards/bg_card_utenti.png" cardDescription=card_description_esplora cardActionLink="/projects" cardActionLinkText=cerca_progetti %}
+                </div>
+            </div>
+
+            <div class="d-flex d-xl-none flex-column align-items-center pb-5 gap-3">
+
+
+                <div class="h2">
+                    {% trans "Cosa puoi fare qui" %}
+                </div>
+                <div class="w-75">
+                    {% include 'includes/card_info.html' with cardTitle=accedi bgimage="img/cards/bg_card_progetti.png" cardDescription=card_description_accedi cardActionLink=accediLink cardActionLinkText=il_tuo_profilo %}
+                </div>
+                <div class="w-75">
+                    {% include 'includes/card_info.html' with cardTitle=crea bgimage="img/cards/bg_card_organizzazioni.png" cardDescription=card_description_crea %}
+                </div>
+                <div class="w-75">
+                    {% include 'includes/card_info.html' with cardTitle=esplora bgimage="img/cards/bg_card_utenti.png" cardDescription=card_description_esplora cardActionLink="/projects" cardActionLinkText=cerca_progetti %}
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--
+    {% for section in sections %}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row mb-5">
+
+                <div class="col-6 {{section.content_position}}">
+                <h2 class="mb-3">{{section.title}}</h2>
+                <h5>{{section.content | safe}}</h5>
+                </div>
+                <div class="col-6 {{section.image_position}}">
+                    {% if section.image %}
+                    <img src="/media/{{section.image}}" class="img-fluid" alt="Responsive image" />
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+-->
+        {% if projects %}
+            {% include '_latest_projects.html' %}
+        {% endif %}
+        {% if events %}
+            {% include '_upcoming_events.html' %}
+        {% endif %}
+        {% if posts %}
+            {% include '_latest_resources.html' %}
+        {% endif %}
+        {#{% if trainings %}#}
+        {#    {% include '_latest_training_resources.html' %}#}
+        {#{% endif %}#}
+
+
+        {% include '_what_is_citizen_science.html' %}
+
+    </section>
+
+{% endblock list_of_items %}
+
+
+
+{% block scripts %}
+    <script src="{% static 'site/js/bootstrap-autocomplete.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.basicAutoComplete').autoComplete(
+                {minLength: 3}
+            );
+            $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
+                $('#finder').submit();
+                $('#searchTop').submit();
+            });
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sectionsToShowButton = [
+                '#_content_section',
+                '#latest-projects',
+                '#latest-resources',
+                '#_latest-training-resources'
+            ];
+            const floatingButton = document.getElementById('floatingButton');
+
+            function checkVisibility() {
+                let shouldShowButton = sectionsToShowButton.some(sectionId => {
+                    const section = document.querySelector(sectionId);
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        console.log(`Checking ${sectionId}: rect.top=${rect.top}, rect.bottom=${rect.bottom}, window.innerHeight=${window.innerHeight}`);
+                        return rect.top < window.innerHeight && rect.bottom > 0;
+                    }
+                    return false;
+                });
+                console.log('Should show button:', shouldShowButton);
+                floatingButton.style.display = shouldShowButton ? 'block' : 'none';
+            }
+
+            window.addEventListener('scroll', checkVisibility);
+            checkVisibility();
+
+            floatingButton.addEventListener('click', function () {
+                window.location.href = "{% url 'map' %}";
+            });
+        });
+    </script>
+{% endblock scripts %}

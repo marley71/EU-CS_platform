@@ -21,7 +21,7 @@ from projects.models import Project, Status, Topic, ApprovedProjects, Participat
 from projects.models import TranslatedProject, HasTag
 from projects.views import getCooperators, setProjectApproved, setProjectHidden, setProjectFeatured, followProject
 from reviews.models import Review
-
+from django.http import JsonResponse
 
 class AdminPermissionsClass(BasePermission):
     def has_permission(self, request, view):
@@ -232,3 +232,34 @@ def follow_project(request, pk):
     follow = request.data.get('value')
     followProject(pk, userId, follow)
     return Response(status=HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def autocompleteKeywordsAjax(request):
+    return JsonResponse({'Followed': 'False', 'Project': 'project'}, status=HTTP_200_OK)
+    # if request.method == 'POST':
+    #     project = get_object_or_404(Project, id=request.POST.get('project_id'))
+    #     user = request.user
+    #     # First, we check if the user has already followed the project
+    #     if Follows.objects.filter(project=project, user=user).exists():
+    #         # If the user has followed the project, we remove the follow
+    #         Follows.objects.filter(project=project, user=user).delete()
+    #         project.totalFollowers -= 1
+    #         project.save()
+    #
+    #         # We also update the stats to know how many follows we have per day
+    #         stats = Stats.objects.get_or_create(project=project, day=datetime.now(pytz.utc))[0]
+    #         stats.follows -= 1
+    #         stats.save()
+    #         return JsonResponse({'Followed': 'False', 'Project': project.id}, status=status.HTTP_200_OK)
+    #     else:
+    #         # If the user has not followed the project, we add the follow
+    #         Follows.objects.create(project=project, user=user)
+    #         project.totalFollowers += 1
+    #         project.save()
+    #
+    #         # We also update the stats to know how many follows we have per day
+    #         stats = Stats.objects.get_or_create(project=project, day=datetime.now(pytz.utc))[0]
+    #         stats.follows += 1
+    #         stats.save()
+    #         return JsonResponse({'Followed': 'True', 'Project': project.id}, status=status.HTTP_200_OK)

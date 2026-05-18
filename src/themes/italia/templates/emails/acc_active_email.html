@@ -1,0 +1,38 @@
+{% load i18n %}
+{% block subject %}
+{% blocktrans %}Attiva il tuo CitizenScience.it account.{% endblocktrans %}
+{% endblock subject %}
+
+{% block html_body  %}
+<body style="background-color: #d3d3d3">
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+    <br><br>
+    <center>
+        <div style="background-color: #fff; width: 70%; border-radius: 6px; margin-top: 50px; font-family: roboto; padding-left: 24px; padding-right: 24px;">
+            <br><br>
+            <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ domain }}/static/img/ita-citizen-science-2025.png" alt="CitizenScience.it" width="140" />
+            <p style="font-size: 22px; margin-top: 24px;">{% trans "Ciao," %} <a style='color: lightBlue;'>{{user.get_full_name}}</a> </p>
+            <p style="font-size: 14px;">{% trans "Grazie per esserti registrato come membro della comunità Citizen Science.it Ti chiediamo di verificare che questo indirizzo email sia corretto e che tu lo abbia inserito durante la registrazione alla community."%}</p>
+            <p style="font-size: 14px;">{% trans "Per favore clicca sul link per confermare la tua registrazione "%} <a href="{{domain}}{% url 'accounts:activate' uidb64=uid token=token %}">piattaforma.citizenscience.it</a>.</p>
+            <br>
+            <p style="font-size: 14px;">{% trans "Se non ti sei registrato per entrare nella comunità <strong>Citizen Science.it</strong>, ignora questa email oppure rispondi per farcelo sapere."%}</p>
+
+            <p style="font-size: 12px;"><b><em>{% trans "Il team di <strong>Citizen Science.it</strong>" %}</b></em></p>
+            <br>
+            <hr style="color: lightBlue; width: 80%;">
+            <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Grazie!" %}</p>
+            <br>
+            <p style="font-size: 12px;">{% trans "P.S. La tua email rimarrà sempre privata e verrà utilizzata solo per inviarti notifiche come questa, a meno che tu non scelga esplicitamente di aderire a funzionalità future sulla piattaforma." %}</p>
+        </div>
+            <br><br>
+        
+            <div style="margin-top: 40px;">
+                <p style="font-size: 11px;">{% trans "Questo è un messaggio automatico generato dalla piattaforma Citizen Science.it. Ti preghiamo di non rispondere a questa email." %}</p>
+            </div>
+       
+    </center>
+    <br>
+</body>
+{% endblock html_body %}

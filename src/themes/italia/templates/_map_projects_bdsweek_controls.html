@@ -1,0 +1,33 @@
+{% load static %}
+{% load i18n %}
+
+<div class="h6">{% trans "Mostra" %}</div>
+<div class="layer-option">
+    <input type="checkbox" name="layer" id="project_bio{{ screenType }}" disabled checked value="projects"
+           class="me-1 map-checkbox"
+    >
+    <label for="project_bio{{ screenType }}">
+        <span class="p-0 me-1 bg-olive-700 border text-white ps-1 rounded-4" style="border-color:#ACE8C07F">
+            <svg class="bi mb-1" width="12" height="12" fill="currentColor">
+            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard2-data-fill"/>
+            </svg>
+        </span>
+        Biodiv. sampling week
+
+    </label>
+</div>
+
+<hr/>
+<div class="h6 mt-2">{% trans "Legenda" %}</div>
+<div class="layer-option">
+    <svg class="bi mb-1" width="14" height="14" fill="#FFDA6A">
+        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+    </svg>
+    &le; 9 {% trans "elementi" %}
+</div>
+<div class="layer-option">
+    <svg class="bi mb-1" width="14" height="14" fill="#984C0C">
+        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#circle-fill"/>
+    </svg>
+    &ge; 10 {% trans "elementi" %}
+</div>

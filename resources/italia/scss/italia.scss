@@ -1,0 +1,415 @@
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$font-family-sans-serif: "Open sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
+$headings-font-family: "Roboto Slab";
+
+$display-font-sizes: (
+        1: 5rem,
+        2: 4.5rem,
+        3: 4rem,
+        4: 3.5rem,
+        5: 3rem,
+        6: 2.5rem
+);
+
+$display-font-weight: 300;
+
+$olive-green: #90B124 !default;
+$plum: #33336A !default;
+
+$olive-green-100: #F0F6E0;
+$olive-green-200: #D2DFA7;
+$olive-green-300: #BCD07B;
+$olive-green-400: #A6C04F;
+$olive-green-500: $olive-green !default;
+$olive-green-600: #738D1C;
+$olive-green-700: #4F6212;
+$olive-green-800: #39460E;
+$olive-green-900: #1C2307;
+
+$plum-100: #F7F7FD;
+$plum-200: #EDEDF8;
+$plum-300: #DDDDF2;
+$plum-400: #BABAE9;
+$plum-500: #A0A0E0;
+$plum-600: #7A7ACA;
+$plum-700: #4B4B97;
+$plum-800: $plum !default;
+$plum-900: #13133F;
+
+$primary: $olive-green-400;
+$secondary: $plum;
+
+$link-color: $olive-green-600;
+$link-hover-color: $olive-green-600;
+$link-decoration: underline;
+//$body-bg: #fff;
+//$nav-link-color: #cc0000;
+$navbar-light-color: $olive-green-800;
+//$navbar-light-active-color: #880000;
+//$navbar-light-hover-color: #fdbbbb;
+
+$spacer: 1rem !default;
+$spacers: (
+        0: 0,
+        1: $spacer * .25,
+        2: $spacer * .5,
+        3: $spacer,
+        4: $spacer * 1.5,
+        5: $spacer * 2,
+        6: $spacer * 3,
+        7: $spacer * 4,
+) !default;
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/variables-dark";
+
+
+$colors: (
+        "blue": $blue,
+        "indigo": $indigo,
+        "purple": $purple,
+        "pink": $pink,
+        "red": $red,
+        "orange": $orange,
+        "yellow": $yellow,
+        "green": $green,
+        "teal": $teal,
+        "cyan": $cyan,
+        "black": $black,
+        "white": $white,
+        "gray": $gray-600,
+        "gray-dark": $gray-800,
+        "olive-green": $olive-green,
+        "plum": $plum,
+) !default;
+
+$btn-font-weight: $font-weight-bold;
+$btn-border-radius: 12px;
+
+$box-shadow: 0 .5rem 1rem rgba($black, .15);
+$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
+$box-shadow-lg: 0 1rem 3rem rgba($black, .175);
+$box-shadow-inset: inset 0 1px 2px rgba($black, .075);
+
+$body-color: $gray-900;
+
+$pagination-active-bg: $plum-800;
+$pagination-active-border-color: $plum-900;
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "../node_modules/bootstrap/scss/utilities";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/helpers";
+
+@import "../node_modules/bootstrap/scss/accordion";
+@import "../node_modules/bootstrap/scss/alert";
+@import "../node_modules/bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/breadcrumb";
+@import "../node_modules/bootstrap/scss/button-group";
+@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/card";
+@import "../node_modules/bootstrap/scss/carousel";
+@import "../node_modules/bootstrap/scss/close";
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/list-group";
+@import "../node_modules/bootstrap/scss/modal";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/offcanvas";
+@import "../node_modules/bootstrap/scss/pagination";
+@import "../node_modules/bootstrap/scss/placeholders";
+@import "../node_modules/bootstrap/scss/popover";
+@import "../node_modules/bootstrap/scss/progress";
+@import "../node_modules/bootstrap/scss/spinners";
+@import "../node_modules/bootstrap/scss/tables";
+@import "../node_modules/bootstrap/scss/toasts";
+@import "../node_modules/bootstrap/scss/tooltip";
+@import "../node_modules/bootstrap/scss/transitions";
+
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "../node_modules/bootstrap/scss/utilities/api";
+
+// 8. Add additional custom code here
+//.navbar-nav li:not(:first-child) .nav-link::before {
+//    content: "|";
+//    margin-left: 0;
+//    margin-right: 6px;
+//    margin-left: 0;
+//    color: var(--bs-secondary);
+//    //font-size: 20px;
+//
+//}
+
+.navbar-nav li .nav-link {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-right: 16px !important;
+  padding-left: 16px !important;
+
+}
+
+.navbar-nav li:not(:last-child) {
+  border-right: 1px solid var(--bs-border-color-translucent);
+
+}
+
+.navbar-nav li {
+  //border: 1px solid black;
+  margin-right: 0 !important;
+  margin-left: 0;
+
+
+}
+
+.text-olive-200 {
+  color: $olive-green-200;
+}
+
+.text-card-border {
+  color: var(--bs-border-color-translucent);
+}
+
+.text-red-700 {
+  color: $red-700;
+}
+
+.text-plum-800 {
+  color: $plum-800;
+}
+
+.bg-plum-200 {
+  background-color: $plum-200;
+}
+
+.bg-plum-100 {
+  background-color: $plum-100;
+}
+
+.bg-olive-100 {
+  background-color: $olive-green-100;
+}
+.bg-olive-200 {
+  background-color: $olive-green-200;
+}
+.bg-olive-300 {
+  background-color: $olive-green-300;
+}
+.bg-olive-400 {
+  background-color: $olive-green-400;
+}
+.bg-olive-500 {
+  background-color: $olive-green-500;
+}
+.bg-olive-600 {
+  background-color: $olive-green-600;
+}
+.bg-olive-700 {
+  background-color: $olive-green-700;
+}
+.bg-olive-800 {
+  background-color: $olive-green-800;
+}
+.bg-olive-900 {
+  background-color: $olive-green-900;
+}
+
+.bg-plum-100 {
+  background-color: $plum-100;
+}
+.bg-plum-200 {
+  background-color: $plum-200;
+}
+.bg-plum-300 {
+  background-color: $plum-300;
+}
+.bg-plum-400 {
+  background-color: $plum-400;
+}
+.bg-plum-500 {
+  background-color: $plum-500;
+}
+.bg-plum-600 {
+  background-color: $plum-600;
+}
+.bg-plum-700 {
+  background-color: $plum-700;
+}
+
+.bg-plum-800 {
+  background-color: $plum-800;
+  color: $olive-green-100;
+}
+.bg-plum-900 {
+  background-color: $plum-900;
+  color: $olive-green-100;
+}
+
+.badge-card-main {
+  color: $plum-900;
+  background-color: $olive-green-200;
+  border-color: 1px solid $olive-green-300;
+}
+
+.badge-card-secondary {
+  color: $plum-900;
+  background-color: $plum-300;
+  border: 1px solid $plum-400;
+}
+
+.badge-status-completato,
+.badge-status-completed {
+  color: $white;
+  background-color: $green-700;
+  border: 1px solid $green-800;
+}
+
+.badge-status-attivo,
+.badge-status-active {
+  color: $green-700;
+  background-color: $white;
+  border: 1px solid $green-800;
+}
+
+.badge-status-periodicamente-attivo {
+  color: $blue-700;
+  background-color: $white;
+  border: 1px solid $blue-800;
+}
+
+.badge-status-non-ancora-iniziato,
+.badge-status-not_started {
+  color: $gray-700;
+  background-color: $white;
+  border: 1px solid $gray-800;
+}
+
+.badge-status-abbandonato,
+.badge-status-abandoned {
+  color: $white;
+  background-color: $gray-700;
+  border: 1px solid $gray-800;
+}
+
+.badge-status-in-attesa {
+  color: $orange-700;
+  background-color: $white;
+  border: 1px solid $orange-800;
+}
+
+.badge-status-non-approvato {
+  color: $white;
+  background-color: $red-500;
+  border: 1px solid $red-800;
+}
+
+.badge-tag {
+  color: $white;
+  background-color: $plum-800;
+  border: 1px solid $plum-900;
+  padding: 1px 8px 1px 8px;
+  border-radius: $border-radius-sm;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+a.nav-tab-search {
+  color: $plum-800 !important;
+}
+
+a.nav-tab-search.active {
+  font-weight: 700 !important;
+}
+
+.navbar-nav li .nav-link:hover {
+  font-weight: 700 !important;
+}
+
+footer a:hover {
+  text-decoration: underline !important;
+}
+
+.btn-link {
+  --#{$prefix}btn-font-weight: #{$font-weight-normal};
+  --#{$prefix}btn-color: #{$olive-green-800};
+  --#{$prefix}btn-bg: transparent;
+  --#{$prefix}btn-border-color: transparent;
+  --#{$prefix}btn-hover-color: #{$white};
+  --#{$prefix}btn-bg-hover-color: #{$plum-900};
+  --#{$prefix}btn-hover-border-color: transparent;
+  --#{$prefix}btn-active-color: #{$btn-link-hover-color};
+  --#{$prefix}btn-active-border-color: transparent;
+  --#{$prefix}btn-disabled-color: #{$btn-link-disabled-color};
+  --#{$prefix}btn-disabled-border-color: transparent;
+  --#{$prefix}btn-box-shadow: 0 0 0 #000; // Can't use `none` as keyword negates all values when used with multiple shadows
+  --#{$prefix}btn-focus-shadow-rgb: #{$btn-link-focus-shadow-rgb};
+
+  text-decoration: $link-decoration;
+  @if $enable-gradients {
+    background-image: none;
+  }
+
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: $link-hover-decoration;
+  }
+
+  &:focus-visible {
+    color: var(--#{$prefix}btn-color);
+  }
+
+  &:hover {
+    color: var(--#{$prefix}btn-hover-color);
+    background-color: var(--#{$prefix}btn-bg-hover-color);
+    border: 1px solid var(--#{$prefix}btn-hover-border-color);
+  }
+
+  // No need for an active state here
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: $plum-800;
+  border-color: $plum-900;
+}
+
+a.card-main:hover .card-title {
+  text-decoration: underline;
+}
+
+a.card-main .card-title {
+  color: var(--bs-body-color);
+}
+
+a.card-main .card-subtitle {
+  color: var(--bs-body-color);
+}
+
+.my-link {
+  color: $plum-800;
+}
+
+.my-link:hover {
+  text-decoration: underline;
+}

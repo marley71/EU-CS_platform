@@ -1,0 +1,55 @@
+{% load static %}
+{% load thumbnail %}
+
+{#<div class="card mt-2 mb-2">#}
+{#<div class="row">#}
+{#    <div class="col-4">#}
+{#        {% block img %}{% endblock img %}#}
+{#    </div>#}
+{#    <div class="col-8 d-flex align-items-center">#}
+{#        <h6 class="mb-0">{% block title %}{% endblock title %}</h6> #}
+{#    </div>#}
+{#</div>#}
+{#</div>#}
+
+<div class="card rounded-4 px-0 py-0 w-100 shadow" style="height:250px;">
+        <a href="/organisation/{{ organisation.id }}" class="card-main link-none">
+    <div class="row">
+            <div class="col-md-5 col-4">
+                <div class="rounded-start-4"
+                     style="height:248px; background-image: url('/media/{{ organisation.logo|default:'cards/card_organisations_ph_big.png' | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+                </div>
+
+
+            </div>
+            <div class="col-md-7 col-8">
+                <div class="card-body h-100 d-flex flex-column justify-content-between">
+
+                    <div>
+
+                        <h5 class="card-title">
+                            {{ organisation.name|safe|truncatechars:32 | default:'Citizen Science italia' }}
+                        </h5>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+
+                        <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-3">
+                            <span class="badge rounded-pill badge-card-secondary ">{{ organisation.orgType|default:"Default"|capfirst }}</span>
+                        </div>
+
+                        {% if organisation.country %}
+                            <div class="d-flex gap-1 justify-content-start align-items-center mt-4">
+                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>
+                                </svg>
+                                <span class="">{{ organisation.country.name }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+        </a>
+</div>

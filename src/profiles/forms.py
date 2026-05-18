@@ -56,11 +56,11 @@ class ProfileForm(forms.ModelForm):
                 attrs={
                     'data-token-separators': '[","]'}),
             required=False,
-            label="Interest Areas",
+            label="Aree di interesse",
             help_text=_('Please write or select interest areas, separated by commas or pressing enter'))
     country = CountryField(
-            blank_label='(Select country)',
-            blank=True).formfield()
+            blank_label='Seleziona il paese',
+            blank=True).formfield(label='Paese')
     organisation = forms.ModelMultipleChoiceField(
             queryset=Organisation.objects.all(),
             widget=s2forms.ModelSelect2MultipleWidget(

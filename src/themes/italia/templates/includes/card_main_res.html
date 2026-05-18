@@ -1,0 +1,96 @@
+{% load static %}
+{% load thumbnail %}
+{% load i18n %}
+
+<div class="card rounded-4 px-0 py-0 w-100 shadow" style="height:250px;">
+    <a href="{% if resource.isTrainingResource %}/training_resource/{{ resource.id }}{% else %}/resource/{{ resource.id }}{% endif %}"
+       class="card-main link-none">
+        <div class="row">
+            <div class="col-md-5 col-4">
+                <div class="rounded-start-4"
+                     style="height:248px; background-image: url('/media/{{ resource.image2|default:resource.image1|default:"card_projects_ph_big.png"|safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                    {% if resource.isTrainingResource %}
+                        <div style="position: absolute; top: 16px; left: 28px;">
+                            <span class="badge rounded-pill badge-status-periodicamente-attivo">{% trans "Training" %}</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-7 col-8">
+                <div class="card-body d-flex flex-column justify-content-between h-100">
+                    <div class="flex-fill">
+                        <h5 class="card-title">
+                            {{ resource.name|safe|truncatechars:60|default:'Citizen Science Italia' }}
+                        </h5>
+
+                        <h6 class="card-subtitle mt-2">
+                            {% if resource.publisher %}
+                                {{ resource.publisher|truncatechars:75 }}
+                            {% else %}
+                                {% trans "No publisher" %}
+                            {% endif %}
+                        </h6>
+
+                        <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-4">
+                            {% if not resource.approved and not resource.moderated %}
+                                <span class="badge rounded-pill badge-status-non-approvato">{% trans "Not yet moderated" %}</span>
+                            {% elif not resource.approved %}
+                                <span class="badge rounded-pill badge-status-non-approvato">{% trans "Not approved" %}</span>
+                            {% endif %}
+
+                            {% if resource.category %}
+                                <span class="badge rounded-pill badge-card-main">{{ resource.category }}</span>
+                            {% endif %}
+                            {% for theme in resource.theme.all %}
+                                {% if forloop.counter <= 2 %}
+                                    <span class="badge rounded-pill badge-card-main">{{ theme|capfirst }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-1 justify-content-start align-items-center mt-3">
+                            {% if resource.project.all %}
+                                {% with first_project=resource.project.all|first %}
+                                    <span class="badge rounded-pill badge-status-active">
+                                        Progetto: {{ first_project.name|truncatechars:28 }}
+                                    </span>
+                                {% endwith %}
+                            {% endif %}
+                            {% if resource.organisation.all %}
+                                {% with first_organisation=resource.organisation.all|first %}
+                                    <span class="badge rounded-pill badge-status-active">
+                                        Organizzazione: {{ first_organisation.name|truncatechars:28 }}
+                                    </span>
+                                {% endwith %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+<!--                         {% if resource.inLanguage %}
+                            <div class="d-flex gap-1 justify-content-start align-items-center">
+                                <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#translate"/>
+                                </svg>
+                                <span>{{ resource.inLanguage|upper }}</span>
+                            </div>
+                        {% else %}
+                            <div>&nbsp;</div>
+                        {% endif %}
+ -->
+                        {% if resource.datePublished %}
+                            <div class="d-flex justify-content-end align-items-center">
+                                <svg class="bi me-2" width="14" height="14" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#calendar"/>
+                                </svg>
+                                {{ resource.datePublished }}
+                            </div>
+                        {% else %}
+                            <div>&nbsp;</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

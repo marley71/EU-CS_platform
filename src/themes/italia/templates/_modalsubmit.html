@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load static %}
+<div class="modal fade" id="modalsubmit">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">
+                    {% trans "Come puoi contribuire" %}?
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mt-4">
+                    <h5><a href="/newProject" class="my-link">
+                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#clipboard-data"/>
+                        </svg>
+                        {% trans "Project Activity" %}</a></h5>
+                    {% blocktrans trimmed %}Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine.{% endblocktrans %}<br/>
+                    {% blocktrans trimmed %}L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita.{% endblocktrans %}<br/>
+                    <hr>
+                </div>
+                <div class="mt-4">
+                    <h5><a href="/new_organisation" class="my-link">
+                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#buildings"/>
+                        </svg>
+                        {% trans "Organisation" %}</a></h5>
+                    {% trans "Crea il profilo di una organizzazione attiva nella citizen science" %}<br/>
+                    <hr>
+                </div>
+                {% if user.is_staff %}
+                    <div class="mt-4 mb-4">
+                        <h5><a href="/new_event" class="my-link">
+                            <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
+                            </svg>
+                            {% trans "Evento" %}</a></h5>
+                        {% blocktrans trimmed %}L'<strong>evento</strong> è un contenuto legato al calendario che riporta indicazioni puntuali sulla data, il luogo e il tema di un avvenimento legato a Citizen Science.it{% endblocktrans %}<br/>
+                    </div>
+                    <hr>
+                {% endif %}
+                <div class="mt-4 mb-4">
+                    <h5><a href="/new_blog" class="my-link">
+                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#megaphone"/>
+                        </svg>
+                        {% trans "Notizie" %}</a></h5>
+                    {% blocktrans trimmed %}La <strong>news</strong> è un approfondimento o una narrazione specifica intorno a un tema o a un evento che si è già svolto.{% endblocktrans %}<br/>
+                </div>
+                <div class="mt-4 mb-4">
+                    <h5><a href="/newResource" class="my-link">
+                        <svg class="bi mb-1" width="24" height="24" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#file-earmark"/>
+                        </svg>
+                        {% trans "Risorsa" %}</a></h5>
+                    {% blocktrans trimmed %}La <strong>Risorsa</strong> rappresenta un documento condiviso con gli utenti del sistema.{% endblocktrans %}<br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

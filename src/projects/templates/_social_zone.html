@@ -1,31 +1,53 @@
-<span class="me-3 
-{% if user.is_authenticated %} heart {% endif %} {% if project.id in likes or liked %} text-danger {% else %} text-muted {% endif %}" project_id="{{project.id}}" id="heart{{project.id}}">
-<i class="fa fa-heart" aria-hidden="true"></i> 
-<span class="value">{{project.totalLikes}}</span>
+{% load static %}
+{% load i18n %}
+
+<span class="me-2
+{% if user.is_authenticated %} heart {% endif %} {% if project.id in likes or liked %} text-danger {% endif %}"
+      project_id="{{ project.id }}" id="heart{{ project.id }}">
+    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#heart-fill"/>
+    </svg>
+<span class="value">{{ project.totalLikes }}</span>
 </span>
-<span class="me-3 
-{% if user.is_authenticated %} followIcon {% endif %} {% if project.id in follows or followed %} text-primary {% else %} text-muted {% endif %}" project_id="{{project.id}}" id="follow{{project.id}}">
-<i class="far fa-bookmark"></i>
-<span class="value">{{project.totalFollowers}}</span>
-</span>
-<span class="float-left text-muted me-3" 
-    data-bs-toggle="tooltip" 
-    data-bs-placement="top" 
-    title="Since {{ project.firstAccess }}">
-<i class="fas fa-eye"></i>
-{{project.totalAccesses}}
-</span>
-<span class="float-right text-muted dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-   <i class="fas fa-share-alt" aria-hidden="true"></i>
+{#<span class="me-3 #}
+
+{#{% if user.is_authenticated %} followIcon {% endif %} {% if project.id in follows or followed %} text-primary {% else %} text-muted {% endif %}" project_id="{{project.id}}" id="follow{{project.id}}">#}
+{#<i class="far fa-bookmark"></i>#}
+{#<span class="value">{{project.totalFollowers}}</span>#}
+{#</span>#}
+
+{#<span class=" float-left text-muted me-3" data-bs-toggle="tooltip"#}
+{#      data-bs-placement="top"#}
+{#      title="Since {{ project.firstAccess }}">#}
+{#<i class="fas fa-eye"></i>#}
+{#{{ project.totalAccesses }}#}
+{#</span>#}
+|
+
+<span class="fs-6 ms-2 float-right dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+       <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#share-fill"/>
+    </svg>
+    {% trans "Condividi" %}
+
 </span>
 <ul class="dropdown-menu">
-    <li> <a href="https://twitter.com/intent/tweet?text=I found this %23citizenscience project {{request.scheme}}://{{ request.get_host }}/project/{{project.id}}  @euCitSciProject" class="text-muted dropdown-item" target="_blank">
-        <i class="fa-brands fa-twitter"></i> Share on Twitter
-        </a>
-    </li>
+{#    <li>#}
+{#        <a href="https://twitter.com/intent/tweet?text=I found this %23citizenscience project {{ request.scheme }}://{{ request.get_host }}/project/{{ project.id }}  @euCitSciProject"#}
+{#           class="text-muted dropdown-item" target="_blank">#}
+{#            <svg class="bi mb-1" width="16" height="16" fill="currentColor">#}
+{#                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#twitter"/>#}
+{#            </svg>#}
+{#            Share on Twitter#}
+{#        </a>#}
+{#    </li>#}
     <li>
-        <a href="#" url="{{request.scheme}}://{{ request.get_host }}/project/{{project.id}}"  class="copyLink text-muted dropdown-item">
-            <i class="fa-solid fa-link"></i> Copy the link
+        <a href="#" url="{{ request.scheme }}://{{ request.get_host }}/project/{{ project.id }}"
+           class="copyLink text-muted dropdown-item">
+            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#copy"/>
+            </svg>
+            {% trans "Copia link" %}
         </a>
     </li>
 </ul>

@@ -2,37 +2,51 @@
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Governmental"
+            "type": "Governmental",
+            "type_it": "Governativo"
         }
     },
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type":  "Non-governmental"
+            "type":  "Non-governmental",
+            "type_it": "Non governativo"
         }
     },
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Academic"
+            "type": "Research entity",
+            "type_it": "Ente di ricerca"
         }
     },
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Private sector"
+            "type": "Private sector",
+            "type_it": "Settore privato"
+
         }
     },
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Community-led"
+            "type": "Community-led",
+            "type_it": "Comitato/Gruppo/Organizzazione informale"
         }
     },
     {
         "model": "organisations.OrganisationType",
         "fields": {
-            "type": "Consortium"
+            "type": "Consortium",
+            "type_it": "Consorzio"
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Association",
+            "type_it": "Associazione"
         }
     }
 ]

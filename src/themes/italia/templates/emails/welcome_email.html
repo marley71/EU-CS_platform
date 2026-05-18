@@ -1,0 +1,43 @@
+{% load i18n %}
+
+{% block html_body %}
+<body style="background-color: #d3d3d3">
+    <style>
+        @import url('https://fonts.googleapis.com/css/css?family=Roboto');
+    </style>
+    <br><br>
+    <center>
+        <div style="background-color: #fff; width: 70%; border-radius: 6px; margin-top: 50px; font-family: roboto; padding-left: 24px; padding-right: 24px;">
+            <br><br>
+            <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ domain }}/static/img/ita-citizen-science-2025.png" alt="CitizenScience.it" width="140" />
+            <p style="font-size: 22px; margin-top: 24px;">{% trans "Ciao," %} <a style='color: lightBlue;'>{{user.get_full_name}}</a> </p>
+
+            <p style="font-size: 14px;">{% trans "Benvenuto/a nella comunità di Citizen Science.it! Siamo veramente felici che tu ti sia unito/a al nostro gruppo." %}</p>
+            <p style="font-size: 14px;">{% trans "Nella piattaforma di Citizen Science Italia puoi navigare e cercare:" %}
+{#                <a href="{{domain}}{% url 'resources' %}">{% trans "Resources" %}</a> #}
+{#                {% trans "that are useful for planning and running citizen science projects, and can explore a wide range of citizen science " %}#}
+                <a href="{{domain}}{% url 'projects' %}">{% trans "Progetti/Attività" %}</a>
+                {% trans " per imparare da altre esperienze ed altri knwo-how." %} </p>
+                <br>
+            <p style="font-size: 14px;">{% trans "Registrandoti, inoltre, sei in grado di aggiungere tu stesso Progetti/Attività che poi potrai trovare nella tua "%}
+                <a href='{{domain}}/users/me/submissions'>{% trans "Area Personale" %}</a>.</p>
+            
+            <p style="font-size: 14px;">{% trans "Il successo della piattaforma è basato sui contributi di tutti i suoi membru, quindi ti preghiamo di condividere i progetti/attività in cui sei coinvolti sia presenti che passati." %} </p>
+            <p style="font-size: 14px;"><b>{% trans "Accedi adesso per cominciare!" %}</b></p>
+            
+            <p style="font-size: 12px;"><b><em>{% trans "Il Team di CitizenScience.it" %}</b></em></p>
+            <br>
+            <hr style="color: lightBlue; width: 80%;">
+            <p style="font-size: 20px; color: rgb(37, 116, 142); padding-bottom: 50px;">{% trans "Grazie!" %}</p>
+            
+        </div>
+            <br><br>
+        
+            <div style="margin-top: 40px;">
+                <p style="font-size: 11px;">{% trans "Questo è un messaggio automatico generato dalla piattaforma Citizen Science.it. Ti preghiamo di non rispondere a questa email." %}</p>
+            </div>
+       
+    </center>
+    <br>
+</body>
+{% endblock html_body %}

@@ -2,31 +2,36 @@
 				{
 								"model": "projects.hasTag",
 								"fields": {
-												"hasTag": "Fees applicable"
+												"hasTag": "Fees applicable",
+												"hasTag_it" : "Tariffe applicabili"
 								}
 				},
 				{
 								"model": "projects.hasTag",
 								"fields": {
-												"hasTag": "Suitable for children"
+												"hasTag": "Suitable for children",
+									"hasTag_it": "Adatto ai bambini"
 								}
 				},
 				{
 								"model": "projects.hasTag",
 								"fields": {
-												"hasTag": "Teaching materials available"
+												"hasTag": "Teaching materials available",
+									"hasTag_it": "Materiali didattici disponibili"
 								}
 				},
 				{
 								"model": "projects.hasTag",
 								"fields": {
-												"hasTag": "Do-it-yourself"
+												"hasTag": "Do-it-yourself",
+									"hasTag_it": "Fai da te"
 								}
 				},
 				{
 								"model": "projects.hasTag",
 								"fields": {
-												"hasTag": "Participate from home"
+												"hasTag": "Participate from home",
+									"hasTag_it": "Partecipa da casa"
 								}
 				}
 

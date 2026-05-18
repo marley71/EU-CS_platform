@@ -63,7 +63,7 @@ class SignUpView(
     model = User
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("home")
-    form_valid_message = "You're signed up!"
+    form_valid_message = "Adesso sei registrato!"
 
     @method_decorator(ratelimit(key='ip', rate='5/h', method='POST', block=False))
     def dispatch(self, request, *args, **kwargs):
@@ -86,9 +86,10 @@ class SignUpView(
         profile.orcid = orcid
         profile.surname = surname
         profile.profileVisible = profile_visible
+        profile.profileType = form.cleaned_data.get('profileType')
         profile.save()
-        
-        mail_subject = 'Activate your account.' 
+
+        mail_subject = 'Attiva il tuo account.'
         message = render_to_string('emails/acc_active_email.html', {
             'user': user,
             'domain': settings.HOST,
@@ -102,7 +103,7 @@ class SignUpView(
             'token': account_activation_token.make_token(user),
         })
         to_email = form.cleaned_data.get('email')
-        send_mail(mail_subject, message, 'eu-citizen.science@ibercivis.es', [to_email], html_message=html_message)
+        send_mail(mail_subject, message, 'admin@citizenscience.it', [to_email], html_message=html_message)
 
         return render(self.request, 'accounts/confirm-email.html', {})
 
@@ -119,7 +120,6 @@ class PasswordChangeView(authviews.PasswordChangeView):
             "Your password was changed, "
             "hence you have been logged out. Please relogin",
         )
-
         return super().form_valid(form)
 
 
@@ -137,36 +137,28 @@ class PasswordResetDoneView(authviews.PasswordResetDoneView):
     template_name = "accounts/password-reset-done.html"
 
 class PasswordResetConfirmView(authviews.PasswordResetConfirmView):
-    form_class = forms.SetPasswordForm  
-    template_name = "accounts/password-reset-confirm.html"  
-    success_url = reverse_lazy("accounts:login")  
+    form_class = forms.SetPasswordForm
+    template_name = "accounts/password-reset-confirm.html"
+    success_url = reverse_lazy("accounts:login")
 
 # TODO: Implement this view
 #class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):
 #    form_class = forms.SetPasswordForm
 #    template_name = "accounts/password-reset-confirm.html"
-    
-class DeleteAccount(LoginRequiredMixin, View):
-    """
-    This view allows the user to delete their account after entering correct
-    password for verification.
-    """
-    def get(self, request):
-        form = forms.PasswordVerificationForm()
-        return render(request, "accounts/delete_account.html", {"form": form})
 
-    def post(self, request):
-        form = forms.PasswordVerificationForm(request.POST)
-        if form.is_valid():
-            entered_password = form.cleaned_data['password']
-            user = User.objects.get(id=request.user.id)
 
-            if user.check_password(entered_password):
-                user.delete()
-                return render(request, 'accounts/user_deleted.html', status=202)
-            
-            messages.error(request, "Incorrect password.")
-        return render(request, "accounts/delete_account.html", {"form": form})
+
+def delete_user(request):
+    try:
+        u = User.objects.get(id = request.user.id)
+        u.delete()
+        return render(request, 'accounts/user_deleted.html')
+    except User.DoesNotExist:
+        messages.error = 'User does not exist.'
+        return redirect('home')
+    except Exception as e:
+        messages.error = 'There was a problem trying delete an user'
+        return redirect('home')
 
 
 def activate(request, uidb64, token):

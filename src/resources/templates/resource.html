@@ -6,217 +6,294 @@
 {% load reviews %}
 {% block title %}{{ block.super }} :: {{resource.name}}{% endblock %}
 {% block list_of_items %}
-{% if resource.image2 %}
-    <!-- REVISAR ESTO PARA DETECTAR CUÁNDO SE ESTÁ DEFORMANDO LA IMAGEN Y PASAR DE RESPONSIVE A FIXED -->
+<style>
+    .publish-info-card {
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 0.75rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    }
 
-<!-- <div class="profileImage" style="background: url('/media/{{resource.image2| safe}}') no-repeat; background-size: cover;"> 
-    
-</div>  -->
-<div style="width: 100%;">
-<img class="img-fluid" style="height: 300px; width: 100%;" src='/media/{{resource.image2 | safe}}' />
-</div>
-{% endif %}
-
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-12">
-            <h1 class="wood-color">{{resource.name}}</h1>
-            <div class="small"><i>{% trans "Created" %} {{resource.dateCreated}}</i></div>
-            <div class="small"><i>{% trans "Updated" %} {{resource.dateUpdated}}</i></div>
-        </div>
-        <div class="col-xl-8 col-md-6 col-12">
-            <p class="mt-3">{{ resource.abstract | safe }}</p>
-            <h4 class="mt-4 leftborder">{% trans "Publish information" %}</h4>
-            <table class="table table-borderless">
-                {% if resource.authors.all %}
-                <tr>
-                    <td><b>Authors:</b></td>
-                    <td>{% for author in resource.authors.all %}{{ author }}; {% endfor %}</td>
-                </tr>
-                {% endif %}
-                {% if resource.publisher %}
-                <tr><td><b>Publisher:</b></td><td>{{resource.publisher}}</td></tr>
-                {% endif %}
-                {% if resource.datePublished %}
-                <tr><td><b>Year of publication: </b></td><td>{{resource.datePublished}}</td></tr>
-                {% endif %}
-                {% if resource.license %}
-                <tr><td><b>License: </b></td><td>{{resource.license}}</td></tr>
-                {% endif %}
-                {% if resource.resourceDOI %}
-                <tr><td><b>DOI: </b></td><td>{{resource.resourceDOI}}</td></tr>
-                {% endif %}
-            </table>
-            {% if resource.organisation.all %}
-            <h4 class="mt-4 leftborder">{% trans "Links with projects and/or organisations" %}</h4>
+    .publish-info-card .table {
+        margin-bottom: 0;
+    }
+</style>
+<section class="bg-plum-100 pt-5">
+    <div class="container mt-5">
+        {% if resource.image2 %}
             <div class="row">
-                {% for organisation in resource.organisation.all %}
-                <div class="col-12 col-md-6">
-                    {% include "horizontal_card_organisation.html" %}
+                <div class="col-12 rounded-4 text-center border"
+                     style="height:440px; background-image: url('/media/{{ resource.image2 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                 </div>
-                {% endfor %}
             </div>
-            {% endif %}
+        {% endif %}
 
-            {% if resource.project.all %}
-            {% if resource.organisation.all %}
-            <div class="row">
-                {% for project in resource.project.all %}
-                <div class="col-12 col-md-6">
-                    {% include "horizontal_card_project.html" %}
-                </div>
-                {% endfor %}
+        <div class="row mt-5 pb-3 border-bottom mb-4">
+            <div class="col-8">
+                <h1 class="h1">{{ resource.name }}</h1>
             </div>
-            
-            {% else %}
-            <h4 class="mt-4 leftborder">{% trans "Links with projects and/or organisations" %}</h4>
-            <div class="row">
-                {% for project in resource.project.all %}
-                <div class="col-12 col-md-6">
-                    {% include "horizontal_card_project.html" %}
-                </div>
-                {% endfor %}
-            </div>
-            
-            {% endif %}
-            {% endif %}
-            
-            {% if isTrainingResource %}
-            <h4 class="mt-4 leftborder">{% trans "Training information" %}</h4>
-            {% if resource.timeRequired %}
-            <b>{% trans "Time required" %}: </b> {{ resource.timeRequired }} hours<br>
-            {% endif %}
-            {% if resource.conditionsOfAccess %}
-            <b>{% trans "Conditions of access" %}: </b> {{ resource.conditionsOfAccess }}<br>
-            {% endif %}
-
-            {% endif %}
-
-            <!-- Buttons -->
-            <div class="row">
-                <div class="col-12 mt-4">
-                    <a target="_blank" 
-                       class="btn btn-secondary" 
-                       href="{% if 'http' not in resource.url %}//{%endif%}{{resource.url}}"
-                                                                   class="colorblue"><i class="fas fa-external-link-square-alt"></i>
-                                                                   {% if isTrainingResource %}
-                                                                   {% trans "Go to Training" %}
-                                                                   {% else %}
-                                                                   {% trans "Go to Resource" %}
-                                                                   {% endif %}
+            <div class="col-4">
+                <div class="text-end col-12 offset-lg-5 col-lg-7">
+                    <a target="_blank"
+                       class="btn btn-primary w-100"
+                       href="{% if 'http' not in resource.url %}//{% endif %}{{ resource.url }}">
+                        {% if isTrainingResource %}
+                            {% trans "Go to Training" %}
+                        {% else %}
+                            {% trans "Go to Resource" %}
+                        {% endif %}
+                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                        </svg>
                     </a>
+                </div>
 
+                <div class="col-12 col-lg-7 offset-lg-5 text-end mt-1">
                     {% if resource.creator == user or user.is_staff or user.id in cooperators %}
                         {% if resource.isTrainingResource == True %}
-                    <a class="btn btn-warning" 
-                      href="{% url 'editTrainingResource' resource.id %}">
-                        <i class="fas fa-edit"></i> {% trans "Edit" %}
-                    </a>
-                        {% else %} 
-                        <a class="btn btn-warning" 
-                        href="{% url 'editResource' resource.id %}">
-                          <i class="fas fa-edit"></i> {% trans "Edit" %}
-                      </a>
-                    {% endif %}
-                    {% endif %}
-               
-                    {% if user.is_authenticated %}
-                    <button 
-                        {% if bookmarkedResource %}
-                        class="btn btn-my-darkBlue"
+                            <a class="btn btn-outline-secondary w-100" href="{% url 'editTrainingResource' resource.id %}">
+                                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                                </svg>
+                                {% trans "Edit" %}
+                            </a>
                         {% else %}
-                        class="btn btn-my-outline-darkBlue"
+                            <a class="btn btn-outline-secondary w-100" href="{% url 'editResource' resource.id %}">
+                                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                                </svg>
+                                {% trans "Edit" %}
+                            </a>
                         {% endif %}
-                        id="buttonBookmarkResource" bookmarked="{{bookmarkedResource}}">
-                        <i class="far fa-bookmark"></i> Bookmark
-                    </button>
+                    {% endif %}
+                </div>
 
-                    <!--a href="#" class="btn btn-secondary">{% trans "Comment" %}</a-->
+                <!-- {% if user.is_authenticated %}
+                    <div class="col-12 col-lg-7 offset-lg-5 text-end mt-1">
+                        <button
+                            {% if bookmarkedResource %}
+                                class="btn btn-my-darkBlue w-100"
+                            {% else %}
+                                class="btn btn-my-outline-darkBlue w-100"
+                            {% endif %}
+                                id="buttonBookmarkResource" bookmarked="{{bookmarkedResource}}">
+                            <i class="far fa-bookmark"></i> {% trans "Bookmark" %}
+                        </button>
+                    </div>
+                {% endif %} -->
+
+                <div class="col-12 col-lg-7 offset-lg-5 text-end mt-1">
+                    {% if user.is_staff %}
+                        <div class="col-12 mt-4">
+                            {% if resource.id in approvedResources %}
+                                <div class="mt-3">
+                                    <button type="button"
+                                            class="btn btn-outline-danger w-100 js-set-approved"
+                                            data-resource-id="{{ resource.id }}"
+                                            data-approved="false">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                        </svg>
+                                        {% trans "Don't approve" %}
+                                    </button>
+                                </div>
+                            {% elif resource.id in unApprovedResources %}
+                                <div>
+                                    <button type="button"
+                                            class="btn btn-outline-success w-100 js-set-approved"
+                                            data-resource-id="{{ resource.id }}"
+                                            data-approved="true">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                        </svg>
+                                        {% trans "Approve" %}
+                                    </button>
+                                </div>
+                            {% else %}
+                                <div>Questo contenuto non è ancora stato moderato</div>
+                                <button type="button"
+                                        class="btn btn-outline-success w-100 js-set-approved"
+                                        data-resource-id="{{ resource.id }}"
+                                        data-approved="true">
+                                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                    </svg>
+                                    {% trans "Approve" %}
+                                </button>
+                                <button type="button"
+                                        class="btn btn-outline-danger w-100 js-set-approved"
+                                        data-resource-id="{{ resource.id }}"
+                                        data-approved="false">
+                                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                    </svg>
+                                    {% trans "Don't approve" %}
+                                </button>
+                            {% endif %}
+                            {# Azioni temporaneamente disabilitate #}
+                            <!-- <div class="custom-control custom-switch mt-3 text-start">
+                                <input type="checkbox"
+                                       class="custom-control-input myradio"
+                                       id="featured"
+                                       {% if resource.featured %} checked {% endif %}>
+                                <label class="custom-control-label" for="featured">{% trans "Set featured" %}</label>
+                            </div>
+                            <div class="custom-control custom-switch mt-3 text-start">
+                                <input type="checkbox"
+                                       class="custom-control-input myradio"
+                                       id="isTraining"
+                                       {% if resource.isTrainingResource %} checked {% endif %} >
+                                <label class="custom-control-label" for="isTraining">{% trans "Is training" %}</label>
+                            </div> -->
+                            <div class="mt-3">
+                                <a class="btn btn-outline-secondary w-100"
+                                   href="{% url 'submitter_contact' 'resource' resource.id %}">
+                                    <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#envelope"/>
+                                    </svg>
+                                    {% trans "Contact submitter" %}
+                                </a>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </div>
-
-            <!-- Admin area -->
-            {% if user.is_staff %}
-            <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>
-            <div class="custom-control custom-switch mt-3">
-                <input type="checkbox" 
-                       class="custom-control-input myradio" 
-                       id="approve"
-                       {% if resource.approved %} checked {% endif %} >
-                       <label class="custom-control-label" for="approve">{% trans "Approve" %}</label>
-            </div>
-            <div class="custom-control custom-switch mt-3">
-                <input type="checkbox" 
-                       class="custom-control-input myradio" 
-                       id="featured"
-                       {% if resource.featured %} checked {% endif %}>
-                <label class="custom-control-label" for="featured">{% trans "Set featured" %}</label>
-            </div>
-            <div class="custom-control custom-switch mt-3">
-                <input type="checkbox" 
-                       class="custom-control-input myradio" 
-                       id="isTraining"
-                       {% if resource.isTrainingResource %} checked {% endif %} >
-                       <label class="custom-control-label" for="isTraining">{% trans "Is training" %}</label>
-            </div>
-            <a href="#" class="btn btn-secondary mt-3">{% trans "Contact submitter" %}</a>
-            {% endif %}
-
         </div>
-        <div class="col-xl-4 col-md-6 col-12">
 
-            <h5 class="mt-3">{% trans "Language" %}</h5>
-            {% get_language_info_list for LANGUAGES as languages %}
-            {% for language in languages %}
-            {% if language.code == resource.inLanguage %}
-            <a class="project-topic" href="{{endPoint}}?inLanguage={{resource.inLanguage}}">{{language.name | title}}</a>
-            {% endif %}
-            {% endfor %}
+        <div class="row">
+            <div class="col-xl-8 col-xxl-7 col-md-6 col-12">
+                <p class="mt-3 gray7-color">{{ resource.abstract | safe }}</p>
 
-            <h5 class="mt-3">{% trans "Keywords" %}</h5>
-            {% for keyword in resource.keywords.all %}
-            <a class="project-topic" href="{{endPoint}}?keywords={{keyword}}">{{keyword  | title}}</a>
-            {% endfor %}
+                <h4 class="mt-4 h4">{% trans "Publish information" %}</h4>
+                <div class="publish-info-card p-3 p-md-4">
+                    <table class="table table-borderless">
+                        {% if resource.authors.all %}
+                        <tr>
+                            <td><b>{% trans "Authors:" %}</b></td>
+                            <td>{% for author in resource.authors.all %}{{ author }}; {% endfor %}</td>
+                        </tr>
+                        {% endif %}
+                        {% if resource.publisher %}
+                        <tr><td><b>{% trans "Publisher:" %}</b></td><td>{{resource.publisher}}</td></tr>
+                        {% endif %}
+                        {% if resource.datePublished %}
+                        <tr><td><b>{% trans "Year of publication:" %} </b></td><td>{{resource.datePublished}}</td></tr>
+                        {% endif %}
+                        {% if resource.license %}
+                        <tr><td><b>{% trans "License:" %} </b></td><td>{{resource.license}}</td></tr>
+                        {% endif %}
+                        {% if resource.resourceDOI %}
+                        <tr><td><b>{% trans "DOI:" %} </b></td><td>{{resource.resourceDOI}}</td></tr>
+                        {% endif %}
+                    </table>
+                </div>
 
-            <h5 class="mt-3">{% trans "Theme" %}</h5>
-            {% for theme in resource.theme.all %}
-            <a class="project-topic" href="{{endPoint}}?theme={{theme.theme}}">{{ theme | title }}</a>
-            {% endfor %}
+                {% if resource.organisation.all %}
+                <h4 class="mt-5">{% trans "Links with organisations" %}</h4>
+                <div class="row">
+                    {% for organisation in resource.organisation.all %}
+                    <div class="col-12 col-md-6">
+                        {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-            <h5 class="mt-3">{% trans "Category" %}</h5>
-            <a class="project-topic"  
-               href="{{endPoint}}?category={{resource.category.text}}">{{resource.category | title }}</a>
-               <!-- <div id="id_sub_categories" class="mb-3"></div> -->
-            
-               <!-- TODO: This is not working, escape well -->
-            <h5 class="mt-3">{% trans "Audience" %}</h5>
-            {% for audience in resource.audience.all %}
-            <a class="project-topic"
-               href="{{endPoint}}?audience={% autoescape on %}{{audience|urlencode}}{% endautoescape %}"> {{ audience | title}}
-            </a>
-            {% endfor %}
+                {% if resource.project.all %}
+                    <h4 class="mt-5">{% trans "Links with projects" %}</h4>
+                <div class="row">
+                    {% for project in resource.project.all %}
+                    <div class="col-12 col-md-6">
+                        {% include 'includes/card_ridotta.html' with project=project %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-            {% if resource.educationLevel.all %}
-            <h5 class="mt-3">{% trans "Education level" %}</h5>
-            {% for educationLevel in resource.educationLevel.all %}
-            <a class="project-topic"
-            href="{{endPoint}}?educationLevel={% autoescape on %}{{educationLevel|urlencode}}{% endautoescape %}">{{ educationLevel | title }}</a>
-            {% endfor %}
-            {% endif %}
+                {% if isTrainingResource %}
+                <h4 class="mt-5">{% trans "Training information" %}</h4>
+                {% if resource.timeRequired %}
+                <p><b>{% trans "Time required" %}: </b> {{ resource.timeRequired }} {% trans "hours" %}</p>
+                {% endif %}
+                {% if resource.conditionsOfAccess %}
+                <p><b>{% trans "Conditions of access" %}: </b> {{ resource.conditionsOfAccess }}</p>
+                {% endif %}
+                {% endif %}
 
-            {% if resource.learningResourceType.all %}
-            <h5 class="mt-3">{% trans "Learning Resource Type" %}</h5>
-            {% for learningResourceType in resource.learningResourceType.all %}
-            <a class="project-topic"
-            href="{{endPoint}}?learningResourceType={% autoescape on %}{{learningResourceType|urlencode}}{% endautoescape %}">{{ learningResourceType | title }}</a>
-            {% endfor %}
+            </div>
+            <div class="col-xl-4 offset-xxl-1 offset-xl-0 col-md-5 offset-md-1 col-12">
+                <h5 class="mt-3">{% trans "Language" %}</h5>
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                {% if language.code == resource.inLanguage %}
+                <a class="project-topic" href="{{endPoint}}?inLanguage={{resource.inLanguage}}">
+                    <span class="badge rounded-pill badge-card-main">{{ language.name_translated }}</span>
+                </a>
+                {% endif %}
+                {% endfor %}
+
+                <h5 class="mt-3">{% trans "Keywords" %}</h5>
+                {% for keyword in resource.keywords.all %}
+                <a class="project-topic" href="{{endPoint}}?keywords={{keyword}}">
+                    <span class="badge rounded-pill badge-card-main">{{ keyword  | title }}</span>
+                </a>
+                {% endfor %}
+
+                <h5 class="mt-3">{% trans "Theme" %}</h5>
+                {% for theme in resource.theme.all %}
+                <a class="project-topic" href="{{endPoint}}?theme={{theme.theme}}">
+                    <span class="badge rounded-pill badge-card-main">{{ theme | title }}</span>
+                </a>
+                {% endfor %}
+
+                <h5 class="mt-3">{% trans "Category" %}</h5>
+                <a class="project-topic" href="{{endPoint}}?category={{resource.category.text}}">
+                    <span class="badge rounded-pill badge-card-main">{{resource.category | title }}</span>
+                </a>
+
+                <h5 class="mt-3">{% trans "Audience" %}</h5>
+                {% for audience in resource.audience.all %}
+                <a class="project-topic"
+                   href="{{endPoint}}?audience={% autoescape on %}{{audience|urlencode}}{% endautoescape %}">
+                    <span class="badge rounded-pill badge-card-main">{{ audience | title }}</span>
+                </a>
+                {% endfor %}
+
+                {% if resource.educationLevel.all %}
+                <h5 class="mt-3">{% trans "Education level" %}</h5>
+                {% for educationLevel in resource.educationLevel.all %}
+                <a class="project-topic"
+                   href="{{endPoint}}?educationLevel={% autoescape on %}{{educationLevel|urlencode}}{% endautoescape %}">
+                    <span class="badge rounded-pill badge-card-main">{{ educationLevel | title }}</span>
+                </a>
+                {% endfor %}
+                {% endif %}
+
+                {% if resource.learningResourceType.all %}
+                <h5 class="mt-3">{% trans "Learning Resource Type" %}</h5>
+                {% for learningResourceType in resource.learningResourceType.all %}
+                <a class="project-topic"
+                   href="{{endPoint}}?learningResourceType={% autoescape on %}{{learningResourceType|urlencode}}{% endautoescape %}">
+                    <span class="badge rounded-pill badge-card-main">{{ learningResourceType | title }}</span>
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
+            <div class="text-smaller text-muted">
+                {% trans "Created" %} {{ resource.dateCreated | date:"d/m/Y" }}
+            </div>
+            {% if resource.dateUpdated %}
+                <div>|</div>
+                <div class="text-smaller text-muted">
+                    {% trans "Updated" %} {{ resource.dateUpdated | date:"d/m/Y" }}
+                </div>
             {% endif %}
         </div>
     </div>
-</div>
-
-
+</section>
 {% endblock list_of_items %}
 
 {% block scripts %}
@@ -279,26 +356,14 @@
             })
         })
 
+        $(".js-set-approved").on("click", function () {
+            var resourceId = $(this).data("resource-id");
+            var approved = $(this).data("approved") === true || $(this).data("approved") === "true";
+            setApprovedResource(resourceId, approved);
+        });
 
-        $("#approve").change(function(){
-            console.log('change approve')
-            $.ajax({
-                type: 'POST',
-                url: '/approveResource/',
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    approved: $('#approve').is(':checked'),
-                    resourceId: '{{resource.id}}'
-                },
-                success: function(response){
-                    console.log(response)
-                },
-                error: function(response){
-                    console.log(response)
-                }
-            })
-        })
 
+        /*
         $("#featured").change(function(){
             console.log('setFeatured')
             $.ajax({
@@ -335,9 +400,31 @@
                 }
             })
         })
+        */
 
 
     });
+
+    function setApprovedResource(resourceId, approved) {
+        $.ajax({
+            type: 'POST',
+            url: '/approveResource/',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                approved: approved,
+                resourceId: resourceId
+            },
+            success: function(response){
+                window.location.reload(false)
+                if (!approved) {
+                    window.location.href = "{% url 'submitter_contact' 'resource' resource.id %}"
+                }
+            },
+            error: function(response){
+                console.log(response)
+            }
+        })
+    }
 
     function getSubCategories(resource) {
     var category = $("#id_category").val();

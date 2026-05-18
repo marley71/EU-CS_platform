@@ -1,0 +1,286 @@
+{% load static %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="{% static 'css/map.css' %}?v={{ STATIC_VERSION }}" rel="stylesheet"/>
+
+<div class="d-flex flex-column flex-md-row">
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-column flex-md-row d-md-none">
+            <div class="custom-layer-control-mobile d-block d-md-none rounded-4 p-4 pb-2">
+                {% include '_map_projects_controls.html' with screenType='M' %}
+            </div>
+        </div>
+        <div class="custom-layer-control-desktop d-none d-md-block rounded-4 p-2">
+            {% include '_map_projects_controls.html' with screenType='D' %}
+        </div>
+        <div class="custom-display-project d-none d-md-block">
+
+
+        </div>
+
+    </div>
+    <div id="map"></div>
+    <div class="d-flex flex-column justify-content-center custom-display-project custom-display-project-mobile d-md-none">
+
+
+    </div>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
+      type="text/css">
+<script src="//unpkg.com/leaflet-gesture-handling"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var markersData = {}
+        var markersDataProjectsNazionali = {}
+        var markersDataProjectsRegionali = {}
+        var markersDataProjectsLocali = {}
+        var markersDataActivitiesNazionali = {}
+        var markersDataActivitiesRegionali = {}
+        var markersDataActivitiesLocali = {}
+        var markersDataObjects = {}
+
+        var map = L.map('map', {center: [42, 13], zoom: 6});
+        /*
+                    var OpenStreetMap_BZH = L.tileLayer('https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
+                        //bounds: [[46.2, -5.5], [50, 0.7]]
+                    });
+        */
+        /*
+                    var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey={apikey}', {
+                            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            apikey: 'pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+                            maxZoom: 22
+                        });
+        */
+        /*
+                    L.tileLayer(
+                        'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+
+
+
+
+
+
+
+
+        {#        #}
+
+                //'https://api.mapbox.com/styles/v1/germangil/clt76zpgl008401qn2izgbfxp/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2VybWFuZ2lsIiwiYSI6ImNsbXQxbDBoNTAwbjkybGxvcngxNDBhYzgifQ.kcRn3hE1wUpA1KpdxiG23g',
+                {
+                tileSize: 512,
+                zoomOffset: -1,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+            }).addTo(map);
+*/
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        //L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+        //    maxZoom: 19,
+        //    attribution: '&copy; <a href="http://api.webmapp.it/copyright">Webmapp</a>'
+        //}).addTo(map);
+        //L.tileLayer(Thunderforest_Neighbourhood).addTo(map);
+        //L.tileLayer(OpenStreetMap_BZH).addTo(map);
+        L.control.scale().addTo(map);
+
+        var projectIcon = createIcon(L,'bg-olive-800','#ACE8C07F','clipboard2-data-fill')
+        var projectsNazionaliIcon = createIcon(L,'bg-olive-700','#ACE8C07F','clipboard2-data-fill')
+        var projectsRegionaliIcon = createIcon(L,'bg-olive-500','#759F837F','clipboard2-data-fill')
+        var projectsLocaliIcon = createIcon(L,'bg-olive-200','#506C597F','clipboard2-data-fill')
+        var activitiesNazionaliIcon = createIcon(L,'bg-plum-800','#5F5FC6FF','clipboard2-data-fill')
+        var activitiesRegionaliIcon = createIcon(L,'bg-plum-600','#3D3D7EFF','clipboard2-data-fill')
+        var activitiesLocaliIcon = createIcon(L,'bg-plum-300','#24244CFF','clipboard2-data-fill')
+
+        {#var organisationIcon = L.divIcon({#}
+        {#    className: 'individual-icon',#}
+        {#    /* binoculars icon in red */#}
+        {#    //html: '<h5><i class="bi bi-clipboard2-data-fill"></i>O</h5>',#}
+        {#    html: '<div class="py-1 border bg-plum-800 rounded-circle border-2" style="font-size: 0;border-color: #A286D17F !important;">' +#}
+        {#        '<svg class="bi" style="margin-top 0 !important;margin-left: 6px !important" width="14" height="14" fill="white"><use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#bank2"/></svg>' +#}
+        {#        '</div>',#}
+        {#    iconSize: [30, 30],#}
+        {#    iconAnchor: [15, 15]#}
+        {# });#}
+
+
+        var projectsNazionali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            /*
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
+
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+            */
+        });
+
+        var projectsRegionali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+
+        });
+        var projectsLocali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+
+        });
+        var activitiesNazionali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+
+        });
+        var activitiesRegionali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+
+        });
+        var activitiesLocali = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+
+        });
+
+        {#var organisations = L.markerClusterGroup({#}
+        {#    spiderfyOnMaxZoom: true,#}
+        {#    showCoverageOnHover: false,#}
+        {#    zoomToBoundsOnClick: true,#}
+        {# });#}
+        // Perform AJAX request to get the
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open('GET', '/get_projects/', true);
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                // Create markers on the map based on the data received
+                //PROGETTI NAZIONALI
+                markersDataProjectsNazionali = JSON.parse(xhr1.responseText).markers_projectsNazionali;
+                console.debug('markers', markersDataProjectsNazionali);
+                addMarkers(markersDataProjectsNazionali, markersDataObjects, projectsNazionali, projectsNazionaliIcon, map);
+
+                //PROGETTI REGIONALI
+                markersDataProjectsRegionali = JSON.parse(xhr1.responseText).markers_projectsRegionali;
+                console.debug('markers', markersDataProjectsRegionali);
+                addMarkers(markersDataProjectsRegionali, markersDataObjects, projectsRegionali, projectsRegionaliIcon, map);
+
+                //PROGETTI LOCALI
+                markersDataProjectsLocali = JSON.parse(xhr1.responseText).markers_projectsLocali;
+                console.debug('markers', markersDataProjectsLocali);
+                addMarkers(markersDataProjectsLocali, markersDataObjects, projectsLocali, projectsLocaliIcon, map);
+
+                //ATTIVITA' NAZIONALI
+                markersDataActivitiesNazionali = JSON.parse(xhr1.responseText).markers_activitiesNazionali;
+                console.debug('markers', markersDataActivitiesNazionali);
+                addMarkers(markersDataActivitiesNazionali, markersDataObjects, activitiesNazionali, activitiesNazionaliIcon, map);
+
+                //ATTIVITA' REGIONALI
+                markersDataActivitiesRegionali = JSON.parse(xhr1.responseText).markers_activitiesRegionali;
+                console.debug('markers', markersDataActivitiesRegionali);
+                addMarkers(markersDataActivitiesRegionali, markersDataObjects, activitiesRegionali, activitiesRegionaliIcon, map);
+
+                //ATTIVITA' LOCALI
+                markersDataActivitiesLocali = JSON.parse(xhr1.responseText).markers_activitiesLocali;
+                console.debug('markers', markersDataActivitiesLocali);
+                addMarkers(markersDataActivitiesLocali, markersDataObjects, activitiesLocali, activitiesLocaliIcon, map);
+                // Create markers on the map based on the data received
+
+
+            }
+        };
+        {##}
+        {#// Perform AJAX request to get the organisations#}
+        {#var xhr2 = new XMLHttpRequest();#}
+        {#xhr2.open('GET', '/get_organisations/', true);#}
+        {#xhr2.onreadystatechange = function () {#}
+        {#    if (xhr2.readyState === 4 && xhr2.status === 200) {#}
+        {#        var markersData = JSON.parse(xhr2.responseText).markers;#}
+        {##}
+        {#        // Create markers on the map based on the data received#}
+        {#        for (var i = 0; i < markersData.length; i++) {#}
+        {#            var marker = L.marker([markersData[i].latitude, markersData[i].longitude], {icon: organisationIcon});#}
+        {#            marker.bindPopup('<div>' +#}
+        {#                '<a href="' + markersData[i].organisation_url + '" style="text-decoration: none;">' + markersData[i].name + '</a>' +#}
+        {#                '</div>');#}
+        {#            // Add the properties to the marker as a GeoJSON feature#}
+        {#            marker.feature = {properties: {name: markersData[i].name}};#}
+        {#            // Add the marker to the feature group#}
+        {#            marker.addTo(organisations);#}
+        {#        }#}
+        {#    }#}
+        {# };#}
+
+        // Perform AJAX request to get the platforms
+        var xhr3 = new XMLHttpRequest();
+
+        xhr1.send();
+        {#xhr2.send();#}
+
+        projectsNazionali.addTo(map);
+        projectsRegionali.addTo(map);
+        projectsLocali.addTo(map);
+        activitiesNazionali.addTo(map);
+        activitiesRegionali.addTo(map);
+        activitiesLocali.addTo(map);
+
+        var layers = {
+            projectsNazionali: projectsNazionali,
+            projectsRegionali: projectsRegionali,
+            projectsLocali: projectsLocali,
+            activitiesNazionali: activitiesNazionali,
+            activitiesRegionali: activitiesRegionali,
+            activitiesLocali: activitiesLocali,
+        }
+        /*
+        var baseLayers = {
+            "<i class='bi bi-bank2'></i> Project": projects,
+            "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
+        };
+        L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
+         */
+        document.querySelectorAll('input[name="layer"]').forEach(function (input) {
+            input.addEventListener('change', function () {
+                console.debug(this.value, this.checked);
+                if (this.checked) {
+                    map.addLayer(layers[this.value])
+                } else {
+                    map.removeLayer(layers[this.value]);
+                }
+                /*
+                if (this.id === 'osm') {
+                    map.removeLayer(satelliteLayer);
+                    map.addLayer(osmLayer);
+                } else if (this.id === 'satellite') {
+                    map.removeLayer(osmLayer);
+                    map.addLayer(satelliteLayer);
+                }*/
+            });
+        });
+    });
+</script>
+{%  include '_map_js.html' %}

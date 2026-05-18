@@ -21,7 +21,7 @@ from django.db.models import Value
 from django.core.paginator import Paginator
 import pprint
 from django.db.models.functions import Lower
-
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 class ShowProfile(LoginRequiredMixin, generic.TemplateView):
     template_name = "profiles/show_profile.html"
@@ -220,7 +220,6 @@ def userSearch(request):
     users = applyFilters(request, users)
     filters = setFilters(request, filters)
     users = users.distinct()
-
     # Ordering
     if request.GET.get('orderby'):
         if(request.GET.get('orderby') == 'name'):
@@ -238,7 +237,9 @@ def userSearch(request):
 
     #To count
     #For resources count
-    allResources = Resource.objects.all().filter(approved=True)
+    allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFilters(request, allResources)
     allResources = allResources.distinct()
     resources2 = allResources.filter(~Q(isTrainingResource=True))
@@ -247,11 +248,22 @@ def userSearch(request):
     trainingResourcesCounter = len(trainingResources)
 
     #For projects count
-    projects = Project.objects.all().filter(approved=True)
-    projects = projects.filter(~Q(hidden=True))
-    projects = applyFilters(request, projects)
-    projects = projects.distinct()
-    projectsCounter = len(projects)
+    projectsP = Project.objects.all().filter(type='Progetto') #.filter(approved=True)
+    #projectsP = projectsP.filter(~Q(hidden=True))
+    projectsP = applyProjectsGlobalFilters(request, projectsP)
+
+
+    projectsP = applyFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsCounter = len(projectsP)
+
+
+    projectsA = Project.objects.all().filter(type='Attività') #.filter(approved=True)
+    #projectsA = projectsA.filter(~Q(hidden=True))
+    projectsA = applyProjectsGlobalFilters(request, projectsA)
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+    attivitaCounter = len(projectsA)
 
     #For organisations count
     organisations = Organisation.objects.all()
@@ -274,12 +286,14 @@ def userSearch(request):
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'projectsCounter': projectsCounter,
+        'attivitaCounter': attivitaCounter,
         'organisationsCounter': organisationsCounter,
         'platformsCounter': platformsCounter,
         'interestAreas': interestAreasWithContent,
         'organisations': organisationsWithContent,
         'countriesWithContent': countriesWithContent,
         'filters': filters,
+        'homeSearchCategories': 'users',
         'show_search_bar': False
     }
     return TemplateResponse(request, template_name, context)
@@ -447,7 +461,8 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(
                 Q(name__icontains=request.GET['keywords']) |
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
-            queryset = queryset.filter(approved=True)
+            if not request.user.is_staff:
+                queryset = queryset.filter(approved=True)
             
     if queryset.model == Organisation:
         if request.GET.get('keywords'):

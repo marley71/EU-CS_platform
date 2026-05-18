@@ -3,6 +3,7 @@ from django_select2.forms import Select2MultipleWidget
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from .models import Organisation, OrganisationType
+from localita.models import Localita
 from projects.forms import getCountryCode
 from ckeditor.widgets import CKEditorWidget
 from django.conf import settings
@@ -51,10 +52,26 @@ class OrganisationForm(forms.Form):
         max_length=300,
         required=False,
         label=_("Logo credit, if applicable"))
-    x = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    y = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    width = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    image1 = forms.ImageField(
+        required=False,
+        help_text=_(
+            'Please upload the image of your organisation (.jpg or .png).'),
+        label=_('Organisation image'),
+        widget=forms.FileInput)
+    image1Credit = forms.CharField(
+        max_length=300,
+        required=False,
+        label=_("Organisation image credit, if applicable"))
+
+    x_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height_1 = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    x_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height_logo = forms.FloatField(widget=forms.HiddenInput(), required=False)
+
     contact_point = forms.CharField(
         max_length=100,
         help_text=_(
@@ -69,15 +86,29 @@ class OrganisationForm(forms.Form):
         widget=forms.TextInput(),
         label=_('Contact point email'))
     latitude = forms.DecimalField(
+        required=False,
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
     longitude = forms.DecimalField(
+        required=False,
         max_digits=9, decimal_places=6, widget=forms.HiddenInput())
+    localita = forms.ModelChoiceField(
+        queryset=Localita.objects.all(),
+        label=_("Località"),
+        widget=forms.Select(attrs={'class': 'js-example-basic-single'}),
+        help_text=_('Please, select località of your project.'))
 
     # TODO: I link this more to be used in others
-    def save(self, args, logo_path):
+    def save(self, args, images):
         print("In save")
         pk = self.data.get('organisationID', '')
         orgType = get_object_or_404(OrganisationType, id=self.data['orgType'])
+        localita = get_object_or_404(Localita, id=self.data['localita'])
+        latitude = self.data.get('latitude', None)
+        longitude = self.data.get('longitude', None)
+        if (not self.data['latitude'] or not self.data['longitude']):
+            latitude = localita.latitude
+            longitude = localita.longitude
+
         if (pk):
             organisation = get_object_or_404(Organisation, id=pk)
             organisation.name = self.data['name']
@@ -86,31 +117,44 @@ class OrganisationForm(forms.Form):
             organisation.contactPoint = self.data['contact_point']
             organisation.contactPointEmail = self.data['contact_point_email']
             organisation.logoCredit = self.data['logo_credit']
-            organisation.latitude = self.data['latitude']
-            organisation.longitude = self.data['longitude']
+            organisation.latitude = latitude
+            organisation.longitude = longitude
+            organisation.localita_id = self.data['localita']
+            organisation.image1Credit = self.data['image1Credit']
         else:
             organisation = Organisation(
                 name=self.data['name'],
                 url=self.data['url'],
                 creator=args.user,
-                latitude=self.data['latitude'],
-                longitude=self.data['longitude'],
+                latitude=latitude,
+                longitude=longitude,
                 logoCredit=self.data['logo_credit'],
+                image1Credit=self.data['image1Credit'],
                 orgType=orgType,
                 contactPoint=self.data['contact_point'],
-                contactPointEmail=self.data['contact_point_email'])
+                contactPointEmail=self.data['contact_point_email'],
+                localita_id=self.data['localita'],
+            )
             
         for key, value in self.data.items():
             if key.startswith('description_'):
                 setattr(organisation, key, value)
         organisation.save()
+        print('Organisation saved',images)
+        if (images[0]):
+            organisation.logo = images[0]
+        if (images[1]):
+            organisation.image1 = images[1]
 
         # TODO: Fix this
-        if len(logo_path):
-            organisation.logo = logo_path
-        country = getCountryCode(
-            organisation.latitude, organisation.longitude).upper()
-        organisation.country = country
+        # if len(logo_path):
+        #     organisation.logo = logo_path
+        # if len(image1_path):
+        #     organisation.image1 = image1_path
+
+#        country = getCountryCode(
+#            organisation.latitude, organisation.longitude).upper()
+#        organisation.country = country
         organisation.save()
         return organisation
 

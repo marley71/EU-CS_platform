@@ -24,9 +24,11 @@ from itertools import chain
 from reviews.models import Review
 from django_countries import countries
 from itertools import chain
-from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm
+from .forms import ProjectForm, ProjectPermissionForm, ProjectTranslationForm, ProjectGeographicLocationForm, getTassonomieJson
 from .models import Project, Topic, ParticipationTask, Status, Keyword, ApprovedProjects, \
-    FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText
+    FollowedProjects, FundingBody, CustomField, ProjectPermission, GeographicExtend, UnApprovedProjects, \
+    HasTag, DifficultyLevel, Stats, Likes, Follows, SearchStats, HelpText, ProjectCountry, BDSWeek, Provincia
+from localita.models import Localita
 from organisations.models import Organisation
 import copy
 import csv
@@ -37,9 +39,10 @@ from rest_framework import status
 from resources.models import Resource
 from platforms.models import Platform
 from profiles.models import Profile
+from events.models import Event
 
-
-from resources.views import applyFilters as applyFiltersResources
+from resources.views import applyFilters as applyFiltersResources, filter_resources_for_display
+from eucs_platform.utils import applyProjectsGlobalFilters as applyProjectsGlobalFilters
 
 User = get_user_model()
 
@@ -49,10 +52,15 @@ def newProject(request):
     user = request.user
     form = ProjectForm()
     text = get_object_or_404(HelpText, slug='new-project')
+    current_year = datetime.now().year
+    has_current_bdsweek = BDSWeek.objects.filter(anno=current_year).exists()
     return TemplateResponse(request, 'project_form.html', {
         'form': form,
         'user': user,
         'text': text,
+        'has_current_bdsweek': has_current_bdsweek,
+        'current_bdsweek_year': current_year,
+        'tassonomieJson' : getTassonomieJson(),
         'modeltranlationlanguages': settings.MODELTRANSLATION_LANGUAGES})
 
 
@@ -62,6 +70,8 @@ def saveProjectAjax(request):
     request.POST = updateKeywords(request.POST)
     request.POST = updateFundingBody(request.POST)
     form = ProjectForm(request.POST, request.FILES)
+    #print(form.data)
+    #print('prima del valid')
     if form.is_valid():
         images = setImages(request, form)
         pk = form.save(request, images, [], '')
@@ -75,8 +85,10 @@ def saveProjectAjax(request):
 
 def sendProjectEmail(pk, user):
     project = get_object_or_404(Project, id=pk)
-    subject = '[EU-CITIZEN.SCIENCE] Your project "%s" has been submitted' % project.name
+    subject = 'CitizenScience.it Il tuo progetto/attività "%s" è stato inviato ai moderatori' % project.name
     print(subject)
+    print(user.email)
+    print(settings.EMAIL_RECIPIENT_LIST)
     message = render_to_string('emails/new_project.html', {
         'username': user.name,
         'domain': settings.HOST,
@@ -84,13 +96,39 @@ def sendProjectEmail(pk, user):
         'projectid': pk})
     # to = [user.email]
     to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
     to.append(user.email)
     bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
-    email = EmailMessage(subject, message, to=to, bcc=bcc)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'admin@citizenscience.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
     email.content_subtype = "html"
     email.send()
 
-
+    subject_staff = 'CitizenScience.it Il progetto/attività "%s" attende di essere approvato!' % project.name
+    message_staff = render_to_string('emails/new_project_staff.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'projectname': project.name,
+        'projectid': pk})
+    staff_emails = list(
+        User.objects.filter(is_staff=True, is_active=True)
+        .exclude(email__isnull=True)
+        .exclude(email__exact="")
+        .values_list('email', flat=True)
+    )
+    configured_emails = list(getattr(settings, 'EMAIL_RECIPIENT_LIST', []) or [])
+    moderators_to = sorted(set(staff_emails + configured_emails) - {user.email} if user.email else set(staff_emails + configured_emails))
+    if moderators_to:
+        moderators_email = EmailMessage(
+            subject=subject_staff,
+            body=message_staff,
+            from_email=from_email,
+            to=[from_email],
+            bcc=moderators_to,
+        )
+        moderators_email.content_subtype = "html"
+        moderators_email.send()
 
 def updateKeywords(dictio):
     keywords = dictio.pop('keywords', None)
@@ -173,6 +211,9 @@ def editProject(request, pk):
     if project.end_date:
         end_datetime = formats.date_format(project.end_date, 'Y-m-d')
 
+    #print(project.topic.all().values_list('id',flat=True))
+    topicids = list(project.topic.all().values_list('id', flat=True))
+    topicids = [str(id) for id in topicids]
     initial_data = {
         'project_name': project.name, 
         'url': project.url,
@@ -184,7 +225,7 @@ def editProject(request, pk):
         'status': project.status,
         'mainOrganisation': project.mainOrganisation,
         'organisation': project.organisation.all,
-        'topic': project.topic.all,
+        'topic': topicids,
         'participationTask': project.participationTask.all,
         'hasTag': project.hasTag.all,
         'difficultyLevel': project.difficultyLevel,
@@ -199,6 +240,9 @@ def editProject(request, pk):
         'image3': project.image3,
         'image_credit3': project.imageCredit3,
         'withImage3': (True, False)[project.image3 == ""],
+        'logo': project.logo,
+        'logo_credit': project.logoCredit,
+        'withImagelogo': (True, False)[project.logo == ""],
         'contact_person': project.author,
         'contact_person_email': project.author_email,
         'host': project.host,
@@ -210,20 +254,44 @@ def editProject(request, pk):
         'originUID': project.originUID,
         'originURL': project.originURL,
         'projectCountry': project.projectCountry.all,
+        'localita' : project.localita,
+        'provincia': project.provincia.all,
+        'longitude' : project.longitude,
+        'latitude' : project.latitude,
+        'risultati' : project.risultati,
+        'inaturalist' : project.inaturalist,
+        'tipo_pubblico': project.tipo_pubblico.split(';') if project.tipo_pubblico else [],
+        'tipo_pubblico_altro': project.tipo_pubblico_altro if project.tipo_pubblico_altro else "",
+        'type' : project.type,
+        'funding_program' : project.fundingProgram,
+        'aree' : project.aree,
+        'parent' : int(project.parent_id) if project.parent_id else None,
+        'is_bdsweek': 'yes' if project.bsw else 'no',
     }
+    
 
     translation_fields=['description','aim', 'howToParticipate','equipment']
     for field in translation_fields:
         for lang in settings.MODELTRANSLATION_LANGUAGES:
-            initial_data[field+'_'+lang]=getattr(project, field+'_'+lang)
+            if field == 'howToParticipate':
+                initial_data['how_to_participate_'+lang] =getattr(project, field+'_'+lang)
+            else:
+                #print(field+'_'+lang, getattr(project, field+'_'+lang))
+                initial_data[field+'_'+lang]=getattr(project, field+'_'+lang)
+
 
 
     form = ProjectForm(initial=initial_data)
 
+    current_year = datetime.now().year
+    has_current_bdsweek = BDSWeek.objects.filter(anno=current_year).exists()
     return TemplateResponse(request, 'project_form.html', {
         'form': form,
         'project': project,
         'user': user,
+        'has_current_bdsweek': has_current_bdsweek,
+        'current_bdsweek_year': current_year,
+        'tassonomieJson': getTassonomieJson(),
         'permissionForm': permissionForm})
 
 
@@ -241,21 +309,35 @@ def translateProject(request, pk):
 
 def projects(request):
     user = request.user
-    projects = Project.objects.get_queryset()
+    projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
+
     topics = Topic.objects.all()
     status = Status.objects.all()
     hasTag = HasTag.objects.all()
     difficultyLevel = DifficultyLevel.objects.all()
     participationTask = ParticipationTask.objects.all()
-    totalProjects = len(projects.filter(approved=True))
-    
+    projectsP = projectsBase.filter(type='Progetto')
+    projectsA = projectsBase.filter(type='Attività')
 
-    countriesWithContent1 = projects.values_list(
+    totalProjects = len(projectsP)
+    totalAttivita = len(projectsA)
+
+#     len(projects.filter(approved=True))
+
+    countriesWithContent1 = projectsP.values_list(
         'mainOrganisation__country', flat=True).distinct()
-    countriesWithContent2 = projects.values_list(
+    countriesWithContent2 = projectsP.values_list(
         'organisation__country', flat=True).distinct()
-    countriesWithContent3 = projects.values_list(
+    countriesWithContent3 = projectsP.values_list(
         'country', flat=True).distinct()
+    # regioni = projects.values_list(
+    #     'projectCountry__country_name', flat=True).distinct()
+
+    localitaids = projectsP.values_list(
+        'localita_id', flat=True).distinct()
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
     countriesWithContent = set(
         chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
 
@@ -271,10 +353,14 @@ def projects(request):
         'featured': '',
         'hasTag': ''}
 
-    projects = applyFilters(request, projects)
-    projects = projects.distinct()
+    projectsP = applyFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+
+#     projects = projects.filter(id=4)
     filters = setFilters(request, filters)
-    projects = projects.filter(~Q(hidden=True))
+    
     if user.is_authenticated:
         likes = Likes.objects.filter(user=user)
         likes = likes.values_list('project', flat=True)
@@ -290,33 +376,48 @@ def projects(request):
     if request.GET.get('orderby'):
         orderBy = request.GET.get('orderby')
         if ("featured" in orderBy):
-            projectsTop = projects.filter(featured=True)
+            projectsTop = projectsP.filter(featured=True)
             projectsTopIds = list(projectsTop.values_list('id', flat=True))
-            projects = projects.exclude(id__in=projectsTopIds)
-            projects = list(projectsTop) + list(projects)
+            projectsP = projectsP.exclude(id__in=projectsTopIds)
+            projectsP = list(projectsTop) + list(projectsP)
 
         if ("name" in orderBy):
-            projects = projects.order_by('name')
+            projectsP = projectsP.order_by('name')
 
         if ("created" in orderBy):
-            projects = projects.order_by('-dateCreated')
+            projectsP = projectsP.order_by('-dateCreated')
 
         if ("totalAccesses" in orderBy):
-            projects = projects.order_by('-totalAccesses')
+            projectsP = projectsP.order_by('-totalAccesses')
         
         if ("totalLikes" in orderBy):
-            projects = projects.order_by('-totalLikes')
+            projectsP = projectsP.order_by('-totalLikes')
 
     else:
-        projects = projects.order_by('-dateUpdated')
+        projectsP = projectsP.order_by('-dateUpdated')
 
-    counter = len(projects)
+    localita_selected = None
+    if request.GET.get('localita_id'):
+        localita_ids = request.GET.getlist('localita_id')
+        localitaFound = Localita.objects.filter(id__in=localita_ids)
+        localita_selected = ', '.join([item.name for item in localitaFound])
+        #localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        #localita_selected = localita_selected.name
 
-    paginator = Paginator(projects, 18)
+    topic_selected = None
+    if request.GET.get('topic'):
+        topic_selected = ', '.join(request.GET.getlist('topic'))
+
+
+
+    projectsCounter = len(projectsP)
+    print('totalProjectssss', totalProjects, 'attivitaaa', totalAttivita,'projectsCounter', projectsCounter)
+
+    paginator = Paginator(projectsP, 18)
     page = request.GET.get('page')
-    projects = paginator.get_page(page)
+    projectsP = paginator.get_page(page)
     # To only show some topics and keywords
-    for project in projects:
+    for project in projectsP:
         combined = list(project.topic.all()) + list(project.keywords.all())
         if len(combined) > 3:
             project.display_items = combined[:3]
@@ -327,6 +428,8 @@ def projects(request):
 
     #For resources count
     allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
     allResources = applyFiltersResources(request, allResources)
     allResources = allResources.distinct()
     resources = allResources.filter(~Q(isTrainingResource=True))
@@ -351,11 +454,14 @@ def projects(request):
     users = applyFilters(request, users)
     users = users.distinct()
     usersCounter = len(users)
-    for project in projects:
-        print(project.topic.all())
+
+
+    # for project in projectsP:
+    #     print(project.topic.all())
 
     return TemplateResponse(request, 'projects.html', {
-        'projects': projects,
+        'isProject': 1,
+        'projects': projectsP,
         'likes': likes,
         'follows': follows,
         'topics': topics,
@@ -365,16 +471,207 @@ def projects(request):
         'hasTag': hasTag,
         'difficultyLevel': difficultyLevel,
         'participationTask': participationTask,
-        'counter': counter,
         'totalProjects': totalProjects,
-        'projectsCounter': counter,
+        'projectsCounter': projectsCounter,
+        'attivitaCounter': totalAttivita,
         'resourcesCounter': resourcesCounter,
         'trainingResourcesCounter': trainingResourcesCounter,
         'organisationsCounter': organisationsCounter,
         'platformsCounter': platformsCounter,
         'usersCounter': usersCounter,
         'isSearchPage': True,
+        'homeSearchCategories' : 'projects',
+        'localita' : localita,
+        'localita_selected' : localita_selected,
+        'topic_selected' : topic_selected,
         'show_search_bar': False})
+
+
+def attivita(request):
+    user = request.user
+    projectsBase = Project.objects.get_queryset()
+    projectsBase = applyProjectsGlobalFilters(request, projectsBase)
+    topics = Topic.objects.all()
+    status = Status.objects.all()
+    hasTag = HasTag.objects.all()
+    difficultyLevel = DifficultyLevel.objects.all()
+    participationTask = ParticipationTask.objects.all()
+    projectsA = projectsBase.filter(type='Attività')
+    projectsP = projectsBase.filter(type='Progetto')
+    totalProjects = len(projectsP)
+    totalAttivita = len(projectsA)
+    print('totalProjects globale ', len(projectsP),'attivita',len(projectsA))
+    #     len(projects.filter(approved=True))
+
+    countriesWithContent1 = projectsA.values_list(
+        'mainOrganisation__country', flat=True).distinct()
+    countriesWithContent2 = projectsA.values_list(
+        'organisation__country', flat=True).distinct()
+    countriesWithContent3 = projectsA.values_list(
+        'country', flat=True).distinct()
+    # regioni = projects.values_list(
+    #     'projectCountry__country_name', flat=True).distinct()
+
+    localitaids = projectsA.values_list(
+        'localita_id', flat=True).distinct()
+    #localita = Localita.objects.filter(id__in=localitaids)
+    localita = Localita.objects.all()
+    
+    countriesWithContent = set(
+        chain(countriesWithContent1, countriesWithContent2, countriesWithContent3))
+
+    # I think this is not needded
+    filters = {
+        'keywords': '',
+        'topic': '',
+        'status': 0,
+        'host': '',
+        'approved': '',
+        'doingAtHome': '',
+        'difficultyLevel': '',
+        'featured': '',
+        'hasTag': ''}
+
+    projectsA = applySearchFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+
+    projectsP = applySearchFilters(request, projectsP)
+    projectsP = projectsP.distinct()
+    projectsCounter = len(projectsP)
+    print('projects Counter',projectsCounter)
+
+    projectsA = applyFilters(request, projectsA)
+    projectsA = projectsA.distinct()
+    # projectsP = applyFilters(request, projectsP)
+    # projectsP = projectsP.distinct()
+
+    #     projects = projects.filter(id=4)
+    filters = setFilters(request, filters)
+    projectsA = projectsA.filter(~Q(hidden=True))
+    if user.is_authenticated:
+        likes = Likes.objects.filter(user=user)
+        likes = likes.values_list('project', flat=True)
+
+        follows = Follows.objects.filter(user=user)
+        follows = follows.values_list('project', flat=True)
+    else:
+        likes = None
+        follows = None
+
+    # Ordering
+    if request.GET.get('orderby'):
+        orderBy = request.GET.get('orderby')
+        if ("featured" in orderBy):
+            projectsTop = projectsA.filter(featured=True)
+            projectsTopIds = list(projectsTop.values_list('id', flat=True))
+            projectsA = projectsA.exclude(id__in=projectsTopIds)
+            projectsA = list(projectsTop) + list(projectsA)
+
+        if ("name" in orderBy):
+            projectsA = projectsA.order_by('name')
+
+        if ("created" in orderBy):
+            projectsA = projectsA.order_by('-dateCreated')
+
+        if ("totalAccesses" in orderBy):
+            projectsA = projectsA.order_by('-totalAccesses')
+
+        if ("totalLikes" in orderBy):
+            projectsA = projectsA.order_by('-totalLikes')
+
+    else:
+        projectsA = projectsA.order_by('-dateUpdated')
+
+    localita_selected = None
+    if request.GET.get('localita_id'):
+        localita_ids = request.GET.getlist('localita_id')
+        localitaFound = Localita.objects.filter(id__in=localita_ids)
+        localita_selected = ', '.join([item.name for item in localitaFound])
+        # localita_selected = Localita.objects.filter(id=request.GET['localita_id']).first()
+        # localita_selected = localita_selected.name
+
+    topic_selected = None
+    if request.GET.get('topic'):
+        topic_selected = ', '.join(request.GET.getlist('topic'))
+
+
+    attivitaCounter = len(projectsA)
+
+    paginator = Paginator(projectsA, 18)
+    page = request.GET.get('page')
+    projectsA = paginator.get_page(page)
+    # To only show some topics and keywords
+    for project in projectsA:
+        combined = list(project.topic.all()) + list(project.keywords.all())
+        if len(combined) > 3:
+            project.display_items = combined[:3]
+            project.more_count = len(combined) - 3
+        else:
+            project.display_items = combined
+            project.more_count = 0
+
+    # For resources count
+    allResources = Resource.objects.all()
+    if not request.user.is_staff:
+        allResources = allResources.filter(approved=True)
+    allResources = applyFiltersResources(request, allResources)
+    allResources = allResources.distinct()
+    resources = allResources.filter(~Q(isTrainingResource=True))
+    trainingResources = allResources.filter(isTrainingResource=True)
+    resourcesCounter = len(resources)
+    trainingResourcesCounter = len(trainingResources)
+
+    # For organisations count
+    organisations = Organisation.objects.all()
+    filteredOrganisations = applySearchFilters(request, organisations).distinct()
+    organisations = organisations.distinct()
+    organisationsCounter = len(filteredOrganisations)
+
+    # For platforms count
+    platforms = Platform.objects.all()
+    platforms = applySearchFilters(request, platforms)
+    platforms = platforms.distinct()
+    platformsCounter = len(platforms)
+
+    # For users count
+    users = Profile.objects.all().filter(profileVisible=True).filter(user__is_active=True)
+    users = applySearchFilters(request, users)
+    users = users.distinct()
+    usersCounter = len(users)
+
+    # for project in projects:
+    #     print(project.topic.all())
+    print('len attivita', totalAttivita, 'len projecgt', totalProjects, 'attivitaCounter', attivitaCounter,'projectsCounter',projectsCounter)
+    return TemplateResponse(request, 'attivita.html', {
+        'isAttivita' : 1,
+        'projects': projectsA,
+        'likes': likes,
+        'follows': follows,
+        'topics': topics,
+        'countriesWithContent': countriesWithContent,
+        'status': status,
+        'filters': filters,
+        'hasTag': hasTag,
+        'difficultyLevel': difficultyLevel,
+        'participationTask': participationTask,
+        'totalProjects': totalProjects,
+        'projectsCounter' : projectsCounter,
+        'totalAttivita': totalAttivita,
+        'attivitaCounter': attivitaCounter,
+        'resourcesCounter': resourcesCounter,
+        'trainingResourcesCounter': trainingResourcesCounter,
+        'organisationsCounter': organisationsCounter,
+        'platformsCounter': platformsCounter,
+        'usersCounter': usersCounter,
+        'isSearchPage': True,
+        'homeSearchCategories': 'attivita',
+        'localita': localita,
+        'localita_selected': localita_selected,
+        'topic_selected': topic_selected,
+        'show_search_bar': False})
+
+
+
 
 @login_required
 def likeProjectAjax(request):
@@ -442,6 +739,7 @@ def project(request, pk):
     project = get_object_or_404(Project, id=pk)
     users = getOtherUsers(project.creator)
     cooperators = getCooperators(pk)
+    events = getEvents(pk)
     project.totalAccesses += 1
 
     if user.is_authenticated:
@@ -512,8 +810,24 @@ def project(request, pk):
     followedProject = FollowedProjects.objects.all().filter(
         user_id=user.id, project_id=pk).exists()
     approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+
+    # SE TYPE == Attività MI SERVE IL PARENT
+    # SE TYPE == Progetto MI SERVONO LE ATTIVITA' collegate
+
+    parentProject = None
+    relatedActivities = []
+    if project.type == 'Progetto':
+        relatedActivities = Project.objects.filter(parent_id=pk, approved=1).all()
+    else:
+        parentProject = project.parent if (project.parent and project.parent.approved == 1) else None
+
+    linked_resources = filter_resources_for_display(project.resource_set.all(), user)
+
     return TemplateResponse(request, 'project.html', {
         'project': project,
+        'parentProject': parentProject,
+        'relatedActivities': relatedActivities,
+        'linked_resources': linked_resources,
         'liked': liked,
         'followed': followed,
         'hasTranslation': hasTranslation,
@@ -522,9 +836,12 @@ def project(request, pk):
         'unApprovedProjects': unApprovedProjects,
         'permissionForm': permissionForm,
         'cooperators': getCooperators(pk),
+        'events': events,
         'hasPermissionToEdit': hasPermissionToEdit,
         'form': form,
         'status': status,
+        'has_aree' : 1 if project.aree else 0,
+        'aree_json' : json.dumps(project.aree.replace('\n', '').replace('\r', '')) if project.aree else json.dumps("[]"),
         'isSearchPage': True})
 
 
@@ -540,15 +857,17 @@ def deleteProject(request, pk):
 
 
 def setImages(request, form):
-    print('setImages')
+    #print('setImages')
     images = []
     image1_path = saveImage(request, form, 'image1', '1')
     image2_path = saveImage(request, form, 'image2', '2')
     image3_path = saveImage(request, form, 'image3', '3')
+    imagelogo_path = saveImage(request, form, 'logo', 'logo')
     images.append(image1_path)
     images.append(image2_path)
     images.append(image3_path)
-    print(images)
+    images.append(imagelogo_path)
+    #print(images)
     return images
 
 
@@ -556,39 +875,43 @@ def saveImage(request, form, element, ref):
     image_path = ''
     filepath = request.FILES.get(element, False)
     withImage = form.cleaned_data.get('withImage' + ref)
+    #print('ref ' + ref + 'withImage' + ref + ' withImage ' + str(withImage)  + ' filepath ' + str(filepath))
     if (filepath):
-        x = form.cleaned_data.get('x' + ref)
-        y = form.cleaned_data.get('y' + ref)
-        w = form.cleaned_data.get('width' + ref)
-        h = form.cleaned_data.get('height' + ref)
+        x = form.cleaned_data.get('x' + ref) if form.cleaned_data.get('x_' + ref) else 0
+        y = form.cleaned_data.get('y' + ref) if form.cleaned_data.get('y_' + ref) else 0
+        w = form.cleaned_data.get('width' + ref) if form.cleaned_data.get('width_' + ref) else 600
+        h = form.cleaned_data.get('height' + ref) if form.cleaned_data.get('height_' + ref) else 400
+        #print(element)
         photo = request.FILES[element]
         image = Image.open(photo)
-        cropped_image = image.crop((x, y, w+x, h+y))
-        if (ref == '3'):
-            finalSize = (1100, 400)
-        else:
-            finalSize = (600, 400)
 
-        resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
+        resized_image = image
+        # cropped_image = image.crop((x, y, w+x, h+y))
+        # if (ref == '3'):
+        #     finalSize = (1100, 400)
+        # else:
+        #     finalSize = (600, 400)
+        #
+        # resized_image = cropped_image.resize(finalSize, Image.Resampling.LANCZOS)
 
-        if (cropped_image.width > image.width):
-            size = (abs(int(
-                (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
-            whitebackground = Image.new(
-                mode='RGBA', size=size, color=(255, 255, 255, 0))
-            position = ((finalSize[0] - whitebackground.width), 0)
-            resized_image.paste(whitebackground, position)
-            position = (0, 0)
-            resized_image.paste(whitebackground, position)
-        if (cropped_image.height > image.height):
-            size = (finalSize[0], abs(
-                int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
-            whitebackground = Image.new(
-                mode='RGBA', size=size, color=(255, 255, 255, 0))
-            position = (0, (finalSize[1] - whitebackground.height))
-            resized_image.paste(whitebackground, position)
-            position = (0, 0)
-            resized_image.paste(whitebackground, position)
+        # if (cropped_image.width > image.width):
+        #     size = (abs(int(
+        #         (finalSize[0]-(finalSize[0]/cropped_image.width*image.width))/2)), finalSize[1])
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = ((finalSize[0] - whitebackground.width), 0)
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
+        # if (cropped_image.height > image.height):
+        #     size = (finalSize[0], abs(
+        #         int((finalSize[1]-(finalSize[1]/cropped_image.height*image.height))/2)))
+        #     whitebackground = Image.new(
+        #         mode='RGBA', size=size, color=(255, 255, 255, 0))
+        #     position = (0, (finalSize[1] - whitebackground.height))
+        #     resized_image.paste(whitebackground, position)
+        #     position = (0, 0)
+        #     resized_image.paste(whitebackground, position)
 
         image_path = saveImageWithPath(resized_image, photo.name)
     elif withImage:
@@ -613,6 +936,10 @@ def getOtherUsers(creator):
         id=creator.id).values_list('name', 'email'))
     return users
 
+def getEvents(projectID):
+    events = list(Event.objects.all().filter(
+        project_id=projectID))
+    return events
 
 def getCooperators(projectID):
     users = list(ProjectPermission.objects.all().filter(
@@ -660,9 +987,8 @@ def preFilteredProjects(request):
     projects = Project.objects.get_queryset().order_by('id')
     return applyFilters(request, projects)
 
-
-def applyFilters(request, projects):
-    # approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+#filtri di ricerca globale
+def applySearchFilters(request,projects):
     if projects.model == Resource:
         if request.GET.get('keywords'):
             projects = projects.filter(
@@ -681,7 +1007,7 @@ def applyFilters(request, projects):
     if projects.model == Platform:
         if request.GET.get('keywords'):
             keywords = request.GET.get('keywords')
-            projects = projects.filter(name__icontains=keywords)  
+            projects = projects.filter(name__icontains=keywords)
 
     if projects.model == Profile:
         if request.GET.get('keywords'):
@@ -689,7 +1015,20 @@ def applyFilters(request, projects):
             projects = projects.filter(
                 Q(user__name__icontains=keywords) |
                 Q(interestAreas__interestArea__icontains=keywords) |
-                Q(bio__icontains=keywords)).distinct()               
+                Q(bio__icontains=keywords)).distinct()
+
+    if projects.model == Project:
+        if request.GET.get('keywords'):
+            projects = projects.filter(
+                Q(name__icontains=request.GET['keywords']) |
+                Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
+
+    return projects
+
+#filtri dellta tab specifica
+def applyFilters(request, projects):
+    # approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+
                     
     # Specific filters only apply if projects is a Project instance    
     if projects.model == Project:
@@ -699,7 +1038,12 @@ def applyFilters(request, projects):
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
             
         if request.GET.get('topic'):
-            projects = projects.filter(topic__topic=request.GET['topic'])
+            topics = request.GET.getlist('topic')
+            projects = projects.filter(topic__topic__in=topics)
+
+            #topic = Topic.objects.filter(topic=request.GET['topic']).first()
+            #projects = projects.filter(topic=topic)
+            #projects = projects.filter(topic__topic=request.GET['topic'])
 
         if request.GET.get('status'):
             projects = projects.filter(status__status=request.GET['status'])
@@ -718,20 +1062,23 @@ def applyFilters(request, projects):
             projects = projects.filter(
                 participationTask__participationTask=request.GET['participationTask'])
 
+        if request.GET.get('localita_id'):
+            #projectCountry = ProjectCountry.objects.filter(country_name=request.GET['regione']).first()
+            #projects = projects.filter(projectCountry=projectCountry)
+            localita_ids = request.GET.getlist('localita_id')
+            localita_names = Localita.objects.filter(
+                id__in=localita_ids
+            ).values_list('name', flat=True)
+            provincia_ids = Provincia.objects.filter(
+                regione__in=localita_names
+            ).values_list('id', flat=True)
+            projects = projects.filter(provincia__id__in=provincia_ids).distinct()
+
         if request.GET.get('country'):
             projects = projects.filter(
                 Q(mainOrganisation__country=request.GET['country']) | Q(country=request.GET['country']) | Q(organisation__country=request.GET['country'])).distinct()
 
-        # Approved filters
-        if request.GET.get('approved'):
-            if request.GET['approved'] == 'approved':
-                projects = projects.filter(approved=True)
-            elif request.GET['approved'] == 'notApproved':
-                projects = projects.filter(approved=False).filter(moderated=True)
-            elif request.GET['approved'] == 'notYetModerated':
-                projects = projects.filter(moderated=False)
-        else:
-            projects = projects.filter(approved=True)
+        
 
         
 
@@ -749,9 +1096,10 @@ def applyFilters(request, projects):
             user_registered = True
         else:
             user_registered = False
-        print(user_registered)
+        #print(user_registered)
         if (request.GET.get('topic')):
-            topic = Topic.objects.get(topic=request.GET.get('topic'))
+            #topic = Topic.objects.get(topic=request.GET.get('topic'))
+            topic = Topic.objects.filter(topic=request.GET.get('topic')).first()
         country = request.GET.get('country')
         if search or topic or country:
             if search:
@@ -774,7 +1122,8 @@ def setFilters(request, filters):
     if request.GET.get('keywords'):
         filters['keywords'] = request.GET['keywords']
     if request.GET.get('topic'):
-        filters['topic'] = request.GET['topic']
+        filters['topic'] = request.GET.getlist('topic')  # str(request.GET['localita_id'])
+        #filters['topic'] = request.GET['topic']
     if request.GET.get('status'):
         filters['status'] = request.GET['status']
     if request.GET.get('doingAtHome'):
@@ -791,6 +1140,10 @@ def setFilters(request, filters):
         filters['orderby'] = request.GET['orderby']
     if request.GET.get('country'):
         filters['country'] = request.GET['country']
+    # if request.GET.get('regione'):
+    #     filters['regione'] = request.GET['regione']
+    if request.GET.get('localita_id'):
+        filters['localita_id'] = request.GET.getlist('localita_id') #str(request.GET['localita_id'])
     return filters
 
 
@@ -817,7 +1170,7 @@ def setProjectApproved(id, approved):
         aProject.moderated = True
         aProject.save()
         # sendEmail
-        subject = 'Your project has been approved'
+        subject = 'Il tuo contenuto è stato approvato'
         context = {"name": aProject.name, "id": id, "domain": settings.HOST}
         message = render_to_string('emails/approved_project.html', context)
         to = copy.copy(settings.EMAIL_RECIPIENT_LIST)

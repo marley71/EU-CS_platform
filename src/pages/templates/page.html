@@ -1,14 +1,28 @@
 {% extends "base_r2.html" %}
 
 {% block list_of_items %}
-    <div class="container bg-my-White">
-        <div class="row p-5">
-            <div class="col-md-1">
+    <section class="bg-plum-100 pt-5" style="min-height: 800px;">
+
+        <div class="container mt-5">
+            {% if page.image %}
+                <div class="row">
+                    <div class="col-12 rounded-4 text-center border">
+                        <img src="/media/{{ page.image }}"
+                             class="img-fluid" style="max-height:440px;"/>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row mt-5 pb-3 border-bottom mb-4">
+                <div class="col-12 text-center">
+                    <h1>{% block title %} {{ page.name }} {% endblock title %}</h1>
+                </div>
             </div>
-            <div class="col-md-10">
-                {{ page.content|safe }}
+            <div class="row pb-5">
+                <div class="col-12 col-md-8 offset-md-2">
+                    <p class="">{{ page.content | safe }}</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
 ```

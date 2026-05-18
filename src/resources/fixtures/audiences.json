@@ -3,49 +3,57 @@
         "pk": 1,
         "model": "resources.audience",
         "fields": {
-            "audience": "Community Members & Citizens"
+            "audience": "Community Members & Citizens",
+            "audience_it": "Membri della comunità e cittadini"
+
         }
     },
     {
         "pk": 2,
         "model": "resources.audience",
         "fields": {
-            "audience": "CS Project Leaders & Initiators"
+            "audience": "CS Project Leaders & Initiators",
+            "audience_it": "Responsabili e promotori di progetti di CS"
         }
     },
     {
         "pk": 3,
         "model": "resources.audience",
         "fields": {
-            "audience": "CSOs & NGOs"
+            "audience": "CSOs & NGOs",
+            "audience_it": "Organizzazioni della società civile e ONG"
         }
     },
     {
         "pk": 4,
         "model": "resources.audience",
         "fields": {
-            "audience": "Educators"
+            "audience": "Educators",
+            "audience_it": "Educatori"
         }
     },
     {
         "pk": 5,
         "model": "resources.audience",
         "fields": {
-            "audience": "Policy & Decision Makers"
+            "audience": "Policy & Decision Makers",
+            "audience_it": "Responsabili politici e decisionali"
         }
     },
     {
         "pk": 6,
         "model": "resources.audience",
         "fields": {
-            "audience": "Researchers & Academics"
+            "audience": "Researchers & Academics",
+            "audience_it": "Ricercatori e accademici"
         }
     },
     {
         "pk": 7,
         "model": "resources.audience",
         "fields": {
-            "audience": "ALL Audiences"
+            "audience": "ALL Audiences",
+            "audience_it": "TUTTI i pubblici"
         }
     }
 ]

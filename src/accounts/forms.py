@@ -28,15 +28,16 @@ class LoginForm(AuthenticationForm):
         self.fields["password"].label = ""
 
         self.helper.layout = Layout(
-            Field("username", label="", placeholder=_("Enter Email"), autofocus=""),
-            HTML('<div class="m-4"></div>'),
-            Field("password", placeholder=_("Enter Password")),
+            HTML('<label class="mt-2 mb-2">'+_("Enter Email")+'</label>'),
+            Field("username", label=_("Enter Email"), autofocus=""),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Password")+'</label>'),
+            Field("password"),
             HTML(
-                '<div class="mt-3 mb-4">Forgot Password? <a href="{}" class="pt-1 mb-5">Remember me</a></div>'.format(
+                '<div class="mt-3 mb-4">Hai dimenticato la tua password? <a href="{}" class="pt-1 mb-5">Clicca qui per reimpostarla.</a></div>'.format(
                     reverse("accounts:password-reset")
                 )
             ),
-            StrictButton(_("Log in"), css_class="btn btn-secondary", type="Submit")
+            StrictButton(_("Log in"), css_class="w-100 btn btn-primary", type="Submit")
 
         )
 
@@ -79,29 +80,22 @@ class SignupForm(authtoolsforms.UserCreationForm):
     surname = forms.CharField(
         required=True,
         max_length=20,
-        label=_(""),
-        widget=forms.TextInput(attrs={"placeholder": _("Enter Surname")})
+        label=_(" "),
+        widget=forms.TextInput(attrs={})
     )
     profileVisible = forms.BooleanField(
         required=False,
         initial=False,
-        label=_("Make profile visible to others"),
+        label=_("Rendi visibile il tuo profilo agli altri"),
     )
 
-    """
-    username and phone are hidden Honeypot-Fields to prevent bots from submitting the form.
-    """
-    username = forms.CharField(
-    required=False,
-    widget=forms.TextInput(attrs={"class": "font-fix-123"}), 
-    label=""
+    profileType = forms.CharField(
+        required=False,
+        initial='',
+        label=_("profile type"),
+        widget=forms.TextInput(attrs={"placeholder": _("Insert profile type")})
     )
 
-    phone = forms.CharField(
-    required=False,
-    widget=forms.TextInput(attrs={"class": "font-fix-123"}), 
-    label=""
-    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -111,41 +105,31 @@ class SignupForm(authtoolsforms.UserCreationForm):
         self.fields["name"].label = ""
         self.fields["name"].widget.attrs.update({
             "maxlength": "20",  # Limit name to 20 characters
-            "placeholder": _("Enter Name (max 20 characters)"),
+#             "placeholder": _("Enter Name (max 20 characters)"),
         })
         self.fields["password1"].label = ""
         self.fields["password2"].label = ""
         self.fields["captcha"] = ReCaptchaField()
         self.fields["captcha"].label = ""
         self.helper.layout = Layout(
-            Field("email", placeholder=_("Enter Email"), autofocus=""),
-            HTML('<div class="m-4"></div>'),
-            Field("name", placeholder=_("Enter Name (max 20 characters)"),),
-            HTML('<div class="m-4"></div>'),
-            Field("surname", placeholder=_("Enter Surname (max 20 characters)"),),
-            Field("username", placeholder=_("Enter Username"),),
-            Field("phone", placeholder=_("Enter Mobile Number"),),
-            HTML('<div class="m-4"></div>'),
-            Field("password1", placeholder=_("Enter Password")),
-            HTML('<div class="m-4"></div>'),
-            Field("password2", placeholder=_("Re-enter Password")),
-            HTML('<div class="m-4"></div>'),
+            HTML('<label class="mt-2 mb-2">'+_("Enter Email")+'</label>'),
+            Field("email", autofocus=""),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Name (max 20 characters)")+'</label>'),
+            Field("name"),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Surname (max 20 characters)")+'</label>'),
+            Field("surname"),
+            HTML('<label class="mt-4 mb-2">'+_("Enter Password")+'</label>'),
+            Field("password1"),
+            HTML('<label class="mt-4 mb-2">'+_("Renter Password")+'</label>'),
+            Field("password2"),
+            HTML('<div class="mt-2"></div>'),
+#             Field("profileType"),
             Field("profileVisible"),
-            HTML('<div class="m-4"></div>'),
+            HTML('<div class="m-1">&nbsp</div>'),
             Field("captcha"),
-            StrictButton(_("Sign up"), css_class="btn btn-secondary mt-5", type="Submit"),
+            HTML('<div class="m-1">&nbsp</div>'),
+            StrictButton(_("Registrati"), css_class="w-100 btn btn-primary mb-3", type="Submit")
         )
-    
-    def clean(self):
-        cleaned_data = super().clean()
-
-        # If honeypot fields are filled, reject the form
-        if cleaned_data.get("username"):
-            raise forms.ValidationError(_("Wrong username. Try Again."))
-        elif cleaned_data.get("phone"):
-            raise forms.ValidationError(_("Incorrect phone number"))
-
-        return cleaned_data
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
@@ -214,23 +198,4 @@ class SetPasswordForm(authforms.SetPasswordForm):
             Field("new_password1", placeholder=_("Enter new password"), autofocus=""),
             Field("new_password2", placeholder=_("Enter new password (again)")),
             Submit("pass_change", _("Change Password"), css_class="btn-red"),
-        )
-
-
-class PasswordVerificationForm(forms.Form):
-    """
-    Verifying user's password for their account deletion.
-    """
-    password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": _("Password"), "autofocus": True}),
-        label=_("Password"),
-        required=True,
-    )
-
-    def __init__(self, *args, ** kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            Field("password"),
-            StrictButton(_("Delete Account"), css_class="btn-danger mt-3", type="Submit"),
         )

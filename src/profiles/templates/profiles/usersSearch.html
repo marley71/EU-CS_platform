@@ -5,70 +5,86 @@
 {% block title %}{{ block.super }} :: Users{% endblock %}
 
 {% block list_of_items %}
-<div class="container">
-    <div clas="row">
-        <div class="col-12 mt-4">
-            <div>
-                {% include "_subnavbarNew.html" %}
-                {% include "profiles/_finder_users.html" %}
-            </div>
-            <div class="row">
-                {% if users %}
-                <div class="row">
-                    {% for member in users %}
-                    
-                        {% include "profiles/_user_card.html" %}
-                    
-                    {% endfor %}
+    <section class="bg-plum-100">
+
+        <div class="container pt-5">
+            <div clas="row">
+                <div class="col-12 mt-4 pb-3">
+                    <h1 class="h1 text-center">{% trans "Cerca nella piattaforma" %}</h1>
                 </div>
-                {% endif %}
+
+                {% include "_subnavbarNew.html" %}
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mt-3 mb-3">
-            {% include "profiles/_paginator.html" %}
+    </section>
+
+    <section class="bg-plum-100 border-bottom pt-3">
+        <div class="container">
+
+            {% include "_subnavbarTabs.html" %}
         </div>
-    </div>
-</div>
+    </section>
+    <section>
+        <div class="container">
+
+            {% include "profiles/_finder_users.html" %}
+            <div class="row mt-5">
+                {% for user in users %}
+
+                    {#            {% include "_projects_cards.html" %}#}
+                    <div class="col-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center align-items-center mb-4">
+                        <a href="/users/{{ user.slug }}">
+                            {% include "includes/card_utente.html" with member=user %}
+                        </a>
+                    </div>
+                {% endfor %}
+                {#        {% include "_projects_cards.html" %}#}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                {% include "profiles/_paginator.html" %}
+            </div>
+        </div>
+    </section>
 {% endblock list_of_items %}
 {% block scripts %}
-<script src="{% static 'site/js/bootstrap-autocomplete.js'%}"></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
+    <script src="{% static 'site/js/bootstrap-autocomplete.js' %}"></script>
     <script>
-    $('.basicAutoComplete').autoComplete(
-        { minLength: 3 }
-    );
-    $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
-        $('#finder').submit();
-        $('#searchTop').submit();
-    });
-    $(function () {
-		$('.custom-select').on('change', function () {
-			$('#searchUsers').submit();
-		});
-    $('#pill-keywords').on('click', function() {
-        $('#keywords').val('')
-        $('#searchUsers').submit();
-    });
-    $('#pill-country').on('click', function() {
-        $('#country').val('')
-        $('#searchUsers').submit();
-    });
-    $('#pill-interestAreas').on('click', function() {
-        $('#interestAreas').val('')
-        $('#searchUsers').submit();
-    });
-    $('#pill-organisation').on('click', function() {
-        $('#organisation').val('')
-        $('#searchUsers').submit();
-    });
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    <script>
+        $('.basicAutoComplete').autoComplete(
+            {minLength: 3}
+        );
+        $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
+            $('#finder').submit();
+            $('#searchTop').submit();
+        });
+        $(function () {
+            $('.custom-select').on('change', function () {
+                $('#searchUsers').submit();
+            });
+            $('#pill-keywords').on('click', function () {
+                $('#keywords').val('')
+                $('#searchUsers').submit();
+            });
+            $('#pill-country').on('click', function () {
+                $('#country').val('')
+                $('#searchUsers').submit();
+            });
+            $('#pill-interestAreas').on('click', function () {
+                $('#interestAreas').val('')
+                $('#searchUsers').submit();
+            });
+            $('#pill-organisation').on('click', function () {
+                $('#organisation').val('')
+                $('#searchUsers').submit();
+            });
 
-	});
+        });
     </script>
 {% endblock scripts %}

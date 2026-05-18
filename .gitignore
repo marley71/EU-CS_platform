@@ -61,6 +61,7 @@ src/eucs_platform/settings/development.py
 
 #media
 src/media/*
+!src/media/cards
 
 #Profile picutes
 src/media/profile_pics/*
@@ -73,3 +74,7 @@ src/whoosh_index
 
 .vscode/
 venv
+venv2
+.idea
+
+#resources/tassonomie.json

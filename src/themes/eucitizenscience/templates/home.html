@@ -76,15 +76,15 @@
                 $('#searchTop').submit();
             });
     });
-    
+
     </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const sectionsToShowButton = [
-            '#_content_section', 
-            '#latest-projects', 
-            '#latest-resources', 
+            '#_content_section',
+            '#latest-projects',
+            '#latest-resources',
             '#_latest-training-resources'
         ];
         const floatingButton = document.getElementById('floatingButton');
@@ -107,7 +107,7 @@
         checkVisibility();
 
         floatingButton.addEventListener('click', function() {
-            window.location.href = "{% url 'map' %}"; 
+            window.location.href = "{% url 'map' %}";
         });
     });
     </script>

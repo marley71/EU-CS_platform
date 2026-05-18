@@ -59,7 +59,7 @@ class GeographicExtendSerializer(serializers.ModelSerializer):
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
-        fields = 'id', 'name', 'url', 'country'
+        fields = 'id', 'name', 'url'
 
 
 class HasTagSerializer(serializers.ModelSerializer):
@@ -88,23 +88,27 @@ class ProjectSerializer(serializers.ModelSerializer):
     status = StatusSerializer(many=False)
     keywords = KeywordSerializer(many=True, required=False)
     fundingBody = FundingBodySerializer(many=True, required=False)
-    originDatabase = OriginDatabaseSerializer(many=False, required=False)
-    customField = CustomFieldSerializer(many=True, required=False)
-    country = CountryField(required=False)
+    #originDatabase = OriginDatabaseSerializer(many=False, required=False)
+    #customField = CustomFieldSerializer(many=True, required=False)
+    #country = CountryField(required=False)
     start_date = serializers.DateTimeField(format="%Y-%m-%d", required=False)
     end_date = serializers.DateTimeField(format="%Y-%m-%d", required=False)
     mainOrganisation = OrganisationSerializer(many=False, required=False)
     organisation = OrganisationSerializer(many=True, required=False)
-    hasTag = HasTagSerializer(many=True, required=False)
+    #hasTag = HasTagSerializer(many=True, required=False)
     participationTask = ParticipationTaskSerializer(many=True, required=False)
     geographicextend = GeographicExtendSerializer(many=True, required=False)
     difficultyLevel = DifficultyLevelSerializer(many=False, required=False)
-    translatedProject = ProjectTranslateSerializer(many=True, required=False)
+    #translatedProject = ProjectTranslateSerializer(many=True, required=False)
 
     class Meta:
         model = Project
-        fields = '__all__'
-
+        #fields = '__all__'
+        exclude = ['country']
+        # fields = [
+        # 'id','keywords','geographicextend','start_date','end_date','organisation','mainOrganisation',
+        # 'difficultyLevel','status','topic','fundingBody','participationTask','tipo_pubblico','tipo_pubblico_altro',
+        # 'inaturalist','url','risultati','type','latitude','longitude',]
 
 class ProjectSerializerCreateUpdate(serializers.ModelSerializer):
     status = serializers.PrimaryKeyRelatedField(queryset=Status.objects.all())

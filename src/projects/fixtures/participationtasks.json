@@ -2,121 +2,160 @@
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Annotation"
+            "participationTask": "Annotation",
+            "participationTask_it": "Annotazione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Audio or video recording"
+            "participationTask": "Audio or video recording",
+            "participationTask_it": "Registrazione audio o video"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Classification or tagging"
+            "participationTask": "Classification or tagging",
+            "participationTask_it": "Classificazione o tagging"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "DIY hacking/making"
+            "participationTask": "DIY hacking/making",
+            "participationTask_it": "Hacking/creazione fai da te"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Data analysis"
+            "participationTask": "Data analysis",
+            "participationTask_it": "Analisi dei dati"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Data Entry"
+            "participationTask": "Data Entry",
+            "participationTask_it": "Inserimento dati"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Download software for distributed computing"
+            "participationTask": "Download software for distributed computing",
+            "participationTask_it": "Scarica software per il calcolo distribuito"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Finding entities"
+            "participationTask": "Finding entities",
+            "participationTask_it": "Ricerca di entità"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Geolocation"
+            "participationTask": "Geolocation",
+            "participationTask_it": "Geolocalizzazione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Identification"
+            "participationTask": "Identification",
+            "participationTask_it": "Identificazione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Learning"
+            "participationTask": "Learning",
+            "participationTask_it": "Apprendimento"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Measurement"
+            "participationTask": "Measurement",
+            "participationTask_it": "Misurazione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Observation"
+            "participationTask": "Observation",
+            "participationTask_it": "Osservazione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Photography"
+            "participationTask": "Photography",
+            "participationTask_it": "Fotografia"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Problem solving"
+            "participationTask": "Problem solving",
+            "participationTask_it": "Risoluzione dei problemi"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Sample analysis"
+            "participationTask": "Sample analysis",
+            "participationTask_it": "Analisi del campione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Site selection and/or description"
+            "participationTask": "Site selection and/or description",
+            "participationTask_it": "Selezione e/o descrizione del sito"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Specimen/sample collection"
+            "participationTask": "Specimen/sample collection",
+            "participationTask_it": "Raccolta di campioni"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Transcription"
+            "participationTask": "Transcription",
+            "participationTask_it": "Trascrizione"
+
         }
     },
     {
         "model": "projects.participationTask",
         "fields": {
-            "participationTask": "Other"
+            "participationTask": "Other",
+            "participationTask_it": "Altro"
         }
     }
 ]

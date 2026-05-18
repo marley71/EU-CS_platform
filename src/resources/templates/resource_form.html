@@ -50,7 +50,9 @@
                                 {{ form.categorySelected|as_crispy_field }}
                                 <div id="id_sub_categories" class="mb-3"></div>
                                 {{ form.audience|as_crispy_field }}
-                                {{ form.theme|as_crispy_field }}
+                                <div class="d-none">
+                                    {{ form.theme|as_crispy_field }}
+                                </div>
                             <label class="control-label">{% trans "Abstract" %}</label>
                             <ul class="nav nav-tabs" id="languageAbstractTabs" role="tablist">
                                 {% for field in form.get_abstract_fields %}
@@ -82,14 +84,14 @@
                                 {{ form.resource_DOI|as_crispy_field }}
                                 {% get_language_info_list for LANGUAGES as languages %}
                                 {% if settings.USE_I18N and languages|length > 1 %}
-                                <label for="language" class="control-label  requiredField">
+                                <label for="id_resource_in_language" class="control-label  requiredField">
                                     {% trans "Please indicate the (main) language that the resource is made available in" %}<span class="asteriskField">*</span>
                                 </label>
-                                <select name="language" class="form-control mb-4">
-                                    {% for language in languages|dictsort:"name" %}
-                                    {% if language.code in settings.LANGUAGE_CODES %}
-                                    <option value="{{ language.code }}" {% if language.code == resource.inLanguage %}selected {% endif %}>
-                                    {{ language.name }}
+                                <select name="language" id="id_resource_in_language" class="form-control mb-4">
+                                    {% for langinfo in languages|dictsort:"name_translated" %}
+                                    {% if langinfo.code in settings.LANGUAGE_CODES %}
+                                    <option value="{{ langinfo.code }}" {% if langinfo.code == resource_lang_selected %}selected{% endif %}>
+                                    {{ langinfo.name_translated }}
                                     </option>
                                     {% endif %}
                                     {% endfor %}
@@ -273,6 +275,7 @@ function getSubCategories() {
 $(function () {
     var imgSelected;
     /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+    /*
     $("#id_image1").change(function () {
         imgSelected = 1;
         $('#imageResult1').attr('src', '');
@@ -285,6 +288,7 @@ $(function () {
             reader.readAsDataURL(this.files[0]);
         }
     });
+    
     $("#id_image2").change(function () {
         imgSelected = 2;
         $('#imageResult2').attr('src', '');
@@ -297,12 +301,15 @@ $(function () {
             reader.readAsDataURL(this.files[0]);
         }
     });
+    
     $("#imageResult1").click(function () {
         $("#modalCrop").modal("show");
     });
+    
     $("#imageResult2").click(function () {
         $("#modalCrop").modal("show");
     });
+    */
     /* SCRIPTS TO HANDLE THE CROPPER BOX */
     var $image = $("#image");
     var cropBoxData;

@@ -1,0 +1,45 @@
+[
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Governmental",
+            "type_it": "Governativo"
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type":  "Non-governmental",
+            "type_it": "Non governativo"
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Academic",
+            "type_it": "Accademico"
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Private sector",
+            "type_it": "Settore privato"
+
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Community-led",
+            "type_it": "Guidato dalla comunità"
+        }
+    },
+    {
+        "model": "organisations.OrganisationType",
+        "fields": {
+            "type": "Consortium",
+            "type_it": "Consorzio"
+        }
+    }
+]

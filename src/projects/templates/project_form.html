@@ -4,427 +4,720 @@
 {% load crispy_forms_tags %}
 {% load leaflet_tags %}
 {% load thumbnail %}
+{% load project_tags %}
 
 {% block head %}
-{{block.super }}
+    {{ block.super }}
 
-<link rel="stylesheet" href="{% static 'css/forms.css' %}">
-{{ form.media.css }}
-{{ form.media.js }}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    {{ form.media.css }}
+    {{ form.media.js }}
 
 {% endblock head %}
 
 {% block title %}{{ block.super }} :: New project{% endblock %}
 
 {% block navbar-left %}
-{% include "_navbar.html" with active_link="projects" %}
+    {% include "_navbar.html" with active_link="projects" %}
 {% endblock %}
 
 
 {% block list_of_items %}
-{% include '_crop_zone.html' %}
+    {% include '_crop_zone.html' %}
 
-<div class="container mt-5">
-    <form action="#" id='form_project' class="edit-project" method="post" enctype="multipart/form-data">
-        <div class="row">
-            {% csrf_token %}
-            <div class="col-12">
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
-                  <h2>{{ text.title }}</h2>
-                  {{ text.paragraph | safe }}
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
-                  <h3 class="leftborder">{% trans "Main information" %}</h3>
-                        <input type="hidden" id="projectID" name="projectID" value={{project.id}}>
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="errors"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                              {{ form.project_name|as_crispy_field }}
-                              {{ form.url|as_crispy_field }}
-                              {{ form.status|as_crispy_field }}
-                              {{ form.keywords|as_crispy_field }}
-                                <label class="control-label">{% trans "Description" %}</label>
-                                {{ form.description.label_tag}}
-                                <!-- Project description -->
-                                <ul class="nav nav-tabs" id="languageDescriptionTabs" role="tablist">
-                                  {% for field in form.get_description_fields %}
-                                    <li class="nav-item">
-                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="description_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#description-{{ field.label }}" type="button" role="tab" aria-controls="description-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
-                                    </li>
-                                  {% endfor %}
-                                  </ul>
-                                  <div class="tab-content" id="languageDescriptionTabsContent">
-                                    {% for field in form.get_description_fields %}
-                                      <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}" id="description-{{ field.label }}" role="tabpanel" aria-labelledby="description-{{ field.label }}-tab">
-                                        {{ field  | as_crispy_field}}
-                                      </div>
-                                    {% endfor %}
-                                  </div>
+    <div class="container mt-5">
+        <form action="#" id='form_project' class="edit-project" method="post" enctype="multipart/form-data">
+            <div class="row">
+                {% csrf_token %}
+                <div class="col-12">
 
-                                
-                                <label class="control-label">{% trans "Aim" %}</label>
-                                <!-- Project Aim -->
-                                {{ form.aim.label_tag}}
-                                <ul class="nav nav-tabs" id="languageAimTabs" role="tablist">
-                                  {% for field in form.get_aim_fields %}
-                                    <li class="nav-item">
-                                      <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="aim_{{ field.label }}-tab" data-bs-toggle="tab" data-bs-target="#aim-{{ field.label }}" type="button" role="tab" aria-controls="aim-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
-                                    </li>
-                                  {% endfor %}
-                                  </ul>
-                                  <div class="tab-content" id="languageDescriptionTabsContent">
-                                    {% for field in form.get_aim_fields %}
-                                      <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}" id="aim-{{ field.label }}" role="tabpanel" aria-labelledby="aim-{{ field.label }}-tab">
-                                        {{ field | as_crispy_field}}
-                                      </div>
-                                    {% endfor %}
-                                  </div>
-                                
-                                {{ form.citizen_science_aspects_description|as_crispy_field }}
-                                
-                                {% include "_save_zone.html" %}
-                            </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <h2>{{ text.title }}</h2>
+                            {#                  {{ text.paragraph | safe }}#}
                         </div>
-                        <h4 class="leftborder mt-5">{% trans "Useful information to classify the project" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                {{ form.start_date|as_crispy_field }}
-                                {{ form.end_date|as_crispy_field }}
-                                {{ form.topic|as_crispy_field }}
-                                {{ form.hasTag |as_crispy_field }}
-                                {% include "_save_zone.html" %}
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <h3 class="leftborder">{% trans "Main information" %}</h3>
+                            <input type="hidden" id="projectID" name="projectID" value={{ project.id }}>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="errors"></div>
+                                </div>
                             </div>
-                        </div>
-                        <h4 class="leftborder mt-5">{% trans "Participation information" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                {{ form.participationTask |as_crispy_field }}
-                                {{ form.difficultyLevel |as_crispy_field }}
-                                  <!-- Project How to participate -->
-                                  <label class="control-label">{% trans "How to participate" %}</label>
-                                  <ul class="nav nav-tabs" id="languageHowToParticipateTabs" role="tablist">
-                                    {% for field in form.get_how_to_participate_fields %}
-                                      <li class="nav-item">
-                                        <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="how-to-participate-{{ field.label }}-tab" 
-                                        data-bs-toggle="tab" data-bs-target="#how-to-participate-{{ field.label }}" type="button" role="tab" aria-controls="how-to-participate-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
-                                      </li>
-                                    {% endfor %}
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {{ form.type|as_crispy_field }}
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                Il <strong>progetto</strong> è un'iniziativa strutturata e pianificata con una durata a lungo termine
+                                            </li>
+                                            <li>
+                                                L'<strong>attività</strong> è un’azione concreta o un’iniziativa di raccolta dati che comprende uno o più compiti con una durata ben definita.</li>
+                                        </ul>
+                                    </div>
+                                    {% if has_current_bdsweek %}
+                                        <div id="bdsweek-field">
+                                            {{ form.is_bdsweek|as_crispy_field }}
+                                        </div>
+                                    {% endif %}
+                                    <div id="parent-project">
+                                        {{ form.parent|as_crispy_field }}
+                                    </div>
+                                    {{ form.project_name|as_crispy_field }}
+                                    {{ form.url|as_crispy_field }}
+                                    {{ form.status|as_crispy_field }}
+                                    {{ form.risultati|as_crispy_field }}
+                                    {#                              {{ form.keywords|as_crispy_field }}#}
+
+
+
+                                    <label class="control-label">{% trans "Description" %}</label>
+                                    {{ form.description.label_tag }}
+                                    <!-- Project description -->
+                                    <ul class="nav nav-tabs" id="languageDescriptionTabs" role="tablist">
+                                        {% for field in form.get_description_fields %}
+                                            <li class="nav-item">
+                                                <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}"
+                                                        id="description_{{ field.label }}-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#description-{{ field.label }}" type="button"
+                                                        role="tab" aria-controls="description-{{ field.label }}"
+                                                        aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="tab-content" id="languageDescriptionTabsContent">
+                                        {% for field in form.get_description_fields %}
+                                            <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}"
+                                                 id="description-{{ field.label }}" role="tabpanel"
+                                                 aria-labelledby="description-{{ field.label }}-tab">
+                                                {{ field  | as_crispy_field }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <label class="control-label">{% trans "Aim" %}</label>
+                                    <!-- Project Aim -->
+                                    {{ form.aim.label_tag }}
+                                    <ul class="nav nav-tabs" id="languageAimTabs" role="tablist">
+                                        {% for field in form.get_aim_fields %}
+                                            <li class="nav-item">
+                                                <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}"
+                                                        id="aim_{{ field.label }}-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#aim-{{ field.label }}" type="button" role="tab"
+                                                        aria-controls="aim-{{ field.label }}"
+                                                        aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="tab-content" id="languageDescriptionTabsContent">
+                                        {% for field in form.get_aim_fields %}
+                                            <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}"
+                                                 id="aim-{{ field.label }}" role="tabpanel"
+                                                 aria-labelledby="aim-{{ field.label }}-tab">
+                                                {{ field | as_crispy_field }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    {{ form.citizen_science_aspects_description|as_crispy_field }}
+                                    {{ form.inaturalist|as_crispy_field }}
+                                    {% include "_save_zone.html" %}
+                                </div>
+                            </div>
+
+                            <h4 class="leftborder mt-5">{% trans "Useful information to classify the project" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {{ form.start_date|as_crispy_field }}
+                                    {{ form.end_date|as_crispy_field }}
+                                <label for="topic" class="control-label ">
+                                    {% trans "Argomenti scientifici" %}*
+                                </label>
+                                <div id="tassonomieTree_div">
+                                    <input id="tassonomie_ids" type="hidden" name="tassonomie_ids" value="">
+                                    <input
+                                            class="w-full textinput textInput form-control"
+                                        type="text"
+                                        id="tassonomieTree"
+                                        placeholder='{% trans "Seleziona uno o più argomenti scientifici" %}'
+                                        autocomplete="off"
+                                      />
+                                </div>
+{#                                    <div style="height:300px !important;overflow-y:auto;border: 1px solid black; margin-top:5px; margin-bottom:5px;padding:6px;">#}
+{##}
+{#                                        {{ form.topic|as_crispy_field }}#}
+{#                                    </div>#}
+                                <div class="help-block mb-3">
+                                    {%  trans 'Please select the project topic(s) or field(s) of science.' %}
+                                </div>
+
+                                    {{ form.keywords |as_crispy_field }}
+                                    {{ form.tipo_pubblico|as_crispy_field }}
+                                    <div id="div_id_tipo_pubblico_altro"
+                                         class="form-group {% if form.tipo_pubblico_altro.value != 'altro' %}d-none {% endif %}">
+                                        <label for="id_tipo_pubblico_altro class=" control-label requiredField">
+                                        Altro pubblico<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="controls ">
+                                            <input type="text" class="form-control form-control valid"
+                                                   name="tipo_pubblico_altro" id="id_tipo_pubblico_altro"
+                                                   maxlength="255" value="{{ form.tipo_pubblico_altro.value }}">
+                                            <div id="hint_id_tipo_pubblico_altro" class="help-block">Specificare il tipo
+                                                di pubblico
+                                            </div>
+                                        </div>
+                                    </div>
+{#                                    {{ form.stato|as_crispy_field }}#}
+                                    {% include "_save_zone.html" %}
+                                </div>
+                            </div>
+
+                            <h4 class="leftborder mt-5">{% trans "Participation information" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {#                                {{ form.participationTask |as_crispy_field }}#}
+                                    {{ form.difficultyLevel |as_crispy_field }}
+                                    <!-- Project How to participate -->
+                                    <label class="control-label">{% trans "How to participate" %}</label>
+                                    <ul class="nav nav-tabs" id="languageHowToParticipateTabs" role="tablist">
+                                        {% for field in form.get_how_to_participate_fields %}
+                                            <li class="nav-item">
+                                                <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}"
+                                                        id="how-to-participate-{{ field.label }}-tab"
+                                                        data-bs-toggle="tab"
+                                                        data-bs-target="#how-to-participate-{{ field.label }}"
+                                                        type="button" role="tab"
+                                                        aria-controls="how-to-participate-{{ field.label }}"
+                                                        aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                     <div class="tab-content" id="languageHowToParticipateTabsContent">
-                                      {% for field in form.get_how_to_participate_fields %}
-                                        <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}" id="how-to-participate-{{ field.label }}" role="tabpanel" aria-labelledby="how-to-participate-{{ field.label }}-tab">
-                                          {{ field | as_crispy_field}}
-                                        </div>
-                                      {% endfor %}
+                                        {% for field in form.get_how_to_participate_fields %}
+                                            <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}"
+                                                 id="how-to-participate-{{ field.label }}" role="tabpanel"
+                                                 aria-labelledby="how-to-participate-{{ field.label }}-tab">
+                                                {{ field | as_crispy_field }}
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                     <label class="control-label">{% trans "Equipment" %}</label>
                                     <ul class="nav nav-tabs" id="languageEquipmentTabs" role="tablist">
-                                      {% for field in form.get_equipment_fields %}
-                                        <li class="nav-item">
-                                          <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}" id="equipment-{{ field.label }}-tab" 
-                                          data-bs-toggle="tab" data-bs-target="#equipment-{{ field.label }}" type="button" role="tab" aria-controls="equipment-{{ field.label }}" aria-selected="true">{{ field.label }}</button>
-                                        </li>
-                                      {% endfor %}
-                                      </ul>
-                                      <div class="tab-content" id="languageEquipmentTabsContent">
                                         {% for field in form.get_equipment_fields %}
-                                          <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}" id="equipment-{{ field.label }}" role="tabpanel" aria-labelledby="equipment-{{ field.label }}-tab">
-                                            {{ field | as_crispy_field}}
-                                          </div>
+
+                                            <li class="nav-item">
+                                                <button class="nav-link {% if field.label == LANGUAGE_CODE %}active{% endif %}"
+                                                        id="equipment-{{ field.label }}-tab"
+                                                        data-bs-toggle="tab"
+                                                        data-bs-target="#equipment-{{ field.label }}" type="button"
+                                                        role="tab" aria-controls="equipment-{{ field.label }}"
+                                                        aria-selected="true">{{ TRANSLATED_LANGUAGES_KEY|lang_label:field.label }}</button>
+                                            </li>
                                         {% endfor %}
-                                      </div>
-                                
-                                {% include "_save_zone.html" %}
+                                    </ul>
+                                    <div class="tab-content" id="languageEquipmentTabsContent">
+                                        {% for field in form.get_equipment_fields %}
+                                            <div class="tab-pane fade {% if field.label == LANGUAGE_CODE %}show active{% endif %}"
+                                                 id="equipment-{{ field.label }}" role="tabpanel"
+                                                 aria-labelledby="equipment-{{ field.label }}-tab">
+                                                {{ field | as_crispy_field }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    {% include "_save_zone.html" %}
+                                </div>
                             </div>
-                        </div>
-                        <h4 class="leftborder mt-5">{% trans "Project location" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                {{ form.geographicextend |as_crispy_field }}
-                                {{ form.projectlocality |as_crispy_field }}
+
+                            <h4 class="leftborder mt-5">{% trans "Project location" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {{ form.geographicextend |as_crispy_field }}
+                                    {{ form.projectlocality |as_crispy_field }}
+                                    {{ form.provincia|as_crispy_field }}
+                                    {{ form.latitude |as_crispy_field }}
+                                    {{ form.longitude |as_crispy_field }}
+                                    {% comment %}
                                 {{ form.projectCountry|as_crispy_field }}
                                 {% include "_save_zone.html" %}
+                                {% endcomment %}
+                                    <div id="mapid"  style="height: 300px; width:100%"></div>
+                                    <div class="help-block">
+                                         {% trans "Se desideri modificare la posizione del pin rispetto al centro della provincia selezionata, clicca sul pin e trascinalo nella posizione più corretta sulla mappa."%}
+                                          <br/>{% trans "In questo modo, il nuovo punto verrà utilizzato come località principale del progetto."%}
+                                    </div>
+                                    {{ form.aree |as_crispy_field }}
+                                </div>
                             </div>
-                        </div>
-                        <h4 class="leftborder mt-5">{% trans "Contact and hosts details" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                {{ form.contact_person|as_crispy_field }}
-                                {{ form.contact_person_email|as_crispy_field }}
-                                {{ form.mainOrganisation|as_crispy_field }}
-                                {{ form.organisation|as_crispy_field }}
-                                {% include "_save_zone.html" %}
-                            </div>
-                        </div>
-                        <h4 class="leftborder mt-5">{% trans "Funding Information" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                {{ form.funding_body|as_crispy_field }}
-                                {{ form.funding_program|as_crispy_field }}
-                                {% include "_save_zone.html" %}
-                            </div>
-                        </div>
-                        <h4 class="leftborder mt-5">{% trans "Project profile images" %}</h4>
-                        <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-11">
-                                <img class="img-fluid img-zoom" 
-                                id="imageResult1" 
-                                src="{% thumbnail project.image1|default:'void_600.png' 600x400 %}">
-                                {{ form.image1|as_crispy_field }}
-                                {{ form.x1|as_crispy_field }}
-                                {{ form.y1|as_crispy_field }}
-                                {{ form.height1|as_crispy_field }}
-                                {{ form.width1|as_crispy_field }}
-                                {{ form.withImage1|as_crispy_field }}
-                                {{ form.image_credit1|as_crispy_field }}
-                                <div class="mb-5"></div>
 
-                                <img class="img-fluid img-zoom" 
-                                     id="imageResult2" 
-                                     src="{% thumbnail project.image2|default:'void_600.png' 600x400 %}">
-                                {{ form.image2|as_crispy_field }}
-                                {{ form.x2|as_crispy_field }}
-                                {{ form.y2|as_crispy_field }}
-                                {{ form.height2|as_crispy_field }}
-                                {{ form.width2|as_crispy_field }}
-                                {{ form.withImage2|as_crispy_field }}
-                                {{ form.image_credit2|as_crispy_field }}
-                                <div class="mb-5"></div>
-
-                                <img class="img-fluid mt-3" 
-                                     id="imageResult3" 
-                                     src="{% thumbnail project.image3|default:'void_1100.png' 1100x400 %}" alt="Image not upload">
-                                {{ form.withImage3|as_crispy_field }}
-                                {{ form.image3|as_crispy_field }}
-                                {{ form.x3|as_crispy_field }}
-                                {{ form.y3|as_crispy_field }}
-                                {{ form.height3|as_crispy_field }}
-                                {{ form.width3|as_crispy_field }}
-                                {{ form.image_credit3|as_crispy_field }}
-                                <div class="mb-5"></div>
-                                {% include "_save_zone.html" %}
-                                <div class="mb-5"></div>
+                            <h4 class="leftborder mt-5">{% trans "Contact and hosts details" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {{ form.contact_person|as_crispy_field }}
+                                    {{ form.contact_person_email|as_crispy_field }}
+                                    {{ form.mainOrganisation|as_crispy_field }}
+                                    {{ form.organisation|as_crispy_field }}
+                                    {% include "_save_zone.html" %}
+                                </div>
                             </div>
+
+                            <h4 class="leftborder mt-5">{% trans "Funding Information" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+                                    {{ form.funding_body|as_crispy_field }}
+                                    {{ form.funding_program|as_crispy_field }}
+                                    {% include "_save_zone.html" %}
+                                </div>
+                            </div>
+
+                            <h4 class="leftborder mt-5">{% trans "Project profile images" %}</h4>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-11">
+
+
+                                    <img class="img-fluid img-zoom"
+                                         id="imageResult1"
+                                         src="{% thumbnail project.image1|default:'void_600.png' 600x400 %}">
+                                    {{ form.image1|as_crispy_field }}
+                                    {{ form.x1|as_crispy_field }}
+                                    {{ form.y1|as_crispy_field }}
+                                    {{ form.height1|as_crispy_field }}
+                                    {{ form.width1|as_crispy_field }}
+                                    {{ form.withImage1|as_crispy_field }}
+                                    {{ form.image_credit1|as_crispy_field }}
+                                    <div class="mb-5"></div>
+
+{#                                    <img class="img-fluid img-zoom"#}
+{#                                         id="imageResult2"#}
+{#                                         src="{% thumbnail project.image2|default:'void_600.png' 600x400 %}">#}
+{#                                    {{ form.image2|as_crispy_field }}#}
+{#                                    {{ form.x2|as_crispy_field }}#}
+{#                                    {{ form.y2|as_crispy_field }}#}
+{#                                    {{ form.height2|as_crispy_field }}#}
+{#                                    {{ form.width2|as_crispy_field }}#}
+{#                                    {{ form.withImage2|as_crispy_field }}#}
+{#                                    {{ form.image_credit2|as_crispy_field }}#}
+{#                                    <div class="mb-5"></div>#}
+
+{#                                    <img class="img-fluid mt-3"#}
+{#                                         id="imageResult3"#}
+{#                                         src="{% thumbnail project.image3|default:'void_1100.png' 1100x400 %}"#}
+{#                                         alt="Image not upload">#}
+{#                                    {{ form.withImage3|as_crispy_field }}#}
+{#                                    {{ form.image3|as_crispy_field }}#}
+{#                                    {{ form.x3|as_crispy_field }}#}
+{#                                    {{ form.y3|as_crispy_field }}#}
+{#                                    {{ form.height3|as_crispy_field }}#}
+{#                                    {{ form.width3|as_crispy_field }}#}
+{#                                    {{ form.image_credit3|as_crispy_field }}#}
+{#                                    <div class="mb-5"></div>#}
+
+
+                                    <img class="img-fluid mt-3"
+                                         id="imageResultlogo"
+                                         src="{% thumbnail project.logo|default:'void_600.png' 600x400 %}"
+                                         alt="Image not upload">
+                                    {{ form.withImagelogo|as_crispy_field }}
+                                    {{ form.logo|as_crispy_field }}
+                                    {{ form.xlogo|as_crispy_field }}
+                                    {{ form.ylogo|as_crispy_field }}
+                                    {{ form.heightlogo|as_crispy_field }}
+                                    {{ form.widthlogo|as_crispy_field }}
+                                    {{ form.logo_credit|as_crispy_field }}
+                                    <div class="mb-5"></div>
+
+
+                                    {% include "_save_zone.html" with showDelete=1%}
+                                    <div class="mb-5"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock list_of_items %}
 {% block scripts %}
-<script src="{% static 'site/js/site.js' %}"></script>
-<script src="{% static 'scripts/cropper.min.js' %}"></script>
-<script src="{% static 'scripts/jquery-cropper.min.js' %}"></script>
-<script>
-    $(function () {
-        $('input').on('focus', function(){
-            if($(this).is('.error'))
-                $(this).removeClass('error');
-        });
-        $('select').on('focus', function(){
-            if($(this).is('.error'))
-                $(this).removeClass('error');
-        });
-        $('.select2-selection--multiple').on('focus', function(){
-            if($(this).is('.error'))
-                $(this).removeClass('error');
-        });
+    <script src="{% static 'site/js/site.js' %}"></script>
+    <script src="{% static 'scripts/cropper.min.js' %}"></script>
+    <script src="{% static 'scripts/jquery-cropper.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('input').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
+            $('select').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
+            $('.select2-selection--multiple').on('focus', function () {
+                if ($(this).is('.error'))
+                    $(this).removeClass('error');
+            });
 
-        for(var instanceName in CKEDITOR.instances){
-            CKEDITOR.instances[instanceName].on('focus', function(e){
-                id='#cke_'+$(this).attr('name')
-                if($(id).is('.error'))
-                    $(id).removeClass('error');
-            })
-        }
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].on('focus', function (e) {
+                    id = '#cke_' + $(this).attr('name')
+                    if ($(id).is('.error'))
+                        $(id).removeClass('error');
+                })
+            }
 
-        $('.submit').click(function (e) {
-            e.preventDefault()
+            $('.submit').click(function (e) {
+                e.preventDefault()
 
-            /* To check that we click on Save & continue  */
-            if($(this).hasClass('continue'))
-                var contin=true
-            else
-                var contin=false
-            $('.myerror').remove()
-            $.ajaxSettings.traditional = true;
-            for(var instanceName in CKEDITOR.instances)
-                CKEDITOR.instances[instanceName].updateElement();
+                /* To check that we click on Save & continue  */
+                if ($(this).hasClass('continue'))
+                    var contin = true
+                else
+                    var contin = false
+                $('.myerror').remove()
+                $.ajaxSettings.traditional = true;
+                for (var instanceName in CKEDITOR.instances)
+                    CKEDITOR.instances[instanceName].updateElement();
 
-            $.ajax({
-                type: 'POST',
-                url: '/saveProjectAjax',
-                processData: false,
-                contentType: false,
-                data: new FormData(document.getElementById("form_project")),
-                success: function (response){
-                    if(contin){
-                        $('#projectID').val(response.Project)
-                        console.log('continue')
-                        $('.savedInfo').html('<div class="bg-my-darkGreen text-white fade show" style="margin: 12px;"> <p style="margin: 16px 12px -42px 12px;"> <small> {% trans "Your project has been saved." %}<br>{% trans "You can continue editing at any time in the" %} <a href="https://eu-citizen.science//users/me/submissions">{% trans "My Submissions section of your personal area."%}</a> </small> </p> </div>').show().fadeOut(8000, "swing")
+                $.ajax({
+                    type: 'POST',
+                    url: '/saveProjectAjax',
+                    processData: false,
+                    contentType: false,
+                    data: new FormData(document.getElementById("form_project")),
+                    success: function (response) {
+                        if (contin) {
+                            $('#projectID').val(response.Project)
+                            console.log('continue')
+                            $('.savedInfo').html('<div class="bg-my-darkGreen text-white fade show" style="margin: 12px;"> <p style="margin: 16px 12px -42px 12px;"> <small> {% trans "Your project has been saved." %}<br>{% trans "You can continue editing at any time in the" %} <a href="https://eu-citizen.science//users/me/submissions">{% trans "My Submissions section of your personal area."%}</a> </small> </p> </div>').show().fadeOut(8000, "swing")
+                            window.location.reload();
+                        } else {
+                            window.location.href = '/project/' + response.Project + '?prev=' + window.location.pathname
+                        }
+                    },
+                    error: function (response) {
+                        if (response.status == 500) {
+                            alert('Unexpected error, please contact with the administrator')
+                        }
+                        console.debug('response',response)
+                        $.each(response.responseJSON, function (i, val) {
+                            // caso topic che e' con il plugin
+                            console.debug('i',i);
+                            if (i == 'topic') {
+                                $('#tassonomieTree').addClass('error')
+                                $('#tassonomieTree_div').append('<div class="myerror small text-danger">' + val + '</div>')
+                            }
+                            $('#id_' + i).addClass('error')
+                            $('#id_' + i).parent().find('.select2-selection--multiple').addClass('error')
+                            $('#hint_id_' + i).append('<div class="myerror small text-danger">' + val + '</div>')
+                            $('#cke_id_' + i).addClass('error')
+                            $('#' + i + '-tab').addClass('error')
+
+
+                        })
+                        $('html, body').animate({
+                            scrollTop: $('.myerror:visible:first').offset().top - 300
+                        }, 30);
                     }
-                    else{
-                        window.location.href = '/project/'+response.Project+'?prev='+window.location.pathname
-                    }
-                },
-                error: function (response){
-                    if(response.status==500){
-                        alert('Unexpected error, please contact with the administrator')
-                    }
-                    $.each(response.responseJSON, function(i,val){
-                        $('#id_'+i).addClass('error')
-                        $('#id_'+i).parent().find('.select2-selection--multiple').addClass('error')
-                        $('#hint_id_'+i).append('<div class="myerror small text-danger">'+val+'</div>')
-                        $('#cke_id_'+i).addClass('error')
-                        $('#'+i+'-tab').addClass('error')
-                     
-
-                       
-                    })
-                    $('html, body').animate({
-                        scrollTop: $('.myerror:visible:first').offset().top-300
-                    }, 30);
-                }
+                });
             });
         });
-    });
-</script>
+    </script>
 
-<script>
+    <script>
 
-    $(function () {
-      var imgSelected;
-      /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
-      $("#id_image1").change(function () {
-        imgSelected = 1;
-        if (this.files && this.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $("#image").attr("src", e.target.result);
-            $("#modalCrop").modal("show");
-          }
-          reader.readAsDataURL(this.files[0]);
-        }
-      });
-      $("#id_image2").change(function () {
-        imgSelected = 2;
-        if (this.files && this.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $("#image").attr("src", e.target.result);
-            $("#modalCrop").modal("show");
-          }
-          reader.readAsDataURL(this.files[0]);
-        }
-      });
-      $("#id_image3").change(function () {
-        imgSelected = 3;
-        if (this.files && this.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $("#image").attr("src", e.target.result);
-            $("#modalCrop").modal("show");
-          }
-          reader.readAsDataURL(this.files[0]);
-        }
-      });
-      $("#imageResult").click(function () {
-        $("#modalCrop").modal("show");
-      });
-      $("#imageResult2").click(function () {
-        $("#modalCrop").modal("show");
-      });
-      $("#imageResult3").click(function () {
-        $("#modalCrop").modal("show");
-      });
-      /* SCRIPTS TO HANDLE THE CROPPER BOX */
-      var $image = $("#image");
-      var cropBoxData;
-      var canvasData;
-      $("#modalCrop").on("shown.bs.modal", function () {
-        $image.cropper({
-          viewMode: 1,
-          aspectRatio: imgSelected == 3 ? 11/4 : 3/2,
-          minCropBoxWidth: imgSelected == 3 ? 1100 : 600,
-          minCropBoxHeight: 400,
-          dragMode: 'move',
-          guides: false,
-          center: false,
-          highlight: false,
-          cropBoxResizable: false,
-          toggleDragModeOnDblclick: false,
-          ready: function () {
-            $image.cropper("setCanvasData", canvasData);
-            $image.cropper("setCropBoxData", cropBoxData);
-          }
+        $(function () {
+            var imgSelected;
+            var cropper = null;
+            /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+            $("#id_image1").change(function () {
+                imgSelected = 1;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#imageResult1").attr('src', e.target.result);
+                        //$("#image").attr("src", e.target.result);
+                        ///$("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_image2").change(function () {
+                imgSelected = 2;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_image3").change(function () {
+                imgSelected = 3;
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#image").attr("src", e.target.result);
+                        $("#modalCrop").modal("show");
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            $("#id_logo").change(function () {
+                imgSelected = 'logo';
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#imageResultlogo").attr('src', e.target.result);
+
+                        {#$("#image").attr("src", e.target.result);#}
+                        {#$("#modalCrop").modal("show");#}
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            /*
+            $("#imageResult1").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResult2").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResult3").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            $("#imageResultlogo").click(function () {
+                $("#modalCrop").modal("show");
+            });
+            */
+            /* SCRIPTS TO HANDLE THE CROPPER BOX */
+            var $image = $("#image");
+            var cropBoxData;
+            var canvasData;
+            $("#modalCrop").on("shown.bs.modal", function () {
+                cropper = new Cropper($image, {
+                    viewMode: 1,
+                    aspectRatio: imgSelected == 3 ? 11 / 4 : 3 / 2,
+                    minCropBoxWidth: imgSelected == 3 ? 1100 : 600,
+                    minCropBoxHeight: 400,
+                    dragMode: 'move',
+                    guides: false,
+                    center: false,
+                    highlight: false,
+                    cropBoxResizable: false,
+                    toggleDragModeOnDblclick: false,
+                });
+            }).on("hidden.bs.modal", function () {
+                console.debug('hide');
+                cropBoxData = $image.cropper("getCropBoxData");
+                canvasData = $image.cropper("getCanvasData");
+                $image.cropper("destroy");
+            });
+
+            const myModalEl = document.getElementById('modalCrop')
+            console.debug('aggancio eventi sulla modale', myModalEl)
+            myModalEl.addEventListener('shown.bs.modal', function (event) {
+                // do something...
+                console.debug('aproooo')
+            })
+            myModalEl.addEventListener('hidden.bs.modal', function (event) {
+                // do something...
+                console.debug('chiusssaaa')
+            })
+            myModalEl.addEventListener('hide.bs.modal', function (event) {
+                // do something...
+                console.debug('chiusssaaaa11')
+            })
+
+            $(".js-zoom-in").click(function () {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $(".js-zoom-out").click(function () {
+                $image.cropper("zoom", -0.1);
+            });
+
+            /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+            $(".js-crop-and-upload").click(function () {
+                var cropData = $image.cropper("getData");
+                $("#id_x" + imgSelected).val(cropData["x"]);
+                $("#id_y" + imgSelected).val(cropData["y"]);
+                $("#id_height" + imgSelected).val(cropData["height"]);
+                $("#id_width" + imgSelected).val(cropData["width"]);
+                $("#modalCrop").modal("hide");
+                console.debug('image selected ' + '#imageResult' + imgSelected);
+                setTimeout(function () {
+                    $('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas', {
+                        width: (imgSelected == 3 ? 1100 : 600),
+                        height: 400
+                    }).toDataURL());
+                    $image.cropper("destroy");
+                }, 200)
+
+            });
+
+            $(".read-before-save").click(function () {
+                readSavedConfirmation = true;
+                $("#savedModal").modal("hide");
+                $('form').submit();
+            });
+            tipo_pubblicoChange();
         });
-      }).on("hidden.bs.modal", function () {
-        cropBoxData = $image.cropper("getCropBoxData");
-        canvasData = $image.cropper("getCanvasData");
-        $image.cropper("destroy");
-      });
+    </script>
 
-      $(".js-zoom-in").click(function () {
-        $image.cropper("zoom", 0.1);
-      });
+    <!-- ALERT IF BACK BUTTON IS PRESSED -->
+    <script>
+        $(document).ready(function () {
+            console.debug('{{ form.type.value }}')
+            if ('{{ form.type.value }}' == 'Progetto') {
+                $('#parent-project').addClass('d-none');
+            } else {
+                $('#parent-project').removeClass('d-none');
+            }
+            updateBdsweekField('{{ form.type.value }}');
 
-      $(".js-zoom-out").click(function () {
-        $image.cropper("zoom", -0.1);
-      });
+            if (window.history && window.history.pushState) {
 
-      /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
-      $(".js-crop-and-upload").click(function () {
-        var cropData = $image.cropper("getData");
-        $("#id_x" + imgSelected).val(cropData["x"]);
-        $("#id_y" + imgSelected).val(cropData["y"]);
-        $("#id_height" + imgSelected).val(cropData["height"]);
-        $("#id_width" + imgSelected).val(cropData["width"]);
-        $("#modalCrop").modal("hide");
-        $('#imageResult' + imgSelected).attr('src', $image.cropper('getCroppedCanvas',
-        {width: imgSelected == 3 ? 1100 : 600, height: 400}).toDataURL());
-      });
+                window.history.pushState('forward', null, null);
 
-      $(".read-before-save").click(function () {
-        readSavedConfirmation = true;
-        $("#savedModal").modal("hide");
-        $('form').submit();
-      });
+                $(window).on('popstate', function () {
+                    alert('If you leave before saving, your changes will be lost. Be careful!');
+                });
 
-    });
-</script>
+            }
+            init_map();
+            tassonomieJson = {{ tassonomieJson | safe }}
+            const None = null;  // per fregare il None di django
+            let selected = {{ form.topic.value | safe}};
+            if (selected == None) {
+                selected = [];
+            }
+            console.debug(selected)
+            comboTree1 = $("#tassonomieTree").comboTree({
+              source: tassonomieJson,
+              isMultiple: true,
+              cascadeSelect: false,
+              collapse: true,
+                selected: selected,
 
-<!-- ALERT IF BACK BUTTON IS PRESSED -->
-<script>
-  $(document).ready(function() {
-    
-    if (window.history && window.history.pushState) {
+              //selectAll: true,
+            });
+            comboTree1.onChange(function (data) {
+                  console.log(comboTree1.getSelectedIds());
+                  if (comboTree1.getSelectedIds()) {
+                      $('#tassonomie_ids').val(comboTree1.getSelectedIds().join(','))
+                  } else {
+                      $('#tassonomie_ids').val('')
+                  }
 
-window.history.pushState('forward', null, null);
+            })
+            if (comboTree1.getSelectedIds()) {
+                $('#tassonomie_ids').val(comboTree1.getSelectedIds().join(','))
+            }
 
-$(window).on('popstate', function() {
-  alert('If you leave before saving, your changes will be lost. Be careful!');
-});
+            // stile per barre
 
-}
-    });
-</script>
+            $('.ct-drop-down-container').css('height','200px').css('overflow','auto')
+                .css('border','1px solid gray').css('margin','5px 0 10px 0')
+                .css('border-radius','5px');
+             /*
+            $('.ct-input-box').css('width','calc(100% - 35px)');
+            $('.ct-input-wrapper').addClass('d-flex');
+            $('.ct-arrow-btn').addClass('btn');
+            $('.ct-source-ul-main').addClass('list-unstyled');
+            $('.ct-source-ul-main').find('ul').addClass('list-unstyled');
+            $('.ct-source-ul-main').find('ul').find('li').css('padding-left','30px');
+            $('.ct-parent-plus').css('cursor', 'pointer').css('padding-right','5px');
+             */
 
+
+            //comboTree1.collapse
+            //comboTree1.toggleDropDown();
+        });
+
+        function tipo_pubblicoChange(value) {
+            console.debug('tipo_pubblicoChange',value)
+            var selectedValues = $('input[name="tipo_pubblico"]:checked').map(function() {
+                return this.value;
+            }).get();
+            if (selectedValues.indexOf('altro') >= 0) {
+                $('#div_id_tipo_pubblico_altro').removeClass('d-none');
+            } else {
+                $('#div_id_tipo_pubblico_altro').addClass('d-none');
+            }
+            /*
+            console.log(selectedValues);
+            if (value === 'altro') {
+                $('#div_id_tipo_pubblico_altro').removeClass('d-none');
+            } else {
+                $('#div_id_tipo_pubblico_altro').addClass('d-none');
+            }
+             */
+            //alert(value);
+        }
+        function typeChange(value) {
+            if (value == 'Progetto') {
+                $('#parent-project').addClass('d-none');
+            } else {
+                $('#parent-project').removeClass('d-none');
+            }
+            updateBdsweekField(value);
+        }
+        function updateBdsweekField(typeValue) {
+            if ($('#bdsweek-field').length === 0) {
+                return;
+            }
+            if (typeValue == 'Attività') {
+                $('#bdsweek-field').removeClass('d-none');
+            } else {
+                $('#bdsweek-field').addClass('d-none');
+                $('#id_is_bdsweek_0').prop('checked', true);
+            }
+        }
+    </script>
+
+    <script>
+        function init_map() {
+            // Inizializza la mappa
+            var mymap = L.map('mapid').setView([42,11], 6);
+
+            // Aggiunge un tile layer alla mappa (esempio con OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                //maxZoom: 6,
+                zoom: 6,
+                attribution: '© OpenStreetMap'
+            }).addTo(mymap);
+
+            // Aggiungi un marker draggable
+            console.log('map loaded',$('#id_latitude').val(),  $('#id_longitude').val());
+            var marker = L.marker([$('#id_latitude').val(),  $('#id_longitude').val()], {draggable: true}).addTo(mymap);
+
+            // Funzione per stampare le coordinate
+            function onDragEnd() {
+                var latlng = marker.getLatLng();
+                console.log("Coordinate attuali: ", latlng.lat, latlng.lng);
+                $('#id_latitude').val(latlng.lat);// attr('value',latlng.lat);
+                $('#id_longitude').val(latlng.lng);//.attr('value',latlng.lng);
+                // Qui puoi memorizzare le coordinate in una variabile o inviarle a un server
+            }
+
+            // Ascolta l'evento dragend sul marker
+            marker.on('dragend', onDragEnd);
+        }
+
+    </script>
 {% endblock scripts %}

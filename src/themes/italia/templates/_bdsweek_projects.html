@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load static %}
+{% load reviews %}
+{% load thumbnail %}
+{% load project_tags %}
+
+<div id="latest-projects" class="container-fluid my-3">
+    <div class="container">
+        <div class="h2 mb-5 text-left">Tutti i progetti della settimana ({{ projectsCounter }})</div>
+        <div class="row">
+            {% for project in projects %}
+
+                {#            {% include "_projects_cards.html" %}#}
+                <div class="col-12 col-md-6 d-flex align-items-center mb-4">
+                    {% include "includes/card_main.html" with project=project %}
+                </div>
+            {% endfor %}
+            {#            {% if 'projects' in request.get_full_path %}#}
+            {#                <div class="col-lg-12">#}
+            {#                    {% include "paginator.html" %}#}
+            {#                </div>#}
+            {#            {% endif %}#}
+        </div>
+{#        <div class="text-end">#}
+{#            <a href="/projects" class="btn btn-link">#}
+{#                Scopri tutti i progetti#}
+{#                <svg class="bi mb-1" width="14" height="14" fill="currentColor">#}
+{#                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-right"/>#}
+{#                </svg>#}
+{#            </a>#}
+{#        </div>#}
+    </div>
+
+
+</div>
+

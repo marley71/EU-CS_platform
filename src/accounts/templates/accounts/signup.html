@@ -1,35 +1,46 @@
 {% extends "base_r2.html" %}
 
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 {% block title %}{{ block.super }} :: Sign Up{% endblock %}
 
 {% block list_of_items %}
-<div class="container vh-100 d-flex mt-5">
-    <div class="container d-flex justify-content-center mt-5">
-        <div class="row">
-            <div class="container d-flex justify-content-center">
-                <div class="col-lg-4 col-12 mt-5">
-                    <div class="card shadow mt-5">
-                        <div class="card-text p-3 text-center"
-                             style="background: url('/static/site/img/ecsa-farbbalken_400x1000_transp.png') no-repeat left">
-                            <h1 class="mb-5">Sign up</h1>
-                            {% block form %}
-                            {% crispy form %}
-                            <div class="form-message">
-                                <p>
-                                <br/>
-                                Already signed up? <a href="{% url 'accounts:login' %}">Log in</a>.
-                                </p>
-                                <br>
-                                By clicking on Register, you accept our <a href="/terms"> Terms of Use</a>. Learn more about how we collect, use and share your information in the <a href="/privacy"> Privacy section</a>, as well as our use of cookies and similar technologies in our <a href="/privacy#coockies">Cookie Policy</a></p>
+    <section class="bg-plum-100 pb-0" >
+        <div class="container row m-auto pb-6" style="
+                background-size: 100% auto;
+                background-image:url({% static 'img/account_bg.svg' %}); background-repeat: repeat-y;">
+            <div class="col-12 col-lg-8 offset-lg-2 mt-5">
+
+                <div class="card shadow mt-5 rounded-4 pt-5 pb-3 px-3 "
+                     style="">
+                    <div class="row">
+                        <div class="card-text p-3 text-center col-10 offset-1 col-lg-8 offset-lg-2">
+                            <h1 class="h3 mb-5">Registrati sulla piattaforma</h1>
+                            <div class="text-start">
+                                {% block form %}
+                                    {% crispy form %}
+                                    <div class="form-message mt-2">
+                                        <p>
+
+                                            Cliccando sul tasto Registrati, dichiari dia ver letto le <a href="/terms">
+                                            condizioni di utilizzo</a>,
+                                            la <a href="/privacy"> Privacy policy</a>
+                                            e la <a href="/privacy#cookies">Cookie Policy</a>
+                                            e di accettarne i contenuti.
+                                        </p>
+
+                                        <p>
+                                            Hai già un account? <a href="{% url 'accounts:login' %}">Clicca qui per accedere</a>.
+                                        </p>
+                                    </div>
+                                {% endblock form %}
                             </div>
-                            {% endblock form %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 {% endblock list_of_items %}

@@ -251,7 +251,8 @@ def applyFilters(request, queryset):
             queryset = queryset.filter(
                 Q(name__icontains=request.GET['keywords']) |
                 Q(keywords__keyword__icontains=request.GET['keywords'])).distinct()
-            queryset = queryset.filter(approved=True)
+            if not request.user.is_staff:
+                queryset = queryset.filter(approved=True)
 
     if queryset.model == Profile:
         if request.GET.get('keywords'):

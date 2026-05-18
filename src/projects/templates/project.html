@@ -6,469 +6,837 @@
 {% load leaflet_tags %}
 {% load reviews %}
 {% block head %}
-{{block.super }}
-{{ form.media.css }}
-{{ form.media }}
-{% leaflet_js %}
-{% leaflet_css %}
+    {{ block.super }}
+    {{ form.media.css }}
+    {{ form.media }}
+    {% leaflet_js %}
+    {% leaflet_css %}
 {% endblock head %}
-{% block title %}{{ block.super }} :: {{project.name}}{% endblock %}
+{% block title %}{{ block.super }} :: {{ project.name }}{% endblock %}
 {% block list_of_items %}
-{{ permissionForm.media.css }}
-<style>
- #id_projectGeographicLocation_div_map { width: 100% !important; }
- #id_projectGeographicLocation_map { width: 100% !important; }
-</style>
-{% if 'newProject' in request.get_full_path %}
-    <!-- TOAST para nuevos proyectos. TODO: optimizar. -->
-<div style="position: relative;">
-    <div class="toast align-items-center text-white bg-my-darkGreen border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px; z-index:1;">
-        <div class="d-flex">
-          <div class="toast-body">
-            {% trans "Your project has been added successfully." %}<br> {% trans "You can continue to edit it in the" %} <a href='{{domain}}/users/me/submissions'>{% trans "My Submissions section of your personal area."%}</a> <br> {% trans "Thank you!" %}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-{% endif %}
-{% if 'editProject' in request.get_full_path %}
-    <!-- TOAST para proyectos editados. TODO: optimizar. -->
-<div style="position: relative;">
-    <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px; z-index:1;">
-        <div class="d-flex">
-          <div class="toast-body">
-            {% trans "Your project has been updated successfully." %}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-{% endif %}
-{% if project.image3 %}
-<div class="container-fluid profileImage" style="background: url('/media/{{project.image3 | safe}}') no-repeat; background-size: cover;">
-   
-</div>
+    {{ permissionForm.media.css }}
+    <style>
+        #id_projectGeographicLocation_div_map {
+            width: 100% !important;
+        }
 
-{% endif %}
-<div class="container bg-my-White mt-5 mb-5 p-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="wood-color">{{project.name}}</h1>
-            <div class="row align-items-baseline" style="margin-left: 0.1rem;">
-                <div class="status-badge status-{{ project.status.status_code }} col-auto">
-                    <div class="circumference"></div> {{ project.status|capfirst }}
+        #id_projectGeographicLocation_map {
+            width: 100% !important;
+        }
+
+        #map {
+            height: 600px; /* Altezza della mappa */
+            width: 100%; /* Larghezza della mappa */
+        }
+    </style>
+
+    {% if 'newProject' in request.get_full_path %}
+        <!-- TOAST para nuevos proyectos. TODO: optimizar. -->
+        <div style="position: relative;">
+            <div class="toast align-items-center text-white bg-my-darkGreen border-0" role="alert" aria-live="assertive"
+                 aria-atomic="true" style="position: absolute; top: 10px; right: 10px; z-index:1;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {% trans "Your project has been added successfully." %}<br> {% trans "You can continue to edit it in the" %}
+                        <a href='{{ domain }}/users/me/submissions'>{% trans "My Submissions section of your personal area." %}</a>
+                        <br> {% trans "Thank you!" %}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                 </div>
-                <p class="text-smaller col-auto">
-                {% if project.start_date %}
-                        {% trans "from" %} {{ project.start_date | date:"d/m/Y"}}
-                    {% endif %}
-                    {% if project.end_date %}
-                        {% trans "until" %} {{ project.end_date | date:"d/m/Y"}}
-                    {% endif %}
-                </p>
             </div>
         </div>
-        <div class="col-xl-8 col-md-6 col-12">
-            <!-- TODO: I dont like this look -->
-            {% if hasTranslation %}
-            {% for translation in project.translatedProject.all|dictsort:"id"  %}
-            {% if translation.inLanguage == LANGUAGE_CODE %}
-            {% if translation.needsUpdate %}
-                <small>
-                {% trans "This translation was done before a project profile update." %}
-                {% trans "Plase help the community by improving it" %} 
-                <a href='/translateProject/{{project.id}}'>{% trans "here" %}</a> 
-                </small>
-            {% endif %}
-            <p class="mt-3 gray7-color">{{translation.translatedDescription | safe}}</p>
-            <h4 class="mt-4 leftborder">{% trans "Aim" %}</h4>
-            <p class="gray7-color">{{translation.translatedAim | safe}}</p>
-
-            {% if project.howToParticipate %}
-            <h4 class="mt-4 leftborder">{% trans "How to participate" %} </h4>
-            <p class="gray7-color">{{translation.translatedHowToParticipate | safe}}</p>
-            {% endif %}
-
-            {% if project.equipment %}
-            <h4 class="mt-4 leftborder">{% trans "Needed equipment" %}</h4>
-            <p class="gray7-color">{{translation.translatedEquipment |safe}}</p>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-
-            {% else %}
-            {% if LANGUAGE_CODE != 'en' %}
-            <small>{% trans "This project profile is not available in your selected language," %}
-                please help the community by translating it <a href='/translateProject/{{project.id}}'>here</a>.</small>
-            {% endif %}
-            <p class="mt-3 gray7-color">{{project.description | safe}}</p>
-            <h4 class="mt-4 leftborder">{% trans "Aim" %}</h4>
-            <p class="gray7-color">{{project.aim | safe}}</p>
-
-            {% if project.howToParticipate %}
-            <h4 class="mt-4 leftborder">{% trans "How to participate" %} </h4>
-            <p class="gray7-color">{{project.howToParticipate | safe}}</p>
-            {% endif %}
-
-            {% if project.equipment %}
-            <h4 class="mt-4 leftborder">{% trans "Needed equipment" %}</h4>
-            <p class="gray7-color">{{project.equipment |safe}}</p>
-            {% endif %}
-            {% endif %}
-               
-            {%if project.fundingBody.all %}
-            <h4 class="mt-4 leftborder">{% trans "About funding" %}</h4>
-            
-            
-                <p class="leftborder">{% trans "<b>Funding bodies: </b>" %} 
-                {% for fundingBody in project.fundingBody.all %}
-                
-                    {{fundingBody |safe}}</p>
-                
-                {% endfor %}
-                {% if project.fundingProgram %}
-                <p class="leftborder">{% trans "<b>Funding program: </b>" %} {{project.fundingProgram |safe}}</p>
-                {% endif %}
-            
-            {% endif %}
-
-            {% if project.imageCredit3 or project.imageCredit2 %}
-                <h4 class="mt-4 leftborder">{% trans "About branding" %}</h4>
-                {% if project.imageCredit3 %}
-                    <p class="leftborder">{% trans "<b>Profile image design by: </b>" %} {{project.imageCredit3|safe}} </p>
-                {% endif %}  
-                {% if project.imageCredit2 %}
-                    <p class="leftborder">{% trans "<b>Logo design by: </b>" %} {{project.imageCredit2|safe}} </p>
-                {% endif %}  
-
-            {% endif %}
-
-            <br><br>
-            
-            <p class="text-smaller text-muted"><i>{% trans "Created" %} {{project.dateCreated}}</i></p>
-            <p class="text-smaller text-muted"><i>{% trans "Updated" %} {{project.dateUpdated}}</i></p>
-
-            {% for resource in project.resource.all %}
-                {{resource}}
-            {% endfor %}
-
-            
-        </div>
-        <div class="col-xl-4 col-md-6 col-12">
-
-            {% if project.image2 %}
-            <img class="img-fluid" src='/media/{{project.image2 | safe}}' />
-            {%endif%}
-            
-                
-            <h5 class="mt-3">{% trans "Keywords" %}</h5>
-            <div>
-                {% for keyword in project.keywords.all %}
-                <a class="project-topic" href="/projects?keywords={{keyword|urlencode}}">{{keyword | title}}</a>
-                {% endfor %}
-            </div>
-            {% if project.topic.all %}
-            <h5 class="mt-3">{% trans "Science Topics" %}</h5>
-            <div>
-                {% for topic in project.topic.all %}
-                <a class="project-topic" href="/projects?keywords=&topic={{topic|urlencode}}">{{topic}}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if project.hasTag.all %}
-            <h5 class="mt-3">{% trans "Tags" %}</h5>
-            <div>
-                {% for tag in project.hasTag.all %}
-                <a class="project-topic" href="/projects?hasTag={{tag|urlencode}}">{{tag}}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if project.difficultyLevel%}
-            <h5 class="mt-3">{% trans "Difficulty Level" %}</h5>
-            <div>
-                <a class="project-topic" 
-                    href="/projects?difficultyLevel={{project.difficultyLevel}}">{{project.difficultyLevel}}
-                </a>
-            </div>
-            {% endif %}
-
-
-            {% if project.participationTask.all %}
-            <h5 class="mt-3">{% trans "Participation tasks" %}</h5>
-            <div>
-                {% for participationTask in project.participationTask.all %}
-                <a class="project-topic" href="/projects?participationTask={{participationTask}}">{{participationTask}}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if project.mainOrganisation %}
-            <h5 class="mt-3">{% trans "Coordinator" %}</h5>
-            <div>
-                {% include 'horizontal_card_organisation.html' with organisation=project.mainOrganisation %}
-            </div>
-            {% endif %}
-            {% if project.organisation.all %}
-            <h5 class="mt-3">{% trans "Other Organisations involved" %}</h5>
-            <div>
-                {% for organisation in project.organisation.all %}
-                {% include 'horizontal_card_organisation.html' %}
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if project.geographicextend.all or project.projectlocality %}
-            <h5 class="mt-3">{% trans "Location" %}</h5>
-            <div>
-                {% for geographicextend in project.geographicextend.all %}
-                <a class="project-topic" href="/projects?geographicextend={{geographicextend}}">{{geographicextend}}</a>
-                {% endfor %}
-                {% if project.projectlocality%}
-                <div>
-			<a class="project-topic" href="#">{{ project.projectlocality}}</a>
+    {% endif %}
+    {% if 'editProject' in request.get_full_path %}
+        <!-- TOAST para proyectos editados. TODO: optimizar. -->
+        <div style="position: relative;">
+            <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+                 aria-atomic="true" style="position: absolute; top: 10px; right: 10px; z-index:1;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {% trans "Your project has been updated successfully." %}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                 </div>
-                {% endif %}
-            </div>
-            {% endif %}
-            {% if form %}
-            <div class="mt-3">
-                {{ form.projectGeographicLocation|as_crispy_field }}
-            </div>
-            {% endif %}
-            <div>
-            {% if project.author_email %}
-            <h5 class="mt-3">{% trans "Contact" %}</h5>
-                <div>
-                <a class="badge bg-dark" href="mailto:{{project.author_email}}">{% trans "E-mail" %}</a>
-                </div>    
-            {% endif %}
             </div>
         </div>
+    {% endif %}
+
+    <section class="bg-plum-100 pt-5">
+
+        <div class="container mt-5">
+            {% if project.image1 %}
+                <div class="row">
+                    <div class="col-12 rounded-4 text-center border"
+                         style="height:440px; background-image: url('/media/{{ project.image1 | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row mt-5 pb-3 border-bottom mb-4">
+                <div class="col-8">
+                    <h1 class="h1">{{ project.name }} </h1>
+                    <div class="row align-items-baseline mt-3" style="margin-left: 0.1rem;">
+                        <div class=" rounded-pill badge badge-status-periodicamente-attivo col-auto me-2">
+                            <div class="circumference"></div>
+                            {{ project.type|capfirst }}
+                        </div>
+                        <div class=" rounded-pill badge badge-status-{{ project.status.status_code }} col-auto">
+                            <div class="circumference"></div>
+                            {{ project.status|capfirst }}
+                        </div>
+                        <p class="text-smaller col-auto">
+                            {% if project.start_date and project.end_date and project.end_date != project.start_date %}
+                                {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
+
+                                {% trans "until" %} {{ project.end_date | date:"d/m/Y" }}
+                            {% elif project.start_date and project.end_date == project.start_date %}
+                                {{ project.start_date | date:"d/m/Y" }}
+                            {% else %}
+                                {% if project.start_date %}
+                                    {% trans "from" %} {{ project.start_date | date:"d/m/Y" }}
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    {% if project.url %}
+                        <div class="text-end col-12 offset-lg-5 col-lg-7">
+
+                            <a target="_blank"
+                               href="{% if 'http' not in project.url %}//{% endif %}{{ project.url }}"
+                               class="btn btn-primary w-100">
+                               {% trans "Vai al sito del progetto" %}
+                                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#arrow-up-right"/>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <div class="col-12 col-lg-7 offset-lg-5  text-end mt-1">
+                        {% if hasPermissionToEdit %}
+                            <a class="btn btn-outline-secondary w-100" href="{% url 'editProject' project.id %}">
+                                <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                    <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#pencil-square"/>
+                                </svg>
+                                {% trans "Edit" %}
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="text-end mt-3">
+                        {% include "_social_zone.html" %}
+                    </div>
+
+
+                    <div class="col-12 col-lg-7 offset-lg-5  text-end mt-1">
+
+                        {% if user.is_staff %}
+                            <div class="col-12 mt-4">
+                                {#                                        <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>#}
+                                {% if project.id in approvedProjects %}
+                                    <div class="mt-3">
+                                        <a class="btn btn-outline-danger w-100"
+                                           onclick="setApproved({{ project.id }}, false)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                            </svg>
+                                            {% trans "Don't approve" %}
+                                        </a>
+                                    </div>
+                                {% elif project.id in unApprovedProjects %}
+                                    <div>
+                                        <a class="btn btn-outline-success w-100"
+                                           onclick="setApproved({{ project.id }}, true)">
+                                            <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                                <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                            </svg>
+                                            {% trans "Approve" %}
+                                        </a>
+                                    </div>
+                                    {% else %}<!-- This project is not yet moderated -->
+                                    <div>{% trans "project_not_moderated_yet" %}</div>
+                                    <a class="btn btn-outline-success w-100"
+                                       onclick="setApproved({{ project.id }}, true)">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-up"/>
+                                        </svg>
+                                        {% trans "Approve" %}
+                                    </a>
+                                    <a class="btn btn-outline-danger w-100"
+                                       onclick="setApproved({{ project.id }}, false)">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#hand-thumbs-down"/>
+                                        </svg>
+                                        {% trans "Don't approve" %}
+                                    </a>
+                                {% endif %}
+                                {#                                        {% if project.featured %}#}
+                                {#                                        <div class="mt-3">#}
+                                {#                                            <a  class="btn btn-green" onclick="setFeatured({{project.id}}, false)">#}
+                                {#                                                <i class="fas fa-arrow-alt-circle-up"></i> Is featured#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                        {% else %}#}
+                                {#                                        <div class="mt-3">#}
+                                {#                                            <a  class="btn btn-secondary" onclick="setFeatured({{project.id}}, true)">#}
+                                {#                                                <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>#}
+                                {#                                            </a>#}
+                                {#                                        </div>#}
+                                {#                                        {% endif %}#}
+                                <div class="mt-3">
+                                    <a class="btn btn-outline-secondary w-100"
+                                       href="{% url 'submitter_contact' 'project' project.id %}">
+                                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#envelope"/>
+                                        </svg>
+                                        {% trans "Contact project submitter" %}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
             <div class="row">
-                <div class="col-12 mt-4">
-                    <a target="_blank" 
-                    href="{% if 'http' not in project.url %}//{%endif%}{{project.url}}"
-                    class="btn btn-primary me-3">
-                     <i class="fas fa-external-link-square-alt"></i> {% trans "Go to Project" %}
-                    </a>
-                    {% if user.is_authenticated %}
-                    <a href="/translateProject/{{project.id}}" 
-                    class="me-3 btn btn-secondary">
-                        <i class="fas fa-language"></i> {% trans "Translate" %}
-                    </a>
-                    {% endif %}
-                    {% if hasPermissionToEdit %}
-                    <a class="me-3 btn btn-warning" href="{% url 'editProject' project.id %}">
-			    <i class="fas fa-edit"></i>{% trans "Edit" %} 
-                    </a>
-                    {% endif %}
-                    {% include "_social_zone.html" %}
-                </div>
-                <div class="col-12 mt-4">    
-                </div>
-                
-                {% if user.is_staff %}
-                <div class="col-12 mt-4">
-                    <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>
-                    {% if project.id in approvedProjects %}
-                    <div class="mt-3">
-                        <a class="btn btn-green" onclick="setApproved({{project.id}}, false)">
-                            <i class="far fa-thumbs-up"> </i> Approved
-                        </a>
-                    </div>
-                    {% elif project.id in unApprovedProjects %}
-                    <div>
-                        <a class="btn btn-red" onclick="setApproved({{project.id}}, true)">
-                            <i class="far fa-thumbs-up"></i> Unapproved
-                        </a>
-                    </div>
-                    {% else %}<!-- This project is not yet moderated -->
-                    <div>This project is not yet moderated</div>
-                    <a class="btn btn-green" onclick="setApproved({{project.id}}, true)">
-                        <i class="far fa-thumbs-up"></i> Approve
-                    </a>
-                    <a class="btn btn-red" onclick="setApproved({{project.id}}, false)">
-                        <i class="far fa-thumbs-down"></i> Unapprove
-                    </a>
-                    {% endif %}
-                    {% if project.featured %}
-                    <div class="mt-3">
-                        <a  class="btn btn-green" onclick="setFeatured({{project.id}}, false)">
-                            <i class="fas fa-arrow-alt-circle-up"></i> Is featured
-                        </a>
-                    </div>
+                <div class="col-xl-8 col-xxl-7 col-md-6 col-12">
+                    <!-- TODO: I dont like this look -->
+                    {% if hasTranslation %}
+                        {% for translation in project.translatedProject.all|dictsort:"id" %}
+                            {% if translation.inLanguage == LANGUAGE_CODE %}
+                                <h4 class="mt-4 h4">{% trans "Description" %}</h4>
+                                <p class="mt-3 gray7-color">{{ translation.translatedDescription | safe }}</p>
+                                <h4 class="mt-4 h4">{% trans "Aim" %}</h4>
+                                <p class="gray7-color">{{ translation.translatedAim | safe }}</p>
+
+                                {% if project.howToParticipate %}
+                                    <h4 class="mt-4 h4">{% trans "How to participate" %} </h4>
+                                    <p class="gray7-color">{{ translation.translatedHowToParticipate | safe }}</p>
+                                {% endif %}
+
+                                {% if project.equipment %}
+                                    <h4 class="mt-4 h4">{% trans "Needed equipment" %}</h4>
+                                    <p class="gray7-color">{{ translation.translatedEquipment |safe }}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
                     {% else %}
-                    <div class="mt-3">
-                        <a  class="btn btn-secondary" onclick="setFeatured({{project.id}}, true)">
-                            <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>
-                        </a>
-                    </div>
+                        {% if project.description %}
+                            <h4 class="mt-2 h4">{% trans "project_description" %}</h4>
+                            <p class="mt-3 mb-3 gray7-color">{{ project.description | safe }}</p>
+                        {% endif %}
+
+                        {% if project.aim %}
+                            <h4 class="mt-2 leftborder">{% trans "Aim" %}</h4>
+                            <p class="gray7-color">{{ project.aim | safe }}</p>
+                        {% endif %}
+
+                        {% if project.howToParticipate %}
+                            <h4 class="mt-4 leftborder">{% trans "How to participate" %} </h4>
+                            <p class="gray7-color">{{ project.howToParticipate | safe }}</p>
+                        {% endif %}
+
+                        {% if project.equipment %}
+                            <h4 class="mt-5 leftborder">{% trans "Needed equipment" %}</h4>
+                            <p class="gray7-color">{{ project.equipment |safe }}</p>
+                        {% endif %}
                     {% endif %}
-                    <div class="mt-3">
-                        <a class="btn btn-secondary"  href="{% url 'submitter_contact' 'project' project.id %}">
-                            <i class="far fa-envelope"></i> Contact project submitter
-                        </a>
+
+                    {% if project.mainOrganisation %}
+                        <h4 class="mt-5">{% trans "project_coordinator" %}</h4>
+                        <div class="row">
+                            <div class="col-xl-6 col-12">
+                                {% include 'includes/card_ridotta_org.html' with organisation=project.mainOrganisation %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if project.organisation.all %}
+                        <h4 class="mt-5">{% trans "Other Organisations involved" %}</h4>
+                        <div class="row">
+                            {% for organisation in project.organisation.all %}
+                                <div class="col-xl-6 col-12">
+                                    {% include 'includes/card_ridotta_org.html' with organisation=organisation %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if linked_resources %}
+                            <h4 class="mt-5">{% trans "Linked resources" %}</h4>
+                            <div class="row">
+                                {% for resource in linked_resources %}
+                                    <div class="col-xl-6 col-12">
+                                        {% include 'includes/card_ridotta_res.html' with resource=resource %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                    {% endif %}
+
+
+                    {% if project.fundingBody.all %}
+                        <h4 class="mt-5 leftborder">{% trans "About funding" %}</h4>
+
+
+                        <p class="leftborder">{% trans "<b>Funding bodies: </b>" %}
+                            {% for fundingBody in project.fundingBody.all %}
+
+                                {{ fundingBody |safe }}</p>
+
+                            {% endfor %}
+                        {% if project.fundingProgram %}
+                            <p class="leftborder">{% trans "<b>Funding program: </b>" %} {{ project.fundingProgram |safe }}</p>
+                        {% endif %}
+
+                    {% endif %}
+
+                    {% if project.imageCredit1 or project.logoCredit %}
+                        <h4 class="mt-5 leftborder">{% trans "About branding" %}</h4>
+                        {% if project.imageCredit1 %}
+                            <p class="leftborder">{% trans "<b>Image design by: </b>" %} {{ project.imageCredit1|safe }} </p>
+                        {% endif %}
+                        {% if project.logoCredit %}
+                            <p class="leftborder">{% trans "<b>Logo design by: </b>" %} {{ project.logoCredit|safe }} </p>
+                        {% endif %}
+
+                    {% endif %}
+
+                    <div>
+                        {% if project.author_email %}
+                            <h4 class="mt-5">{% trans "Contact" %}</h4>
+                            <div>
+                                {% if project.author %}
+                                    <h6>{{ project.author }}</h6>
+                                {% endif %}
+                                <a class=""
+                                   href="mailto:{{ project.author_email }}">
+                                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">
+                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#envelope-fill"/>
+                                    </svg>
+                                    {{ project.author_email }}
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
+
+                    {% if parentProject %}
+
+                        <h4 class="mt-5">{% trans "project_associated_project" %}</h4>
+                        <div class="row">
+
+                            <div class="col-12 col-lg-12 d-flex align-items-center mb-4">
+                                {% include "includes/card_main.html" with project=parentProject %}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    {%  if relatedActivities %}
+                    <h4 class="mt-5">{% trans "project_related_activities" %}</h4>
+                    <div class="row">
+
+                        {% for activity in relatedActivities %}
+                            <div class="col-12 col-lg-6 d-flex align-items-center mb-4">
+                                {% include "includes/card_ridotta.html" with project=activity %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {%  endif %}
+
                 </div>
+                <div class="col-xl-4 offset-xxl-1 offset-xl-0 col-md-5 offset-md-1 col-12">
+
+{#                3%1 >400H#}
+{#                4%3 min 300h#}
+{#                    400x300#}
+                    {% if project.logo %}
+                        <div class=""
+                             style="height:300px; background-image: url('/media/{{ project.logo | safe }}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+                        </div>
+                    {% endif %}
+
+
+                    <h5 class="mt-3">{% trans "Keywords" %}</h5>
+                    <div>
+                        {% for keyword in project.keywords.all %}
+                            <a class="project-topic"
+                               href="/projects?keywords={{ keyword|urlencode }}">
+                                <span class="badge rounded-pill badge-card-main ">
+                                    {{ keyword | title }}
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% if project.topic.all %}
+                        <h5 class="mt-3">{% trans "Science Topics" %}</h5>
+                        <div>
+                            {% for topic in project.topic.all %}
+                                <a class="project-topic"
+                                   href="/projects?keywords=&topic={{ topic|urlencode }}">
+                                    <span class="badge rounded-pill badge-card-main ">
+                                        {{ topic }}
+                                    </span>
+                                </a>
+                                </a>
+
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if project.tipo_pubblico_calc %}
+                        <h5 class="mt-5">{% trans "project_audience_type" %}</h5>
+                        <div>
+                            {% for tp in project.tipo_pubblico_calc %}
+                                <div>{{ tp|capfirst }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {#                    {% if project.hasTag.all %}#}
+                    {#                        <h5 class="mt-3">{% trans "Tags" %}</h5>#}
+                    {#                        <div>#}
+                    {#                            {% for tag in project.hasTag.all %}#}
+                    {#                                <a class="project-topic" href="/projects?hasTag={{ tag|urlencode }}">{{ tag }}</a>#}
+                    {#                            {% endfor %}#}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+                    {##}
+                    {#                    {% if project.difficultyLevel %}#}
+                    {#                        <h5 class="mt-3">{% trans "Difficulty Level" %}</h5>#}
+                    {#                        <div>#}
+                    {#                            <a class="project-topic"#}
+                    {#                               href="/projects?difficultyLevel={{ project.difficultyLevel }}">{{ project.difficultyLevel }}#}
+                    {#                            </a>#}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+
+
+                    {% if project.participationTask.all %}
+                        <h5 class="mt-3">{% trans "Participation tasks" %}</h5>
+                        <div>
+                            {% for participationTask in project.participationTask.all %}
+                                <a class="project-topic"
+                                   href="/projects?participationTask={{ participationTask }}">
+                                    <span class="badge rounded-pill badge-card-main ">
+                                        {{ participationTask }}
+                                    </span>
+                                </a>
+
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                    {% if project.geographicextend %}
+                        <h5 class="mt-5">{% trans "project_geographical_scope" %}</h5>
+                        <div>
+                            {% for geographicextend in project.geographicextend.all %}
+                                {{ geographicextend | capfirst }}
+                                {% if not forloop.last %} - {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if project.projectlocality %}
+                        <h5 class="mt-5">{% trans "project_location" %}</h5>
+                        <div>
+                            {#                            <a class="project-topic" href="#">#}
+                            {{ project.projectlocality }}
+                            {#                            </a>#}
+                        </div>
+                    {% endif %}
+                    {#                    {% if project.provincia.all %}#}
+                    {#                        <h5 class="mt-5">Province / Regioni</h5>#}
+                    {#                        <div>#}
+                    {#                            {% for provincia in project.provincia.all %}#}
+                    {#                                <div>#}
+                    {#                                    <svg class="bi mb-1" width="14" height="14" fill="currentColor">#}
+                    {#                                        <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#flag-fill"/>#}
+                    {#                                    </svg>#}
+                    {#                                    <span class="project-topic">{{ provincia.nome }}#}
+                    {#                                    - {{ provincia.regione }}</span>#}
+                    {#                                </div>#}
+                    {##}
+                    {#                            {% endfor %}#}
+                    {##}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+                    {% if form %}
+                        <div class="mt-3">
+                            {{ form.projectGeographicLocation|as_crispy_field }}
+                        </div>
+                    {% endif %}
+
+                    {% if project.risultati %}
+                        <h5 class="mt-5">{% trans "project_results_link" %}</h5>
+                        <div>
+                            <a class="project-topic" href="{{ project.risultati }}">{{ project.risultati }}</a>
+                        </div>
+                    {% endif %}
+                    {% if project.inaturalist %}
+                        <h5 class="mt-5">{% trans "project_inaturalist_data_link" %}</h5>
+                        <div>
+                            <a class="project-topic" href="{{ project.inaturalist }}">{{ project.inaturalist }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if project.aree or project.latitude %}
+                        <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
+                            <div id="map"></div>
+                        </div>
+                    {% endif %}
+
+                </div>
+                {#                <div class="row">#}
+                {#                    <div class="col-12 mt-4">#}
+                {#                        <a target="_blank"#}
+                {#                           href="{% if 'http' not in project.url %}//{% endif %}{{ project.url }}"#}
+                {#                           class="btn btn-primary me-3">#}
+                {#                            <i class="fas fa-external-link-square-alt"></i> {% trans "Go to Project" %}#}
+                {#                        </a>#}
+                {#                        {% if user.is_authenticated %}#}
+                {#                            <a href="/translateProject/{{ project.id }}"#}
+                {#                               class="me-3 btn btn-secondary">#}
+                {#                                <i class="fas fa-language"></i> {% trans "Translate" %}#}
+                {#                            </a>#}
+                {#                        {% endif %}#}
+                {#                        {% if hasPermissionToEdit %}#}
+                {#                            <a class="me-3 btn btn-warning" href="{% url 'editProject' project.id %}">#}
+                {#                                <i class="fas fa-edit"></i>{% trans "Edit" %}#}
+                {#                            </a>#}
+                {#                        {% endif %}#}
+                {#                        {% include "_social_zone.html" %}#}
+                {#                    </div>#}
+                {#                    <div class="col-12 mt-4">#}
+                {#                    </div>#}
+                {##}
+                {#                    {% if user.is_staff %}#}
+                {#                        <div class="col-12 mt-4">#}
+                {#                            <h4 class="mt-4 leftborder">{% trans "Admin area" %}</h4>#}
+                {#                            {% if project.id in approvedProjects %}#}
+                {#                                <div class="mt-3">#}
+                {#                                    <a class="btn btn-green" onclick="setApproved({{ project.id }}, false)">#}
+                {#                                        <i class="far fa-thumbs-up"> </i> Approved#}
+                {#                                    </a>#}
+                {#                                </div>#}
+                {#                            {% elif project.id in unApprovedProjects %}#}
+                {#                                <div>#}
+                {#                                    <a class="btn btn-red" onclick="setApproved({{ project.id }}, true)">#}
+                {#                                        <i class="far fa-thumbs-up"></i> Unapproved#}
+                {#                                    </a>#}
+                {#                                </div>#}
+                {#                                {% else %}<!-- This project is not yet moderated -->#}
+                {#                                <div>This project is not yet moderated</div>#}
+                {#                                <a class="btn btn-green" onclick="setApproved({{ project.id }}, true)">#}
+                {#                                    <i class="far fa-thumbs-up"></i> Approve#}
+                {#                                </a>#}
+                {#                                <a class="btn btn-red" onclick="setApproved({{ project.id }}, false)">#}
+                {#                                    <i class="far fa-thumbs-down"></i> Unapprove#}
+                {#                                </a>#}
+                {#                            {% endif %}#}
+                {#                            {% if project.featured %}#}
+                {#                                <div class="mt-3">#}
+                {#                                    <a class="btn btn-green" onclick="setFeatured({{ project.id }}, false)">#}
+                {#                                        <i class="fas fa-arrow-alt-circle-up"></i> Is featured#}
+                {#                                    </a>#}
+                {#                                </div>#}
+                {#                            {% else %}#}
+                {#                                <div class="mt-3">#}
+                {#                                    <a class="btn btn-secondary" onclick="setFeatured({{ project.id }}, true)">#}
+                {#                                        <i class="far fa-arrow-alt-circle-up"></i> Is not featured</a>#}
+                {#                                    </a>#}
+                {#                                </div>#}
+                {#                            {% endif %}#}
+                {#                            <div class="mt-3">#}
+                {#                                <a class="btn btn-secondary" href="{% url 'submitter_contact' 'project' project.id %}">#}
+                {#                                    <i class="far fa-envelope"></i> Contact project submitter#}
+                {#                                </a>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    {% endif %}#}
+                {#                </div>#}
+
+
+                <div class="col-12 mt-5 pt-4 pb-4 border-top d-flex align-items-center justify-content-start gap-3">
+
+                    <div class="text-smaller text-muted">
+                        Pubblicato {{ project.dateCreated | date:"d/m/Y" }}
+                    </div>
+                    {% if project.dateUpdated %}
+                        <div>|</div>
+                        <div class="text-smaller text-muted">
+                            {% trans "Updated" %} {{ project.dateUpdated | date:"d/m/Y" }}
+                        </div>
+                    {% endif %}
+
+                    <div>|</div>
+                    <div class="text-muted me-3" data-bs-toggle="tooltip"
+                         data-bs-placement="top"
+                         title="Da {{ project.firstAccess }}">
+                        <svg class="bi mb-1" width="16" height="16" fill="currentColor">
+                            <use xlink:href="{% static 'img/svg/bootstrap-icons.svg' %}#heart-fill"/>
+                        </svg>
+                        {% blocktrans with total_accesses=project.totalAccesses %}project_viewed_count {{ total_accesses }}{% endblocktrans %}
+                    </div>
+
+                    {#                    {% for resource in project.resource.all %}#}
+                    {#                        {{ resource }}#}
+                    {#                    {% endfor %}#}
+
+                </div>
+
+
+                {% if events %}
+                    <hr/>
+                    <h1 class="h1 text-center mt-5 mb-5">
+                        {% trans "Related <span class='lightBlue-color'>events</span>" %}{% if q %} (
+                            {{ num_upcomingEvents }}){% endif %}
+                    </h1>
+                    <div class="row">
+                        {% for event in events %}
+                            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center mb-5">
+                                {% include "includes/card_evento.html" with event=event %}
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% endif %}
             </div>
-        <div class="col-12 mt-5"></div>
-    </div>
-</div>
+        </div>
 
+    </section>
 
 {% endblock list_of_items %}
 
 {% block scripts %}
-<script type="text/javascript">
-    $(function (){
-        $(".toast").toast("show")
-    })
+    <script type="text/javascript">
+        $(function () {
+            $(".toast").toast("show")
+            // Coordinate del punto centrale (ad esempio, Roma)
 
-    $(function () {
-        if(typeof geodjango_projectGeographicLocation !== 'undefined'){
-            geodjango_projectGeographicLocation.map.removeInteraction(geodjango_projectGeographicLocation.interactions.draw);
-            geodjango_projectGeographicLocation.map.removeInteraction(geodjango_projectGeographicLocation.interactions.modify);
-            console.log(geodjango_projectGeographicLocation)
-        }
-        let params = new URLSearchParams(window.location.search.slice(1));
-        if( params.has('prev') === true){
-            if(params.get('prev').indexOf('editProject')>0){
-                $('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                    'The project has been successfully edited'+
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                    '<span aria-hidden="true">&times;</span> </button></div>')
-            }
-            else if(params.get('prev').indexOf('newProject')>0){
-                $('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                    'The project has been successfully added, we will moderate it shortly'+
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                    '<span aria-hidden="true">&times;</span> </button></div>')
-            }
 
-        }
+            if ({{ has_aree }}) {
+                if ("{{ project.latitude }}{{ project.longitude }}") {
+                    console.debug('aaaaa');
+                    var lat = parseFloat("41.806455"); //41.9028; // Latitudine
+                    var lon = parseFloat("12.979574"); //12.4964; // Longitudine
+                    console.debug(lat, lon)
+                    // Crea la mappa e imposta il punto centrale
+                    var zonesData = JSON.parse({{aree_json|safe}});
+                    var map = L.map('map').setView([lat, lon], 5); // 13 è il livello di zoom
 
-        $('.clear_features').html('');
-        var users = $("#id_usersCollection").val();
-        if(users){
-            var users = users.split(",");
-            var selectedUsers = $("#id_selectedUsers").val().split(",");
-            var i = 0
-            var name = ''
-            var email = ''
-            for (user of users){			
-                if (i % 2 == 0){			
-                    var init = user.indexOf('\'')
-                    var end = user.indexOf('\'', init+1)
-                    name = user.substring(init+1,end)
-                }else{
-                    var init = user.indexOf('\'')
-                    var end = user.indexOf('\'', init+1)
-                    email = user.substring(init+1,end)
-                    var found = false;
-                    for(sel of selectedUsers){
-                        if(sel.trim() == email.trim()){
-                            found = true;
-                            $("#id_usersAllowed").append("<option value='" + email +"' selected> " + name + " </option>");
-                        }
-                    }
-                    if(!found){
-                        $("#id_usersAllowed").append("<option value='" + email +"'> " + name + " </option>");
-                    }
+                    // Aggiungi una mappa di base (OpenStreetMap)
+                    /*
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map); */
+
+                    // layer webmapp
+                    //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
+
+                    L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© Webmapp'
+                    }).addTo(map);
+
+                    console.debug('zones', zonesData)
+                    L.geoJSON(zonesData).addTo(map);
+
+
+                    /*
+                    zonesData.forEach(progetto => {
+                        L.geoJSON(JSON.parse(progetto.location), {
+                            onEachFeature: function (feature, layer) {
+                                layer.bindPopup(progetto.nome);
+                            }
+                        }).addTo(map);
+                    })*/
+
+                    // Aggiungi un marker al centro della mappa
                 }
-                i++
-            }
-        }
 
-        $("#buttonBookmarkProject").on("click", function(){
-            console.log('click')
-            var bookmark = ($('#buttonBookmarkProject').attr('bookmarked')=="False" ? "true" : "false")
-            console.log(bookmark)
-            $.ajax({
-                type: 'POST',
-                url: "/setFollowedProject/",
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    bookmark: bookmark,
-                    projectId: '{{project.id}}'
-                },
-                success: function(response){
-                    if(response.bookmark)
-                        $('#buttonBookmarkProject').attr('bookmarked','True')
-                    else
-                        $('#buttonBookmarkProject').attr('bookmarked','False')
-                    $('#buttonBookmarkProject').toggleClass('btn-my-darkBlue')
-                    $('#buttonBookmarkProject').toggleClass('btn-my-outline-darkBlue')
-                },
-                error: function(response){
+            } else {
+                if ("{{ project.latitude }}{{ project.longitude }}") {
+                    console.debug('aaaaa');
+                    var lat = parseFloat("{{ project.latitude }}".replace(',', '.')); //41.9028; // Latitudine
+                    var lon = parseFloat("{{ project.longitude }}".replace(',', '.')); //12.4964; // Longitudine
+                    console.debug(lat, lon)
+                    // Crea la mappa e imposta il punto centrale
+                    var map = L.map('map').setView([lat, lon], 7); // 13 è il livello di zoom
+
+                    // Aggiungi una mappa di base (OpenStreetMap)
+                    /*
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map); */
+
+                    // layer webmapp
+                    //https://api.webmapp.it/tiles/{z}/{x}/{y}.png
+
+                    L.tileLayer('https://api.webmapp.it/tiles/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© Webmapp'
+                    }).addTo(map);
+
+                    var marker = L.marker([lat, lon]).addTo(map);
+
+                    // Opzionale: Aggiungi un popup al marker
+                    marker.bindPopup("<b>{{ project.name }}<b>").openPopup();
+
+                    // Aggiungi un marker al centro della mappa
                 }
-            })
+
+            }
+
+
         })
 
 
-        $('#id_usersAllowed').on('change', function () {
-            users = $("#id_usersAllowed option:selected").map(function () {
-                return $.trim($(this).val());
-            }).get().join(',');
+        $(function () {
+            if (typeof geodjango_projectGeographicLocation !== 'undefined') {
+                geodjango_projectGeographicLocation.map.removeInteraction(geodjango_projectGeographicLocation.interactions.draw);
+                geodjango_projectGeographicLocation.map.removeInteraction(geodjango_projectGeographicLocation.interactions.modify);
+                console.log(geodjango_projectGeographicLocation)
+            }
+            let params = new URLSearchParams(window.location.search.slice(1));
+            if (params.has('prev') === true) {
+                if (params.get('prev').indexOf('editProject') > 0) {
+                    $('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                        'The project has been successfully edited' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span> </button></div>')
+                } else if (params.get('prev').indexOf('newProject') > 0) {
+                    $('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                        'The project has been successfully added, we will moderate it shortly' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span> </button></div>')
+                }
 
-            var idProject = {{project.id}};
+            }
+
+            $('.clear_features').html('');
+            var users = $("#id_usersCollection").val();
+            if (users) {
+                var users = users.split(",");
+                var selectedUsers = $("#id_selectedUsers").val().split(",");
+                var i = 0
+                var name = ''
+                var email = ''
+                for (user of users) {
+                    if (i % 2 == 0) {
+                        var init = user.indexOf('\'')
+                        var end = user.indexOf('\'', init + 1)
+                        name = user.substring(init + 1, end)
+                    } else {
+                        var init = user.indexOf('\'')
+                        var end = user.indexOf('\'', init + 1)
+                        email = user.substring(init + 1, end)
+                        var found = false;
+                        for (sel of selectedUsers) {
+                            if (sel.trim() == email.trim()) {
+                                found = true;
+                                $("#id_usersAllowed").append("<option value='" + email + "' selected> " + name + " </option>");
+                            }
+                        }
+                        if (!found) {
+                            $("#id_usersAllowed").append("<option value='" + email + "'> " + name + " </option>");
+                        }
+                    }
+                    i++
+                }
+            }
+
+            $("#buttonBookmarkProject").on("click", function () {
+                console.log('click')
+                var bookmark = ($('#buttonBookmarkProject').attr('bookmarked') == "False" ? "true" : "false")
+                console.log(bookmark)
+                $.ajax({
+                    type: 'POST',
+                    url: "/setFollowedProject/",
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        bookmark: bookmark,
+                        projectId: '{{project.id}}'
+                    },
+                    success: function (response) {
+                        if (response.bookmark)
+                            $('#buttonBookmarkProject').attr('bookmarked', 'True')
+                        else
+                            $('#buttonBookmarkProject').attr('bookmarked', 'False')
+                        $('#buttonBookmarkProject').toggleClass('btn-my-darkBlue')
+                        $('#buttonBookmarkProject').toggleClass('btn-my-outline-darkBlue')
+                    },
+                    error: function (response) {
+                    }
+                })
+            })
+
+
+            $('#id_usersAllowed').on('change', function () {
+                users = $("#id_usersAllowed option:selected").map(function () {
+                    return $.trim($(this).val());
+                }).get().join(',');
+
+                var idProject = {{project.id}};
+                var request = $.ajax(
+                    {
+                        type: "POST",
+                        url: "{% url 'allowUser' %}",
+                        data: {
+                            "project_id": idProject,
+                            "users": users,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+
+                        }
+                    }
+                );
+            });
+        });
+
+        function setFeatured(idProject, featured) {
+            var htmlId = "featured" + idProject;
             var request = $.ajax(
                 {
                     type: "POST",
-                    url: "{% url 'allowUser' %}",
+                    url: "{% url 'setFeatured' %}",
                     data: {
                         "project_id": idProject,
-                        "users": users,
+                        "featured": featured,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function (response) {
-
+                        window.location.reload(false);
                     }
                 }
             );
-        });
-    });
-
-function setFeatured(idProject, featured){
-    var htmlId = "featured" + idProject;
-    var request = $.ajax(
-        {
-            type: "POST",
-            url: "{% url 'setFeatured' %}",
-            data: {
-                "project_id": idProject,
-                "featured": featured,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function (response) {
-                window.location.reload(false);
-            }
         }
-    );
-}
 
-function setApproved(idProject, approved){
-    var request = $.ajax(
-        {
-            type: "POST",
-            url: "{% url 'setApproved' %}",
-            data: {
-                "project_id": idProject,
-                "approved": approved,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function (response) {
-                window.location.reload(false)
-                if(!approved){
-                    window.location.href ="{% url 'submitter_contact' 'project' project.id %}"
+        function setApproved(idProject, approved) {
+            var request = $.ajax(
+                {
+                    type: "POST",
+                    url: "{% url 'setApproved' %}",
+                    data: {
+                        "project_id": idProject,
+                        "approved": approved,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        window.location.reload(false)
+                        if (!approved) {
+                            window.location.href = "{% url 'submitter_contact' 'project' project.id %}"
+                        }
+                    }
                 }
-            }
+            );
         }
-    );
-}
-</script>
-{{ permissionForm.media.js }}
+
+    </script>
+    {{ permissionForm.media.js }}
 {% endblock scripts %}

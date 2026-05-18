@@ -23,6 +23,7 @@ postgres=# create user eucitizenscience with password 'XXXXXXXXXXXXXX';
 postgres=# grant all on database eucitizenscience to eucitizenscience;
 postgres=# \c eucitizenscience
 postgres=# create extension postgis;
+postgres=# ALTER DATABASE eucitizenscience OWNER TO eucitizenscience;
 ```
 
 ## Installation

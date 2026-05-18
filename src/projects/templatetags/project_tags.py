@@ -39,3 +39,9 @@ def item_type(item):
     elif isinstance(item, Keyword):
         return "keywords"
     return "unknown"
+
+
+@register.filter
+def lang_label(d, key):
+    #print('lang_label', d, key)
+    return d.get(key)

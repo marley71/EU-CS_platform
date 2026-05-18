@@ -15,17 +15,31 @@ import platform
 from django.contrib import messages
 # Use 12factor inspired environment variables or from a file
 import environ
+import json
+
+env = environ.Env()
+
+# Create a local.env file in the settings directory
+# But ideally this env file should be outside the git repo
+env_file = Path(__file__).resolve().parent / "local.env"
+if env_file.exists():
+    environ.Env.read_env(str(env_file))
+
+
+SECURE_REFERRER_POLICY = "origin-when-cross-origin"
 
 # Build paths inside the project like this: BASE_DIR / "directory"
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-STATIC_ROOT = "/home/ubuntu/eu-citizen.science_07_08/static"
+STATIC_ROOT = str(env("STATIC_ROOT")) # "/home/ubuntu/eu-citizen.science_07_08/static"
+#STATIC_ROOT =  "/home/ubuntu/eu-citizen.science_07_08/static"
 THEMEDIRSTATIC = str(BASE_DIR / "eucitizensciencetheme" / "static")
 STATICFILES_DIRS = [str(BASE_DIR / "static"), MACHINA_MAIN_STATIC_DIR, THEMEDIRSTATIC]
 
 # settings.py
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATIC_VERSION = '1.5'
-THEME = 'eucitizenscience'
+#THEME = 'eucitizenscience'
+THEME = 'italia'
 #THEME = 'portugal'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -93,13 +107,7 @@ TEMPLATES = [
     }
 ]
 
-env = environ.Env()
 
-# Create a local.env file in the settings directory
-# But ideally this env file should be outside the git repo
-env_file = Path(__file__).resolve().parent / "local.env"
-if env_file.exists():
-    environ.Env.read_env(str(env_file))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -114,6 +122,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    "net7",
+    "corsheaders",
     "modeltranslation",
     "eucitizensciencetheme",
     "django.contrib.auth",
@@ -122,6 +132,9 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "localita",
+    "contatti",
+    #"provincia",
     "authtools",
     "crispy_forms",
     "easy_thumbnails",
@@ -181,12 +194,12 @@ INSTALLED_APPS = (
     'django_ckeditor_5',
     'fontawesomefree',
 
-
 )
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -194,11 +207,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'eucitizensciencetheme.middleware.TopBarMiddleware',
     'eucitizensciencetheme.middleware.FooterMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     # Machina
     'machina.apps.forum_permission.middleware.ForumPermissionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     # TopBar
-    
+
 ]
 
 ROOT_URLCONF = "eucs_platform.urls"
@@ -210,28 +223,59 @@ DATABASES = {
         'NAME': env("DATABASE_NAME", default="eucs_platform"),
         'USER': env("DATABASE_USER", default="eucs_platform"),
         'PASSWORD': env("DATABASE_PASSWORD", default="eucs_platform"),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': env("DATABASE_HOST", default="localhost"),
+        'PORT': env("DATABASE_PORT", default="5432"),
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
 
 
 LANGUAGE_CODE = "en"
 
-TRANSLATED_LANGUAGES = (
-    ('nl', 'Dutch'),
-    ('en', 'English'),
-    ('et', 'Estonian'),
-    ('fr', 'Français'),
-    ('de', 'German'),
-    ('el', 'Greek'),
-    ('hu', 'Hungarian'),
-    ('it', 'Italian'),
-    ('lt', 'Lituanian'),
-    ('pt', 'Portuguese'),
-    ('es', 'Spanish'),
-    ('sv', 'Swedish'),
+FORMS_LANGUAGES = (
+    ('EN', 'Inglese'),
+    ('FR', 'Francese'),
+    ('DE', 'Tedesco'),
+    ('IT', 'Italiano'),
+    ('OT', 'Altro'),
 )
+
+TRANSLATED_LANGUAGES = (
+    # ('nl', 'Dutch'),
+    ('en', 'English'),
+    # ('et', 'Estonian'),
+    # ('fr', 'Français'),
+    # ('de', 'German'),
+    # ('el', 'Greek'),
+    # ('hu', 'Hungarian'),
+    ('it', 'Italian'),
+    # ('lt', 'Lituanian'),
+    # ('pt', 'Portuguese'),
+    # ('es', 'Spanish'),
+    # ('sv', 'Swedish'),
+)
+
+TRANSLATED_LANGUAGES_KEY = {
+    'it' : 'Italiano',
+    'en' : 'Inglese',
+    'fr' : 'Francese',
+    'de' : 'Tedesco',
+}
+
+
+TIPO_PUBBLICO = (
+    ('ricercatori' , "Ricercatori"),
+    ('pubblico generico' , "Pubblico Generico"),
+    ('appassionati' , "Appassionati"),
+    ('scuole' , "Scuole") ,
+    ('altro' , "Altro (specificare)"),
+)
+
+TIPO_PROGETTO = (
+    ('Attività' , "Attività"),
+    ('Progetto' , "Progetto"),
+)
+
 LANGUAGE_CODES = [
     'fr',
     'en',
@@ -286,9 +330,13 @@ LANGUAGE_CODES = [
     'zh_CN'
 ]
 
-MODELTRANSLATION_LANGUAGES = (
-    'en', 'es', 'pt', 'nl', 'et', 'fr', 'de', 'el', 'hu', 'it', 'lt', 'sv')
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+# MODELTRANSLATION_LANGUAGES = (
+#     'en', 'es', 'pt', 'nl', 'et', 'fr', 'de', 'el', 'hu', 'it', 'lt', 'sv')
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+
+MODELTRANSLATION_LANGUAGES = ('it','en')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'it'
+
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
@@ -340,17 +388,36 @@ SUMMERNOTE_CONFIG = {
     # 'disable_attachment': True,
 }
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = env("HOST_EMAIL")
-# EMAIL_HOST_USER = env("FROM_EMAIL")
-# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-# EMAIL_PORT = '587'
-# EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django_ses.SESBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = env("HOST_EMAIL")
+#EMAIL_HOST_USER = env("FROM_EMAIL")
+#EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+##EMAIL_PORT = '587'
+#EMAIL_PORT = env('EMAIL_PORT')
+##EMAIL_USE_TLS = True
+
+##EMAIL_BACKEND = 'django_ses.SESBackend'
+#DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
+#EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
+#EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")
+#EMAIL_ECSA_ADMIN = env("EMAIL_ECSA_ADMIN", default="").split(",")
+
+
+EMAIL_HOST = env("HOST_EMAIL")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+#EMAIL_PORT = '587'
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = True
+#EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_BACKEND = "eucs_platform.mail_backends.Py312SMTPBackend"
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="")
 EMAIL_RECIPIENT_LIST = env("EMAIL_RECIPIENT_LIST", default="").split(",")
 EMAIL_CONTACT_RECIPIENT_LIST = env("EMAIL_CONTACT_RECIPIENT_LIST", default="").split(",")
 EMAIL_ECSA_ADMIN = env("EMAIL_ECSA_ADMIN", default="").split(",")
+
+
 # These are optional -- if they're set as environment variables they won't
 # need to be set here as well
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', default="")
@@ -566,12 +633,14 @@ CRONJOBS = [
     ('0 * * * *', 'eucs_platform.cron.NewForumResponseCronJob')
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 GRAPH_MODELS = {
     'all_applications': True,
     'group_models': True,
 }
 
+INFO_EMAIL='info@citizenscience.it'
 # For OSX
 if platform.system() == 'Darwin':
     GDAL_LIBRARY_PATH = '/opt/homebrew/opt/gdal/lib/libgdal.dylib'

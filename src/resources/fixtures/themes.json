@@ -2,121 +2,141 @@
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Introduction to CS"
+            "theme": "Introduction to CS",
+            "theme_it": "Introduzione alla CS"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Best practices"
+            "theme": "Best practices",
+            "theme_it": "Migliori pratiche"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Project management"
+            "theme": "Project management",
+            "theme_it": "Gestione del progetto"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Research design and methods"
+            "theme": "Research design and methods",
+            "theme_it": "Progettazione e metodi di ricerca"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Engagement"
+            "theme": "Engagement",
+            "theme_it": "Coinvolgimento"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Co-creation"
+            "theme": "Co-creation",
+            "theme_it": "Co-creazione"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Communication"
+            "theme": "Communication",
+            "theme_it": "Comunicazione"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Event planning"
+            "theme": "Event planning",
+            "theme_it": "Pianificazione degli eventi"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "CS stories"
+            "theme": "CS stories",
+            "theme_it": "Storie di CS"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Empowerment"
+            "theme": "Empowerment",
+            "theme_it": "Empowerment"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Data quality and standards"
+            "theme": "Data quality and standards",
+            "theme_it": "Qualità e standard dei dati"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Instructions"
+            "theme": "Instructions",
+            "theme_it": "Istruzioni"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Link with formal education"
+            "theme": "Link with formal education",
+            "theme_it": "Collegamento con l'istruzione formale"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Regulations and ethics"
+            "theme": "Regulations and ethics",
+            "theme_it": "Regolamenti ed etica"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Impact"
+            "theme": "Impact",
+            "theme_it": "Impatto"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Evaluation of citizen science"
+            "theme": "Evaluation of citizen science",
+            "theme_it": "Valutazione della scienza dei cittadini"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Project sustainability"
+            "theme": "Project sustainability",
+            "theme_it": "Sostenibilità del progetto"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Transferability"
+            "theme": "Transferability",
+            "theme_it": "Trasferibilità"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Reflections on science"
+            "theme": "Reflections on science",
+            "theme_it": "Riflessioni sulla scienza"
         }
     },
     {
         "model": "resources.theme",
         "fields": {
-            "theme": "Other"
+            "theme": "Other",
+            "theme_it": "Altro"
         }        
     }
 ]

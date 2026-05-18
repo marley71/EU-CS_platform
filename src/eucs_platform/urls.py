@@ -21,6 +21,8 @@ import platforms.urls
 import pages.urls
 import blog.urls
 import eucitizensciencetheme.urls
+import contatti.urls
+
 #import ecsa_integration.urls
 import ckeditor_uploader.views
 from . import views
@@ -48,6 +50,7 @@ admin.site.site_header = "EU-Citizen.Science Administration"
 
 
 urlpatterns = [
+    path("mypage/", views.mypage, name="mypage"),
     path("curated/", views.curated, name="curated"),
     path("home_autocomplete/", views.home_autocomplete, name="home_autocomplete"),
     path("", include(profiles.urls)),
@@ -64,6 +67,7 @@ urlpatterns = [
     path("", include(platforms.urls)),
     path("", include(pages.urls)),
     path("", include(eucitizensciencetheme.urls)),
+    path("",include(contatti.urls)),
     #path("", include(ecsa_integration.urls)),
     path('summernote/', include('django_summernote.urls')),
     path('forum/', include(machina_urls)),

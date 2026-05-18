@@ -1,0 +1,148 @@
+{% load static %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="{% static 'css/map.css' %}?v={{ STATIC_VERSION }}" rel="stylesheet"/>
+
+<div class="d-flex flex-column flex-md-row">
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-column flex-md-row d-md-none">
+            <div class="custom-layer-control-mobile d-block d-md-none rounded-4 p-4 pb-2">
+                {% include '_map_projects_bdsweek_controls.html' with screenType='M' %}
+            </div>
+        </div>
+        <div class="custom-layer-control-desktop d-none d-md-block rounded-4 p-2">
+            {% include '_map_projects_bdsweek_controls.html' with screenType='D' %}
+        </div>
+        <div class="custom-display-project d-none d-md-block">
+
+
+        </div>
+
+    </div>
+    <div id="map"></div>
+    <div class="d-flex flex-column justify-content-center custom-display-project custom-display-project-mobile d-md-none">
+
+
+    </div>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css"
+      type="text/css">
+<script src="//unpkg.com/leaflet-gesture-handling"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var markersData = {}
+        var markersDataObjects = {}
+
+        var map = L.map('map', {center: [42, 13], zoom: 6});
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        L.control.scale().addTo(map);
+
+        var projectBioIcon = createIcon(L,'bg-olive-800','#ACE8C07F','clipboard2-data-fill')
+
+
+        var projects = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            /*
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
+
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+            */
+        });
+
+        var projects_bio = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            /*
+            iconCreateFunction: function(cluster) {
+                var childCount = cluster.getChildCount();
+                 var c = ' marker-cluster-';
+                 if (childCount < 10) {
+                   c += 'small';
+                 }
+                 else {
+                   c += 'medium';
+                 }
+
+                return L.divIcon({ className: "marker-cluster "+c});
+            }
+            */
+        });
+        // Perform AJAX request to get the
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open('GET', '/get_projects_bdsweek/{{ selected_anno }}/', true);
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                // Create markers on the map based on the data received
+
+                markersData = JSON.parse(xhr1.responseText).markers_bio;
+                console.debug('markers', markersData);
+                addMarkers(markersData, markersDataObjects, projects_bio, projectBioIcon, map);
+
+
+            }
+        };
+
+        // Perform AJAX request to get the organisations
+
+        // Perform AJAX request to get the platforms
+
+        xhr1.send();
+
+        projects_bio.addTo(map)
+
+        var layers = {
+            projects_bio: projects_bio
+        }
+        /*
+        var baseLayers = {
+            "<i class='bi bi-bank2'></i> Project": projects,
+            "<i class='bi bi-clipboard2-data-fill'></i> Organisation": organisations,
+        };
+        L.control.layers(null, baseLayers, { collapsed: false,position: 'topleft' }).addTo(map);
+         */
+        document.querySelectorAll('input[name="layer"]').forEach(function (input) {
+            input.addEventListener('change', function () {
+                console.debug(this.value, this.checked);
+                if (this.checked) {
+                    map.addLayer(layers[this.value])
+                } else {
+                    map.removeLayer(layers[this.value]);
+                }
+                /*
+                if (this.id === 'osm') {
+                    map.removeLayer(satelliteLayer);
+                    map.addLayer(osmLayer);
+                } else if (this.id === 'satellite') {
+                    map.removeLayer(osmLayer);
+                    map.addLayer(satelliteLayer);
+                }*/
+            });
+        });
+    });
+</script>
+{%  include '_map_js.html' %}

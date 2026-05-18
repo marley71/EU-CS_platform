@@ -3,35 +3,44 @@
         "pk": 1,
         "model": "resources.category",
         "fields": {
-            "text":"Collection"
+            "text":"Collection",
+            "text_it":"Raccolta"
+
         }
     },
     {
         "pk": 2,
         "model": "resources.category",
         "fields": {
-            "text":"Dataset"
+            "text":"Dataset",
+            "text_it":"Set di dati"
+
         }
     },
     {
         "pk": 3,
         "model": "resources.category",
         "fields": {
-            "text":"Event"
+            "text":"Event",
+            "text_it":"Evento"
         }
     },
     {
         "pk": 4,
         "model": "resources.category",
         "fields": {
-            "text":"Image"
+            "text":"Image",
+            "text_it":"Immagine"
+
         }
     },
     {
         "pk": 5,
         "model": "resources.category",
         "fields": {
-            "text":"Text"
+            "text":"Text",
+            "text_it":"Testo"
+
         }
     },
     {
@@ -39,7 +48,8 @@
         "model": "resources.category",
         "fields": {
             "text":"Report",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Report"
         }
     },
     {
@@ -47,7 +57,8 @@
         "model": "resources.category",
         "fields": {
             "text":"Project Deliverable",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Prodotto finale del progetto"
         }
     },
     {
@@ -55,7 +66,9 @@
         "model": "resources.category",
         "fields": {
             "text":"Guideline",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Linee guida"
+
         }
     },
     {
@@ -63,7 +76,9 @@
         "model": "resources.category",
         "fields": {
             "text":"Project Brief",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Brief del progetto"
+
         }
     },
     {
@@ -71,7 +86,9 @@
         "model": "resources.category",
         "fields": {
             "text":"Scientific Publication",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Pubblicazione scientifica"
+
         }
     },
     {
@@ -79,7 +96,9 @@
         "model": "resources.category",
         "fields": {
             "text":"White Paper / Green Paper",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Libro bianco / Libro verde"
+
         }
     },
     {
@@ -87,7 +106,9 @@
         "model": "resources.category",
         "fields": {
             "text":"Book",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Libro"
+
         }
     },
     {
@@ -95,56 +116,69 @@
         "model": "resources.category",
         "fields": {
             "text":"Other",
-            "parent": 5
+            "parent": 5,
+            "text_it":"Altro"
         }
     },
     {
         "pk": 14,
         "model": "resources.category",
         "fields": {
-            "text":"Interactive Resource (Website)"
+            "text":"Interactive Resource (Website)",
+            "text_it":"Risorsa interattiva (sito web)"
+
         }
     },
     {
         "pk": 15,
         "model": "resources.category",
         "fields": {
-            "text":"Physical Object (Hardware)"
+            "text":"Physical Object (Hardware)",
+            "text_it":"Oggetto fisico (hardware)"
+
         }
     },
     {
         "pk": 16,
         "model": "resources.category",
         "fields": {
-            "text":"Moving Image (Video)"
+            "text":"Moving Image (Video)",
+            "text_it":"Immagine in movimento (video)"
+
         }
     },
     {
         "pk": 17,
         "model": "resources.category",
         "fields": {
-            "text":"Service"
+            "text":"Service",
+            "text_it":"Servizio"
+
         }
     },
     {
         "pk": 18,
         "model": "resources.category",
         "fields": {
-            "text":"Software"
+            "text":"Software",
+            "text_it":"Software"
         }
     },
     {
         "pk": 19,
         "model": "resources.category",
         "fields": {
-            "text":"Sound"
+            "text":"Sound",
+            "text_it":"Audio"
+
         }
     },
     {
         "pk": 20,
         "model": "resources.category",
         "fields": {
-            "text":"Still Image"
+            "text":"Still Image",
+            "text_it":"Immagine fissa"
         }
     }
 ]

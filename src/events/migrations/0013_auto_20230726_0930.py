@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='event_type',
-            field=models.CharField(choices=[('online', 'On-line event'), ('facetoface', 'Face-to-face event')], default='online', max_length=20),
+            field=models.CharField(choices=[('online', 'On-line'), ('facetoface', 'In presenza')], default='online', max_length=20),
         ),
     ]

@@ -10,10 +10,11 @@
 {{block.super }}
 <link rel="stylesheet" href="{% static 'site/css/leaflet-geosearch_style.css' %}">
 <link rel="stylesheet" href="{% static 'site/css/leaflet.css' %}">
-<link rel="stylesheet" href="{% static 'site/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 {% leaflet_js %}
 {% leaflet_css %}
 {{ form.media.css }}
+{{ form.media.js }}
 {% endblock head %}
 
 {% block title %}{{ block.super }} :: Events{% endblock %}
@@ -22,24 +23,20 @@
 {% include "_navbar.html" with active_link="events" %}
 {% endblock %}
 
+
 {% block list_of_items %}
-<div class="container">
-    <div class="row">
+{% include '_crop_zone.html' %}
         <div class="container mt-5">
-            <div class="row d-flex justify-content-center">
-                <div class="col-sm-10 col-12">
-                    <div class="card mt-5 mb-5 shadow">
-                        <div class="card-title  p-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h2>{% trans "Edit event" %}</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-text pr-5 pl-5 pb-5">
-                            <table class="table mb-0">
-                                <form action="/editEvent/{{event.id}}" method="post" class="save-event" autocomplete="off">
+                                <form action="/editEvent/{{event.id}}" class="edit-project" method="post" enctype="multipart/form-data">
+            <div class="row">
                                     {% csrf_token %}
+                                            <div class="col-12">
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-8">
+                                    <h2>{% trans "Edit event" %}</h2>
+                  </div>
+                </div>
                                     <div class="row">
                                         <div class="col-2"></div>
                                         <div class="col-8">
@@ -58,6 +55,16 @@
                                                     {{ form.url|as_crispy_field }}
                                                     {{ form.description|as_crispy_field }}
                                                     {{ form.language|as_crispy_field }}
+
+                                <div id="div_id_language_other" class="form-group {% if form.language.value != 'OT' %}d-none {% endif %}">
+                                    <label for="id_language_other" class="control-label  requiredField">
+                                        Altra Lingua<span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="controls ">
+                                        <input type="text" class="form-control form-control valid" name="language_other" id="id_language_other" maxlength="255" value="{{ event.language_other }}">
+                                        <div id="hint_id_language_other" class="help-block">Specificare la lingua</div>
+                                    </div>
+                                </div>
                                                     {{ form.start_date|as_crispy_field }}
                                                     {{ form.end_date|as_crispy_field }}
                                                     <div class="row">
@@ -79,45 +86,40 @@
                                                         </div>
                                                         <div id="map-notification" class="alert alert-danger d-none"></div>
                                                     </div>
-                                                    {{ form.latitude|as_crispy_field }}
-                                                    {{ form.longitude|as_crispy_field }}
+{#                                                    {{ form.latitude|as_crispy_field }}#}
+{#                                                    {{ form.longitude|as_crispy_field }}#}
                                                     {{ form.place|as_crispy_field }}
                                                     {{ form.country|as_crispy_field }}
                                                     
                                                     {{ form.project|as_crispy_field }}
                                                     {{ form.mainOrganisation|as_crispy_field }} 
                                                     {{ form.organisations|as_crispy_field }}   
-                                                  
+                                                    {% if user.is_staff %}
+                                                        {{ form.approved|as_crispy_field }}
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-1"></div>
-                                                <div class="col-11">
+                            <div class="col-11 mb-5">
                     
-                                                    <button type="submit" class="btn btn-my-darkBlue submit" style="
-                                                        margin-left: 40%;
-                                                        margin-top: 16px;
-                                                        margin-bottom: 32px;
-                                                        padding-left: 16px;
-                                                        padding-right: 16px;" onclick="return validateMap();">
-                                                        <i class="fas fa-share-square"></i> {% trans "Add" %} 
-                                                    </button>
+                                <button type="submit" class="my-5 btn btn-outline-success submit"  onclick="return validateMap();">
+                                    <i class="fas fa-share-square"></i> {% trans "Save" %}
+                                </button>
+                                {% if user.id == event.creator_id %}
+                                    <a  class="btn btn-outline-danger" onclick="deleteEvent({{ event.id }})">
+                                        <i class="fas fa-times"></i> {% trans "Cancella" %}
+                                    </a>
+                                {% endif %}
                                                     
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
-
-
 {% endblock list_of_items %}
 {% block scripts %}
 <script src="{% static 'site/js/site.js' %}"></script>
@@ -128,8 +130,45 @@
 <script src="{% static 'site/js/leaflet-geosearch_2_7.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
-
+<script>
+    function deleteEvent(eventId) {
+        let risposta = window.confirm('{% trans "Are you sure you want to delete this event?" %}');
+        if (risposta) {
+            window.location.href = '/deleteEvent/{{ event.id }}';
+        }
+    }
+</script>
 <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var userAgent = "{{ user_agent }}";
+    console.log(userAgent);
+    var tz = jstz.determine(); // Determines the time zone of the browser client
+    var timezone = document.getElementById('id_timezone'); // Assuming you have a select input in your form with id 'id_timezone'
+    timezone.value = tz.name(); // Preselect the user's time zone in the dropdown
+
+    $('#show-map').hide(); // Hide the map by default
+      //setTimeout(function() {
+      //    if ($('#id_event_type').val() === 'face-to-face' || $('#id_event_type').val() === 'hybrid') {
+
+      //        $('#div_id_place').show();
+      //    }
+      //},3000)
+
+
+    $('#id_event_type').change(function() {
+    var eventType = $(this).val();
+    if (eventType === 'face-to-face' || eventType === 'hybrid') {
+        //$('#show-map').show();
+        $('#div_id_place').show();
+        document.getElementById('id_place').value = "";
+        //map.invalidateSize();
+      } else {
+        //$('#show-map').hide();
+         $('#div_id_place').hide();
+        document.getElementById('id_place').value = "On-line";
+      }
+    });
+  });
 
   var map;
   var marker_layer = new L.marker([0.0, 0.0]);
@@ -157,7 +196,7 @@
           // Update the input field with the address
           var input = document.querySelector('.leaflet-control-geosearch form input');
           input.value = data.display_name;
-          document.getElementById('id_place').value = data.display_name;
+          //document.getElementById('id_place').value = data.display_name;
           // Get country and store it in the 'country' field
           var country = data.address.country;
           document.getElementById('id_country').value = country;
@@ -273,6 +312,7 @@
   }
 
   function validateMap() {
+      return true;
     // Only validate map if the event type is face-to-face or hybrid
     var eventType = $('#id_event_type').val();
 
@@ -297,45 +337,17 @@
       document.getElementById('id_place').value = "On-line";
     }
 
-    debugger;
+    //debugger;
     return true;
     }
-
-    document.addEventListener("DOMContentLoaded", function(event) {
-    var userAgent = "{{ user_agent }}";
-    console.log(userAgent);
-    var tz = jstz.determine(); // Determines the time zone of the browser client
-    var timezone = document.getElementById('id_timezone'); // Assuming you have a select input in your form with id 'id_timezone'
-    timezone.value = tz.name(); // Preselect the user's time zone in the dropdown
-    
-    $('#show-map').hide(); // Hide the map by default
-
-    $('#id_event_type').change(function() {
-    var eventType = $(this).val(); 
-    if (eventType === 'face-to-face' || eventType === 'hybrid') {
-        $('#show-map').show();
-        document.getElementById('id_place').value = "";
-        map.invalidateSize();
+function languageChange(value) {
+      if (value === 'OT') {
+          $('#div_id_language_other').removeClass('d-none');
       } else {
-        $('#show-map').hide();
-        document.getElementById('id_place').value = "On-line";
-      }
-    });
-    
-    var event_type = $('#id_event_type').val();
-    if (event_type == "online") {
-      $('#show-map').hide();
-    } else {
-      $('#show-map').show();
-      // Add marker to the map
-      var lat = $("#id_latitude").val();
-      var lng = $("#id_longitude").val();
-      marker_layer = new L.marker([lat, lng], {draggable:true});
-      map.addLayer(marker_layer);
+          $('#div_id_language_other').addClass('d-none');
     }
-
-
-    });
+      //alert(value);
+}
 </script>
-{{ form.media.js }}
+
 {% endblock scripts %}

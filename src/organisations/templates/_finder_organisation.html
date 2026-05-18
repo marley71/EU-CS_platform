@@ -1,38 +1,42 @@
 {% load i18n %}
 {% load static %}
 {% load countries %}
-<div class="accordion acordion-flush mb-3" id="accordion-filters">
-    <div class="">
-        <div class="accordion-header" id="flush-headingOne">
-            <div id="accordion-button" class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">Show filters <i class="fa-solid fa-chevron-down"></i></div>
-        </div>
-        <div id="flush-collapseOne" class="accordion-collapse collapse mt-2" aria-labelledby="flush-headingOne" data-bs-parent="#accordion-filters">
-<form class="form-inline float-lg-right" id="searchOrganisations" action="{% url 'organisations' %}">
-    <input type="hidden" name="keywords" value="{{filters.keywords}}"/>
-    <div class="row">
-        <div class="col-12">
-            <div class="input-group input-group-sm">
-                <div class="input-group-text" style="border-radius: 30px 0px 0px 30px;"><i class="fas fa-sort-amount-down"></i></div>
-                <select id="orderby" name="orderby" class="custom-select form-control">
-                    <option value="" {% if filters.orderby == "" %} selected {% endif %}>{% trans "Most Recent Updated" %}</option>
-                    <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>{% trans "A-Z" %}</option>
-                    <option value="country" {% if filters.orderby == "country" %} selected {% endif %}>{% trans "Country" %}</option>
-                </select>
-                <div class="input-group-text"><i class="fas fa-filter"></i></div>
 
-                <select id="country" name="country" class="custom-select form-control">
-                    <option value="">{% trans "Country" %}<option>
-                    {% for country in countries %}
-                    {% for cwc in countriesWithContent %}
-                    {% if country.code == cwc %}
-                    <option {% if country.code ==  filters.country %} selected {% endif %} value="{{ country.code }}">
-                    {{ country.name }}
-                    </option>
-                    {% endif %}
-                    {% endfor %}
+<div>
+    <form class="form-inline float-lg-right" id="searchOrganisations" action="{% url 'organisations' %}">
+        <input type="hidden" name="keywords" value="{{ filters.keywords }}"/>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="country">{% trans "Regione" %}</label>
+
+
+{#                <select id="country" name="country" class="custom-select form-select">#}
+{#                    <option value="">{% trans "Seleziona" %}#}
+{#                    <option>#}
+{#                        {% for country in countries %}{% for cwc in countriesWithContent %}#}
+{#                            {% if country.code == cwc %}#}
+{#                                <option {% if country.code == filters.country %} selected {% endif %}#}
+{#                                                                                 value="{{ country.code }}"> {{ country.name }}</option>#}
+{#                            {% endif %}{% endfor %}{% endfor %}#}
+{#                </select>#}
+
+
+                <select id="localita" name="localita_id" class="custom-select form-select django-select2" multiple>
+{#                    <option value="" {% if not filters.localita_id %} selected {% endif %}>{% trans "Tutte le regioni" %}</option>#}
+                    {% for loc in localita %}
+                                <option {% if loc.id|stringformat:"s" in filters.localita_id %} selected {% endif %}
+                                                                                 value="{{ loc.id }}">{{ loc.name }}</option>
                     {% endfor %}
                 </select>
-                <select id="orgTypes" name="orgTypes" class="custom-select form-control">
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 d-flex flex-column gap-1">
+
+                <label for="orgTypes">{% trans "Tipo" %}</label>
+
+
+                <select id="orgTypes" name="orgTypes" class="custom-select form-select">
                     <option value="">{% trans "Type" %}<option>
                     {% for t in orgTypes %}
                     <option {% if t.type ==  filters.orgTypes %} selected {% endif %} value="{{t.type}}">
@@ -40,50 +44,118 @@
                     </option>
                     {% endfor %}
                 </select>
+
             </div>
         </div>
-        <div class="col-12 mb-4 mt-2">
-            {% if filters.keywords %}
-            <a class="badge rounded-pill bg-my-darkGreen search-filter">
-                <i class="fas fa-times"></i> {{filters.keywords}}
-            </a>
-            {% endif %}
-            {% if filters.country %}
-            <a href="#" class="badge rounded-pill bg-dark" id="pill-country">
-                <i class="fas fa-times"></i>
-                {% for country in countries %}
-                {% if country.code == filters.country %}
-                {% trans "country:" %} {{country.name}}
+        <div class="row">
+            <div class="col-12 mt-3 mb-2 d-flex align-items-center gap-2">
+                {% if filters.keywords or filters.localita_id or filters.orgTypes %}
+                    <span>{% trans "Filtri attivi" %}: </span>
                 {% endif %}
-                {% endfor %}
-            </a>
-            {% endif %}
-            {% if filters.orgTypes %}
-            <a href="#" class="badge rounded-pill bg-my-darkBlue" id="pill-orgTypes">
-                <i class="fas fa-times"></i>
-                {% trans "type:" %} {{filters.orgTypes}}
-            </a>
-            {% endif %}
-            {% if request.get_full_path != "/organisations" %}
-            <a class="badge rounded-pill bg-danger text-decoration-none" href="/organisations">
-                <i class="fas fa-times"></i> {% trans "Clear current search" %}</a>
-            {% endif %}
-            {% if filters.keywords != "" %}
-            <div class="small mt-3">
-                <span class"subnavbarCounter-text">
-                    {{ counter }}
-                    {% if counter != 1 %}
-                    {% trans "organisations found for " %} "{{ filters.keywords }}" of {{ totalCount }}
-                    {% else %}
-                    {% trans "organisation found for " %} "{{ filters.keywords }}" of {{ totalCount }}
-                    {% endif %}
-                </span>
+                {% if filters.keywords %}
+                    {% include 'includes/tag.html' with text='Keyword: '|add:filters.keywords hasClose=True %}
+                {% endif %}
+                {% if filters.localita_id %}    
+                    {% trans "Regioni" as regioni %}: 
+                    {% include 'includes/tag.html' with text=regioni|add:': '|add:localita_selected hasClose=True %}
+                {% endif %}
+                {% if filters.orgTypes %}
+                    {% include 'includes/tag.html' with text='Tipo: '|add:filters.orgTypes hasClose=True %}
+                {% endif %}
+
             </div>
-            {% endif %}
-           
+            <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-2">
+                {% if filters.keywords or filters.country or filters.orgTypes %}
+                    <div>
+
+                        <a class="text-red-700 text-sm" href="/organisations">
+                            {% trans "Cancella tutti i filtri" %}
+                        </a>
+                    </div>
+                    <div class="text-card-border">
+                        |
+                    </div>
+                {% endif %}
+                <div>
+                    <button class="text-sm p-0 " style="background-color:transparent;border: none;" type="submit">
+                        {% trans "Applica i filtri" %}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class=" mt-4 pt-4 border-top d-flex justify-content-between align-items-center">
+            <div>
+                <div class="small">
+                    <span class"subnavbarCounter-text">
+{#                    {% if filters.keywords != "" or filters.country != "" or filters.orgTypes != "" %}#}
+                    {% if counter != totalCount %}
+                        <strong>{{ counter }}</strong> {% trans "organizzazioni selezionate su" %} <strong>{{ totalCount }}</strong>
+                        {% trans "Totali" %}
+                    {% else %}
+                        <strong>{{ totalCount }} {% trans "organizzazioni" %}</strong>
+                    {% endif %}
+                    {#                        {% if counter != 1 %}#}
+                    {#                            {% trans "projects found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% else %}#}
+                    {#                            {% trans "project found for " %} "{{ filters.keywords }}" of {{ totalProjects }}#}
+                    {#                        {% endif %}#}
+                    </strong>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-2">
+
+                <div>{% trans "Ordina per" %}:</div>
+                <div>
+
+                    <select id="orderby" name="orderby" class="custom-select status-select form-select">
+                        <option value="" {% if filters.orderby == "" %} selected {% endif %}>
+                            {% trans "Most Recent Updated" %}
+                        </option>
+                        {#                    <option value="totalAccesses" {% if filters.orderby == "totalAccesses" %} selected {% endif %}>#}
+                        {#                        {% trans "Total Accesses" %}#}
+                        {#                    </option>#}
+                        {#                    <option value="totalLikes" {% if filters.orderby == "totalLikes" %} selected {% endif %}>#}
+                        {#                        {% trans "Total Likes" %}#}
+                        {#                    </option>#}
+                        <option value="name" {% if filters.orderby == "name" %} selected {% endif %}>
+                            {% trans "A-Z" %}
+                        </option>
+                        {#                    <option value="created" {% if filters.orderby == "created" %} selected {% endif %}>#}
+                        {#                        {% trans "Most Recent Created" %}#}
+                        {#                    </option>#}
+                        {#                    <option value="featured" {% if filters.orderby == "featured" %} selected {% endif %}>#}
+                        {#                        {% trans "Featured" %}#}
+                        {#                    </option>#}
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+{% if counter <= 0 or totalCount <= 0 %}
+    <div class="row">
+
+        <div class="col-6 offset-6 col-xl-4 offset-xl-4 d-flex flex-column justify-content-center align-content-center mt-5 gap-3">
+            <div class="d-flex justify-content-center">
+
+                <img class="" src="{% static 'img/empty-img-simple.png' %}" alt="{% trans 'Nessun risultato' %}">
+            </div>
+            <div class="d-flex justify-content-center">
+
+                <p class="text-center">
+                    {% blocktrans trimmed %}
+                        Nessun risultato trovato. Prova a cambiare i criteri di ricerca o cerca nelle altre categorie di
+                        contenuti.
+                    {% endblocktrans %}
+                </p>
+            </div>
         </div>
     </div>
-</form>
-</div>
-</div>
+{% endif %}
+<script>
+
+
+</script>
 

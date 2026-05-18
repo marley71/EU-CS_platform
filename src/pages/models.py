@@ -14,7 +14,8 @@ class Pages(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=True)
-
+    image = models.ImageField(
+        upload_to='images/', max_length=300, null=True, blank=True)
     class Meta:
         verbose_name_plural = "Pages"
         ordering = ["-created_on"]

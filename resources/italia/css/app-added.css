@@ -1,0 +1,22 @@
+table.moderazione td,
+table.moderazione th {
+
+    border-bottom: 1px solid gray;
+}
+
+table.moderazione {
+    margin-top:10px;
+    margin-bottom:30px;
+}
+
+h3.page-h3 {
+    margin-bottom:30px;
+}
+
+.link-none {
+    text-decoration: none !important;
+}
+
+.dropdown-item.language-item {
+    width: fit-content;
+}

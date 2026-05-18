@@ -2,14 +2,17 @@ from django.contrib.gis.db import models
 from django.conf import settings
 from organisations.models import Organisation
 from django_countries.fields import CountryField
+from localita.models import Localita
+#from provincia.models import Provincia
+
 
 
 class Status(models.Model):
     STATUS_CHOICES = (
         ('not_started', 'Not yet started'),
-        ('periodically_active', 'Periodically Active'), 
+#         ('periodically_active', 'Periodically Active'),
         ('active', 'Active'),
-        ('on_hold', 'On Hold'),
+#         ('on_hold', 'On Hold'),
         ('completed', 'Completed'),
         ('abandoned', 'Abandoned'),
     )
@@ -18,7 +21,10 @@ class Status(models.Model):
 
     def __str__(self):
         return f'{self.status}'
-    
+
+    def humanized(self):
+        return self.status.replace(' ', '-')
+
 class ProjectCountry(models.Model):
     country = CountryField()
     country_name = models.CharField(max_length=100, editable=False)
@@ -26,18 +32,29 @@ class ProjectCountry(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.country_name = self.country.name  # Almacena el nombre del país antes de guardar
+        #self.country_name = self.country.name  # Almacena el nombre del país antes de guardar
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.country.name
+        return self.country_name
+        #return self.country.name
 
 class Topic(models.Model):
     topic = models.TextField()
-
+    broader = models.TextField(null=True, blank=True)
+    concept = models.TextField(null=True, blank=True)
     def __str__(self):
         return f'{self.topic}'
 
+
+class Provincia(models.Model):
+    nome = models.CharField(max_length=100, editable=False)
+    sigla = models.CharField(max_length=3, editable=False)
+    regione = models.CharField(max_length=100, editable=False)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    def __str__(self):
+        return f'{self.nome} ({self.regione})'
 
 class HasTag(models.Model):
     hasTag = models.TextField()
@@ -103,6 +120,19 @@ class HelpText(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+class BDSWeek(models.Model):
+    anno = models.IntegerField()
+    data_inizio = models.DateField()
+    data_fine = models.DateField()
+    descrizione = models.TextField(null=True, blank=True)
+    logo = models.ImageField(upload_to='images/', max_length=300, null=True, blank=True)
+
+    class Meta:
+        db_table = 'projects_bdsweeks'
+
+    def __str__(self):
+        return str(self.anno)
+
 # For translation
 
 class TranslatedProject(models.Model):
@@ -125,11 +155,15 @@ class Project(models.Model):
     dateCreated = models.DateTimeField('Created date', auto_now_add=True)
     dateUpdated = models.DateTimeField(
         'Updated date', auto_now=False, null=True)
-
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='children')
     # Main information
 
     name = models.CharField(max_length=200, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
+    logo = models.ImageField(
+        upload_to='images/', max_length=300, null=True, blank=True)
+    logoCredit = models.ImageField(
+        upload_to='images/', max_length=300, null=True, blank=True)
     description = models.TextField()
     citizen_science_aspects_description = models.TextField()
     aim = models.TextField(null=True, blank=True)
@@ -158,9 +192,17 @@ class Project(models.Model):
     projectlocality = models.CharField(max_length=300, null=True, blank=True)
     projectGeographicLocation = models.MultiPolygonField(blank=True, null=True)
     projectCountry = models.ManyToManyField(ProjectCountry, blank=True, related_name="projects")
+    localita = models.ForeignKey(Localita, on_delete=models.CASCADE)  #models.SET_NULL TODO capire cosa metter qui
+    #provincia = models.ForeignKey('provincia.Provincia', on_delete=models.CASCADE)  # models.SET_NULL TODO capire cosa metter qui
+    #province = models.ManyToManyField('provincia.Provincia', related_name='projects_project') #nuova relazione molti a molti
+    #projectCountry = models.ForeignKey(ProjectCountry, on_delete=models.CASCADE)  # Cambiato in ForeignKey
+    provincia = models.ManyToManyField(Provincia)  # nuova relazione molti a molti
+    stato = models.CharField(max_length=50, null=True, blank=True) # stato progetto.. completato,non ancora iniziato, abbandonato
+    aree = models.JSONField(null=True, blank=True)
+    projectlocality = models.CharField(max_length=300, null=True, blank=True)
     # Legacy
     country = CountryField(null=True, blank=True)
-
+    bsw = models.CharField(max_length=30, null=True, blank=True)
     # Contact and host details
     author = models.CharField(max_length=100, null=True, blank=True)
     author_email = models.CharField(max_length=100, null=True, blank=True)
@@ -220,6 +262,22 @@ class Project(models.Model):
     totalLikes = models.IntegerField(default=0)
     totalFollowers = models.IntegerField(default=0)
     firstAccess = models.DateTimeField('First access', null=True, blank=True, default=None)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    type = models.CharField(max_length=30, null=True, blank=True)   #type = progetto,attivita
+    inaturalist = models.CharField(max_length=255, null=True, blank=True)
+    risultati = models.CharField(max_length=255, null=True, blank=True)
+    tipo_pubblico = models.CharField(max_length=255, null=True, blank=True)
+    tipo_pubblico_altro = models.CharField(max_length=255, null=True, blank=True)
+
+    @property
+    def tipo_pubblico_calc(self):
+        tipoPubblico = str(self.tipo_pubblico).split(';')
+
+        for itp, tp in enumerate(tipoPubblico):
+            if tp == 'altro':
+                tipoPubblico[itp] = self.tipo_pubblico_altro
+        return tipoPubblico
 
     def __str__(self):
         return f'{self.name}'
@@ -285,3 +343,4 @@ class SearchStats(models.Model):
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.CharField(max_length=200, null=True, blank=True)
     count = models.IntegerField(default=0) #Creado por Jorge para evitar problema de migraciones
+

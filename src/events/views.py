@@ -10,7 +10,9 @@ from django.utils import formats
 from .models import Event, HelpText, ApprovedEvents, UnApprovedEvents
 from .forms import EventForm
 from django.db.models import Q
-
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+import copy
 
 def events(request):
     user = request.user
@@ -32,6 +34,15 @@ def events(request):
     projects = [project for project in projects if project is not None]
     organisations = [org for org in organisations if org is not None]
     print(languages)
+
+    if not user.is_staff:
+        #events = events.exclude(id__in=unApprovedEvents)
+        events = events.filter(approved=True)
+
+    if user and not user.is_staff:
+        events = events.filter(Q(approved=True) | Q(creator_id=user.id))
+    elif not user:
+        events = events.filter(approved=True)
 
     events = applyFilters(request, events).filter(start_date__gt=now)
     ongoingEvents = applyFilters(request, ongoingEvents).filter(start_date__lte=now, end_date__gte=now)
@@ -58,14 +69,12 @@ def events(request):
     except EmptyPage:
         # Si la página está fuera de rango (por ejemplo, 9999), entrega la última página de resultados.
         pastEvents = paginator.page(paginator.num_pages)
-    print(pastEvents)
+
     approvedEvents = ApprovedEvents.objects.all().values_list('event_id', flat=True)
     unApprovedEvents = UnApprovedEvents.objects.all().values_list('event_id', flat=True)
 
-    
 
-    if not user.is_staff:
-        events = events.exclude(id__in=unApprovedEvents)
+
 
     return TemplateResponse(request, 'events.html', {
         'q': query,
@@ -91,11 +100,13 @@ def events(request):
 def new_event(request):
     user = request.user
     form = EventForm()
-    text = get_object_or_404(HelpText, slug='new-event')
+    #text = get_object_or_404(HelpText, slug='new-event')
+    text = "Nuovo evento"
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save(request)
+            event = form.save(request)
+            sendEventEmail(event.id, request.user)
             return redirect('/events')
         else:
             print(form.errors)
@@ -125,6 +136,7 @@ def editEvent(request, pk):
         'place': event.place,
         'country': event.country,
         'language': event.language,
+        'language_other': '',
         'event_type': event.event_type,
         'project': event.project,
         'organisations': event.organisations.all(),
@@ -135,6 +147,7 @@ def editEvent(request, pk):
         'start_date': start_datetime,
         'end_date': end_datetime,
         'hour': event.hour,
+        'approved': event.approved,
         'url': event.url})
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -203,7 +216,7 @@ def setFilters(request, filters):
     if request.GET.getlist('project[]'):
         filters['project'] = request.GET.getlist('project[]')
     if request.GET.getlist('organisation[]'):
-        filters['organisation'] = request.GET.getlist('organisation[]')  
+        filters['organisation'] = request.GET.getlist('organisation[]')
     return filters
 
 
@@ -253,3 +266,23 @@ def setApprovedOrUnapprovedEvent(id, approved):
             print("Does not exist this approved event")
         aEvent.approved = 'False'
         aEvent.save()
+
+
+def sendEventEmail(pk, user):
+    event = get_object_or_404(Event, id=pk)
+    subject = '[EU-CITIZEN.SCIENCE] Event "%s" has been submitted' % event.title
+    message = render_to_string('emails/new_event.html', {
+        'username': user.name,
+        'domain': settings.HOST,
+        'eventTitle': event.title,
+        'eventId': pk})
+    # to = [user.email]
+    to = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista TO: {to}")
+    #to.append(user.email)
+    bcc = copy.copy(settings.EMAIL_RECIPIENT_LIST)
+    #print(f"Lista BCC: {bcc}")
+    from_email = 'admin@citizenscience.it'#settings.EMAIL_FROM_CONTENTS
+    email = EmailMessage(subject=subject, body=message,from_email=from_email, to=to, bcc=bcc,)
+    email.content_subtype = "html"
+    email.send()
