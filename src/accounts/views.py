@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib import messages
@@ -25,6 +25,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.tokens import default_token_generator
 from .tokens import account_activation_token
 from . import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 User = get_user_model()
 
