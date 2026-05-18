@@ -62,7 +62,7 @@ def submitterContactView(request, group, pk):
             message = form.cleaned_data['message'] + '\n\n\n\nThe email address of the person who has contacted you is:  ' + user.email
             
             try:
-                send_mail(subject, message, settings.EMAIL_HOST_USER, [to_email])
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [to_email])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')

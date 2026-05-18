@@ -403,9 +403,8 @@ SUMMERNOTE_CONFIG = {
 #EMAIL_ECSA_ADMIN = env("EMAIL_ECSA_ADMIN", default="").split(",")
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env("HOST_EMAIL")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 #EMAIL_PORT = '587'
 EMAIL_PORT = env('EMAIL_PORT')

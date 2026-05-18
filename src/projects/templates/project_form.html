@@ -138,7 +138,7 @@
                                     {{ form.start_date|as_crispy_field }}
                                     {{ form.end_date|as_crispy_field }}
                                 <label for="topic" class="control-label ">
-                                    Argomenti scientifici*
+                                    {% trans "Argomenti scientifici" %}*
                                 </label>
                                 <div id="tassonomieTree_div">
                                     <input id="tassonomie_ids" type="hidden" name="tassonomie_ids" value="">
@@ -146,7 +146,7 @@
                                             class="w-full textinput textInput form-control"
                                         type="text"
                                         id="tassonomieTree"
-                                        placeholder="Seleziona uno o più argomenti scientifici"
+                                        placeholder='{% trans "Seleziona uno o più argomenti scientifici" %}'
                                         autocomplete="off"
                                       />
                                 </div>
@@ -252,8 +252,8 @@
                                 {% endcomment %}
                                     <div id="mapid"  style="height: 300px; width:100%"></div>
                                     <div class="help-block">
-                                         Se desideri modificare la posizione del pin rispetto al centro della provincia selezionata, clicca sul pin e trascinalo nella posizione più corretta sulla mappa.
-                                          <br/>In questo modo, il nuovo punto verrà utilizzato come località principale del progetto.
+                                         {% trans "Se desideri modificare la posizione del pin rispetto al centro della provincia selezionata, clicca sul pin e trascinalo nella posizione più corretta sulla mappa."%}
+                                          <br/>{% trans "In questo modo, il nuovo punto verrà utilizzato come località principale del progetto."%}
                                     </div>
                                     {{ form.aree |as_crispy_field }}
                                 </div>
