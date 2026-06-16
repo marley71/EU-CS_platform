@@ -66,16 +66,24 @@ class GeographicExtendViewSet(viewsets.ModelViewSet):
     queryset = GeographicExtend.objects.all()
 
 
-class ProjectList(APIView):
+class ProjectBaseList(APIView):
+    """
+    Base list view for Project entries. Subclasses set `project_type` to
+    restrict results to a specific type (e.g. 'Progetto', 'Attività').
+    """
+    project_type = None
 
     def applyFilters(self, request, projects):
-        approvedProjects = ApprovedProjects.objects.all().values_list('project_id', flat=True)
+        if self.project_type is not None:
+            projects = projects.filter(type=self.project_type)
+
+        approvedProjects = projects.filter(approved=True)
 
         keywords = request.query_params.get('keywords', None)
         if keywords is not None:
             projects = projects.filter(
-                    Q(name__icontains=keywords) |
-                    Q(keywords__keyword__icontains=keywords)).distinct()
+                Q(name__icontains=keywords) |
+                Q(keywords__keyword__icontains=keywords)).distinct()
 
         topic = request.query_params.get('topic', None)
         if topic is not None:
@@ -85,14 +93,11 @@ class ProjectList(APIView):
         if status is not None:
             projects = projects.filter(status=status)
 
-        country = request.query_params.get('country', None)
-        #if country is not None:
-        #    projects = projects.filter(country=country)
         if request.GET.get('country'):
             projects = projects.filter(
-                Q(mainOrganisation__country=request.GET['country']) | Q(country=request.GET['country']) | Q(organisation__country=request.GET['country'])).distinct()
-
-
+                Q(mainOrganisation__country=request.GET['country']) |
+                Q(country=request.GET['country']) |
+                Q(organisation__country=request.GET['country'])).distinct()
 
         doingAtHome = request.query_params.get('doingAtHome', None)
         if doingAtHome is not None:
@@ -104,21 +109,26 @@ class ProjectList(APIView):
                 projects = projects.filter(id__in=approvedProjects)
             if request.GET['approvedCheck'] == 'Off':
                 projects = projects.exclude(id__in=approvedProjects)
-            if request.GET['approvedCheck'] == 'All':
-                projects = projects
         else:
             projects = projects.filter(id__in=approvedProjects)
 
         return projects
 
     def get(self, request, format=None):
-        '''
-        Return a list of projects.
-        '''
         projects = Project.objects.all()
         projects = self.applyFilters(request, projects)
         serializer = ProjectSerializer(projects, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class ProjectList(ProjectBaseList):
+    """Return approved projects of type 'Progetto'."""
+    project_type = 'Progetto'
+
+
+class ActivitiesList(ProjectBaseList):
+    """Return approved projects of type 'Attività'."""
+    project_type = 'Attività'
 
 
 class PermissionClass(BasePermission):
