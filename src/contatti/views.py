@@ -12,17 +12,17 @@ from .forms import ContattoForm
 
 #@login_required(login_url='/login')
 def newContact(request):
-    #user = request.user
-    form = ContattoForm()
     inviato = 0
     if request.method == 'POST':
-        form.data = request.POST
-        form.save()
-        inviato = 1
+        form = ContattoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            inviato = 1
+    else:
+        form = ContattoForm()
 
-    #text = get_object_or_404(HelpText, slug='new-project')
     return TemplateResponse(request, 'contatto_form.html', {
-        'form': form,'inviato': inviato})
+        'form': form, 'inviato': inviato})
 
 
 # def showDigests(request):
