@@ -408,7 +408,7 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 #EMAIL_PORT = '587'
 EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 #EMAIL_USE_SSL = True
 #EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_BACKEND = "eucs_platform.mail_backends.Py312SMTPBackend"

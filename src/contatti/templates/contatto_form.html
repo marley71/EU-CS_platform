@@ -38,6 +38,7 @@
                 </h5>
                 </div>
             </div>
+
             <div class="row pb-5">
                 <div class="col-12 col-md-8 offset-md-2">
 
@@ -76,9 +77,11 @@
                                     <div class="mb-3">
                                     {{ form.messaggio|as_crispy_field }}
                                     </div>
+                                    <div class="mb-3 w-full">
+                                    {{ form.captcha|as_crispy_field }}
+                                    </div>
 
-
-                                    <button class="btn btn-outline-success submit mt-3">
+                                    <button type="submit" class="btn btn-outline-success mt-3">
                                         <i class="fas fa-share-square"></i> {% trans "Send" %}
                                     </button>
                                 </div>
@@ -325,6 +328,12 @@
 
             }
             init_map();
+            
+            
+        });
+
+        $('#id_captcha').ready(function() {
+            $('#id_captcha').removeClass('form-control'); 
         });
 
         function tipo_pubblicoChange(value) {
