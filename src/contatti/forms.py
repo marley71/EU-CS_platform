@@ -1,5 +1,6 @@
 from .models import Contatto
 from django.contrib.gis import forms
+from django_recaptcha.fields import ReCaptchaField
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.conf import settings
@@ -10,6 +11,7 @@ class ContattoForm(forms.Form):
     # Main information
     def __init__(self, *args, **kwargs):
         super(ContattoForm, self).__init__(*args, **kwargs)
+        self.fields["captcha"].label = ""
 
     # return all fields from project_name_en, project_name_es, etc.
     # def get_description_fields(self):
@@ -62,6 +64,8 @@ class ContattoForm(forms.Form):
         widget=forms.Textarea(),
         help_text=_('Please provide your message'),
         label=_('Scrivi qui') ,)
+
+    captcha = ReCaptchaField()
 
     ''' Save function '''
 

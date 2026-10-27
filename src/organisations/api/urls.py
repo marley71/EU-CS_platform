@@ -1,8 +1,8 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from . import views
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'organisations/type', views.OrganisationTypeViewSet, basename='organisation_type')
 
 urlpatterns = [

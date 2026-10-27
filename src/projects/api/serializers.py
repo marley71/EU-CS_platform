@@ -104,7 +104,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         #fields = '__all__'
-        exclude = ['country']
+        exclude = ['country','stato','localita']
         # fields = [
         # 'id','keywords','geographicextend','start_date','end_date','organisation','mainOrganisation',
         # 'difficultyLevel','status','topic','fundingBody','participationTask','tipo_pubblico','tipo_pubblico_altro',

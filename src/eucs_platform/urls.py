@@ -25,8 +25,13 @@ import contatti.urls
 
 #import ecsa_integration.urls
 import ckeditor_uploader.views
+from eucs_platform.api.schema import GetOnlySchemaGenerator
 from . import views
 
+
+api_urlpatterns = [
+    path('api/', include('eucs_platform.api.urls')),
+]
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -36,6 +41,8 @@ schema_view = get_schema_view(
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
+   patterns=api_urlpatterns,
+   generator_class=GetOnlySchemaGenerator,
 )
 
 
@@ -75,6 +82,7 @@ urlpatterns = [
     path('getForumResponsesNumber', views.getForumResponsesNumber, name='getForumResponsesNumber'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^reviews/', include('reviews.urls')),
+    *api_urlpatterns,
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #url(r'^api/auth/', include('djoser.urls')),
     url(r'^api/auth/', include('djoser.urls.authtoken')),

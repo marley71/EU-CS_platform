@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from projects.models import Project
@@ -15,6 +16,7 @@ User = get_user_model()
 
 
 class UserList(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         users = User.objects.all()
@@ -23,6 +25,7 @@ class UserList(APIView):
 
 
 class UserDetail(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
         try:
